@@ -1,0 +1,24 @@
+.highlight {
+  background: linear-gradient(
+    90deg,
+    var(--main-theme-2) 50%,
+    var(--main-theme-1) 50%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-size: 200% 100%;
+  background-position-x: 0%;
+  -webkit-text-fill-color: transparent;
+  transition-property: background-position;
+  transition-duration: 2s;
+  transition-delay: 0;
+  transition-timing-function: cubic-bezier(0.06, 0.56, 0.24, 0.96);
+}
+
+.highlight.highlighted {
+  background-position-x: -100%;
+}
+
+.highlight::selection {
+  -webkit-text-fill-color: initial;
+}

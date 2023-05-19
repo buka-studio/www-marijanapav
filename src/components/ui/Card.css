@@ -1,0 +1,8 @@
+.relative-mouse {
+  mask-image: radial-gradient(
+    40% 40% at var(--mouse-x, 9999px) var(--mouse-y, 9999px),
+    black 45%,
+    transparent
+  );
+  transition: opacity 0.5s;
+}

@@ -1,0 +1,20 @@
+.ui-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: calc(100% + 6px);
+  width: calc(100% + 6px);
+  transition: border-color 0.25s;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+}
+
+.ui-button:focus-visible::after {
+  border-color: currentColor;
+}
+
+.ui-button:hover {
+  box-shadow: 0 0 6px 0px var(--main-theme-1);
+}

@@ -1,0 +1,33 @@
+.theme-thunderbird {
+  --text-primary: #ff4733;
+  --text-secondary: #ff4733cc;
+  --text-alt: #340904;
+  --text-alt2: #120302;
+  --panel-background: #010000;
+  --panel-border: linear-gradient(0deg, #34090400 0%, #340904 100%);
+  --panel-blend-layer: linear-gradient(0deg, #01000000 0%, #010000 100%);
+  --panel-dropshadow-x: 0;
+  --panel-dropshadow-y: 4;
+  --panel-dropshadow-blur: 36;
+  --panel-dropshadow-spread: 0;
+  --panel-dropshadow-color: #af150433;
+  --panel-dropshadow-type: dropShadow;
+  --panel-blur-x: 0;
+  --panel-blur-y: 0;
+  --panel-blur-blur: 920;
+  --panel-blur-spread: 100;
+  --panel-blur-color: #ff4733;
+  --panel-blur-type: dropShadow;
+  --main-theme-1: #ff4733;
+  --main-theme-2: #AF1504;
+  --main-theme-3: #340904;
+  --main-theme-4: #120302;
+  --main-background: #0A0101;
+  --main-theme-overlay: #ff473333;
+  --button-focus-x: 0;
+  --button-focus-y: 0;
+  --button-focus-blur: 0;
+  --button-focus-spread: 3;
+  --button-focus-color: #010000;
+  --button-focus-type: innerShadow;
+}

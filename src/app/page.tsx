@@ -1,91 +1,78 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
+import Link from "next/link";
+import Button from "~/src/components/ui/Button";
+import Heading from "./Heading";
+import {
+  BackgroundCard,
+  BukaCard,
+  CurrentCard,
+  ExperienceCard,
+  LocationCard,
+  PantoneCard,
+  PhotosCard,
+  SneakPeekCard,
+  StampsCard,
+  ThemeCard,
+  ToolsCard,
+} from "./components";
+import Header from "./components/Header";
+import MouseVarsProvider from "./components/MouseVarsProvider";
 
-const inter = Inter({ subsets: ['latin'] })
+const projectLinks = [
+  { label: "Branding", href: "/work?f=branding" },
+  { label: "UX/UI", href: "/work?f=product-design" },
+  { label: "Illustration", href: "/work?f=illustration" },
+  { label: "Other", href: "/work?f=other" },
+];
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <>
+      <Header />
+      <div className="fixed glow h-[400px] w-[400px] blur-3xl rounded-full pointer-events-none" />
+      <div className="flex flex-col px-5 py-12">
+        <main className="pb-[100px]">
+          <Heading />
+          <div className="mb-[82px] flex items-center gap-4 text-text-primary">
+            <div>What I do</div>
+            <div className="flex gap-2">
+              {projectLinks.map((l) => (
+                <Link href={l.href} passHref key={l.href} legacyBehavior>
+                  <Button as="a" size="sm">
+                    {l.label}
+                  </Button>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <MouseVarsProvider>
+            <div className="grid grid-cols-1 lg:grid-cols-[22fr_38fr_40fr] gap-[20px] mb-[20px] lg:flex-row">
+              <div className="lg:col-span-2">
+                <BackgroundCard />
+              </div>
+              <div className="flex flex-col gap-[20px] [&_>*]:flex-1">
+                <ExperienceCard />
+                <LocationCard />
+              </div>
+            </div>
+            <div className="cards grid grid-cols-1 lg:grid-cols-[22fr_38fr_40fr] gap-[20px] [&_.ui-card]:h-full [&_.ui-card>*]:h-full">
+              <div className="flex flex-col gap-[20px]">
+                <PantoneCard />
+                <ThemeCard />
+                <SneakPeekCard />
+              </div>
+              <div className="flex flex-col gap-[20px]">
+                <PhotosCard />
+                <BukaCard />
+                <CurrentCard />
+              </div>
+              <div className="flex flex-col gap-[20px]">
+                <ToolsCard />
+                <StampsCard />
+              </div>
+            </div>
+          </MouseVarsProvider>
+        </main>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </>
+  );
 }

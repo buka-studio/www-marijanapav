@@ -3,6 +3,6 @@ with import <nixpkgs> {};
 stdenv.mkDerivation {
     name = "node";
     buildInputs = [
-        nodejs
+        nodejs-18_x
     ];
 }

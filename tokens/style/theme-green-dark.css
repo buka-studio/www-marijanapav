@@ -1,0 +1,34 @@
+.theme-green-dark {
+  --text-primary: #A4D1A4;
+  --text-secondary: #a4d1a4cc;
+  --text-alt: #2D4E2D;
+  --text-alt2: #112212;
+  --panel-background: #010000;
+  --panel-border: linear-gradient(0deg, #2d4e2d00 0%, #2d4e2d 100%);
+  --panel-blend-layer: linear-gradient(0deg, #01000000 0%, #010000 100%);
+  --panel-dropshadow-x: 0;
+  --panel-dropshadow-y: 4;
+  --panel-dropshadow-blur: 36;
+  --panel-dropshadow-spread: 0;
+  --panel-dropshadow-color: #55825533;
+  --panel-dropshadow-type: dropShadow;
+  --panel-blur-x: 0;
+  --panel-blur-y: 0;
+  --panel-blur-blur: 920;
+  --panel-blur-spread: 100;
+  --panel-blur-color: #a4d1a4;
+  --panel-blur-type: dropShadow;
+  --main-theme-1: #A4D1A4;
+  --main-theme-2: #558255;
+  --main-theme-3: #2D4E2D;
+  --main-theme-4: #112212;
+  --main-background: #000300;
+  --main-theme-overlay: #a4d1a433;
+  --main-transparent: #0003001a;
+  --button-focus-x: 0;
+  --button-focus-y: 0;
+  --button-focus-blur: 0;
+  --button-focus-spread: 3;
+  --button-focus-color: #010000;
+  --button-focus-type: innerShadow;
+}
