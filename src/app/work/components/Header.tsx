@@ -26,7 +26,7 @@ export default function Header({ filter }: { filter?: Filter }) {
             <Button
               as="a"
               variant={f === filter ? "secondary" : "primary"}
-              className="!text-xs md:text-sm"
+              className="text-xs md:text-sm"
             >
               {getFilterLabel(f)}
             </Button>

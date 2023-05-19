@@ -27,7 +27,6 @@ export type StaticProject = {
   title: string;
   description?: string;
   slug?: string;
-  labels?: string[];
   filters: Filter[];
   preview: StaticImageData;
   aspect?: number;

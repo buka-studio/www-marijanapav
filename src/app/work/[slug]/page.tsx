@@ -23,7 +23,7 @@ export default function Work({ params }: { params: { slug: string } }) {
         {(project.tags?.length || 0) > 0 && (
           <div className="mt-10 flex justify-center gap-2">
             {project.tags?.map((t, i) => (
-              <Tag key={i}>{t}</Tag>
+              <Tag key={i} className="text-sm">{t}</Tag>
             ))}
           </div>
         )}
