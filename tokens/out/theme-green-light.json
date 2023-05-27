@@ -1,1 +1,140 @@
-{}
+{
+  "text": {
+    "primary": {
+      "value": "#346135",
+      "type": "color"
+    },
+    "secondary": {
+      "value": "#34613599",
+      "type": "color"
+    },
+    "alt": {
+      "value": "#A4D1A4",
+      "type": "color"
+    },
+    "alt2": {
+      "value": "#E5F3E5",
+      "type": "color"
+    }
+  },
+  "panel": {
+    "background": {
+      "value": "#fff",
+      "type": "color"
+    },
+    "border": {
+      "value": "linear-gradient(0deg, #e5f3e500 0%, #e5f3e5 100%)",
+      "type": "color"
+    },
+    "blend-layer": {
+      "value": "linear-gradient(0deg, #ffffff00 0%, #ffffff 100%)",
+      "type": "color"
+    },
+    "dropshadow": {
+      "x": {
+        "value": 0,
+        "type": "x"
+      },
+      "y": {
+        "value": 4,
+        "type": "y"
+      },
+      "blur": {
+        "value": 36,
+        "type": "blur"
+      },
+      "spread": {
+        "value": 0,
+        "type": "spread"
+      },
+      "color": {
+        "value": "#34613533",
+        "type": "color"
+      },
+      "type": {
+        "value": "dropShadow",
+        "type": "type"
+      }
+    },
+    "blur": {
+      "x": {
+        "value": 0,
+        "type": "x"
+      },
+      "y": {
+        "value": 0,
+        "type": "y"
+      },
+      "blur": {
+        "value": 920,
+        "type": "blur"
+      },
+      "spread": {
+        "value": 100,
+        "type": "spread"
+      },
+      "color": {
+        "value": "#346135",
+        "type": "color"
+      },
+      "type": {
+        "value": "dropShadow",
+        "type": "type"
+      }
+    }
+  },
+  "main": {
+    "theme-1": {
+      "value": "#346135",
+      "type": "color"
+    },
+    "theme-2": {
+      "value": "#A4D1A4",
+      "type": "color"
+    },
+    "theme-3": {
+      "value": "#E5F3E5",
+      "type": "color"
+    },
+    "background": {
+      "value": "#F5F9F4",
+      "type": "color"
+    },
+    "theme-overlay": {
+      "value": "#3461351a",
+      "type": "color"
+    },
+    "transparent": {
+      "value": "#f5f9f41a",
+      "type": "color"
+    }
+  },
+  "button": {
+    "focus": {
+      "x": {
+        "value": 0,
+        "type": "x"
+      },
+      "y": {
+        "value": 0,
+        "type": "y"
+      },
+      "blur": {
+        "value": 0,
+        "type": "blur"
+      },
+      "spread": {
+        "value": 3,
+        "type": "spread"
+      },
+      "color": {
+        "value": "#fff",
+        "type": "color"
+      },
+      "type": {
+        "value": "innerShadow",
+        "type": "type"
+      }
+    }
+  }
+}

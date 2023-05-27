@@ -7,7 +7,7 @@ function filterTokensByType(type, tokens) {
   }, {});
 
   const deep = deepen(obj);
-  console.log(obj, deep);
+
   return deep;
 }
 
