@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json.schemastore.org/prettierrc",
+  "jsdocSingleLineComment": false,
+  "printWidth": 100,
+  "endOfLine": "lf",
+  "arrowParens": "always",
+  "quoteProps": "as-needed",
+  "bracketSpacing": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "semi": true,
+  "trailingComma": "all",
+  "importOrder": ["<THIRD_PARTY_MODULES>", "^~src/(.*)$", "^[./].+(?<!.style)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}

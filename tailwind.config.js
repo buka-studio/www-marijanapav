@@ -5,7 +5,7 @@ const { filterTokensByType } = require("./tokens/util");
 
 const globalColors = filterTokensByType("color", globalTokens);
 const themeColors = filterTokensByType("color", themeTokens);
-console.log(globalColors, themeColors);
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
