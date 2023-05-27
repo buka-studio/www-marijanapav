@@ -1,14 +1,15 @@
-import { notFound } from "next/navigation";
-import Heading from "~/src/components/ui/Heading";
-import Image from "~/src/components/ui/Image";
-import Tag from "~/src/components/ui/Tag";
-import Header from "../components/Header";
-import { StaticProject, projects } from "../constants";
+import Heading from '~/src/components/ui/Heading';
+import Image from '~/src/components/ui/Image';
+import Tag from '~/src/components/ui/Tag';
+import { notFound } from 'next/navigation';
+import Header from '../components/Header';
+import { projects, StaticProject } from '../constants';
+import './page.css';
 
 export default function Work({ params }: { params: { slug: string } }) {
   const project = projects
-    .filter((p) => p.type === "project")
-    .find((p) => "slug" in p && p.slug === params?.slug) as StaticProject;
+    .filter((p) => p.type === 'project')
+    .find((p) => 'slug' in p && p.slug === params?.slug) as StaticProject;
 
   if (!project) {
     notFound();
@@ -23,7 +24,9 @@ export default function Work({ params }: { params: { slug: string } }) {
         {(project.tags?.length || 0) > 0 && (
           <div className="mt-10 flex justify-center gap-2">
             {project.tags?.map((t, i) => (
-              <Tag key={i} className="text-sm">{t}</Tag>
+              <Tag key={i} className="text-sm">
+                {t}
+              </Tag>
             ))}
           </div>
         )}
@@ -32,12 +35,7 @@ export default function Work({ params }: { params: { slug: string } }) {
             <div className="flex gap-4" key={i}>
               {r.map((c, i) => (
                 <div key={i} className="flex-1 max-h-[700px]">
-                  <Image
-                    src={c}
-                    key={i}
-                    alt=""
-                    className="max-h-full object-contain"
-                  />
+                  <Image src={c} key={i} alt="" className="max-h-full object-contain m-auto" />
                 </div>
               ))}
             </div>
