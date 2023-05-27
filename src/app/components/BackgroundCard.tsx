@@ -36,11 +36,7 @@ export default function BackgroundCard() {
       </div>
 
       <p className="leading-7 panel text-text-primary">
-        My background as a visual designer includes experience from working at a
-        small design studio, an agency, and currently a startup, which has honed
-        my skills in typography, web design, and illustration. I specialize in
-        blending traditional and digital design to craft visually engaging web
-        designs and building strong brand identities.
+      I've worked in various design environments, including a studio, an agency, and now at a fast-growing startup. Through these different settings I've had a chance to work on various skills, from editorial design, illustration, packaging, to a deep dive into all things digital, and now mostly focused on web design and UX. I’m based in Central Europe, working from a home office, because life's too short for long commutes, but I do have to deal with my cat trying to sit on my keyboard.
       </p>
       <div className="flex flex-col items-start  justify-between mt-9 text-text-primary xl:flex-row xl:items-center">
         <div>See what I&apos;ve been doing on:</div>
