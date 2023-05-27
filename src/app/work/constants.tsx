@@ -1,7 +1,7 @@
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
-import BitcoinPreview from "~/public/work/bitcoin/preview.png";
-import FalklandPreview from "~/public/work/falkland/preview.png";
+import Cryptocurrency from "~/public/work/bitcoin/preview.png";
+import DigitalStampCollection from "~/public/work/falkland/preview.png";
 import InfinumBeerPreview from "~/public/work/infinum-beer/preview.png";
 import InfinumPostersPreview from "~/public/work/infinum-posters/preview.png";
 import InfinumSwagPreview from "~/public/work/infinum-swag/preview.png";
@@ -11,12 +11,14 @@ import KettlePreview from "~/public/work/kettle/preview.png";
 import HighRoadsPreview from "~/public/work/high-roads/preview.png";
 import SupabaseIconsPreview from "~/public/work/supabase-icons/preview.png";
 import SupabaseCard from "./components/SupabaseCard";
+import ElizabethsFlowers from "~/public/work/elizabeths-flowers/preview.png";
+import Memobottle from "~/public/work/Memobottle/preview.png";
 
 export const filters = [
   "all",
   "illustration",
   "branding",
-  "product-design",
+  "ux-ui",
   "other",
 ] as const;
 
@@ -46,30 +48,32 @@ export type Project = StaticProject | ComponentProject;
 export const projects: Project[] = [
   {
     type: "project",
-    title: "Falkland Islands",
-    slug: "falkland",
-    preview: FalklandPreview,
+    title: "Digital Stamp Collection",
+    slug: "stamp-collection",
+    preview: DigitalStampCollection,
     filters: ["illustration"],
     description:
       "Cover illustration for software development agency for a blog post about Interledger — an open protocol suite developed with the intention of making payments work as easy as email.",
     assets: [
-      [FalklandPreview],
-      [FalklandPreview, FalklandPreview, FalklandPreview],
+      [DigitalStampCollection],
+      [DigitalStampCollection, DigitalStampCollection, DigitalStampCollection],
     ],
     tags: ["Adobe Illustrator", "Procreate", "© 2022"],
     aspect: 0.67,
   },
   {
     type: "project",
-    title: "Bitcoin blog illustration",
-    slug: "bitcoin",
-    preview: BitcoinPreview,
+    title: "Cryptocurrency Transactions Made Simple",
+    slug: "crypto",
+    preview: Cryptocurrency,
     filters: ["illustration"],
+    description:       
+      "Cover illustration for software development agency for a blog post about Interledger — an open protocol suite developed with the intention of making payments work as easy as email.",
     aspect: 1.75,
   },
   {
     type: "project",
-    title: "The High Roads branding",
+    title: "The High Road Streetwear Brand Logo",
     slug: "high-roads",
     preview: HighRoadsPreview,
     filters: ["illustration", "branding"],
@@ -80,7 +84,7 @@ export const projects: Project[] = [
     title: "Infinum Beer",
     slug: "infinum-beer",
     preview: InfinumBeerPreview,
-    filters: ["branding", "product-design"],
+    filters: ["branding", "ux-ui"],
     aspect: 1.2,
   },
   {
@@ -88,22 +92,29 @@ export const projects: Project[] = [
     title: "Supabase Icons",
     slug: "supabase-icons",
     preview: SupabaseIconsPreview,
-    filters: ["branding", "product-design"],
+    filters: ["branding", "ux-ui"],
     aspect: 1.2,
   },
   {
     type: "component",
     content: <SupabaseCard />,
-    filters: ["branding", "product-design", "illustration"],
+    filters: ["branding", "ux-ui", "illustration"],
   },
 
   {
     type: "project",
-    title: "Infinum Swag",
+    title: "Infinum Merch",
     slug: "infinum-swag",
     preview: InfinumSwagPreview,
-    filters: ["branding", "product-design"],
+    filters: ["branding", "ux-ui"],
+    description: 
+    "With the brand being known for its light, clean, and bold aesthetic, the merchandise was designed to reflect these qualities and use signature red color as an accent.",
     aspect: 0.7,
+    assets: [
+      [DigitalStampCollection],
+      [DigitalStampCollection, DigitalStampCollection, DigitalStampCollection],
+    ],
+    tags: ["Adobe Illustrator", "Adobe Photoshop", "© 2022"],
   },
   {
     type: "project",
@@ -111,7 +122,7 @@ export const projects: Project[] = [
     slug: "infinum-posters",
     preview: InfinumPostersPreview,
     filters: ["illustration", "branding"],
-    aspect: 0.8,
+    aspect: 0.7,
   },
   {
     type: "project",
@@ -123,10 +134,18 @@ export const projects: Project[] = [
   },
   {
     type: "project",
-    title: "Infinum Posters",
-    slug: "infinum-posters1",
-    preview: InfinumPostersPreview,
-    filters: ["illustration", "branding"],
+    title: "Elizabeths Flowers",
+    slug: "elizabeths-flowers",
+    preview: ElizabethsFlowers,
+    filters: ["branding"],
     aspect: 1,
+  },
+  {
+    type: "project",
+    title: "Memobottle design challange",
+    slug: "memobottle",
+    preview: Memobottle,
+    filters: ["illustration"],
+    aspect: 1.5,
   },
 ];
