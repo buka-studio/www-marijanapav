@@ -1,0 +1,64 @@
+.cards {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 300px 1fr 1fr;
+  grid-template-rows: auto 1fr auto auto auto auto auto auto;
+  grid-template-areas:
+    'bio bio work'
+    'bio bio location'
+    'pantone photos tools'
+    'theme photos tools'
+    'theme photos stamps'
+    'sneak buka stamps'
+    'sneak current stamps';
+}
+
+.cards > *,
+.ui-card,
+.card {
+  height: 100%;
+}
+
+.bio {
+  grid-area: bio;
+}
+
+.work {
+  grid-area: work;
+}
+
+.location {
+  grid-area: location;
+}
+
+.pantone {
+  grid-area: pantone;
+}
+
+.photos {
+  grid-area: photos;
+}
+
+.tools {
+  grid-area: tools;
+}
+
+.theme {
+  grid-area: theme;
+}
+
+.sneak {
+  grid-area: sneak;
+}
+
+.buka {
+  grid-area: buka;
+}
+
+.current {
+  grid-area: current;
+}
+
+.stamps {
+  grid-area: stamps;
+}

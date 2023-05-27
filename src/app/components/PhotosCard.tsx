@@ -1,24 +1,22 @@
-"use client";
+'use client';
 
-import Card from "~/src/components/ui/Card";
-import Heading from "~/src/components/ui/Heading";
-
-import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
-import photo0 from "~/public/home/photos/photo_0.jpg";
-import photo1 from "~/public/home/photos/photo_1.jpg";
-import photo10 from "~/public/home/photos/photo_10.jpg";
-import photo11 from "~/public/home/photos/photo_11.jpg";
-import photo2 from "~/public/home/photos/photo_2.jpg";
-import photo3 from "~/public/home/photos/photo_3.jpg";
-import photo4 from "~/public/home/photos/photo_4.jpg";
-import photo5 from "~/public/home/photos/photo_5.jpg";
-import photo6 from "~/public/home/photos/photo_6.jpg";
-import photo7 from "~/public/home/photos/photo_7.jpg";
-import photo8 from "~/public/home/photos/photo_8.jpg";
-import photo9 from "~/public/home/photos/photo_9.jpg";
-
-import Image from "~/src/components/ui/Image";
+import photo0 from '~/public/home/photos/photo_0.jpg';
+import photo1 from '~/public/home/photos/photo_1.jpg';
+import photo2 from '~/public/home/photos/photo_2.jpg';
+import photo3 from '~/public/home/photos/photo_3.jpg';
+import photo4 from '~/public/home/photos/photo_4.jpg';
+import photo5 from '~/public/home/photos/photo_5.jpg';
+import photo6 from '~/public/home/photos/photo_6.jpg';
+import photo7 from '~/public/home/photos/photo_7.jpg';
+import photo8 from '~/public/home/photos/photo_8.jpg';
+import photo9 from '~/public/home/photos/photo_9.jpg';
+import photo10 from '~/public/home/photos/photo_10.jpg';
+import photo11 from '~/public/home/photos/photo_11.jpg';
+import Card from '~/src/components/ui/Card';
+import Heading from '~/src/components/ui/Heading';
+import Image from '~/src/components/ui/Image';
+import clsx from 'clsx';
+import { useEffect, useRef, useState } from 'react';
 
 export const photos = [
   photo0,
@@ -70,7 +68,7 @@ export default function PhotosCard() {
       {
         root: scrollAreaRef.current,
         threshold: 0.5,
-      }
+      },
     );
 
     for (const [e] of photoRefs.current) {
@@ -89,7 +87,7 @@ export default function PhotosCard() {
 
       scrollAreaRef.current?.scrollTo({
         left: scrollAreaRef.current.clientWidth * nextI,
-        behavior: nextI === 0 ? "auto" : "smooth",
+        behavior: nextI === 0 ? 'auto' : 'smooth',
       });
     }, slideDurationMs);
   }, [photo]);
@@ -97,12 +95,12 @@ export default function PhotosCard() {
   return (
     <Card className="">
       <div className="mb-[66px] flex gap-2 justify-between w-full">
-        <Heading as="h1" className="text-primary ">
+        <Heading as="h1" className="text-primary text-text-secondary">
           Bits and pieces from my camera roll
         </Heading>
       </div>
       <div
-        className="flex aspect-square w-full overflow-x-auto gap-4 snap-x snap-mandatory scrollbar-none"
+        className="flex aspect-square w-full rounded-xl overflow-x-auto gap-4 snap-x snap-mandatory scrollbar-none"
         ref={scrollAreaRef}
       >
         {photos.map((p, i) => (
@@ -118,7 +116,7 @@ export default function PhotosCard() {
               alt=""
               fill
               sizes="478px"
-              className="object-cover object-center rounded-lg"
+              className="object-cover object-center rounded-xl"
             />
             <div className="transition-colors duration-200 rounded-xl bg-main-theme-overlay absolute h-full w-full top-0 left-0" />
           </div>
@@ -132,17 +130,14 @@ export default function PhotosCard() {
               setPhoto(i);
               scrollAreaRef.current!.scroll({
                 left: scrollAreaRef.current!.clientWidth * i,
-                behavior: "smooth",
+                behavior: 'smooth',
               });
             }}
             key={p.src}
-            className={clsx(
-              "h-[6px]  rounded-full transition-all duration-150",
-              {
-                ["bg-main-theme-2 w-[16px]"]: i !== photo,
-                ["w-[50px] bg-main-theme-1"]: i === photo,
-              }
-            )}
+            className={clsx('h-[6px]  rounded-full transition-all duration-150', {
+              ['bg-main-theme-2 w-[16px]']: i !== photo,
+              ['w-[50px] bg-main-theme-1']: i === photo,
+            })}
           ></button>
         ))}
       </div>

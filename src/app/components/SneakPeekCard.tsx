@@ -15,7 +15,7 @@ export default function SneakPeekCard() {
   const [clickCount, setClickCount] = useState(0);
 
   const p = photo1;
-  console.log(hiddenPercentage);
+
   const revealed = hiddenPercentage === 0;
 
   return (

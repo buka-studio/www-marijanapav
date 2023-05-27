@@ -1,26 +1,22 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { ResetIcon } from '~/src/components/icons';
+import Card from '~/src/components/ui/Card';
+import clsx from 'clsx';
+import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+import Grid from '../../../public/home/Grid.svg';
 
-import Card from "~/src/components/ui/Card";
-
-import { useTheme } from "next-themes";
-import { ResetIcon } from "~/src/components/icons";
-import Grid from "../../../public/home/Grid.svg";
-
-const coloredThemes = ["red", "green", "blue"] as const;
+const coloredThemes = ['red', 'green', 'blue'] as const;
 
 type ColoredTheme = (typeof coloredThemes)[number];
 
 function getMainEl() {
-  return document.querySelector(".main");
+  return document.querySelector('.main');
 }
 function getThemeClassnames() {
-  return Array.from(getMainEl()?.classList.values()!).filter((c) =>
-    c.startsWith("theme-")
-  );
+  return Array.from(getMainEl()?.classList.values()!).filter((c) => c.startsWith('theme-'));
 }
 
 function removeColoredTheme() {
@@ -32,9 +28,7 @@ function removeColoredTheme() {
 }
 
 export default function ThemeCard() {
-  const [coloredTheme, setColoredTheme] = useState<ColoredTheme | undefined>(
-    undefined
-  );
+  const [coloredTheme, setColoredTheme] = useState<ColoredTheme | undefined>(undefined);
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
@@ -64,26 +58,26 @@ export default function ThemeCard() {
                     <button
                       key={t}
                       onClick={() => setColoredTheme(t)}
-                      className={clsx("flex items-center gap-2", {
-                        ["border-l-[1.5px] pl-4 border-main-theme-2"]: i > 0,
+                      className={clsx('flex items-center gap-2', {
+                        ['border-l-[1.5px] pl-4 border-main-theme-2']: i > 0,
                       })}
                     >
-                      {t.toUpperCase()[0]}
-
                       <div
                         className={clsx(
-                          "transition-all duration-200 border-2 w-5 h-5 rounded-full relative flex items-center justify-center",
+                          'transition-all duration-200 border-2 w-7 h-7 rounded-full relative flex items-center justify-center',
                           {
-                            ["border-main-theme-1"]: isActive,
-                            ["border-main-theme-2"]: !isActive,
-                          }
+                            ['border-main-theme-1']: isActive,
+                            ['border-main-theme-2']: !isActive,
+                          },
                         )}
                       >
-                        {isActive && (
+                        {isActive ? (
                           <motion.span
                             className="absolute h-3 w-3 bg-main-theme-1 rounded-full"
                             layoutId="color-theme-dot"
                           />
+                        ) : (
+                          <span className="absolute">{t.toUpperCase()[0]}</span>
                         )}
                       </div>
                     </button>
@@ -94,13 +88,14 @@ export default function ThemeCard() {
           </div>
         </div>
         <div className="flex justify-between">
-          <p>Bring back grayscale</p>
+          <p className="text-text-secondary">Bring back grayscale</p>
           <button
+            aria-label="Reset colored theme"
             onClick={() => {
               setColoredTheme(undefined);
             }}
           >
-            <ResetIcon />
+            <ResetIcon className="text-text-alt" />
           </button>
         </div>
       </div>

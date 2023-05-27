@@ -1,6 +1,5 @@
-import Link from "next/link";
-import Button from "~/src/components/ui/Button";
-import Heading from "./Heading";
+import Button from '~/src/components/ui/Button';
+import Link from 'next/link';
 import {
   BackgroundCard,
   BukaCard,
@@ -13,15 +12,31 @@ import {
   StampsCard,
   ThemeCard,
   ToolsCard,
-} from "./components";
-import Header from "./components/Header";
-import MouseVarsProvider from "./components/MouseVarsProvider";
+} from './components';
+import Header from './components/Header';
+import MouseVarsProvider from './components/MouseVarsProvider';
+import Heading from './Heading';
+import './page.css';
 
 const projectLinks = [
-  { label: "Branding", href: "/work?f=branding" },
-  { label: "UX/UI", href: "/work?f=product-design" },
-  { label: "Illustration", href: "/work?f=illustration" },
-  { label: "Other", href: "/work?f=other" },
+  { label: 'Branding', href: '/work?f=branding' },
+  { label: 'UX/UI', href: '/work?f=product-design' },
+  { label: 'Illustration', href: '/work?f=illustration' },
+  { label: 'Other', href: '/work?f=other' },
+];
+
+const cards = [
+  { className: 'bio', Component: BackgroundCard },
+  { className: 'work', Component: ExperienceCard },
+  { className: 'location', Component: LocationCard },
+  { className: 'pantone', Component: PantoneCard },
+  { className: 'theme', Component: ThemeCard },
+  { className: 'sneak', Component: SneakPeekCard },
+  { className: 'photos', Component: PhotosCard },
+  { className: 'buka', Component: BukaCard },
+  { className: 'current', Component: CurrentCard },
+  { className: 'tools', Component: ToolsCard },
+  { className: 'stamps', Component: StampsCard },
 ];
 
 export default function Home() {
@@ -45,30 +60,12 @@ export default function Home() {
             </div>
           </div>
           <MouseVarsProvider>
-            <div className="grid grid-cols-1 lg:grid-cols-[22fr_38fr_40fr] gap-[20px] mb-[20px] lg:flex-row">
-              <div className="lg:col-span-2">
-                <BackgroundCard />
-              </div>
-              <div className="flex flex-col gap-[20px] [&_>*]:flex-1">
-                <ExperienceCard />
-                <LocationCard />
-              </div>
-            </div>
-            <div className="cards grid grid-cols-1 lg:grid-cols-[22fr_38fr_40fr] gap-[20px] [&_.ui-card]:h-full [&_.ui-card>*]:h-full">
-              <div className="flex flex-col gap-[20px]">
-                <PantoneCard />
-                <ThemeCard />
-                <SneakPeekCard />
-              </div>
-              <div className="flex flex-col gap-[20px]">
-                <PhotosCard />
-                <BukaCard />
-                <CurrentCard />
-              </div>
-              <div className="flex flex-col gap-[20px]">
-                <ToolsCard />
-                <StampsCard />
-              </div>
+            <div className="cards">
+              {cards.map(({ className, Component }, i) => (
+                <div key={i} className={className}>
+                  <Component />
+                </div>
+              ))}
             </div>
           </MouseVarsProvider>
         </main>

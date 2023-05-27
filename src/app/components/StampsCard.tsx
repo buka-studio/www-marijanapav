@@ -1,18 +1,17 @@
-"use client";
+'use client';
 
-import Card from "~/src/components/ui/Card";
-import Heading from "~/src/components/ui/Heading";
-
-import { LinkIcon } from "~/src/components/icons";
-import Gibraltar1 from "../../../public/home/Gibraltar_1.svg";
-import Gibraltar2 from "../../../public/home/Gibraltar_2.svg";
+import { LinkIcon } from '~/src/components/icons';
+import Card from '~/src/components/ui/Card';
+import Heading from '~/src/components/ui/Heading';
+import Gibraltar1 from '../../../public/home/gibraltar_1.svg';
+import Gibraltar2 from '../../../public/home/gibraltar_2.svg';
 
 const Stamps = () => (
   <>
     {Array.from({ length: 2 }).map((_, i) => (
       <div key={i} className="row flex [&_>*:not(:first-child)]:ml-[-1px]">
         {Array.from({ length: 4 }).map((_, j) =>
-          j % 2 === 0 ? <Gibraltar1 key={j} /> : <Gibraltar2 key={j} />
+          j % 2 === 0 ? <Gibraltar1 key={j} /> : <Gibraltar2 key={j} />,
         )}
       </div>
     ))}
@@ -37,10 +36,9 @@ export default function StampsCard() {
           </Heading>
         </div>
         <p className="leading-7">
-          Paying homage to my grandpa&apos;s lifelong passion for philately, by
-          recreating the stamps in a compact form, exploring the blend of art,
-          history, and typography and bringing it online for a new audience to
-          enjoy.
+          Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating the
+          stamps in a compact form, exploring the blend of art, history, and typography and bringing
+          it online for a new audience to enjoy.
         </p>
       </div>
     </Card>

@@ -1,6 +1,10 @@
 import { ReactNode, useEffect, useState } from "react";
 
-export default function ClientRendered({ children }: { children?: ReactNode }) {
+export default function ClientRendered({
+  children,
+}: {
+  children?: ReactNode | undefined;
+}) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -11,5 +15,5 @@ export default function ClientRendered({ children }: { children?: ReactNode }) {
     return null;
   }
 
-  return children;
+  return children as any;
 }

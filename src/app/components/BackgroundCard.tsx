@@ -1,8 +1,3 @@
-import Button from "~/src/components/ui/Button";
-import Card from "~/src/components/ui/Card";
-import Image from "~/src/components/ui/Image";
-import PortraitSrc from "../../../public/home/me.jpg";
-
 import {
   ArrowRightIcon,
   BehanceIcon,
@@ -10,15 +5,19 @@ import {
   InstagramIcon,
   LinkedinIcon,
   TwitterIcon,
-} from "~/src/components/icons";
-import "./cards.css";
+} from '~/src/components/icons';
+import Button from '~/src/components/ui/Button';
+import Card from '~/src/components/ui/Card';
+import Image from '~/src/components/ui/Image';
+import PortraitSrc from '../../../public/home/me.jpg';
+import './cards.css';
 
 const social = [
-  { url: "1", Icon: TwitterIcon },
-  { url: "2", Icon: LinkedinIcon },
-  { url: "3", Icon: InstagramIcon },
-  { url: "4", Icon: DribbbleIcon },
-  { url: "5", Icon: BehanceIcon },
+  { url: '1', Icon: TwitterIcon },
+  { url: '2', Icon: LinkedinIcon },
+  { url: '3', Icon: InstagramIcon },
+  { url: '4', Icon: DribbbleIcon },
+  { url: '5', Icon: BehanceIcon },
 ];
 
 export default function BackgroundCard() {
@@ -36,7 +35,12 @@ export default function BackgroundCard() {
       </div>
 
       <p className="leading-7 panel text-text-primary">
-      I've worked in various design environments, including a studio, an agency, and now at a fast-growing startup. Through these different settings I've had a chance to work on various skills, from editorial design, illustration, packaging, to a deep dive into all things digital, and now mostly focused on web design and UX. I’m based in Central Europe, working from a home office, because life's too short for long commutes, but I do have to deal with my cat trying to sit on my keyboard.
+        I&apos;ve worked in various design environments, including a studio, an agency, and now at a
+        fast-growing startup. Through these different settings I&apos;ve had a chance to work on
+        various skills, from editorial design, illustration, packaging, to a deep dive into all
+        things digital, and now mostly focused on web design and UX. I&apos;m based in Central
+        Europe, working from a home office, because life&apos;s too short for long commutes, but I
+        do have to deal with my cat trying to sit on my keyboard.
       </p>
       <div className="flex flex-col items-start  justify-between mt-9 text-text-primary xl:flex-row xl:items-center">
         <div>See what I&apos;ve been doing on:</div>

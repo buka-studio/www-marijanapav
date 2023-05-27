@@ -1,47 +1,30 @@
-"use client";
+'use client';
 
-import { StaticImageData } from "next/image";
-import Image from "~/src/components/ui/Image";
-// export const dynamic = "force-static";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import EnjoyWork from "../../public/work/184A0632-2 1-1.png";
-import Ducks from "../../public/work/184A0632-2 1-2.png";
-import Bitcoin from "../../public/work/184A0632-2 1-3.png";
-import Falkland from "../../public/work/184A0632-2 1.png";
-
-// const image
-
-// const getAssetPlaceholders = () => {};
-
-// export default async function Work() {
-//   const img = await getPlaiceholder("/work/poster.png");
-//   // console.log(base64, img);
-//   return <Work2 img={img} />;
-// }
+import Image from '~/src/components/ui/Image';
+import { motion } from 'framer-motion';
+import { StaticImageData } from 'next/image';
+import Link from 'next/link';
+import EnjoyWork from '../../public/work/184A0632-2 1-1.png';
+import Ducks from '../../public/work/184A0632-2 1-2.png';
+import Bitcoin from '../../public/work/184A0632-2 1-3.png';
+import Falkland from '../../public/work/184A0632-2 1.png';
 
 const projects = [
-  "one",
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "ten",
-  "eleven",
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'ten',
+  'eleven',
 ] as const;
 
 type Project = typeof projects;
 
-const projectTypes = [
-  "all",
-  "illustration",
-  "branding",
-  "product design",
-  "other",
-] as const;
+const projectTypes = ['all', 'illustration', 'branding', 'product design', 'other'] as const;
 type ProjectType = typeof projectTypes;
 
 type Col = number;
@@ -80,7 +63,7 @@ const filterConfig: ProjectGridConfig = {
 };
 
 const spring = {
-  type: "spring",
+  type: 'spring',
   //   stiffness: 10,
   damping: 20,
   duration: 0.5,
