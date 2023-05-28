@@ -1,7 +1,7 @@
-import Card from "~/src/components/ui/Card";
-import Heading from "~/src/components/ui/Heading";
-import Image from "~/src/components/ui/Image";
-import MidjourneyImage from "../../../public/home/midjourney.png";
+import Card from '~/src/components/ui/Card';
+import Heading from '~/src/components/ui/Heading';
+import Image from '~/src/components/ui/Image';
+import MidjourneyImage from '../../../public/home/midjourney.png';
 
 export default function CurrentCard() {
   return (
@@ -9,7 +9,7 @@ export default function CurrentCard() {
       <div className="flex flex-col h-full">
         <div className="mb-2">Currently exploring</div>
         <Heading className="text-6xl">MidJourney</Heading>
-        <div className="mt-6 relative">
+        <div className="mt-auto relative">
           <Image
             src={MidjourneyImage}
             alt="Midjourney generated image"

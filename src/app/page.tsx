@@ -26,17 +26,17 @@ const projectLinks = [
 ];
 
 const cards = [
-  { className: 'bio', Component: BackgroundCard },
-  { className: 'work', Component: ExperienceCard },
-  { className: 'location', Component: LocationCard },
-  { className: 'pantone', Component: PantoneCard },
-  { className: 'theme', Component: ThemeCard },
-  { className: 'sneak', Component: SneakPeekCard },
-  { className: 'photos', Component: PhotosCard },
-  { className: 'buka', Component: BukaCard },
-  { className: 'current', Component: CurrentCard },
-  { className: 'tools', Component: ToolsCard },
-  { className: 'stamps', Component: StampsCard },
+  { label: 'bio', Component: BackgroundCard },
+  { label: 'work', Component: ExperienceCard },
+  { label: 'location', Component: LocationCard },
+  { label: 'pantone', Component: PantoneCard },
+  { label: 'theme', Component: ThemeCard },
+  { label: 'sneak', Component: SneakPeekCard },
+  { label: 'photos', Component: PhotosCard },
+  { label: 'buka', Component: BukaCard },
+  { label: 'current', Component: CurrentCard },
+  { label: 'tools', Component: ToolsCard },
+  { label: 'stamps', Component: StampsCard },
 ];
 
 export default function Home() {
@@ -61,8 +61,8 @@ export default function Home() {
           </div>
           <MouseVarsProvider>
             <div className="cards">
-              {cards.map(({ className, Component }, i) => (
-                <div key={i} className={className}>
+              {cards.map(({ label, Component }, i) => (
+                <div key={i} style={{ gridArea: label }}>
                   <Component />
                 </div>
               ))}

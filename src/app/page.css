@@ -1,8 +1,8 @@
 .cards {
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: 300px 1fr 1fr;
-  grid-template-rows: auto 1fr auto auto auto auto auto auto;
+  grid-template-columns: 300px minmax(auto, 486px) auto;
+  grid-template-rows: auto 1fr auto auto auto auto auto 1fr;
   grid-template-areas:
     'bio bio work'
     'bio bio location'
@@ -17,48 +17,4 @@
 .ui-card,
 .card {
   height: 100%;
-}
-
-.bio {
-  grid-area: bio;
-}
-
-.work {
-  grid-area: work;
-}
-
-.location {
-  grid-area: location;
-}
-
-.pantone {
-  grid-area: pantone;
-}
-
-.photos {
-  grid-area: photos;
-}
-
-.tools {
-  grid-area: tools;
-}
-
-.theme {
-  grid-area: theme;
-}
-
-.sneak {
-  grid-area: sneak;
-}
-
-.buka {
-  grid-area: buka;
-}
-
-.current {
-  grid-area: current;
-}
-
-.stamps {
-  grid-area: stamps;
 }

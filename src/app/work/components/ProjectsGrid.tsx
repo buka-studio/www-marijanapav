@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useRef } from "react";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import Image from "~/src/components/ui/Image";
-import { Project } from "../constants";
-import Card from "./Card";
+import Image from '~/src/components/ui/Image';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useRef } from 'react';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { Project } from '../constants';
+import Card from './Card';
 
 type Props = {
   projects: Project[];
@@ -36,31 +36,26 @@ export default function ProjectsGrid({ projects }: Props) {
       <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3, 1200: 4 }}>
         <Masonry gutter="1rem">
           {projects.map((project, i) =>
-            project.type === "project" ? (
-              <Link
-                passHref
-                legacyBehavior
-                key={project.slug}
-                href={`/work/${project.slug}`}
-              >
+            project.type === 'project' ? (
+              <Link passHref legacyBehavior key={project.slug} href={`/work/${project.slug}`}>
                 <motion.a
-                  initial={{ translateY: 100, opacity: 0 }}
+                  initial={{ translateY: 75, opacity: 0 }}
                   animate={{ translateY: 0, opacity: 1 }}
-                  exit={{ translateY: 100, opacity: 0 }}
+                  exit={{ translateY: 75, opacity: 0 }}
                   transition={{
-                    type: "tween",
-                    ease: "easeOut",
-                    duration: 0.35,
+                    // type: "tween",
+                    ease: 'easeOut',
+                    duration: 0.5,
                     delay: i * 0.1,
                   }}
                   className="relative group flex group"
-                  style={{ aspectRatio: project.aspect || "initial" }}
+                  style={{ aspectRatio: project.aspect || 'initial' }}
                 >
                   <Card
                     ref={(e) => {
                       e?.style.setProperty(
-                        "--title-height",
-                        String(titleRef.current?.clientHeight)
+                        '--title-height',
+                        String(titleRef.current?.clientHeight),
                       );
                     }}
                     containerClassName="h-full w-full "
@@ -69,7 +64,7 @@ export default function ProjectsGrid({ projects }: Props) {
                     <div className="overflow-hidden rounded-lg w-full h-full group-hover:translate-y-[calc(var(--title-height)*-1px)] transition-all duration-300 translate-y-0">
                       <div className="group-hover:translate-y-[calc(var(--title-height)*1px)] transition-all duration-300 translate-y-0 h-full w-full rounded-lg overflow-hidden">
                         <Image
-                          alt={project.description || ""}
+                          alt={project.description || ''}
                           src={project.preview}
                           fill
                           className="object-cover object-top "
@@ -86,13 +81,13 @@ export default function ProjectsGrid({ projects }: Props) {
                   </Card>
                 </motion.a>
               </Link>
-            ) : project.type === "component" ? (
+            ) : project.type === 'component' ? (
               <motion.div
                 initial={{ translateY: 100, opacity: 0 }}
                 animate={{ translateY: 0, opacity: 1 }}
                 transition={{
-                  type: "tween",
-                  ease: "easeOut",
+                  type: 'tween',
+                  ease: 'easeOut',
                   duration: 0.35,
                   delay: i * 0.1,
                 }}
@@ -101,7 +96,7 @@ export default function ProjectsGrid({ projects }: Props) {
               >
                 {project.content}
               </motion.div>
-            ) : null
+            ) : null,
           )}
         </Masonry>
       </ResponsiveMasonry>

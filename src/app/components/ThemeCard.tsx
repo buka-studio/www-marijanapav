@@ -51,16 +51,14 @@ export default function ThemeCard() {
           <Grid />
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
             <div className="p-[1px] [background:var(--panel-border)] rounded-full">
-              <div className="relative flex gap-4 rounded-full py-2 px-4 bg-panel-background shadow-card">
+              <div className="relative flex gap-5 rounded-full py-2 px-3 bg-panel-background shadow-card">
                 {coloredThemes.map((t, i) => {
                   const isActive = t === coloredTheme;
                   return (
                     <button
                       key={t}
                       onClick={() => setColoredTheme(t)}
-                      className={clsx('flex items-center gap-2', {
-                        ['border-l-[1.5px] pl-4 border-main-theme-2']: i > 0,
-                      })}
+                      className={clsx('flex items-center')}
                     >
                       <div
                         className={clsx(

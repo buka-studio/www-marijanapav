@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
-import { forwardRef, ReactNode, useRef } from "react";
-import { relativeMouseClassname } from "~/src/app/components/MouseVarsProvider";
-import "./Card.css";
+import { relativeMouseClassname } from '~/src/app/components/MouseVarsProvider';
+import clsx from 'clsx';
+import { forwardRef, ReactNode, useRef } from 'react';
+import './Card.css';
 
 type Props = {
   children: ReactNode;
   className?: string;
   containerClassName?: string;
-  as?: "div" | "article";
+  as?: 'div' | 'article';
 };
 
 const Card = forwardRef<HTMLDivElement, Props>(function Card(
-  { children, className, containerClassName, as = "article" },
-  ref
+  { children, className, containerClassName, as = 'article' },
+  ref,
 ) {
   const Component = as;
 
@@ -23,15 +23,12 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
 
   return (
     <Component
-      className={clsx(
-        "ui-card [background:var(--panel-border)] p-[2px] rounded-[22px] shadow-card relative",
-        containerClassName
-      )}
+      className={clsx('ui-card p-[1.5px] rounded-[22px] shadow-card relative', containerClassName)}
     >
       <div
         className={clsx(
-          "card rounded-[20px] p-4 bg-panel-background text-text-primary [&_>*]:opacity-1 relative z-[1]",
-          className
+          'card rounded-[21px] p-4 bg-panel-background text-text-primary [&_>*]:opacity-1 relative z-[1]',
+          className,
         )}
         ref={contentRef}
       >
@@ -39,8 +36,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
       </div>
       <div
         className={clsx(
-          "absolute top-0 left-0 w-full h-full bg-main-theme-1 opacity-30 rounded-[22px]",
-          relativeMouseClassname
+          'absolute top-0 left-0 w-full h-full bg-main-theme-1 opacity-30 rounded-[22px]',
+          relativeMouseClassname,
         )}
         ref={borderRef}
       />

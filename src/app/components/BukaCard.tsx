@@ -18,7 +18,7 @@ export default function BukaCard() {
             </a>
           </Heading>
         </div>
-        <p>
+        <p className="text-text-secondary">
           Branding and web project for a design and dev studio
           <br />
           (not yet live but I dare you to check the placeholder).

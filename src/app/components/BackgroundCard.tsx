@@ -34,7 +34,7 @@ export default function BackgroundCard() {
         <div className="transition-colors duration-200 rounded-xl bg-main-theme-overlay absolute h-full w-full top-0 left-0" />
       </div>
 
-      <p className="leading-7 panel text-text-primary">
+      <p className="leading-7 panel text-text-secondary">
         I&apos;ve worked in various design environments, including a studio, an agency, and now at a
         fast-growing startup. Through these different settings I&apos;ve had a chance to work on
         various skills, from editorial design, illustration, packaging, to a deep dive into all
@@ -42,7 +42,7 @@ export default function BackgroundCard() {
         Europe, working from a home office, because life&apos;s too short for long commutes, but I
         do have to deal with my cat trying to sit on my keyboard.
       </p>
-      <div className="flex flex-col items-start  justify-between mt-9 text-text-primary xl:flex-row xl:items-center">
+      <div className="flex flex-col items-start  justify-between mt-9 text-text-secondary xl:flex-row xl:items-center">
         <div>See what I&apos;ve been doing on:</div>
         <div className="flex mr-auto mt-3 xl:mt-0 xl:ml-5 gap-2">
           {social.map(({ url, Icon }) => (
