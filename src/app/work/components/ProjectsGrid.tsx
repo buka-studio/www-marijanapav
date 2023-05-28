@@ -28,8 +28,8 @@ type Props = {
 // }
 
 export default function ProjectsGrid({ projects }: Props) {
-  const titleRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const titleRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   return (
     <div className="flex-1 py-10 px-5">
@@ -43,20 +43,24 @@ export default function ProjectsGrid({ projects }: Props) {
                   animate={{ translateY: 0, opacity: 1 }}
                   exit={{ translateY: 75, opacity: 0 }}
                   transition={{
-                    // type: "tween",
                     ease: 'easeOut',
                     duration: 0.5,
                     delay: i * 0.1,
                   }}
-                  className="relative group flex group"
+                  onAnimationComplete={() => {
+                    cardRefs.current
+                      .get(i)
+                      ?.style.setProperty(
+                        '--title-height',
+                        titleRefs.current.get(i)?.clientHeight?.toString() || '0',
+                      );
+                  }}
+                  className=" rounded-2xl relative group flex group"
                   style={{ aspectRatio: project.aspect || 'initial' }}
                 >
                   <Card
                     ref={(e) => {
-                      e?.style.setProperty(
-                        '--title-height',
-                        String(titleRef.current?.clientHeight),
-                      );
+                      cardRefs.current.set(i, e!);
                     }}
                     containerClassName="h-full w-full "
                     className="h-full w-full overflow-hidden"
@@ -73,8 +77,10 @@ export default function ProjectsGrid({ projects }: Props) {
                     </div>
 
                     <div
-                      className="text-text-primary  p-2 group-hover:translate-y-0 transition-all duration-300 translate-y-full title absolute bottom-0 w-full rounded-tr-md rounded-tl-md"
-                      ref={titleRef}
+                      className="title text-text-primary px-3 left-0 p-2 group-hover:translate-y-[-4px] transition-all duration-300 translate-y-full title absolute bottom-0 w-full rounded-tr-md rounded-tl-md"
+                      ref={(e) => {
+                        titleRefs.current.set(i, e!);
+                      }}
                     >
                       {project.title}
                     </div>
@@ -93,6 +99,7 @@ export default function ProjectsGrid({ projects }: Props) {
                 }}
                 exit={{ translateY: 100, opacity: 0 }}
                 className="relative group flex group"
+                key={i}
               >
                 {project.content}
               </motion.div>

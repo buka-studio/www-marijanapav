@@ -29,7 +29,7 @@ export default function ExperienceCard() {
       <div className="px-2">
         <Heading
           as="h1"
-          className="text-base font-bold font-sans pb-6 border-b border-text-alt2 my-4"
+          className="text-base text-text-secondary font-sans pb-6 border-b border-text-alt2 my-4"
         >
           Work Experience
         </Heading>
@@ -52,7 +52,7 @@ export default function ExperienceCard() {
                 ) : null}
               </span>
               <span className="text-text-secondary">{p.from}</span>—
-              <span>{p.to ? p.to : 'ongoing'}</span>
+              <span className="text-text-secondary">{p.to ? p.to : 'ongoing'}</span>
             </li>
           ))}
         </ul>

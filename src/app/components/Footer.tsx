@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import { LettersIcon } from "~/src/components/icons";
-import FloatingNav from "../../components/FloatingNav";
+import { LettersIcon } from '~/src/components/icons';
+import { ReactNode } from 'react';
+import FloatingNav from '../../components/FloatingNav';
 
 export default function Footer({ children }: { children?: ReactNode }) {
   return (
@@ -14,12 +14,12 @@ export default function Footer({ children }: { children?: ReactNode }) {
         </span>
       </div>
 
-      <div className="fixed bottom-[70px] md:bottom-8 left-1/2 -translate-x-1/2 rounded-full">
+      <div className="nav fixed bottom-[70px] md:bottom-8 left-1/2 -translate-x-1/2 rounded-full">
         <FloatingNav />
       </div>
 
       <div className="text-xs flex gap-2 items-center">
-        Built by{" "}
+        Built by{' '}
         <a href="https://rpavlini.com" className="underline">
           rpavlini.com
         </a>

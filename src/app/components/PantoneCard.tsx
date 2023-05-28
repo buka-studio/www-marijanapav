@@ -14,7 +14,7 @@ type Pantone = {
 
 const pantoneByTheme: Record<Theme, Pantone> = {
   'blue-light': { name: 'Misty Morning' },
-  'blue-dark': { name: 'Mdnight Cruising' },
+  'blue-dark': { name: 'Midnight Cruising' },
   'red-light': { name: 'Golden Hour' },
   'red-dark': { name: 'Lava Lamp' },
   'green-light': { name: 'Pistacchio Ice Cream' },

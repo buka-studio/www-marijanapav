@@ -12,8 +12,6 @@ import HavgrimPreview from '~/public/work/havgrim/preview.png';
 import HighRoads00 from '~/public/work/high-roads/highroads_00.jpg';
 import HighRoads01 from '~/public/work/high-roads/highroads_01.jpg';
 import HighRoads02 from '~/public/work/high-roads/highroads_02.jpg';
-// import HavgrimPreview from "~/public/work/havgrim/preview.png";
-// import DucksPreview from "~/public/work/ducks/preview.png";
 import HighRoadsPreview from '~/public/work/high-roads/preview.png';
 import InfinumBeer00 from '~/public/work/infinum-beer/infinumbeer_00.png';
 import InfinumBeerPreview from '~/public/work/infinum-beer/preview.png';

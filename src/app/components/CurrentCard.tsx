@@ -7,7 +7,7 @@ export default function CurrentCard() {
   return (
     <Card className="">
       <div className="flex flex-col h-full">
-        <div className="mb-2">Currently exploring</div>
+        <div className="mb-2 text-text-secondary">Currently exploring</div>
         <Heading className="text-6xl">MidJourney</Heading>
         <div className="mt-auto relative">
           <Image

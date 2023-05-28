@@ -25,7 +25,7 @@ export default function ToolsCard() {
           <div className="[background:var(--panel-blend-layer)] h-[100px] w-full top-0 absolute" />
           <div className="[background:var(--panel-blend-layer)] h-[100px] w-full bottom-[-1px] absolute rotate-180" />
         </div>
-        <p className="text-text-primary leading-7">
+        <p className="leading-7 text-text-secondary">
           In today&apos;s ever-evolving design industry I enjoy exploring new ways to expand my
           toolkit. From industry standards like Adobe Creative Suite, to the latest tools on the
           market like MidJourney.

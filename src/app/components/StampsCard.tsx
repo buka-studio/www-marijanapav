@@ -35,7 +35,7 @@ export default function StampsCard() {
             </a>
           </Heading>
         </div>
-        <p className="leading-7">
+        <p className="leading-7 text-text-secondary">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating the
           stamps in a compact form, exploring the blend of art, history, and typography and bringing
           it online for a new audience to enjoy.

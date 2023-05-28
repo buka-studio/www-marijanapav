@@ -12,11 +12,11 @@ import photo8 from '~/public/home/photos/photo_8.jpg';
 import photo9 from '~/public/home/photos/photo_9.jpg';
 import photo10 from '~/public/home/photos/photo_10.jpg';
 import photo11 from '~/public/home/photos/photo_11.jpg';
+import clsx from 'clsx';
+import { useEffect, useRef, useState } from 'react';
 import Card from '~/src/components/ui/Card';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
-import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
 
 export const photos = [
   photo0,
@@ -95,7 +95,7 @@ export default function PhotosCard() {
   return (
     <Card className="">
       <div className="mb-[66px] flex gap-2 justify-between w-full">
-        <Heading as="h1" className="text-primary text-text-secondary">
+        <Heading as="h1" className="text-primary text-text-secondary font-sans">
           Bits and pieces from my camera roll
         </Heading>
       </div>
