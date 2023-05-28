@@ -6,8 +6,9 @@
       "description": "3B58FF"
     },
     "600": {
-      "value": "#1000A3",
-      "type": "color"
+      "value": "#1E34B6",
+      "type": "color",
+      "description": "1000A3\n1E34B6"
     },
     "700": {
       "value": "#150070",
@@ -142,14 +143,14 @@
   },
   "red_dark": {
     "500": {
-      "value": "#ff4733",
+      "value": "#FF4733",
       "type": "color",
-      "description": "FF4733"
+      "description": "FF4733\n#ffa79d\n#ff7364"
     },
     "600": {
-      "value": "#730000",
+      "value": "#B90000",
       "type": "color",
-      "description": "800D00\n41110C\nCD1501\nB90100\n730000"
+      "description": "800D00\n41110C\nCD1501\nB90100\n730000\nD31E0B\nB90000"
     },
     "700": {
       "value": "#340904",

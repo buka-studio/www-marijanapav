@@ -1,7 +1,7 @@
 {
   "text": {
     "primary": {
-      "value": "#ff4733",
+      "value": "#FF4733",
       "type": "color"
     },
     "secondary": {
@@ -48,7 +48,7 @@
         "type": "spread"
       },
       "color": {
-        "value": "#73000033",
+        "value": "#b9000033",
         "type": "color"
       },
       "type": {
@@ -85,11 +85,11 @@
   },
   "main": {
     "theme-1": {
-      "value": "#ff4733",
+      "value": "#FF4733",
       "type": "color"
     },
     "theme-2": {
-      "value": "#730000",
+      "value": "#B90000",
       "type": "color"
     },
     "theme-3": {

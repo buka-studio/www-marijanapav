@@ -9,7 +9,7 @@
       "type": "color"
     },
     "alt": {
-      "value": "#1000A3",
+      "value": "#1E34B6",
       "type": "color"
     },
     "alt2": {
@@ -48,7 +48,7 @@
         "type": "spread"
       },
       "color": {
-        "value": "#1000a333",
+        "value": "#1e34b633",
         "type": "color"
       },
       "type": {
@@ -100,7 +100,7 @@
         "type": "spread"
       },
       "color": {
-        "value": "#1000A3",
+        "value": "#1E34B6",
         "type": "color"
       },
       "type": {
@@ -126,7 +126,7 @@
         "type": "spread"
       },
       "color": {
-        "value": "#1000A3",
+        "value": "#1E34B6",
         "type": "color"
       },
       "type": {
@@ -141,7 +141,7 @@
       "type": "color"
     },
     "theme-2": {
-      "value": "#1000A3",
+      "value": "#1E34B6",
       "type": "color"
     },
     "theme-3": {

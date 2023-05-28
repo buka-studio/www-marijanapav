@@ -1,6 +1,6 @@
 .global {
   --blue-dark-500: #3b58ff;
-  --blue-dark-600: #1000A3;
+  --blue-dark-600: #1E34B6;
   --blue-dark-700: #150070;
   --blue-dark-800: #000026;
   --blue-dark-900: #000018;
@@ -27,8 +27,8 @@
   --text-case-none: none;
   --text-decoration-none: none;
   --paragraph-indent-0: 0px;
-  --red-dark-500: #ff4733;
-  --red-dark-600: #730000;
+  --red-dark-500: #FF4733;
+  --red-dark-600: #B90000;
   --red-dark-700: #340904;
   --red-dark-800: #120302;
   --red-dark-900: #0A0101;
