@@ -10,7 +10,7 @@
     width="77.8389"
     height="77.8389"
     rx="16"
-    fill="var(--main-theme-2, currentColor)"
+    fill="var(--main-theme-overlay, currentColor)"
   />
   <circle
     cx="38.9219"

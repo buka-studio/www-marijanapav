@@ -1,10 +1,10 @@
 'use client';
 
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 import { Theme } from '~/src/app/constants';
 import ClientRendered from '~/src/components/ClientRendered';
 import Card from '~/src/components/ui/Card';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
 import { InfoIcon } from '../../components/icons';
 import './PantoneCard.css';
 
@@ -17,7 +17,7 @@ const pantoneByTheme: Record<Theme, Pantone> = {
   'blue-dark': { name: 'Midnight Cruising' },
   'red-light': { name: 'Golden Hour' },
   'red-dark': { name: 'Lava Lamp' },
-  'green-light': { name: 'Pistacchio Ice Cream' },
+  'green-light': { name: 'Pistacchio Cream' },
   'green-dark': { name: 'The Matrix' },
   dark: { name: 'Jade Dusk' },
   light: { name: 'Ghost Fog' },
@@ -49,18 +49,16 @@ export default function PantoneCard() {
       <div className="h-[268px] flex flex-col gap-4 w-full">
         <div className="bg-main-theme-2 transition-all duration-250 flex-1 rounded-lg"></div>
         <div className="flex justify-between">
-          <p>
-            Pantone{' '}
-            <span className="text-text-alt ml-1">
-              <ClientRendered>
-                {(pantone || pantoneByTheme[resolvedTheme as Theme])?.name}
-              </ClientRendered>
-            </span>
+          <p className="text-text-secondary">
+            PANTONE{' '}
+            <ClientRendered>
+              {(pantone || pantoneByTheme[resolvedTheme as Theme])?.name}
+            </ClientRendered>
           </p>
           <button aria-describedby="pantone-tooltip">
             <InfoIcon className="text-text-alt" />
             <div role="tooltip" id="pantone-tooltip">
-              These are all made up, but they sound cool.
+              Note: These Pantone color names are entirely fictional.
             </div>
           </button>
         </div>

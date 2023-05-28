@@ -1,6 +1,7 @@
 import Card from '~/src/components/ui/Card';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
+import Tag from '~/src/components/ui/Tag';
 import MidjourneyImage from '../../../public/home/midjourney.png';
 
 export default function CurrentCard() {
@@ -8,7 +9,9 @@ export default function CurrentCard() {
     <Card className="">
       <div className="flex flex-col h-full">
         <div className="mb-2 text-text-secondary">Currently exploring</div>
-        <Heading className="text-6xl">MidJourney</Heading>
+        <Heading className="text-6xl flex items-center gap-3">
+          MidJourney<Tag className="text-xs mt-5 font-sans">v5.1</Tag>
+        </Heading>
         <div className="mt-auto relative">
           <Image
             src={MidjourneyImage}
