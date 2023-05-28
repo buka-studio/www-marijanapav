@@ -1,6 +1,6 @@
 .theme-blue-dark {
   --text-primary: #3b58ff;
-  --text-secondary: #3b58ffcc;
+  --text-secondary: #3b58ffe6;
   --text-alt: #1000A3;
   --text-alt2: #150070;
   --panel-background: #000;
@@ -34,9 +34,9 @@
   --main-theme-2: #1000A3;
   --main-theme-3: #150070;
   --main-theme-4: #000026;
-  --main-background: #000005;
+  --main-background: #030212;
   --main-theme-overlay: #3b58ff33;
-  --main-transparent: #0000051a;
+  --main-transparent: #0302121a;
   --button-focus-x: 0;
   --button-focus-y: 0;
   --button-focus-blur: 0;

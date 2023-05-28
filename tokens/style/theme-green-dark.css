@@ -3,9 +3,9 @@
   --text-secondary: #a4d1a4cc;
   --text-alt: #2D4E2D;
   --text-alt2: #112212;
-  --panel-background: #010000;
-  --panel-border: linear-gradient(0deg, #2d4e2d00 0%, #2d4e2d 100%);
-  --panel-blend-layer: linear-gradient(0deg, #01000000 0%, #010000 100%);
+  --panel-background: #070000;
+  --panel-border: linear-gradient(0deg, #2d4e2d00 0%, #2d4e2d00 100%);
+  --panel-blend-layer: linear-gradient(0deg, #07000000 0%, #070000 100%);
   --panel-dropshadow-x: 0;
   --panel-dropshadow-y: 4;
   --panel-dropshadow-blur: 36;
@@ -29,6 +29,6 @@
   --button-focus-y: 0;
   --button-focus-blur: 0;
   --button-focus-spread: 3;
-  --button-focus-color: #010000;
+  --button-focus-color: #070000;
   --button-focus-type: innerShadow;
 }

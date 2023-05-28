@@ -19,15 +19,15 @@
   },
   "panel": {
     "background": {
-      "value": "#010000",
+      "value": "#070000",
       "type": "color"
     },
     "border": {
-      "value": "linear-gradient(0deg, #2d4e2d00 0%, #2d4e2d 100%)",
+      "value": "linear-gradient(0deg, #2d4e2d00 0%, #2d4e2d00 100%)",
       "type": "color"
     },
     "blend-layer": {
-      "value": "linear-gradient(0deg, #01000000 0%, #010000 100%)",
+      "value": "linear-gradient(0deg, #07000000 0%, #070000 100%)",
       "type": "color"
     },
     "dropshadow": {
@@ -132,7 +132,7 @@
         "type": "spread"
       },
       "color": {
-        "value": "#010000",
+        "value": "#070000",
         "type": "color"
       },
       "type": {

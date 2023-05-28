@@ -5,7 +5,7 @@
       "type": "color"
     },
     "secondary": {
-      "value": "#3b58ffcc",
+      "value": "#3b58ffe6",
       "type": "color"
     },
     "alt": {
@@ -153,7 +153,7 @@
       "type": "color"
     },
     "background": {
-      "value": "#000005",
+      "value": "#030212",
       "type": "color"
     },
     "theme-overlay": {
@@ -161,7 +161,7 @@
       "type": "color"
     },
     "transparent": {
-      "value": "#0000051a",
+      "value": "#0302121a",
       "type": "color"
     }
   },

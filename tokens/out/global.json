@@ -24,7 +24,7 @@
       "type": "color"
     },
     "950": {
-      "value": "#000005",
+      "value": "#030212",
       "type": "color"
     }
   },
@@ -147,8 +147,9 @@
       "description": "FF4733"
     },
     "600": {
-      "value": "#800D00",
-      "type": "color"
+      "value": "#730000",
+      "type": "color",
+      "description": "800D00\n41110C\nCD1501\nB90100\n730000"
     },
     "700": {
       "value": "#340904",
@@ -165,7 +166,7 @@
       "type": "color"
     },
     "950": {
-      "value": "#010000",
+      "value": "#070000",
       "type": "color"
     }
   },

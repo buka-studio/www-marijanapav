@@ -5,7 +5,7 @@
       "type": "color"
     },
     "secondary": {
-      "value": "#ff4733cc",
+      "value": "#ff4733e6",
       "type": "color"
     },
     "alt": {
@@ -23,7 +23,7 @@
       "type": "color"
     },
     "border": {
-      "value": "linear-gradient(0deg, #34090400 0%, #340904 100%)",
+      "value": "linear-gradient(0deg, #34090400 0%, #34090400 100%)",
       "type": "color"
     },
     "blend-layer": {
@@ -48,7 +48,7 @@
         "type": "spread"
       },
       "color": {
-        "value": "#800d0033",
+        "value": "#73000033",
         "type": "color"
       },
       "type": {
@@ -89,7 +89,7 @@
       "type": "color"
     },
     "theme-2": {
-      "value": "#800D00",
+      "value": "#730000",
       "type": "color"
     },
     "theme-3": {
@@ -101,7 +101,7 @@
       "type": "color"
     },
     "background": {
-      "value": "#010000",
+      "value": "#070000",
       "type": "color"
     },
     "theme-overlay": {
@@ -109,7 +109,7 @@
       "type": "color"
     },
     "transparent": {
-      "value": "#0100001a",
+      "value": "#0700001a",
       "type": "color"
     }
   },
