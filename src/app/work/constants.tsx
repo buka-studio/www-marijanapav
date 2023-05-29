@@ -1,3 +1,5 @@
+import { StaticImageData } from 'next/image';
+import { ReactNode } from 'react';
 import Cryptocurrency from '~/public/work/bitcoin/preview.png';
 import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflowers_00.jpg';
 import ElizabethsFlowers01 from '~/public/work/elizabeths-flowers/elizabethsflowers_01.jpg';
@@ -25,10 +27,8 @@ import InfinumSwagPreview from '~/public/work/infinum-merch/preview.png';
 import InfinumPostersPreview from '~/public/work/infinum-posters/preview.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
 import Memobottle00 from '~/public/work/memobottle/memobottle_00.jpg';
-import MemobottlePreview from '~/public/work/Memobottle/preview.png';
+import MemobottlePreview from '~/public/work/memobottle/preview.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
-import { StaticImageData } from 'next/image';
-import { ReactNode } from 'react';
 import SupabaseCard from './components/SupabaseCard';
 
 export const filters = ['all', 'illustration', 'branding', 'ux-ui', 'other'] as const;

@@ -10,7 +10,7 @@
   "tabWidth": 2,
   "semi": true,
   "trailingComma": "all",
-  "importOrder": ["<THIRD_PARTY_MODULES>", "^~/src/(.*)$", "^[./]"],
+  "importOrder": ["<THIRD_PARTY_MODULES>", "^~/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }

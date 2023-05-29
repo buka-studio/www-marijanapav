@@ -1,14 +1,10 @@
-"use client";
-import { useEffect, useRef } from "react";
+'use client';
 
-import HighlightedText, { Controls } from "~/src/components/HighlightedHeading";
-import Heading from "~/src/components/ui/Heading";
+import { useEffect, useRef } from 'react';
+import HighlightedText, { Controls } from '~/src/components/HighlightedHeading';
+import Heading from '~/src/components/ui/Heading';
 
-const lines = [
-  "Visual designer",
-  "exploring the best",
-  "of traditional & digital",
-];
+const lines = ['Visual designer', 'exploring the best', 'of traditional & digital'];
 
 const staggerMs = 300;
 
@@ -42,7 +38,7 @@ export default function Hheading() {
           {l}
         </HighlightedText>
       ))}
-      <span className="sr-only">{lines.join(" ")}</span>
+      <span className="sr-only">{lines.join(' ')}</span>
     </Heading>
   );
 }

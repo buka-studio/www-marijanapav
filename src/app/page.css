@@ -18,3 +18,22 @@
 .card {
   height: 100%;
 }
+
+@media (max-width: 1246px) {
+  .cards {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto auto auto auto auto;
+    grid-template-areas:
+      'bio'
+      'work'
+      'location'
+      'pantone'
+      'photos'
+      'tools'
+      'theme'
+      'stamps'
+      'sneak'
+      'buka'
+      'current';
+  }
+}
