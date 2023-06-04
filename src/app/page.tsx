@@ -1,5 +1,8 @@
-import Button from '~/src/components/ui/Button';
 import Link from 'next/link';
+
+import Button from '~/src/components/ui/Button';
+
+import Heading from './Heading';
 import {
   BackgroundCard,
   BukaCard,
@@ -15,7 +18,7 @@ import {
 } from './components';
 import Header from './components/Header';
 import MouseVarsProvider from './components/MouseVarsProvider';
-import Heading from './Heading';
+
 import './page.css';
 
 const projectLinks = [

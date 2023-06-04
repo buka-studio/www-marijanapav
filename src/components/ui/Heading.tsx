@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef, ReactNode } from 'react';
+import { ComponentProps, ReactNode, forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type H = `h${1 | 2 | 3 | 4 | 5 | 6}`;

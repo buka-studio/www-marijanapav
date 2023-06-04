@@ -1,7 +1,9 @@
 import { Metadata } from 'next';
 import { Archivo, Inter } from 'next/font/google';
-import Footer from '~/src/app/components/Footer';
+
 import { ThemeProvider } from '~/src/app/ThemeProvider';
+import Footer from '~/src/app/components/Footer';
+
 import '../../tokens/style/global.css';
 import '../../tokens/style/theme-blue-dark.css';
 import '../../tokens/style/theme-blue-light.css';

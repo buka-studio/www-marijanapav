@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import usePrevious from "./usePrevious";
+import { useEffect, useState } from 'react';
+
+import usePrevious from './usePrevious';
 
 type ScrollValues = {
   x: number;
@@ -7,7 +8,7 @@ type ScrollValues = {
 };
 
 type ScrollState = ScrollValues & {
-  directionY: "up" | "down";
+  directionY: 'up' | 'down';
 };
 
 const listenerOptions = {
@@ -15,12 +16,12 @@ const listenerOptions = {
 };
 
 const getScrollValues = (el: HTMLElement | Window): ScrollValues => {
-  if ("scrollX" in el) {
+  if ('scrollX' in el) {
     return {
       x: el.scrollX,
       y: el.scrollY,
     };
-  } else if ("scrollLeft" in el) {
+  } else if ('scrollLeft' in el) {
     return {
       x: el.scrollLeft,
       y: el.scrollTop,
@@ -51,18 +52,18 @@ export default function useScroll(root?: HTMLElement): ScrollState {
 
     if (target) {
       updateScroll();
-      target.addEventListener("scroll", updateScroll, listenerOptions);
+      target.addEventListener('scroll', updateScroll, listenerOptions);
     }
 
     return () => {
       if (target) {
-        target.removeEventListener("scroll", updateScroll);
+        target.removeEventListener('scroll', updateScroll);
       }
     };
   }, [root]);
 
   return {
     ...scroll,
-    directionY: (prevScrollY || -1) < scroll.y ? "down" : "up",
+    directionY: (prevScrollY || -1) < scroll.y ? 'down' : 'up',
   };
 }

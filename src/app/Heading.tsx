@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+
 import HighlightedText, { Controls } from '~/src/components/HighlightedHeading';
 import Heading from '~/src/components/ui/Heading';
 

@@ -6,5 +6,5 @@ export default function Head() {
       <meta name="description" content="Marijana Šimag's personal website" />
       <link rel="icon" href="/favicon_light.ico" />
     </>
-  )
+  );
 }

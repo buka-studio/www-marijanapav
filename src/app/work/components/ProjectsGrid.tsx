@@ -1,10 +1,12 @@
 'use client';
 
-import Image from '~/src/components/ui/Image';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRef } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+
+import Image from '~/src/components/ui/Image';
+
 import { Project } from '../constants';
 import Card from './Card';
 

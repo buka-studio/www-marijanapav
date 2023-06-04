@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { forwardRef, ReactNode, useRef } from 'react';
+import { ReactNode, forwardRef, useRef } from 'react';
 
 type Props = {
   children: ReactNode;

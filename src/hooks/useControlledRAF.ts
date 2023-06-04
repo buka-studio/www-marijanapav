@@ -1,13 +1,11 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from 'react';
 
 type Controls = {
   start(): void;
   stop(): void;
 };
 
-export default function useControlledRAF(
-  callback: FrameRequestCallback
-): Controls {
+export default function useControlledRAF(callback: FrameRequestCallback): Controls {
   const raf = useRef<number | null>(null);
   const active = useRef<boolean>(false);
   const cb = useRef(callback);
@@ -35,7 +33,7 @@ export default function useControlledRAF(
         }
       },
     }),
-    []
+    [],
   );
 
   return controls;

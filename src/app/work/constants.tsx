@@ -1,5 +1,6 @@
 import { StaticImageData } from 'next/image';
 import { ReactNode } from 'react';
+
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
 import Cryptocurrency from '~/public/work/crypto/preview.png';
 import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflowers_00.jpg';
@@ -39,6 +40,7 @@ import OperaPosters03 from '~/public/work/opera-posters/posters_03.jpg';
 import OperaPostersPreview from '~/public/work/opera-posters/preview.png';
 import ProgramEndPreview from '~/public/work/program-end/preview.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
+
 import SupabaseCard from './components/SupabaseCard';
 
 export const filters = ['all', 'illustration', 'branding', 'ux-ui', 'other'] as const;

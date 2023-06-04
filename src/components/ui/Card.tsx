@@ -1,8 +1,10 @@
 'use client';
 
 import clsx from 'clsx';
-import { forwardRef, ReactNode, useRef } from 'react';
+import { ReactNode, forwardRef, useRef } from 'react';
+
 import { relativeMouseClassname } from '~/src/app/components/MouseVarsProvider';
+
 import './Card.css';
 
 type Props = {

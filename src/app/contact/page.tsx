@@ -1,34 +1,36 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ContentCopyIcon } from "~/src/components/icons";
-import Button from "~/src/components/ui/Button";
-import Header from "../components/Header";
+import { useState } from 'react';
+
+import { ContentCopyIcon } from '~/src/components/icons';
+import Button from '~/src/components/ui/Button';
+
+import Header from '../components/Header';
 
 const links = [
   {
-    label: "Instagram",
-    href: "https://www.example.com",
+    label: 'Instagram',
+    href: 'https://www.example.com',
   },
   {
-    label: "Linkedin",
-    href: "https://www.example.com",
+    label: 'Linkedin',
+    href: 'https://www.example.com',
   },
   {
-    label: "Behance",
-    href: "https://www.example.com",
+    label: 'Behance',
+    href: 'https://www.example.com',
   },
   {
-    label: "Dribbble",
-    href: "https://www.example.com",
+    label: 'Dribbble',
+    href: 'https://www.example.com',
   },
   {
-    label: "Twitter",
-    href: "https://www.example.com",
+    label: 'Twitter',
+    href: 'https://www.example.com',
   },
 ];
 
-const email = "hello@marijanasimag.com";
+const email = 'hello@marijanasimag.com';
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -56,7 +58,7 @@ export default function Contact() {
                 });
               }}
             >
-              {copied ? "Copied!" : "Copy"}
+              {copied ? 'Copied!' : 'Copy'}
             </Button>
           </div>
 

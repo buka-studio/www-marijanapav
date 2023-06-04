@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+
 import Button from '~/src/components/ui/Button';
+
 import MainHeader from '../../components/Header';
 import { Filter, filters } from '../constants';
 

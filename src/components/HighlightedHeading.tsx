@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import clsx from "clsx";
-import { ReactNode, forwardRef, useImperativeHandle, useState } from "react";
-import "./HighlightedHeading.css";
+import clsx from 'clsx';
+import { ReactNode, forwardRef, useImperativeHandle, useState } from 'react';
+
+import './HighlightedHeading.css';
 
 type Props = {
   className?: string;
@@ -16,8 +17,8 @@ export type Controls = {
 };
 
 const HighlightedText = forwardRef<Controls, Props>(function HighlightedText(
-  { children, className = "", onHighlightEnd, ...props },
-  ref
+  { children, className = '', onHighlightEnd, ...props },
+  ref,
 ) {
   const [highlighted, setHighlighted] = useState(false);
 
@@ -32,7 +33,7 @@ const HighlightedText = forwardRef<Controls, Props>(function HighlightedText(
 
   return (
     <div
-      className={clsx("highlight pb-1", className, { highlighted })}
+      className={clsx('highlight pb-1', className, { highlighted })}
       onTransitionEnd={() => {
         onHighlightEnd?.();
       }}
