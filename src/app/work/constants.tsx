@@ -55,6 +55,7 @@ export type StaticProject = {
   aspect?: number;
   assets?: StaticImageData[][];
   tags?: string[];
+  link?: string;
 };
 
 export type ComponentProject = {
@@ -92,6 +93,7 @@ export const projects: Project[] = [
     aspect: 1.5,
     assets: [[Crypto00]],
     tags: ['Adobe Illustrator', 'Procreate', '© 2021'],
+    link: 'https://infinum.com/news/cryptocurrency-transactions-made-simple-with-interledger/',
   },
   {
     type: 'project',
@@ -100,18 +102,20 @@ export const projects: Project[] = [
     preview: HighRoadsPreview,
     filters: ['illustration', 'branding'],
     description:
-      'A logo branding project for an urban fashion brand that blends class with streetwear flair. Distinctive high contrast typeface combined with bold colors as its primary brand components shows off brands unique personality.',
+      'A branding project for an urban fashion brand that blends class with streetwear flair. Distinctive high contrast typeface combined with bold colors as its primary brand components shows off brands unique personality.',
     aspect: 1,
     assets: [[HighRoads00], [HighRoads01, HighRoads02]],
     tags: ['Adobe Illustrator', '© 2020'],
   },
   {
     type: 'project',
-    title: 'Memobottle design challange',
+    title: 'Memobottle design challenge',
     slug: 'memobottle',
     preview: MemobottlePreview,
     filters: ['illustration'],
+    description: 'An illustration for the Memobottle challeng ',
     aspect: 1.5,
+    tags: ['Adobe Illustrator', '© 2021'],
     assets: [[Memobottle00]],
   },
   {
