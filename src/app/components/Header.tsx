@@ -3,8 +3,10 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { ReactNode } from 'react';
+
 import { LogoIcon } from '~/src/components/icons';
 import useScroll from '~/src/hooks/useScroll';
+
 import ThemeSwitcher from './ThemeSwitcher';
 
 const headerTriggerY = 50;
@@ -17,7 +19,7 @@ export default function Header({ children }: { children?: ReactNode }) {
       className={clsx(
         'flex justify-between py-4 px-5 z-10 sticky top-0 transition-all duration-300 rounded-br-[32px] rounded-bl-[32px] ease-in-out flex-wrap',
         {
-          ['translate-y-[-100px]']: y > headerTriggerY && directionY === 'down',
+          ['translate-y-[-120px]']: y > headerTriggerY && directionY === 'down',
           ['backdrop-blur-[6px] bg-transparent [&]']: y > headerTriggerY,
         },
       )}
