@@ -1,9 +1,16 @@
 import { notFound } from 'next/navigation';
+
+import { LinkIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
+
 import Header from '../components/Header';
-import { projects, StaticProject } from '../constants';
+import { StaticProject, projects } from '../constants';
+
+function hostname(url: string): string {
+  return new URL(url).hostname;
+}
 
 export default function Work({ params }: { params: { slug: string } }) {
   const project = projects
@@ -33,12 +40,13 @@ export default function Work({ params }: { params: { slug: string } }) {
           {project.link && (
             <Tag>
               <a
-                className="text-text-alt"
+                className="text-text-alt flex gap-2"
                 href={project.link}
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                {project.link}
+                {hostname(project.link)}
+                <LinkIcon />
               </a>
             </Tag>
           )}
