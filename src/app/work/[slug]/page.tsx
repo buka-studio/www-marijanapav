@@ -18,7 +18,7 @@ export default function Work({ params }: { params: { slug: string } }) {
     <>
       <Header />
       <div className="flex-1 py-10 px-5 [html:has(&)_footer>*:not(.nav)]:invisible">
-        <Heading className="text-5xl mb-2 text-center">{project.title}</Heading>
+        <Heading className="text-5xl mb-2 text-center max-w-xl mx-auto">{project.title}</Heading>
         <p className="max-w-lg text-center m-auto">{project.description}</p>
         {(project.tags?.length || 0) > 0 && (
           <div className="mt-10 flex justify-center gap-2">

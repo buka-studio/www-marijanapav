@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useSelectedLayoutSegment } from 'next/navigation';
 
 const links = {
-  "/work": { label: "Work", width: 70 },
-  "/": { label: "About", width: 78 },
-  "/contact": { label: "Contact", width: 92 },
+  '/work': { label: 'Work', width: 70 },
+  '/': { label: 'About', width: 78 },
+  '/contact': { label: 'Contact', width: 92 },
 };
 
 export default function Navabar() {
-  const pathSegment = `/${useSelectedLayoutSegment() || ""}`;
+  const pathSegment = `/${useSelectedLayoutSegment() || ''}`;
 
   return (
-    <nav className="flex items-center rounded-full p-[2px] gap-2 relative bg-panel-background shadow-card">
+    <nav className="flex items-center rounded-full p-1 gap-2 relative bg-panel-background shadow-card">
       {Object.entries(links).map(([path, l]) => (
         <div className="relative flex" key={l.label}>
           {pathSegment === path && (
@@ -23,7 +23,7 @@ export default function Navabar() {
               layoutId="highlight"
             />
           )}
-          <Link href={path} className="py-2 px-4 z-[1] text-text-primary">
+          <Link href={path} className="py-1 px-4 z-[1] text-text-primary">
             {l.label}
           </Link>
         </div>

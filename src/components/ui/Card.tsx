@@ -1,8 +1,8 @@
 'use client';
 
-import { relativeMouseClassname } from '~/src/app/components/MouseVarsProvider';
 import clsx from 'clsx';
 import { forwardRef, ReactNode, useRef } from 'react';
+import { relativeMouseClassname } from '~/src/app/components/MouseVarsProvider';
 import './Card.css';
 
 type Props = {
@@ -23,7 +23,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
 
   return (
     <Component
-      className={clsx('ui-card p-[1.5px] rounded-[22px] shadow-card relative', containerClassName)}
+      className={clsx('ui-card p-[1px] rounded-[22px] shadow-card relative', containerClassName)}
     >
       <div
         className={clsx(
