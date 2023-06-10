@@ -7,7 +7,6 @@ import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflow
 import ElizabethsFlowers01 from '~/public/work/elizabeths-flowers/elizabethsflowers_01.jpg';
 import ElizabethsFlowers02 from '~/public/work/elizabeths-flowers/elizabethsflowers_02.jpg';
 import ElizabethsFlowers from '~/public/work/elizabeths-flowers/preview.png';
-import DigitalStampCollection from '~/public/work/falkland/preview.png';
 import FruitStickersPreview from '~/public/work/fruit-stickers/preview.png';
 import HavgrimPreview00 from '~/public/work/havgrim/havgrim_00.png';
 import HavgrimPreview01 from '~/public/work/havgrim/havgrim_01.png';
@@ -20,6 +19,10 @@ import HighRoads02 from '~/public/work/high-roads/highroads_02.jpg';
 import HighRoadsPreview from '~/public/work/high-roads/preview.png';
 import InfinumBeer00 from '~/public/work/infinum-beer/infinumbeer_00.png';
 import InfinumBeerPreview from '~/public/work/infinum-beer/preview.png';
+import Honey00 from '~/public/work/infinum-honey/honey_00.jpg';
+import Honey01 from '~/public/work/infinum-honey/honey_01.jpg';
+import Honey02 from '~/public/work/infinum-honey/honey_02.jpg';
+import Honey03 from '~/public/work/infinum-honey/honey_03.jpg';
 import InfinumHoneyPreview from '~/public/work/infinum-honey/preview.png';
 import InfinumMerch00 from '~/public/work/infinum-merch/infinum_merch_00.jpg';
 import InfinumMerch01 from '~/public/work/infinum-merch/infinum_merch_01.jpg';
@@ -39,6 +42,14 @@ import OperaPosters02 from '~/public/work/opera-posters/posters_02.jpg';
 import OperaPosters03 from '~/public/work/opera-posters/posters_03.jpg';
 import OperaPostersPreview from '~/public/work/opera-posters/preview.png';
 import ProgramEndPreview from '~/public/work/program-end/preview.png';
+import DigitalStampCollection from '~/public/work/stamps/preview.png';
+import Stamps00 from '~/public/work/stamps/stamps_00.png';
+import Stamps01 from '~/public/work/stamps/stamps_01.png';
+import Stamps02 from '~/public/work/stamps/stamps_02.png';
+import Stamps03 from '~/public/work/stamps/stamps_03.png';
+import Stamps04 from '~/public/work/stamps/stamps_04.png';
+import Stamps05 from '~/public/work/stamps/stamps_05.png';
+import Stamps06 from '~/public/work/stamps/stamps_06.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
 
 import SupabaseCard from './components/SupabaseCard';
@@ -77,10 +88,7 @@ export const projects: Project[] = [
     preview: DigitalStampCollection,
     filters: ['illustration'],
     description: '',
-    assets: [
-      [DigitalStampCollection],
-      [DigitalStampCollection, DigitalStampCollection, DigitalStampCollection],
-    ],
+    assets: [[Stamps00], [Stamps01, Stamps01, Stamps01], [Stamps01, Stamps01, Stamps01]],
     tags: ['Adobe Illustrator', 'Procreate', '© 2022'],
     aspect: 0.7,
   },
@@ -215,14 +223,10 @@ export const projects: Project[] = [
     preview: InfinumHoneyPreview,
     filters: ['branding', 'ux-ui'],
     description:
-      'With the brand being known for its light, clean, and bold aesthetic, the merchandise was designed to reflect these qualities and use signature red color as an accent.',
+      'In the midst of a worldwide quarantine, Christmas 2020 called for a touch of sweetness to uplift spirits. We answered the call by curating a delightful three-pack of Croatian honey, as a heartfelt gift for our clients. With over 500 gifts shipped, we aimed to bring a taste of warmth and indulgence to homes during these challenging times.',
     aspect: 1,
-    assets: [
-      [InfinumMerch00],
-      [InfinumMerch01, InfinumMerch02],
-      [InfinumMerch03, InfinumMerch04, InfinumMerch05],
-    ],
-    tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2022'],
+    assets: [[Honey00], [Honey01], [Honey02, Honey03]],
+    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
     type: 'project',
