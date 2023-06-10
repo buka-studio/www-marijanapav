@@ -1,12 +1,14 @@
 'use client';
 
-import photo1 from '~/public/home/photos/photo_1.jpg';
 import clsx from 'clsx';
 import { useState } from 'react';
+
+import photo1 from '~/public/home/photos/photo_1.jpg';
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import Card from '~/src/components/ui/Card';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
+
 import './cards.css';
 
 const maxClicks = 3;
