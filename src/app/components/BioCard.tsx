@@ -9,7 +9,9 @@ import {
 import Button from '~/src/components/ui/Button';
 import Card from '~/src/components/ui/Card';
 import Image from '~/src/components/ui/Image';
+
 import PortraitSrc from '../../../public/home/me.jpg';
+
 import './cards.css';
 
 const social = [
@@ -20,7 +22,7 @@ const social = [
   { url: '5', Icon: BehanceIcon },
 ];
 
-export default function BackgroundCard() {
+export default function BioCard() {
   return (
     <Card className="p-4 flex-1 flex flex-col rounded-2xl gap-4  bg-panel-background">
       <div className="relative">

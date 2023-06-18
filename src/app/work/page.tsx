@@ -1,4 +1,5 @@
 import ProjectsGrid from '~/src/app/work/components/ProjectsGrid';
+import ViewLogger from '~/src/components/ViewCounter';
 
 import Header from './components/Header';
 import { Filter, projects } from './constants';
@@ -15,6 +16,7 @@ export default function Work({ searchParams }: { searchParams: { f?: Filter } })
   return (
     <>
       <Header filter={searchParams?.f as any} />
+      <ViewLogger pathname="/work" />
       <ProjectsGrid projects={filteredProjects} />
     </>
   );

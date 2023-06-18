@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 
+import ViewLogger from '~/src/components/ViewCounter';
 import { LinkIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
@@ -24,6 +25,7 @@ export default function Work({ params }: { params: { slug: string } }) {
   return (
     <>
       <Header />
+      {project.slug && <ViewLogger pathname={`/work/${project.slug}`} />}
       <div className="flex-1 py-10 px-5 [html:has(&)_footer>*:not(.nav)]:invisible">
         <Heading className="text-5xl mb-2 text-left max-w-xl">{project.title}</Heading>
         <p className="max-w-lg text-left">{project.description}</p>

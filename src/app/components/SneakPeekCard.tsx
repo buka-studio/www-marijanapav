@@ -1,8 +1,8 @@
 'use client';
 
 import clsx from 'clsx';
-import { useState } from 'react';
-import photo1 from '~/public/home/photos/photo_1.jpg';
+import { useEffect, useRef, useState } from 'react';
+import photo from '~/public/home/sneak_peek.png';
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import Card from '~/src/components/ui/Card';
 import Heading from '~/src/components/ui/Heading';
@@ -11,12 +11,45 @@ import './cards.css';
 
 const maxClicks = 3;
 
-export default function SneakPeekCard() {
+const submitClicks = (amount: number) => {
+  const params = new URLSearchParams([
+    ['pathname', '/#sneak-peek'],
+    ['type', 'action'],
+  ]).toString();
+
+  return fetch('/api/stats?' + params, {
+    method: 'POST',
+    body: JSON.stringify({
+      amount,
+    }),
+  });
+};
+
+export default function SneakPeekCard({ currentCount }: { currentCount: number }) {
   const [clickCount, setClickCount] = useState(0);
+  const cycleClickCount = clickCount % (maxClicks + 1);
 
-  const p = photo1;
+  const countRef = useRef(clickCount);
+  const submitted = useRef(clickCount);
 
-  const revealed = clickCount === maxClicks;
+  const revealed = cycleClickCount === maxClicks;
+
+  useEffect(() => {
+    countRef.current = clickCount;
+    if (revealed) {
+      submitClicks(clickCount - submitted.current).then(() => {
+        submitted.current = clickCount;
+      });
+    }
+  }, [revealed, clickCount]);
+
+  useEffect(() => {
+    return () => {
+      if (countRef.current > submitted.current) {
+        submitClicks(countRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Card className="flex flex-col">
@@ -33,19 +66,21 @@ export default function SneakPeekCard() {
           className="progress-bar absolute bg-main-theme-2 rounded-full h-full min-w-[130px] transition-all duration-300"
           style={
             {
-              width: `calc(130px + ((100% - 130px) / ${maxClicks}) * ${clickCount})`,
+              width: `calc(130px + ((100% - 130px) / ${maxClicks}) * ${Math.min(
+                cycleClickCount,
+                maxClicks,
+              )})`,
             } as React.CSSProperties
           }
         />
         <button
           className="bg-main-theme-2 rounded-full flex items-center gap-2 relative py-[4px] px-2 text-sm w-[130px]"
-          disabled={clickCount >= maxClicks + 1}
           onClick={() => {
-            setClickCount((c) => (c + 1) % (maxClicks + 1));
+            setClickCount((c) => c + 1);
           }}
         >
           {revealed ? <EyeIcon className="w-5 h-5" /> : <EyeOffIcon className="w-5 h-5" />}
-          Click to {clickCount < maxClicks ? 'see' : 'hide'}
+          Click to {revealed ? 'hide' : 'see'}
         </button>
         <span
           className={clsx(
@@ -56,16 +91,22 @@ export default function SneakPeekCard() {
             },
           )}
         >
-          1231 clicks
+          {currentCount + clickCount} clicks
         </span>
       </div>
 
       <div className="w-full min-h-[284px] relative rounded-xl overflow-hidden">
-        <Image src={p.src} alt={''} key={p.src} fill className="object-cover object-center" />
+        <Image
+          src={photo.src}
+          alt={''}
+          key={photo.src}
+          fill
+          className="object-cover object-center"
+        />
         <div
           className="cover bg-main-theme-2 absolute left-0 top-0 w-full h-full transition-all duration-300"
           style={{
-            opacity: 1 - (1 / maxClicks) * clickCount,
+            opacity: revealed ? 0 : 1,
           }}
         />
       </div>
