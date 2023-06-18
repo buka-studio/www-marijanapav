@@ -1,6 +1,5 @@
 import { StaticImageData } from 'next/image';
 import { ReactNode } from 'react';
-
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
 import Cryptocurrency from '~/public/work/crypto/preview.png';
 import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflowers_00.jpg';
@@ -35,6 +34,7 @@ import InfinumPostersPreview from '~/public/work/infinum-posters/preview.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
 import Memobottle00 from '~/public/work/memobottle/memobottle_00.jpg';
 import MemobottlePreview from '~/public/work/memobottle/preview.png';
+import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.jpg';
 import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
 import OperaPosters00 from '~/public/work/opera-posters/posters_00.jpg';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.jpg';
@@ -50,8 +50,9 @@ import Stamps03 from '~/public/work/stamps/stamps_03.png';
 import Stamps04 from '~/public/work/stamps/stamps_04.png';
 import Stamps05 from '~/public/work/stamps/stamps_05.png';
 import Stamps06 from '~/public/work/stamps/stamps_06.png';
+import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
-
+import { InstagramIcon } from '~/src/components/icons';
 import SupabaseCard from './components/SupabaseCard';
 
 export const filters = ['all', 'illustration', 'branding', 'ux-ui', 'other'] as const;
@@ -69,6 +70,7 @@ export type StaticProject = {
   assets?: StaticImageData[][];
   tags?: string[];
   link?: string;
+  assetsStretch?: boolean;
 };
 
 export type ComponentProject = {
@@ -87,10 +89,18 @@ export const projects: Project[] = [
     slug: 'stamp-collection',
     preview: DigitalStampCollection,
     filters: ['illustration'],
-    description: '',
-    assets: [[Stamps00], [Stamps01, Stamps01, Stamps01], [Stamps01, Stamps01, Stamps01]],
+    description:
+      "Digital Stamp Collection is my personal project of digitally recreating my grandpa's stamps. It's an homage to his journey, now brought online. Inspired by my family's stamp collection, I started my own philately collection, but in a digital format. With over 100 stamps created and three distinct styles explored, I continue to push boundaries. Stay tuned for updates on this project at marijanasimag.com/stamps-showoff.",
+    assets: [
+      [Stamps00],
+      [Stamps01, Stamps02, Stamps03],
+      [Stamps04, Stamps05, Stamps06],
+      [Stamps07],
+    ],
     tags: ['Adobe Illustrator', 'Procreate', '© 2022'],
+    link: 'https://instagram.com/marijanasimag.design',
     aspect: 0.7,
+    assetsStretch: true,
   },
   {
     type: 'project',
@@ -102,7 +112,7 @@ export const projects: Project[] = [
       'Cover illustration for Infinum, a software development agency, and the blog post discussing the challenges of using cryptocurrencies and Interledger — an open protocol suite developed with the intention of making payments work as easy as email.',
     aspect: 1.5,
     assets: [[Crypto00]],
-    tags: ['Adobe Illustrator', 'Procreate', '© 2021'],
+    tags: ['Adobe Illustrator', 'Procreate', '© 2020'],
     link: 'https://infinum.com/news/cryptocurrency-transactions-made-simple-with-interledger/',
   },
   {
@@ -123,10 +133,12 @@ export const projects: Project[] = [
     slug: 'memobottle',
     preview: MemobottlePreview,
     filters: ['illustration'],
-    description: 'An illustration for the Memobottle challeng ',
+    description:
+      'An illustration for a challenge presented by Memobottle, known for its unique paper-inspired design that allows the bottles to sit flat against laptops, books, and any other item you might carry. The challenge called artists to showcase their creativity by sketching, shooting, or freestyling the Memobottle in various environments. For my submission, I decided to add a playful twist, featuring their A5 and Slim memobottle floating in a the pool.',
     aspect: 1.5,
     tags: ['Adobe Illustrator', '© 2021'],
     assets: [[Memobottle00]],
+    link: 'https://www.instagram.com/explore/tags/memoart21/',
   },
   {
     type: 'project',
@@ -148,14 +160,10 @@ export const projects: Project[] = [
     preview: MemoriesPosterPreview,
     filters: ['branding', 'ux-ui'],
     description:
-      'With the brand being known for its light, clean, and bold aesthetic, the merchandise was designed to reflect these qualities and use signature red color as an accent.',
+      'I collected tons of tickets, stickers, papers, and generally memories that I shared with my fiance over the last 9 years. These are some of them but made digital. If you think ZET ticket is a bit random, wait till I recreate part 2. Bonus pic — Dora for scale.',
     aspect: 0.75,
-    assets: [
-      [InfinumMerch00],
-      [InfinumMerch01, InfinumMerch02],
-      [InfinumMerch03, InfinumMerch04, InfinumMerch05],
-    ],
-    tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2022'],
+    assets: [[MemoriesPoster00]],
+    tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
   },
   {
     type: 'project',
@@ -218,7 +226,7 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
-    title: 'Infinum Honey',
+    title: 'Packaging for Croatian honey collection ',
     slug: 'infinum-honey',
     preview: InfinumHoneyPreview,
     filters: ['branding', 'ux-ui'],
@@ -247,7 +255,7 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
-    title: 'Elizabeths Flowers',
+    title: 'Elizabeth’s Flowers Floral Studio Logo',
     slug: 'elizabeths-flowers',
     preview: ElizabethsFlowers,
     filters: ['branding'],
