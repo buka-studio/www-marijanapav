@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import ViewLogger from '~/src/components/ViewCounter';
 import { ContentCopyIcon } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
 
@@ -38,6 +39,7 @@ export default function Contact() {
   return (
     <>
       <Header />
+      <ViewLogger pathname="/contact" />
       <main className="flex flex-col h-[calc(100vh-65px-125px)] py-8 px-11 flex-1">
         <div className="items-center flex-1 justify-center flex flex-col text-text-primary">
           <h1>Say hi or talk future projects</h1>

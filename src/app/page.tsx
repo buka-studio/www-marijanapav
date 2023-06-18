@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 import Button from '~/src/components/ui/Button';
 
-import Heading from './Heading';
+import ViewLogger from '../components/ViewCounter';
 import {
-  BackgroundCard,
+  BioCard,
   BukaCard,
   CurrentCard,
   ExperienceCard,
@@ -17,6 +17,7 @@ import {
   ToolsCard,
 } from './components';
 import Header from './components/Header';
+import Heading from './components/Heading';
 import MouseVarsProvider from './components/MouseVarsProvider';
 
 import './page.css';
@@ -29,7 +30,7 @@ const projectLinks = [
 ];
 
 const cards = [
-  { label: 'bio', Component: BackgroundCard },
+  { label: 'bio', Component: BioCard },
   { label: 'work', Component: ExperienceCard },
   { label: 'location', Component: LocationCard },
   { label: 'pantone', Component: PantoneCard },
@@ -42,10 +43,30 @@ const cards = [
   { label: 'stamps', Component: StampsCard },
 ];
 
-export default function Home() {
+const fetchSneakPeekCount = () =>
+  fetch(
+    process.env.NEXT_PUBLIC_HOST +
+      '/api/stats?' +
+      new URLSearchParams([
+        ['pathname', '/#sneak-peek'],
+        ['type', 'action'],
+      ]),
+    { cache: 'no-store' },
+  )
+    .then((res) => res.json())
+    .then((res) => res.count)
+    .catch((e) => {
+      console.error(e);
+      return 0;
+    });
+
+export default async function Home() {
+  const currentCount = await fetchSneakPeekCount();
+
   return (
     <>
       <Header />
+      <ViewLogger pathname="/" />
       <div className="fixed glow h-[400px] w-[400px] blur-3xl rounded-full pointer-events-none" />
       <div className="flex flex-col px-5 py-12">
         <main className="pb-[100px]">
@@ -66,7 +87,7 @@ export default function Home() {
             <div className="cards">
               {cards.map(({ label, Component }, i) => (
                 <div key={i} style={{ gridArea: label }}>
-                  <Component />
+                  <Component currentCount={currentCount} />
                 </div>
               ))}
             </div>
