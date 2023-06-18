@@ -2,13 +2,11 @@
 
 import clsx from 'clsx';
 import { useState } from 'react';
-
 import photo1 from '~/public/home/photos/photo_1.jpg';
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import Card from '~/src/components/ui/Card';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
-
 import './cards.css';
 
 const maxClicks = 3;
@@ -22,7 +20,7 @@ export default function SneakPeekCard() {
 
   return (
     <Card className="flex flex-col">
-      <div className="mb-2 text-text-secondary">What I&apos;m working on ATM</div>
+      <div className="mb-2 text-text-secondary">What I&apos;m working on atm</div>
       <div className="flex items-start justify-between mb-[120px]">
         <Heading as="h1" className="text-primary text-6xl">
           Sneak
@@ -30,7 +28,7 @@ export default function SneakPeekCard() {
           peek
         </Heading>
       </div>
-      <div className="progress relative mb-2 rounded-full bg-main-theme-3 pr-2">
+      <div className="progress relative mb-2 rounded-full bg-main-theme-overlay pr-2">
         <div
           className="progress-bar absolute bg-main-theme-2 rounded-full h-full min-w-[130px] transition-all duration-300"
           style={

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ComponentProps, ReactNode, forwardRef } from 'react';
+import { ComponentProps, forwardRef, ReactNode } from 'react';
 
 type Props = {
   children?: ReactNode;

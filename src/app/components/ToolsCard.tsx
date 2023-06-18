@@ -1,13 +1,15 @@
 import Card from '~/src/components/ui/Card';
 
 const tools = [
+  'Affinity Designer',
   'Figma',
   'Procreate',
-  'Affinity Designer',
   'Illustrator',
   'InDesign',
+  'Tokens Studio',
+  'Photoshop',
   'Pitch',
-  'AfterEffects',
+  'Notion',
 ];
 
 export default function ToolsCard() {
@@ -26,9 +28,10 @@ export default function ToolsCard() {
           <div className="[background:var(--panel-blend-layer)] h-[100px] w-full bottom-[-1px] absolute rotate-180" />
         </div>
         <p className="leading-7 text-text-secondary">
-          In today&apos;s ever-evolving design industry I enjoy exploring new ways to expand my
-          toolkit. From industry standards like Adobe Creative Suite, to the latest tools on the
-          market like MidJourney.
+          I started in print, and gradually turned to digital—meaning over the years my go-to
+          companion software switched from Illustrator, to InDesign, Procreate, Sketch, Figma. I
+          enjoyed exploring each from the stack, but if I&apos;d have to choose top two it would be
+          Illustrator and Figma.
         </p>
       </div>
     </Card>
