@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { Archivo, Inter } from 'next/font/google';
 
-import { ThemeProvider } from '~/src/app/ThemeProvider';
-import Footer from '~/src/app/components/Footer';
+import Footer from './components/Footer';
+import { ThemeProvider } from './components/ThemeProvider';
 
 import '../../tokens/style/global.css';
 import '../../tokens/style/theme-blue-dark.css';
@@ -33,8 +33,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body className={`${inter.variable} ${archivo.variable} font-sans`}>
+        <div id="top" />
         <ThemeProvider>
           <div className="main bg-main-background">
             <div className="max-w-screen-2xl m-auto min-h-screen flex flex-col">

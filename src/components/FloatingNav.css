@@ -1,0 +1,11 @@
+.anchor-top::before {
+  content: '';
+  position: absolute;
+  width: 5rem;
+  background-color: var(--panel-background);
+  height: 2.5rem;
+  border-radius: 50px;
+  right: -0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
