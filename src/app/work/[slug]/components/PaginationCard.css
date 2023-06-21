@@ -1,0 +1,19 @@
+.left .relative-mouse {
+  mask-image: linear-gradient(90deg, transparent, black);
+}
+
+.right .relative-mouse {
+  mask-image: linear-gradient(270deg, transparent, black);
+}
+
+@media (hover: hover) {
+  .left .relative-mouse,
+  .right .relative-mouse {
+    mask-image: radial-gradient(
+      180px 180px at var(--mouse-x, 9999px) var(--mouse-y, 9999px),
+      black,
+      transparent
+    );
+    transition: opacity 0.5s;
+  }
+}

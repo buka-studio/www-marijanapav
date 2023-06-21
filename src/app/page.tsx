@@ -64,7 +64,7 @@ export default async function Home() {
   const currentCount = await fetchSneakPeekCount();
 
   return (
-    <>
+    <div>
       <Header />
       <ViewLogger pathname="/" />
       <div className="fixed glow h-[400px] w-[400px] blur-3xl rounded-full pointer-events-none" />
@@ -94,6 +94,6 @@ export default async function Home() {
           </MouseVarsProvider>
         </main>
       </div>
-    </>
+    </div>
   );
 }

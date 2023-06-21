@@ -45,8 +45,8 @@ export default function Navabar() {
           </Link>
         ))}
       </nav>
-      <a
-        href="#top"
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Sroll to top"
         className={clsx(
           'anchor-top absolute top-1/2 -translate-y-1/2  rounded-full transition-all duration-300 ',
@@ -59,7 +59,7 @@ export default function Navabar() {
         <span className="bg-main-theme-3 h-[2rem] w-[2rem] flex justify-end items-center z-[1] rounded-full px-2 relative">
           <ArrowRightIcon className="w-6 h-6 -rotate-90" />
         </span>
-      </a>
+      </button>
     </>
   );
 }

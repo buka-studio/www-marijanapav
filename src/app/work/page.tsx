@@ -14,10 +14,10 @@ export default function Work({ searchParams }: { searchParams: { f?: Filter } })
   });
 
   return (
-    <>
+    <div>
       <Header filter={searchParams?.f as any} />
       <ViewLogger pathname="/work" />
       <ProjectsGrid projects={filteredProjects} />
-    </>
+    </div>
   );
 }

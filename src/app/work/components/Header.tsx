@@ -24,6 +24,9 @@ export default function Header({ filter }: { filter?: Filter }) {
               as="a"
               variant={f === filter ? 'secondary' : 'primary'}
               className="text-xs md:text-sm"
+              onClick={() => {
+                window.scrollTo({ top: 0 });
+              }}
             >
               {getFilterLabel(f)}
             </Button>

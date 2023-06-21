@@ -64,7 +64,7 @@ export default function ProjectsGrid({ projects }: Props) {
                     ref={(e) => {
                       cardRefs.current.set(i, e!);
                     }}
-                    containerClassName="h-full w-full "
+                    containerClassName="h-full w-full"
                     className="h-full w-full overflow-hidden"
                   >
                     <div className="overflow-hidden rounded-lg w-full h-full group-hover:translate-y-[calc(var(--title-height)*-1px)] transition-all duration-300 translate-y-0">
