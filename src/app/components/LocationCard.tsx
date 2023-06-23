@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import Card from '~/src/components/ui/Card';
 import Heading from '~/src/components/ui/Heading';
+import Card from './Card';
 import './cards.css';
 
 dayjs.extend(utc);

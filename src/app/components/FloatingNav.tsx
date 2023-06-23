@@ -3,12 +3,9 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
-
-import useScroll from '../hooks/useScroll';
-
+import useScroll from '../../hooks/useScroll';
 import './FloatingNav.css';
-
-import { ArrowRightIcon } from './icons';
+import { ArrowRightIcon } from '../../components/icons';
 
 const links = {
   '/work': { label: 'Work', width: 4.5 },

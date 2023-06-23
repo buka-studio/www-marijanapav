@@ -1,48 +1,14 @@
 'use client';
 
-import { ResetIcon } from '~/src/components/icons';
-import Card from '~/src/components/ui/Card';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { ResetIcon } from '~/src/components/icons';
 import Grid from '../../../public/home/Grid.svg';
+import Card from './Card';
+import useColorTheme, { colorThemes } from './useColorTheme';
 
-const coloredThemes = ['red', 'green', 'blue'] as const;
-
-type ColoredTheme = (typeof coloredThemes)[number];
-
-function getMainEl() {
-  return document.querySelector('.main');
-}
-function getThemeClassnames() {
-  return Array.from(getMainEl()?.classList.values()!).filter((c) => c.startsWith('theme-'));
-}
-
-function removeColoredTheme() {
-  const mainEl = getMainEl();
-  const themes = getThemeClassnames();
-  for (const t of themes) {
-    mainEl?.classList.remove(t);
-  }
-}
-
-export default function ThemeCard() {
-  const [coloredTheme, setColoredTheme] = useState<ColoredTheme | undefined>(undefined);
-  const { resolvedTheme } = useTheme();
-
-  useEffect(() => {
-    removeColoredTheme();
-
-    const mainEl = getMainEl();
-    if (coloredTheme) {
-      mainEl?.classList.add(`theme-${coloredTheme}-${resolvedTheme}`);
-    }
-
-    return () => {
-      removeColoredTheme();
-    };
-  }, [coloredTheme, resolvedTheme]);
+export default function ColorThemeCard() {
+  const { colorTheme, removeColorTheme, setColorTheme } = useColorTheme();
 
   return (
     <Card>
@@ -52,12 +18,12 @@ export default function ThemeCard() {
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
             <div className="p-[1px] [background:var(--panel-border)] rounded-full">
               <div className="relative flex gap-5 rounded-full py-2 px-3 bg-panel-background shadow-card">
-                {coloredThemes.map((t, i) => {
-                  const isActive = t === coloredTheme;
+                {colorThemes.map((t, i) => {
+                  const isActive = t === colorTheme;
                   return (
                     <button
                       key={t}
-                      onClick={() => setColoredTheme(t)}
+                      onClick={() => setColorTheme(t)}
                       className={clsx('flex items-center')}
                     >
                       <div
@@ -87,13 +53,8 @@ export default function ThemeCard() {
         </div>
         <div className="flex justify-between">
           <p className="text-text-secondary">Bring back grayscale</p>
-          <button
-            aria-label="Reset colored theme"
-            onClick={() => {
-              setColoredTheme(undefined);
-            }}
-          >
-            <ResetIcon className="text-text-alt" />
+          <button aria-label="Reset colored theme" onClick={removeColorTheme}>
+            <ResetIcon className="text-text-secondary" />
           </button>
         </div>
       </div>

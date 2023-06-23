@@ -4,6 +4,7 @@ import { ReactNode, useEffect } from 'react';
 
 export const relativeMouseClassname = 'relative-mouse';
 
+// note: any other way to do this w/o creating a component for client boundary?
 export default function MouseVarsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const handler = ({ clientX, clientY }: MouseEvent) => {

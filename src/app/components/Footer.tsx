@@ -1,6 +1,6 @@
-import { LettersIcon } from '~/src/components/icons';
 import { ReactNode } from 'react';
-import FloatingNav from '../../components/FloatingNav';
+import { LettersIcon } from '~/src/components/icons';
+import FloatingNav from './FloatingNav';
 
 export default function Footer({ children }: { children?: ReactNode }) {
   return (

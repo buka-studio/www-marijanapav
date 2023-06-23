@@ -2,13 +2,10 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-
 import { Theme } from '~/src/app/constants';
 import ClientRendered from '~/src/components/ClientRendered';
-import Card from '~/src/components/ui/Card';
-
 import { InfoIcon } from '../../components/icons';
-
+import Card from './Card';
 import './PantoneCard.css';
 
 type Pantone = {
@@ -59,7 +56,7 @@ export default function PantoneCard() {
             </ClientRendered>
           </p>
           <button aria-describedby="pantone-tooltip">
-            <InfoIcon className="text-text-alt" />
+            <InfoIcon className="text-text-secondary" />
             <div role="tooltip" id="pantone-tooltip">
               Note: These Pantone color names are entirely fictional.
             </div>

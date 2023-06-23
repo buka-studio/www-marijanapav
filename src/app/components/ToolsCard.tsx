@@ -1,4 +1,4 @@
-import Card from '~/src/components/ui/Card';
+import Card from './Card';
 
 const tools = [
   'Affinity Designer',

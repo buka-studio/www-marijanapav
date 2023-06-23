@@ -1,6 +1,6 @@
-import Card from '~/src/components/ui/Card';
 import Heading from '~/src/components/ui/Heading';
 import Tag from '~/src/components/ui/Tag';
+import Card from './Card';
 
 const positions = [
   {

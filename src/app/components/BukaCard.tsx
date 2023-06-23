@@ -1,6 +1,6 @@
 import { BukaIcon, LinkIcon } from '~/src/components/icons';
-import Card from '~/src/components/ui/Card';
 import Heading from '~/src/components/ui/Heading';
+import Card from './Card';
 
 export default function BukaCard() {
   return (

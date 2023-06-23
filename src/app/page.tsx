@@ -1,11 +1,10 @@
 import Link from 'next/link';
-
 import Button from '~/src/components/ui/Button';
-
 import ViewLogger from '../components/ViewCounter';
 import {
   BioCard,
   BukaCard,
+  ColorThemeCard,
   CurrentCard,
   ExperienceCard,
   LocationCard,
@@ -13,13 +12,11 @@ import {
   PhotosCard,
   SneakPeekCard,
   StampsCard,
-  ThemeCard,
   ToolsCard,
 } from './components';
 import Header from './components/Header';
 import Heading from './components/Heading';
 import MouseVarsProvider from './components/MouseVarsProvider';
-
 import './page.css';
 
 const projectLinks = [
@@ -34,7 +31,7 @@ const cards = [
   { label: 'work', Component: ExperienceCard },
   { label: 'location', Component: LocationCard },
   { label: 'pantone', Component: PantoneCard },
-  { label: 'theme', Component: ThemeCard },
+  { label: 'theme', Component: ColorThemeCard },
   { label: 'sneak', Component: SneakPeekCard },
   { label: 'photos', Component: PhotosCard },
   { label: 'buka', Component: BukaCard },

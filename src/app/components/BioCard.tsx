@@ -7,11 +7,9 @@ import {
   TwitterIcon,
 } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
-import Card from '~/src/components/ui/Card';
 import Image from '~/src/components/ui/Image';
-
 import PortraitSrc from '../../../public/home/me.jpg';
-
+import Card from './Card';
 import './cards.css';
 
 const social = [
