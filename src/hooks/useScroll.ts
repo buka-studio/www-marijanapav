@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import usePrevious from './usePrevious';
 
 type ScrollValues = {
@@ -33,12 +32,6 @@ const getScrollValues = (el: HTMLElement | Window): ScrollValues => {
   };
 };
 
-/**
- * Custom hook for getting `Window` or target element scroll state
- *
- * @param ref Optional target element
- * @returns `x` and `y` scroll offsets & scroll direction
- */
 export default function useScroll(root?: HTMLElement): ScrollState {
   const [scroll, setScroll] = useState({ x: 0, y: 0 });
   const prevScrollY = usePrevious(scroll.y);
