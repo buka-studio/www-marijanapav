@@ -6,6 +6,8 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 
 import './cards.css';
 
+import useResizeRef from '~/src/hooks/useResizeRef';
+
 import useColorTheme from './useColorTheme';
 
 const lerpFactor = 5;
@@ -13,16 +15,7 @@ const rafFPS = 8;
 const factor = 10;
 const pixelSize = 50;
 
-type Pixel = {
-  step: number;
-};
-
-type LerpPixel = {
-  colorSteps: string[];
-};
-
-type Pixels = Array<Array<Pixel>>;
-type LerpPixels = Array<Array<LerpPixel>>;
+type Pixels = Array<Array<number>>;
 
 function addAlphaToHex(hex: string, alpha: number) {
   const hexAlpha = Math.round(alpha * 255).toString(16);
@@ -32,7 +25,7 @@ function addAlphaToHex(hex: string, alpha: number) {
 function getStepColors() {
   const root = document.querySelector('.main')!;
   const styles = getComputedStyle(root);
-  const alphas = [1, 1, 0.4, 0.2, 0.1];
+  const alphas = [1, 0.6, 0.4, 0.2, 0.1];
 
   const colors = [
     styles.getPropertyValue('--main-theme-1'),
@@ -83,6 +76,10 @@ function shuffleInPlace<T>(arr: T[]): T[] {
   return arr;
 }
 
+function shuffle<T>(arr: T[]): T[] {
+  return shuffleInPlace([...arr]);
+}
+
 function pickRandomIndices(arr: number[], amount: number): number[] {
   if (arr.length <= amount) return arr;
 
@@ -97,43 +94,23 @@ function pickRandomIndices(arr: number[], amount: number): number[] {
 }
 
 function advancePixels(pixels: Pixels, steps: number, maxStep: number) {
-  const newPerStep = pixels[0].length / (maxStep - 3);
+  let wipPixels = structuredClone(pixels);
 
-  for (const row of pixels) {
-    const uninit = row.filter((pixel) => pixel.step === 0).map((_, i) => i);
+  const newPerStep = wipPixels[0].length / (maxStep - 3);
+
+  for (let r = 0; r < wipPixels.length; r++) {
+    let row = wipPixels[r];
+    const uninit = row.filter((pixel) => pixel === 0).map((_, i) => i);
     const newlyInitIndices = pickRandomIndices(uninit, newPerStep);
     for (let c = 0; c < row.length; c++) {
-      if (newlyInitIndices.includes(c) || row[c].step > 0) {
-        row[c].step += steps % maxStep;
+      if (newlyInitIndices.includes(c) || row[c] > 0) {
+        row[c] += steps % maxStep;
       }
     }
-    shuffleInPlace(row);
-  }
-}
-
-function lerpPixelColor(from: Pixels, to: Pixels) {
-  const transitions: LerpPixels = [];
-  const colors = getStepColors();
-
-  for (let r = 0; r < from.length; r++) {
-    const row: LerpPixel[] = [];
-    for (let c = 0; c < from[r].length; c++) {
-      const colorSteps = [];
-
-      for (let i = 0; i < lerpFactor; i++) {
-        const colorFrom = colors[from[r][c].step];
-        const colorTo = colors[to[r][c].step];
-
-        const step = lerpColor(colorFrom, colorTo, i / lerpFactor);
-
-        colorSteps.push(step);
-      }
-      row.push({ colorSteps });
-    }
-    transitions.push(row);
+    wipPixels[r] = shuffle(row);
   }
 
-  return transitions;
+  return wipPixels;
 }
 
 export default function PixelatedReveal({ step, maxSteps }: { step: number; maxSteps: number }) {
@@ -160,9 +137,7 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     for (let c = 0; c < cols; c++) {
       const row = [];
       for (let r = 0; r < rows; r++) {
-        row.push({
-          step: 0,
-        });
+        row.push(0);
       }
       pixels.push(row);
     }
@@ -170,27 +145,15 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     pixelsRef.current = pixels;
   }
 
-  useLayoutEffect(() => {
-    const canvas = canvasRef.current!;
-    if (!canvas) return;
-
-    if (canvas.parentElement!.clientWidth < canvas.parentElement!.clientHeight) {
-      canvas.style.height = '100%';
-    } else {
-      canvas.style.width = '100%';
-    }
-  }, []);
-
   const currRaf = useRef<ReturnType<typeof requestAnimationFrame>>();
-
-  function rafNTimes(callback: () => void, n: number, fps: number) {
+  function rafNTimes(callback: (currN: number) => void, n: number, fps: number) {
     let currN = 0;
     let lastFrameTime = 0;
 
     function loop(time: number) {
       const delta = time - lastFrameTime;
       if (delta > 1000 / fps) {
-        callback();
+        callback(currN);
         currN++;
         lastFrameTime = time;
       }
@@ -203,107 +166,107 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     currRaf.current = requestAnimationFrame(loop);
   }
 
-  function drawLerpPixels(pixels: LerpPixels, canvas: HTMLCanvasElement) {
+  function drawPixels(pixels: Pixels, canvas: HTMLCanvasElement) {
+    const colors = getStepColors();
+
     const rowOffset = (canvas.clientWidth * factor) / pixelSize;
     const colOffset = (canvas.clientHeight * factor) / pixelSize;
+
     const ctx = canvas.getContext('2d')!;
 
-    let step = 0;
+    for (let r = 0; r < pixels.length; r++) {
+      for (let c = 0; c < pixels[r].length; c++) {
+        ctx.clearRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
+        const color = colors[pixels[r][c]];
+        ctx.fillStyle = color;
+        ctx.fillRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
+      }
+    }
+  }
 
+  function drawPixelsTransition(from: Pixels, to: Pixels, canvas: HTMLCanvasElement) {
     rafNTimes(
-      () => {
-        for (let r = 0; r < pixels.length; r++) {
-          for (let c = 0; c < pixels[r].length; c++) {
+      (step) => {
+        const colors = getStepColors();
+
+        const rowOffset = (canvas.clientWidth * factor) / pixelSize;
+        const colOffset = (canvas.clientHeight * factor) / pixelSize;
+
+        const ctx = canvas.getContext('2d')!;
+
+        for (let r = 0; r < from.length; r++) {
+          for (let c = 0; c < from[r].length; c++) {
             ctx.clearRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
-            const color = pixels[r][c].colorSteps[step];
+            const color = lerpColor(colors[from[r][c]], colors[to[r][c]], step / lerpFactor);
             ctx.fillStyle = color;
             ctx.fillRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
           }
         }
-        step++;
       },
       lerpFactor,
       rafFPS,
     );
   }
 
-  // todo: use useEffectEvent
-  function redraw(from: number, steps: number) {
+  const { ref, dimensions } = useResizeRef<HTMLDivElement>();
+
+  useLayoutEffect(() => {
     const canvas = canvasRef.current!;
-    if (!canvas) return;
 
-    const ctx = canvas.getContext('2d')!;
-    const colors = getStepColors();
-
-    if (from === 0) {
-      initPixels();
-
-      ctx.fillStyle = colors[0];
-      ctx.fillRect(0, 0, canvas.clientWidth * factor, canvas.clientHeight * factor);
-    } else {
-      const oldPixels = structuredClone(pixelsRef.current);
-
-      advancePixels(pixelsRef.current, steps, maxSteps);
-
-      const lerpPixels = lerpPixelColor(oldPixels, pixelsRef.current);
-
-      cancelAnimationFrame(currRaf.current!);
-      drawLerpPixels(lerpPixels, canvas);
+    if (dimensions.width === 0 || dimensions.height === 0) {
+      return;
     }
-  }
+    if (!canvas) {
+      return;
+    }
+
+    canvas.style.width = '';
+    canvas.style.height = '';
+    if (dimensions.width < dimensions.height) {
+      canvas.style.height = '100%';
+    } else {
+      canvas.style.width = '100%';
+    }
+    initPixels();
+
+    const newPixels = advancePixels(pixelsRef.current, step, maxSteps);
+    drawPixels(newPixels, canvas);
+
+    pixelsRef.current = newPixels;
+  }, [dimensions.width, dimensions.height]);
 
   useEffect(() => {
-    redraw(step, 1);
-  }, [step, maxSteps]);
+    const canvas = canvasRef.current!;
+    if (!(canvas && pixelsRef.current?.length)) {
+      return;
+    }
 
-  useEffect(() => {
-    redraw(step, 0);
-  }, [step, colorTheme, resolvedTheme]);
+    if (step === 0) {
+      initPixels();
+      drawPixels(pixelsRef.current, canvas);
+      return;
+    }
 
-  useEffect(() => {
-    const resizeHandler = () => {
-      const canvas = canvasRef.current!;
-      if (!canvas) return;
+    let newPixels = advancePixels(pixelsRef.current, 1, maxSteps);
+    cancelAnimationFrame(currRaf.current!);
+    drawPixelsTransition(pixelsRef.current, newPixels, canvas);
 
-      canvas.style.width = '';
-      canvas.style.height = '';
-      if (canvas.parentElement!.clientWidth < canvas.parentElement!.clientHeight) {
-        canvas.style.height = '100%';
-      } else {
-        canvas.style.width = '100%';
-      }
-
-      const ctx = canvas.getContext('2d')!;
-      const colors = getStepColors();
-
-      if (step === 0) {
-        initPixels();
-
-        ctx.fillStyle = colors[0];
-        ctx.fillRect(0, 0, canvas.clientWidth * factor, canvas.clientHeight * factor);
-      } else {
-        initPixels();
-
-        const oldPixels = structuredClone(pixelsRef.current);
-
-        advancePixels(pixelsRef.current, step, maxSteps);
-
-        const lerpPixels = lerpPixelColor(oldPixels, pixelsRef.current);
-
-        cancelAnimationFrame(currRaf.current!);
-        drawLerpPixels(lerpPixels, canvas);
-      }
-    };
-    window.addEventListener('resize', resizeHandler);
-    return () => {
-      window.removeEventListener('resize', resizeHandler);
-    };
+    pixelsRef.current = newPixels;
   }, [step]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current!;
+
+    if (!canvas) {
+      return;
+    }
+    drawPixels(pixelsRef.current, canvas);
+  }, [colorTheme, resolvedTheme]);
 
   const revealed = step === maxSteps;
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full" ref={ref}>
       <canvas
         ref={canvasRef}
         className={clsx(

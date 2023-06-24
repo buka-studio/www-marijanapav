@@ -3,11 +3,11 @@
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
-import photo from '~/public/home/sneak_peek.png';
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 
+import SneakPeekPhoto from '../../../public/home/sneak_peek.png';
 import Card from './Card';
 import PixelatedReveal from './PixelatedReveal';
 
@@ -101,10 +101,11 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
 
       <div className="w-full min-h-[284px] relative rounded-xl overflow-hidden">
         <Image
-          src={photo.src}
-          alt={''}
-          key={photo.src}
+          src={SneakPeekPhoto}
+          // todo: better alt text
+          alt="A sneak peek of my current project"
           fill
+          placeholder="blur"
           className={clsx('object-cover object-center transition-all duration-300', {
             'grayscale-0 blur-0': revealed,
             'grayscale blur-sm': !revealed,
