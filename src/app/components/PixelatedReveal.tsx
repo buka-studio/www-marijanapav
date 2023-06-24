@@ -166,19 +166,20 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     currRaf.current = requestAnimationFrame(loop);
   }
 
-  function drawPixels(pixels: Pixels, canvas: HTMLCanvasElement) {
-    const colors = getStepColors();
-
-    const rowOffset = (canvas.clientWidth * factor) / pixelSize;
-    const colOffset = (canvas.clientHeight * factor) / pixelSize;
+  function drawPixels(
+    pixels: Pixels,
+    canvas: HTMLCanvasElement,
+    getColor?: (r: number, c: number) => string,
+  ) {
+    const rowOffset = Math.floor((canvas.clientWidth * factor) / pixelSize);
+    const colOffset = Math.floor((canvas.clientHeight * factor) / pixelSize);
 
     const ctx = canvas.getContext('2d')!;
 
     for (let r = 0; r < pixels.length; r++) {
       for (let c = 0; c < pixels[r].length; c++) {
         ctx.clearRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
-        const color = colors[pixels[r][c]];
-        ctx.fillStyle = color;
+        ctx.fillStyle = getColor?.(r, c) || getStepColors()[pixels[r][c]];
         ctx.fillRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
       }
     }
@@ -188,20 +189,9 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     rafNTimes(
       (step) => {
         const colors = getStepColors();
-
-        const rowOffset = (canvas.clientWidth * factor) / pixelSize;
-        const colOffset = (canvas.clientHeight * factor) / pixelSize;
-
-        const ctx = canvas.getContext('2d')!;
-
-        for (let r = 0; r < from.length; r++) {
-          for (let c = 0; c < from[r].length; c++) {
-            ctx.clearRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
-            const color = lerpColor(colors[from[r][c]], colors[to[r][c]], step / lerpFactor);
-            ctx.fillStyle = color;
-            ctx.fillRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
-          }
-        }
+        drawPixels(from, canvas, (r, c) => {
+          return lerpColor(colors[from[r][c]], colors[to[r][c]], step / lerpFactor);
+        });
       },
       lerpFactor,
       rafFPS,
