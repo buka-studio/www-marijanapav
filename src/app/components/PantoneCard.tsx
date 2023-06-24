@@ -61,7 +61,7 @@ export default function PantoneCard() {
           <button aria-describedby="pantone-tooltip">
             <InfoIcon className="text-text-secondary" />
             <div role="tooltip" id="pantone-tooltip">
-              Note: These Pantone color names are entirely fictional.
+              Sorry, these Pantone color names are entirely fictional.
             </div>
           </button>
         </div>

@@ -11,23 +11,23 @@ import Header from '../components/Header';
 const links = [
   {
     label: 'Instagram',
-    href: 'https://www.example.com',
+    href: 'https://www.instagram.com/marijanasimag/',
   },
   {
     label: 'Linkedin',
-    href: 'https://www.example.com',
+    href: 'https://www.linkedin.com/in/marijana-simag/',
   },
   {
     label: 'Behance',
-    href: 'https://www.example.com',
+    href: 'https://www.behance.net/marijanasimag',
   },
   {
     label: 'Dribbble',
-    href: 'https://www.example.com',
+    href: 'https://dribbble.com/marijanasimag',
   },
   {
     label: 'Twitter',
-    href: 'https://www.example.com',
+    href: 'https://twitter.com/MarijanaSimag',
   },
 ];
 
@@ -65,9 +65,15 @@ export default function Contact() {
           </div>
 
           <div className="flex gap-2 flex-wrap justify-center">
-            {links.map((l) => (
-              <Button key={l.label}>{l.label}</Button>
-            ))}
+            {links.map(({ label, ...rest }) => {
+              const linkProps = { ...rest, target: '_blank', rel: 'noopener noreferrer' };
+              // todo: fix prop types in Button for anchors
+              return (
+                <Button key={label} as="a" {...linkProps}>
+                  {label}
+                </Button>
+              );
+            })}
           </div>
         </div>
       </main>
