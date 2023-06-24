@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { ComponentProps, forwardRef, ReactNode } from 'react';
+import { ComponentProps, ReactNode, forwardRef } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type Props = {
   children?: ReactNode;
@@ -11,9 +12,11 @@ const Tag = forwardRef<HTMLDivElement, Props & ComponentProps<'div'>>(function T
 ) {
   return (
     <div
-      className={clsx(
-        'ui-tag rounded-lg px-2 py-1 flex items-center justify-center text-text-primary bg-main-theme-3',
-        className,
+      className={twMerge(
+        clsx(
+          'ui-tag rounded-lg px-2 py-1 flex items-center justify-center text-text-primary bg-main-theme-3',
+          className,
+        ),
       )}
       ref={ref}
       {...rest}

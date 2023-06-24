@@ -12,7 +12,22 @@ export default function Footer({ children }: { children?: ReactNode }) {
           <LettersIcon />
         </div>
         <span className="[&_a]:underline text-xs">
-          <a href="#">Archivo</a>, paired with <a href="#">Inter</a>.
+          <a
+            href="https://fonts.google.com/specimen/Archivo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Archivo
+          </a>
+          , paired with{' '}
+          <a
+            href="https://fonts.google.com/specimen/Inter"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Inter
+          </a>
+          .
         </span>
       </div>
 

@@ -15,11 +15,31 @@ import Card from './Card';
 import './cards.css';
 
 const social = [
-  { url: '1', Icon: TwitterIcon },
-  { url: '2', Icon: LinkedinIcon },
-  { url: '3', Icon: InstagramIcon },
-  { url: '4', Icon: DribbbleIcon },
-  { url: '5', Icon: BehanceIcon },
+  {
+    url: 'https://twitter.com/MarijanaSimag',
+    Icon: TwitterIcon,
+    attrs: { 'aria-label': 'Go to Twitter' },
+  },
+  {
+    url: 'https://www.linkedin.com/in/marijana-simag/',
+    Icon: LinkedinIcon,
+    attrs: { 'aria-label': 'Go to Linkedin' },
+  },
+  {
+    url: 'https://www.instagram.com/marijanasimag/',
+    Icon: InstagramIcon,
+    attrs: { 'aria-label': 'Go to Instagram' },
+  },
+  {
+    url: 'https://dribbble.com/marijanasimag',
+    Icon: DribbbleIcon,
+    attrs: { 'aria-label': 'Go to Dribbble' },
+  },
+  {
+    url: 'https://www.behance.net/marijanasimag',
+    Icon: BehanceIcon,
+    attrs: { 'aria-label': 'Go to Behance' },
+  },
 ];
 
 export default function BioCard() {
@@ -37,23 +57,24 @@ export default function BioCard() {
       </div>
 
       <p className="leading-7 panel text-text-secondary">
-        I&apos;ve worked in various design environments, including a studio, an agency, and now at a
-        fast-growing startup. Through these different settings I&apos;ve had a chance to work on
+        I&apos;ve had a chance to work in various environments, including a studio, an agency, and
+        now at Supabase, a fast-growing startup. Through these different settings I worked on
         various skills, from editorial design, illustration, packaging, to a deep dive into all
         things digital, and now mostly focused on web design and UX. I&apos;m based in Central
-        Europe, working from a home office, because life&apos;s too short for long commutes, but I
-        do have to deal with my cat trying to sit on my keyboard.
+        Europe, working from my home office, because life&apos;s too short for long commutes, but I
+        do have to deal with a cat trying to sit on my keyboard.
       </p>
       <div className="flex flex-col items-start  justify-between mt-9 text-text-secondary xl:flex-row xl:items-center">
         <div>See what I&apos;ve been doing on:</div>
         <div className="flex mr-auto mt-3 xl:mt-0 xl:ml-5 gap-2">
-          {social.map(({ url, Icon }) => (
+          {social.map(({ url, Icon, attrs }) => (
             <a
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               key={url}
               href={`${url}`}
               className="hover transition-all duration-100 cursor-pointer"
+              {...attrs}
             >
               <Icon />
             </a>
