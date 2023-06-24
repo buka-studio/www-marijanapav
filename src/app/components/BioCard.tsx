@@ -8,8 +8,10 @@ import {
 } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
 import Image from '~/src/components/ui/Image';
+
 import PortraitSrc from '../../../public/home/me.jpg';
 import Card from './Card';
+
 import './cards.css';
 
 const social = [

@@ -2,7 +2,9 @@
 
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+
 import { ResetIcon } from '~/src/components/icons';
+
 import Grid from '../../../public/home/Grid.svg';
 import Card from './Card';
 import useColorTheme, { colorThemes } from './useColorTheme';

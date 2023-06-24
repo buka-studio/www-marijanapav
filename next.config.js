@@ -8,12 +8,12 @@ const nextConfig = {
       test: /\.svg$/i,
       use: [
         {
-          loader: "@svgr/webpack",
+          loader: '@svgr/webpack',
           options: {
             svgoConfig: {
               plugins: [
                 {
-                  name: "preset-default",
+                  name: 'preset-default',
                   params: {
                     overrides: {
                       removeViewBox: false,

@@ -1,16 +1,12 @@
-import dotenv from 'dotenv';
 import { promises as fs } from 'fs';
-import {
-  FileMigrationProvider,
-  Kysely,
-  Migrator,
-  PostgresDialect,
-} from 'kysely';
 import path from 'path';
+import dotenv from 'dotenv';
+import { FileMigrationProvider, Kysely, Migrator, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
+
 import Database from './Database';
 
-dotenv.config({path: path.resolve(__dirname, '../../.env.local')})
+dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 
 async function migrateToLatest() {
   const db = new Kysely<Database>({
@@ -31,17 +27,17 @@ async function migrateToLatest() {
       path,
       migrationFolder: path.join(__dirname, './migrations'),
     }),
-  })
+  });
 
-  const { error, results } = await migrator.migrateToLatest()
+  const { error, results } = await migrator.migrateToLatest();
 
   results?.forEach((it) => {
     if (it.status === 'Success') {
-      console.log(`migration "${it.migrationName}" was executed successfully`)
+      console.log(`migration "${it.migrationName}" was executed successfully`);
     } else if (it.status === 'Error') {
       console.error(`failed to execute migration "${it.migrationName}"`);
     }
-  })
+  });
 
   if (error) {
     console.error('failed to migrate');
@@ -52,4 +48,4 @@ async function migrateToLatest() {
   await db.destroy();
 }
 
-migrateToLatest()
+migrateToLatest();

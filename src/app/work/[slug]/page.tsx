@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import ViewLogger from '~/src/components/ViewCounter';
 import { LinkIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
+import ViewLogger from '~/src/components/ViewCounter';
 
 import MouseVarsProvider from '../../components/MouseVarsProvider';
-import { StaticProject, projects } from '../constants';
+import { projects, StaticProject } from '../constants';
 import PaginationCard from './components/PaginationCard';
 
 function hostname(url: string): string {

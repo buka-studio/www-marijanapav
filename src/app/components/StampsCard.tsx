@@ -2,6 +2,7 @@
 
 import { LinkIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
+
 import Gibraltar1 from '../../../public/home/gibraltar_1.svg';
 import Gibraltar2 from '../../../public/home/gibraltar_2.svg';
 import Card from './Card';

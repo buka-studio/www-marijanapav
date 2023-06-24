@@ -1,5 +1,6 @@
 import { StaticImageData } from 'next/image';
 import { ReactNode } from 'react';
+
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
 import Cryptocurrency from '~/public/work/crypto/preview.png';
 import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflowers_00.jpg';
@@ -52,7 +53,7 @@ import Stamps05 from '~/public/work/stamps/stamps_05.png';
 import Stamps06 from '~/public/work/stamps/stamps_06.png';
 import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
-import { InstagramIcon } from '~/src/components/icons';
+
 import SupabaseCard from './components/SupabaseCard';
 
 export const filters = ['all', 'illustration', 'branding', 'ux-ui', 'other'] as const;

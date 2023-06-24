@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 
-import ViewLogger from '~/src/components/ViewCounter';
 import { ContentCopyIcon } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
+import ViewLogger from '~/src/components/ViewCounter';
 
 import Header from '../components/Header';
 

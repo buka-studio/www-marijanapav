@@ -2,12 +2,15 @@
 
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+
 import photo from '~/public/home/sneak_peek.png';
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
+
 import Card from './Card';
 import PixelatedReveal from './PixelatedReveal';
+
 import './cards.css';
 
 const maxClicks = 5;

@@ -2,10 +2,13 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+
 import { Theme } from '~/src/app/constants';
 import ClientRendered from '~/src/components/ClientRendered';
+
 import { InfoIcon } from '../../components/icons';
 import Card from './Card';
+
 import './PantoneCard.css';
 
 type Pantone = {

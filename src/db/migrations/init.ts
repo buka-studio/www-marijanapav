@@ -1,7 +1,7 @@
 import { Kysely, sql } from 'kysely';
 
 export async function up(db: Kysely<any>): Promise<void> {
-    await  sql`
+  await sql`
         create table
         stats (
             pathname text not null,
@@ -12,9 +12,9 @@ export async function up(db: Kysely<any>): Promise<void> {
                 type
             )
         ) tablespace pg_default;
-    `.execute(db)
+    `.execute(db);
 
-    await sql`
+  await sql`
         CREATE OR REPLACE FUNCTION incr_stat(pathname text, type text, amount int4 DEFAULT 1)
         RETURNS int4 AS $$
         #variable_conflict use_column
@@ -32,5 +32,3 @@ export async function up(db: Kysely<any>): Promise<void> {
         $$ LANGUAGE plpgsql;
     `.execute(db);
 }
-
-

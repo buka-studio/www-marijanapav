@@ -1,5 +1,7 @@
 import Link from 'next/link';
+
 import Button from '~/src/components/ui/Button';
+
 import ViewLogger from '../components/ViewCounter';
 import {
   BioCard,
@@ -17,6 +19,7 @@ import {
 import Header from './components/Header';
 import Heading from './components/Heading';
 import MouseVarsProvider from './components/MouseVarsProvider';
+
 import './page.css';
 
 const projectLinks = [

@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
+
 import { LettersIcon } from '~/src/components/icons';
+
 import FloatingNav from './FloatingNav';
 
 export default function Footer({ children }: { children?: ReactNode }) {

@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+
 import photo0 from '~/public/home/photos/photo_0.jpg';
 import photo1 from '~/public/home/photos/photo_1.jpg';
 import photo2 from '~/public/home/photos/photo_2.jpg';
@@ -16,6 +17,7 @@ import photo10 from '~/public/home/photos/photo_10.jpg';
 import photo11 from '~/public/home/photos/photo_11.jpg';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
+
 import Card from './Card';
 
 export const photos = [

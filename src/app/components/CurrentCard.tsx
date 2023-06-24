@@ -1,6 +1,7 @@
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
+
 import MidjourneyImage from '../../../public/home/midjourney.png';
 import Card from './Card';
 

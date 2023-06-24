@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import usePrevious from './usePrevious';
 
 type ScrollValues = {

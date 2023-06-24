@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { ReactNode, forwardRef, useImperativeHandle, useState } from 'react';
+import { forwardRef, ReactNode, useImperativeHandle, useState } from 'react';
 
 import './HighlightedHeading.css';
 
