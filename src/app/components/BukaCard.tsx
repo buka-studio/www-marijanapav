@@ -13,7 +13,7 @@ export default function BukaCard() {
         <div className="flex gap-4 items-center">
           <BukaIcon />
           <Heading className="text-5xl">
-            <a href="buka.studio" className="flex items-center gap-3 group">
+            <a href="https://www.buka.studio" className="flex items-center gap-3 group">
               buka.studio
               <LinkIcon className="w-[48px] h-[48px] group-hover:bg-main-theme-3 rounded-full p-1 transition-all duration-150" />
             </a>

@@ -1,7 +1,7 @@
 'use client';
 
-import { LinkIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
+import Tag from '~/src/components/ui/Tag';
 
 import Gibraltar1 from '../../../public/home/gibraltar_1.svg';
 import Gibraltar2 from '../../../public/home/gibraltar_2.svg';
@@ -31,14 +31,14 @@ export default function StampsCard() {
         <div className="[&_>*]:align-middle [&_>*]:inline mb-4">
           <Heading className="text-6xl">
             <a href="#" className="group">
-              Digital Stamp Collection
-              <LinkIcon className="ml-4 inline w-[48px] h-[48px] group-hover:bg-main-theme-3 rounded-full p-1 transition-all duration-150" />
+              Digital Stamp Collection&nbsp;
+              <Tag className="text-xs ml-2 inline align-middle font-sans">Coming&nbsp;soon</Tag>
             </a>
           </Heading>
         </div>
         <p className="leading-7 text-text-secondary">
-          Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating the
-          stamps in a compact form, exploring the blend of art, history, and typography and bringing
+          Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his
+          stamps in a digital form, exploring the blend of art, history, and typography and bringing
           it online for a new audience to enjoy.
         </p>
       </div>
