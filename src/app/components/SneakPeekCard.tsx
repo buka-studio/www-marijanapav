@@ -7,7 +7,7 @@ import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 
-import SneakPeekPhoto from '../../../public/home/sneak_peek.png';
+import SneakPeekPhoto from '../../../public/home/sneak_peek_2.png';
 import Card from './Card';
 import PixelatedReveal from './PixelatedReveal';
 

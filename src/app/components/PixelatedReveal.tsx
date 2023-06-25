@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import { useTheme } from 'next-themes';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 import './cards.css';
 
@@ -11,7 +11,7 @@ import useResizeRef from '~/src/hooks/useResizeRef';
 import useColorTheme from './useColorTheme';
 
 const lerpFactor = 5;
-const rafFPS = 8;
+const rafFPS = 10;
 const factor = 10;
 const pixelSize = 50;
 
@@ -22,13 +22,14 @@ function addAlphaToHex(hex: string, alpha: number) {
   return hex + hexAlpha;
 }
 
-function getStepColors() {
+function getCurrColorsForSteps() {
   const root = document.querySelector('.main')!;
   const styles = getComputedStyle(root);
-  const alphas = [1, 0.6, 0.4, 0.2, 0.1];
+  const alphas = [1, 1, 0.6, 0.4, 0.2, 0.1];
 
   const colors = [
     styles.getPropertyValue('--main-theme-1'),
+    styles.getPropertyValue('--main-theme-2'),
     styles.getPropertyValue('--main-theme-2'),
     styles.getPropertyValue('--main-theme-3'),
     styles.getPropertyValue('--main-theme-3'),
@@ -113,6 +114,34 @@ function advancePixels(pixels: Pixels, steps: number, maxStep: number) {
   return wipPixels;
 }
 
+function drawPixels(
+  pixels: Pixels,
+  canvas: HTMLCanvasElement,
+  getColor?: (r: number, c: number) => string,
+  shape: 'circle' | 'square' = 'circle',
+) {
+  const rowOffset = Math.floor((canvas.clientWidth * factor) / pixelSize);
+  const colOffset = Math.floor((canvas.clientHeight * factor) / pixelSize);
+
+  const ctx = canvas.getContext('2d')!;
+
+  for (let r = 0; r < pixels.length; r++) {
+    for (let c = 0; c < pixels[r].length; c++) {
+      ctx.clearRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
+      if (shape === 'square') {
+        ctx.fillStyle = getColor?.(r, c) || getCurrColorsForSteps()[pixels[r][c]];
+        ctx.fillRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
+      } else if (shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(r * rowOffset, c * colOffset, rowOffset / 2, 0, 2 * Math.PI);
+        ctx.fillStyle = getColor?.(r, c) || getCurrColorsForSteps()[pixels[r][c]];
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
+}
+
 export default function PixelatedReveal({ step, maxSteps }: { step: number; maxSteps: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pixelsRef = useRef<Pixels>([]);
@@ -146,7 +175,7 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
   }
 
   const currRaf = useRef<ReturnType<typeof requestAnimationFrame>>();
-  function rafNTimes(callback: (currN: number) => void, n: number, fps: number) {
+  const rafNTimes = useCallback((callback: (currN: number) => void, n: number, fps: number) => {
     let currN = 0;
     let lastFrameTime = 0;
 
@@ -164,49 +193,31 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     }
 
     currRaf.current = requestAnimationFrame(loop);
-  }
+  }, []);
 
-  function drawPixels(
-    pixels: Pixels,
-    canvas: HTMLCanvasElement,
-    getColor?: (r: number, c: number) => string,
-  ) {
-    const rowOffset = Math.floor((canvas.clientWidth * factor) / pixelSize);
-    const colOffset = Math.floor((canvas.clientHeight * factor) / pixelSize);
-
-    const ctx = canvas.getContext('2d')!;
-
-    for (let r = 0; r < pixels.length; r++) {
-      for (let c = 0; c < pixels[r].length; c++) {
-        ctx.clearRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
-        ctx.fillStyle = getColor?.(r, c) || getStepColors()[pixels[r][c]];
-        ctx.fillRect(r * rowOffset, c * colOffset, pixelSize * factor, pixelSize * factor);
-      }
-    }
-  }
-
-  function drawPixelsTransition(from: Pixels, to: Pixels, canvas: HTMLCanvasElement) {
-    rafNTimes(
-      (step) => {
-        const colors = getStepColors();
-        drawPixels(from, canvas, (r, c) => {
-          return lerpColor(colors[from[r][c]], colors[to[r][c]], step / lerpFactor);
-        });
-      },
-      lerpFactor,
-      rafFPS,
-    );
-  }
+  const drawPixelsTransition = useCallback(
+    (from: Pixels, to: Pixels, canvas: HTMLCanvasElement) => {
+      rafNTimes(
+        (step) => {
+          const colors = getCurrColorsForSteps();
+          drawPixels(from, canvas, (r, c) => {
+            return lerpColor(colors[from[r][c]], colors[to[r][c]], step / lerpFactor);
+          });
+        },
+        lerpFactor,
+        rafFPS,
+      );
+    },
+    [rafNTimes],
+  );
 
   const { ref, dimensions } = useResizeRef<HTMLDivElement>();
-
   useLayoutEffect(() => {
     const canvas = canvasRef.current!;
-
-    if (dimensions.width === 0 || dimensions.height === 0) {
+    if (!canvas) {
       return;
     }
-    if (!canvas) {
+    if (dimensions.width === 0 || dimensions.height === 0) {
       return;
     }
 
@@ -217,13 +228,14 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     } else {
       canvas.style.width = '100%';
     }
+
     initPixels();
 
-    const newPixels = advancePixels(pixelsRef.current, step, maxSteps);
+    const newPixels = advancePixels(pixelsRef.current, step || 1, maxSteps);
     drawPixels(newPixels, canvas);
 
     pixelsRef.current = newPixels;
-  }, [dimensions.width, dimensions.height]);
+  }, [dimensions.width, dimensions.height, maxSteps]);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -233,8 +245,6 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
 
     if (step === 0) {
       initPixels();
-      drawPixels(pixelsRef.current, canvas);
-      return;
     }
 
     let newPixels = advancePixels(pixelsRef.current, 1, maxSteps);
@@ -242,14 +252,14 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     drawPixelsTransition(pixelsRef.current, newPixels, canvas);
 
     pixelsRef.current = newPixels;
-  }, [step]);
+  }, [step, maxSteps, drawPixelsTransition]);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
-
     if (!canvas) {
       return;
     }
+
     drawPixels(pixelsRef.current, canvas);
   }, [colorTheme, resolvedTheme]);
 
@@ -257,6 +267,11 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
 
   return (
     <div className="relative w-full h-full" ref={ref}>
+      <div
+        className={clsx('absolute top-0 left-0 w-full h-full bg-main-theme-overlay', {
+          'opacity-0': revealed,
+        })}
+      />
       <canvas
         ref={canvasRef}
         className={clsx(
