@@ -95,14 +95,14 @@ export default function PhotosCard() {
   }, [photo]);
 
   return (
-    <Card className="">
-      <div className="mb-[66px] flex gap-2 justify-between w-full">
+    <Card className="flex flex-col">
+      <div className="xl:mb-[66px] mb-2 flex gap-2 justify-between w-full">
         <Heading as="h1" className="text-primary text-text-secondary font-sans">
           Bits and pieces from my camera roll
         </Heading>
       </div>
       <div
-        className="flex aspect-square w-full rounded-xl overflow-x-auto gap-4 snap-x snap-mandatory scrollbar-none"
+        className="flex aspect-square w-full rounded-xl overflow-x-auto gap-4 snap-x snap-mandatory scrollbar-none md:mt-auto"
         ref={scrollAreaRef}
       >
         {photos.map((p, i) => (

@@ -15,7 +15,7 @@ export default function LocationCard() {
   return (
     <Card className="h-full">
       <div className="flex flex-col h-full gap-4 pt-2">
-        <Heading as="h1" className="text-primary text-6xl">
+        <Heading as="h1" className="text-primary text-4xl md:text-6xl">
           Working remotely, from Croatia
         </Heading>
         <p className="mt-auto text-text-secondary">{croatiaTime} Time zone in Croatia (GMT+2)</p>

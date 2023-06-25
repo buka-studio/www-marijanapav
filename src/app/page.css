@@ -19,7 +19,7 @@
   height: 100%;
 }
 
-@media (max-width: 1246px) {
+@media (max-width: 1280px) {
   .cards {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(6, auto);

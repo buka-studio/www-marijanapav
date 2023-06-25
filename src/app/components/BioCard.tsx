@@ -11,6 +11,7 @@ import Image from '~/src/components/ui/Image';
 
 import PortraitSrc from '../../../public/home/me.jpg';
 import Card from './Card';
+
 import './cards.css';
 
 const social = [
@@ -63,9 +64,9 @@ export default function BioCard() {
         Europe, working from my home office, because life&apos;s too short for long commutes, but I
         do have to deal with a cat trying to sit on my keyboard.
       </p>
-      <div className="flex flex-col items-start  justify-between mt-9 text-text-secondary xl:flex-row xl:items-center">
+      <div className="flex flex-col items-start  justify-between mt-9 text-text-secondary md:flex-row md:items-center">
         <div>See what I&apos;ve been doing on:</div>
-        <div className="flex mr-auto mt-3 xl:mt-0 xl:ml-5 gap-2">
+        <div className="flex mr-auto mt-3 md:mt-0 md:ml-5 gap-2">
           {social.map(({ url, Icon, attrs }) => (
             <a
               target="_blank"
@@ -79,7 +80,7 @@ export default function BioCard() {
             </a>
           ))}
         </div>
-        <Button className="mt-10 xl:mt-0" iconRight={<ArrowRightIcon />}>
+        <Button className="mt-10 md:mt-0" iconRight={<ArrowRightIcon />}>
           Let&apos;s talk
         </Button>
       </div>

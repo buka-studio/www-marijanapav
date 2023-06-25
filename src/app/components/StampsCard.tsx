@@ -23,13 +23,13 @@ export default function StampsCard() {
   return (
     <Card className="">
       <div className="flex flex-col">
-        <div className="w-full overflow-hidden relative rounded-xl mb-5 min-h-[480px]">
+        <div className="w-full overflow-hidden relative rounded-xl mb-5 min-h-[240px] md:min-h-[480px]">
           <div className="stamps absolute -translate-x-[10%] translate-y-[30px] scale-[120%] [&_>*:not(:first-child)]:mt-[-1px]">
             <Stamps />
           </div>
         </div>
         <div className="[&_>*]:align-middle [&_>*]:inline mb-4">
-          <Heading className="text-6xl">
+          <Heading className="text-4xl md:text-6xl">
             <a href="#" className="group">
               Digital Stamp Collection&nbsp;
               <Tag className="text-xs ml-2 inline align-middle font-sans">Coming&nbsp;soon</Tag>

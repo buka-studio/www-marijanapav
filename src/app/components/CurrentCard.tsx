@@ -10,7 +10,7 @@ export default function CurrentCard() {
     <Card className="">
       <div className="flex flex-col h-full">
         <div className="mb-2 text-text-secondary">Currently exploring</div>
-        <Heading className="text-6xl flex items-center gap-3">
+        <Heading className="text-4xl md:text-6xl mb-3 md:mb-auto flex items-center gap-3">
           MidJourney<Tag className="text-xs mt-5 font-sans">v5.1</Tag>
         </Heading>
         <div className="mt-auto relative">
