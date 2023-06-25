@@ -61,9 +61,9 @@
       "description": "FFF3ED"
     },
     "200": {
-      "value": "#fcc7ac",
+      "value": "#FFBB99",
       "type": "color",
-      "description": "FCC7AC"
+      "description": "FCC7AC\n#fcc7ac"
     },
     "500": {
       "value": "#f44e22",

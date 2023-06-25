@@ -1,7 +1,7 @@
 .theme-red-light {
   --text-primary: #f44e22;
   --text-secondary: #f44e22e6;
-  --text-alt: #fcc7ac;
+  --text-alt: #FFBB99;
   --text-alt2: #fff3ed;
   --panel-background: #fff;
   --panel-border: linear-gradient(0deg, #fff3ed00 0%, #fff3ed 100%);
@@ -19,7 +19,7 @@
   --panel-blur-color: #f44e22;
   --panel-blur-type: innerShadow;
   --main-theme-1: #f44e22;
-  --main-theme-2: #fcc7ac;
+  --main-theme-2: #FFBB99;
   --main-theme-3: #fff3ed;
   --main-background: #fff;
   --main-theme-overlay: #f44e221a;
