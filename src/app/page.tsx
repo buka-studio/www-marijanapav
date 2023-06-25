@@ -30,17 +30,17 @@ const projectLinks = [
 ];
 
 const cards = [
-  { label: 'bio', Component: BioCard },
-  { label: 'work', Component: ExperienceCard },
-  { label: 'location', Component: LocationCard },
-  { label: 'pantone', Component: PantoneCard },
-  { label: 'theme', Component: ColorThemeCard },
-  { label: 'sneak', Component: SneakPeekCard },
-  { label: 'photos', Component: PhotosCard },
-  { label: 'buka', Component: BukaCard },
-  { label: 'current', Component: CurrentCard },
-  { label: 'tools', Component: ToolsCard },
-  { label: 'stamps', Component: StampsCard },
+  { gridArea: '👋', Component: BioCard },
+  { gridArea: '👔', Component: ExperienceCard },
+  { gridArea: '📌', Component: LocationCard },
+  { gridArea: '🖌️', Component: PantoneCard },
+  { gridArea: '🎨', Component: ColorThemeCard },
+  { gridArea: '👀', Component: SneakPeekCard },
+  { gridArea: '🖼️', Component: PhotosCard },
+  { gridArea: '💯', Component: BukaCard },
+  { gridArea: '🧪', Component: CurrentCard },
+  { gridArea: '👩‍💻', Component: ToolsCard },
+  { gridArea: '💌', Component: StampsCard },
 ];
 
 const fetchSneakPeekCount = () =>
@@ -85,8 +85,8 @@ export default async function Home() {
           </div>
           <MouseVarsProvider>
             <div className="cards">
-              {cards.map(({ label, Component }, i) => (
-                <div key={i} style={{ gridArea: label }}>
+              {cards.map(({ gridArea, Component }, i) => (
+                <div key={i} style={{ gridArea }}>
                   <Component currentCount={currentCount} />
                 </div>
               ))}

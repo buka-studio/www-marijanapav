@@ -4,13 +4,13 @@
   grid-template-columns: 300px minmax(auto, 480px) auto;
   grid-template-rows: auto 1fr auto auto auto auto auto;
   grid-template-areas:
-    'bio bio work'
-    'bio bio location'
-    'pantone photos tools'
-    'theme photos tools'
-    'theme photos stamps'
-    'sneak buka stamps'
-    'sneak current stamps';
+    '👋 👋 👔'
+    '👋 👋 📌'
+    '🖌️ 🖼️ 👩‍💻'
+    '🎨 🖼️ 👩‍💻'
+    '🎨 🖼️ 💌'
+    '👀 💯 💌'
+    '👀 🧪 💌';
 }
 
 .cards > *,
@@ -21,19 +21,33 @@
 
 @media (max-width: 1246px) {
   .cards {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, auto);
+    grid-template-areas:
+      '👋 👋 👋 👋'
+      '👔 👔 📌 📌'
+      '🖌️ 🖌️ 🎨 🎨'
+      '👀 👀 🖼️ 🖼️'
+      '💯 💯 🧪 🧪'
+      '👩‍💻 👩‍💻 💌 💌';
+  }
+}
+
+@media (max-width: 768px) {
+  .cards {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto auto auto auto auto auto;
     grid-template-areas:
-      'bio'
-      'work'
-      'location'
-      'pantone'
-      'photos'
-      'tools'
-      'theme'
-      'stamps'
-      'sneak'
-      'buka'
-      'current';
+      '👋'
+      '👔'
+      '📌'
+      '🖌️'
+      '🖼️'
+      '👩‍💻'
+      '🎨'
+      '💌'
+      '👀'
+      '💯'
+      '🧪';
   }
 }
