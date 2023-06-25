@@ -11,13 +11,13 @@ const positions = [
   },
   {
     title: 'Brand Designer',
-    company: { name: 'Infinum', href: 'https://supabase.com/' },
+    company: { name: 'Infinum', href: 'https://infinum.com/' },
     from: '2018',
     to: '2022',
   },
   {
     title: 'Designer',
-    company: { name: 'Norma Studio', href: 'https://supabase.com/' },
+    company: { name: 'Norma Studio' },
     from: '2017',
     to: '2018',
   },
@@ -30,7 +30,7 @@ export default function ExperienceCard() {
       <div className="px-2">
         <Heading
           as="h1"
-          className="text-base text-text-secondary font-sans pb-6 border-b border-text-alt2 my-4"
+          className="text-base text-text-secondary font-sans pb-6 border-b border-main-theme-overlay my-4"
         >
           Work Experience
         </Heading>
@@ -38,7 +38,7 @@ export default function ExperienceCard() {
           {positions.map((p, i) => (
             <li
               key={i}
-              className="pb-4 border-b border-text-alt2 flex items-center justify-between last-of-type:border-none"
+              className="pb-4 border-b border-main-theme-overlay flex items-center justify-between last-of-type:border-none"
             >
               <span className="flex-1 flex items-center gap-2">
                 <span className="text-text-secondary">
@@ -52,8 +52,9 @@ export default function ExperienceCard() {
                   </Tag>
                 ) : null}
               </span>
-              <span className="text-text-secondary">{p.from}</span>—
-              <span className="text-text-secondary">{p.to ? p.to : 'ongoing'}</span>
+              <span className="text-text-secondary">
+                {p.from}—{p.to ? p.to : 'ongoing'}
+              </span>
             </li>
           ))}
         </ul>

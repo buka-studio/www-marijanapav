@@ -137,7 +137,7 @@ export default function PhotosCard() {
             }}
             key={p.src}
             className={clsx('h-[6px]  rounded-full transition-all duration-150', {
-              ['bg-main-theme-2 w-[16px]']: i !== photo,
+              ['bg-main-theme-overlay w-[16px]']: i !== photo,
               ['w-[50px] bg-main-theme-1']: i === photo,
             })}
           ></button>

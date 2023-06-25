@@ -30,7 +30,7 @@ export default function ToolsCard() {
         <p className="leading-7 text-text-secondary">
           I started in print, and gradually turned to digital—meaning over the years my go-to
           companion software switched from Illustrator, to InDesign, Procreate, Sketch, Figma. I
-          enjoyed each from the stack, but my fav is Figma.
+          enjoyed each from the stack, but my fav is Figma &#9825;
         </p>
       </div>
     </Card>
