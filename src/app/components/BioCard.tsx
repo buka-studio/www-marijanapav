@@ -11,7 +11,6 @@ import Image from '~/src/components/ui/Image';
 
 import PortraitSrc from '../../../public/home/me.jpg';
 import Card from './Card';
-
 import './cards.css';
 
 const social = [
@@ -58,8 +57,8 @@ export default function BioCard() {
 
       <p className="leading-7 panel text-text-secondary">
         I&apos;ve had a chance to work in various environments, including a studio, an agency, and
-        now at Supabase, a fast-growing startup. Through these different settings I worked on
-        various skills, from editorial design, illustration, packaging, to a deep dive into all
+        now at Supabase &#9825;, a fast-growing startup. Through these different settings I worked
+        on various skills, from editorial design, illustration, packaging, to a deep dive into all
         things digital, and now mostly focused on web design and UX. I&apos;m based in Central
         Europe, working from my home office, because life&apos;s too short for long commutes, but I
         do have to deal with a cat trying to sit on my keyboard.
