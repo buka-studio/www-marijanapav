@@ -22,3 +22,10 @@
 [aria-describedby]:focus [role='tooltip'] {
   visibility: visible;
 }
+
+@media (max-width: 768px) {
+  [role='tooltip'] {
+    transform: translateX(-90%);
+    top: -250%;
+  }
+}

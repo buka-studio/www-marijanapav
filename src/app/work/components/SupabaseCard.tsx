@@ -11,7 +11,7 @@ export default function SupabaseCard() {
           Blog post
           <LinkIcon className="ml-4 inline w-6 h-6" />
         </p>
-        <Heading className="text-4xl">
+        <Heading className="text-3xl md:text-4xl">
           <a href="#" className="group">
             Designing with&nbsp;AI
           </a>

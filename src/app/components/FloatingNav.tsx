@@ -30,7 +30,7 @@ export default function Navabar() {
 
   return (
     <>
-      <nav className="flex items-center rounded-full p-1 gap-2 relative bg-panel-background shadow-card">
+      <nav className="flex items-center rounded-full p-1 gap-2 relative bg-panel-background shadow-card z-[1]">
         {/* note: motion.div layoutId loses position after page scrolls */}
         <div
           className="absolute h-[90%] bg-main-theme-3 rounded-full transition-all duration-300 ease-out"

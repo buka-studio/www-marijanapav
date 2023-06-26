@@ -31,7 +31,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
         </span>
       </div>
 
-      <div className="nav fixed bottom-[70px] md:bottom-8 left-1/2 -translate-x-1/2 rounded-full">
+      <div className="nav fixed bottom-16 md:bottom-8 left-1/2 -translate-x-1/2 rounded-full">
         <FloatingNav />
       </div>
 

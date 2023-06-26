@@ -68,7 +68,7 @@ export default async function Home() {
       <Header />
       <ViewLogger pathname="/" />
       <div className="fixed glow h-[400px] w-[400px] blur-3xl rounded-full pointer-events-none" />
-      <div className="flex flex-col px-5 py-12">
+      <div className="flex flex-col px-5 py-5 md:py-12">
         <main className="pb-[100px]">
           <Heading />
           <div className="mb-[82px] flex items-center gap-4 text-text-primary">

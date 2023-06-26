@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import Image from '~/src/components/ui/Image';
+import useMatchMedia from '~/src/hooks/useMatchMedia';
 
 import { Project } from '../constants';
 import Card from './Card';
@@ -33,10 +34,12 @@ export default function ProjectsGrid({ projects }: Props) {
   const titleRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
+  const mobile = useMatchMedia('(max-width: 768px)', false);
+
   return (
     <div className="flex-1 py-10 px-5">
       <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3, 1200: 4 }}>
-        <Masonry gutter="1rem">
+        <Masonry gutter={mobile ? '0.5rem' : '1rem'}>
           {projects.map((project, i) =>
             project.type === 'project' ? (
               <Link passHref legacyBehavior key={project.slug} href={`/work/${project.slug}`}>
