@@ -7,8 +7,11 @@ app = "www-marijana"
 primary_region = "ams"
 
 [http_service]
-  internal_port = 3000
-  force_https = true
-  auto_stop_machines = true
-  auto_start_machines = true
-  min_machines_running = 0
+internal_port = 3000
+force_https = true
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 0
+
+[env]
+NEXT_PUBLIC_HOST = "http://localhost:3000"

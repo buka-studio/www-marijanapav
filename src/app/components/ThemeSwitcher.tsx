@@ -53,6 +53,7 @@ export default function ThemeSwitcher() {
               ['text-main-theme-1']: isActive,
             })}
             key={value}
+            aria-label={`Switch to ${value} theme`}
             onClick={() => setTheme(value)}
           >
             {icon}

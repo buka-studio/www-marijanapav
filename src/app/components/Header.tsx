@@ -24,7 +24,11 @@ export default function Header({ children }: { children?: ReactNode }) {
         },
       )}
     >
-      <Link href="/" className="flex gap-2 text-text-primary items-center">
+      <Link
+        href="/"
+        className="flex gap-2 text-text-primary items-center"
+        aria-label="Go to Home page"
+      >
         <LogoIcon
           className={clsx('transition-all duration-300', {
             ['text-main-theme-1']: y > headerTriggerY,

@@ -58,7 +58,7 @@ export default function PantoneCard() {
               {(pantone || pantoneByTheme[resolvedTheme as Theme])?.name}
             </ClientRendered>
           </p>
-          <button aria-describedby="pantone-tooltip">
+          <button aria-describedby="pantone-tooltip" aria-label="Open Pantone tooltip">
             <InfoIcon className="text-text-secondary" />
             <div role="tooltip" id="pantone-tooltip">
               Sorry, these Pantone color names are entirely fictional.

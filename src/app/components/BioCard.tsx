@@ -52,6 +52,7 @@ export default function BioCard() {
           placeholder="blur"
           height={455}
           className="rounded-xl w-full object-cover object-top max-h-[455px]"
+          loading="eager"
         />
         <div className="transition-colors duration-200 rounded-xl bg-main-theme-overlay absolute h-full w-full top-0 left-0" />
       </div>

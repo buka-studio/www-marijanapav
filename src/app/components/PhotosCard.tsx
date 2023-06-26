@@ -127,7 +127,7 @@ export default function PhotosCard() {
       <div className="flex gap-[6px] pt-5 pb-1 justify-center">
         {photos.map((p, i) => (
           <button
-            aria-label=""
+            aria-label={`Go to photo ${i + 1}`}
             onClick={() => {
               setPhoto(i);
               scrollAreaRef.current!.scroll({

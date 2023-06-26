@@ -46,9 +46,13 @@ export default function ExperienceCard() {
                 </span>
                 {p.company ? (
                   <Tag>
-                    <a className="text-xs" href={p.company.href} rel="noreferrer" target="_blank">
-                      {p.company.name}
-                    </a>
+                    {p.company.href ? (
+                      <a className="text-xs" href={p.company.href} rel="noreferrer" target="_blank">
+                        {p.company.name}
+                      </a>
+                    ) : (
+                      <span className="text-xs">{p.company.name}</span>
+                    )}
                   </Tag>
                 ) : null}
               </span>
