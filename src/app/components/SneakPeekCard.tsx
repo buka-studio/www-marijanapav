@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
@@ -9,9 +10,10 @@ import Image from '~/src/components/ui/Image';
 
 import SneakPeekPhoto from '../../../public/home/sneak_peek_2.png';
 import Card from './Card';
-import PixelatedReveal from './PixelatedReveal';
 
 import './cards.css';
+
+const PixelatedReveal = dynamic(() => import('./PixelatedReveal'), { ssr: false });
 
 const maxClicks = 5;
 

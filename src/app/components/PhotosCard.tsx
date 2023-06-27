@@ -117,7 +117,7 @@ export default function PhotosCard() {
               src={p}
               alt=""
               fill
-              sizes="478px"
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 478px"
               className="object-cover object-center rounded-xl"
             />
             <div className="transition-colors duration-200 rounded-xl bg-main-theme-overlay absolute h-full w-full top-0 left-0" />

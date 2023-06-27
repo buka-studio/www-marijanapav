@@ -76,7 +76,8 @@ export default function ProjectsGrid({ projects }: Props) {
                           alt={project.description || ''}
                           src={project.preview}
                           fill
-                          className="object-cover object-top "
+                          className="object-cover object-top"
+                          sizes="(max-width: 900px): 50vw, (max-width: 1200px) 33vw, 320px"
                         />
                       </div>
                     </div>
