@@ -36,6 +36,11 @@ import KettlePreview from '~/public/work/kettle/preview.png';
 import Memobottle00 from '~/public/work/memobottle/memobottle_00.jpg';
 import MemobottlePreview from '~/public/work/memobottle/preview.png';
 import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.jpg';
+import MemoriesPoster01 from '~/public/work/memories-poster/memories_01.png';
+import MemoriesPoster02 from '~/public/work/memories-poster/memories_02.png';
+import MemoriesPoster03 from '~/public/work/memories-poster/memories_03.png';
+import MemoriesPoster04 from '~/public/work/memories-poster/memories_04.png';
+import MemoriesPoster05 from '~/public/work/memories-poster/memories_05.png';
 import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
 import OperaPosters00 from '~/public/work/opera-posters/posters_00.jpg';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.jpg';
@@ -161,9 +166,13 @@ export const projects: Project[] = [
     preview: MemoriesPosterPreview,
     filters: ['branding', 'ux-ui'],
     description:
-      'I collected tons of tickets, stickers, papers, and generally memories that I shared with my fiance over the last 9 years. These are some of them but made digital. If you think ZET ticket is a bit random, wait till I recreate part 2. Bonus pic — Dora for scale.',
+      'I collected tons of tickets, stickers, papers, and generally memories that I shared with my fiance over the last 9 years. These are some of them but made digital.',
     aspect: 0.75,
-    assets: [[MemoriesPoster00]],
+    assets: [
+      [MemoriesPoster00],
+      [MemoriesPoster01, MemoriesPoster02, MemoriesPoster03],
+      [MemoriesPoster04, MemoriesPoster05],
+    ],
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
   },
   {
