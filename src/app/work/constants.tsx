@@ -1,4 +1,5 @@
 import { StaticImageData } from 'next/image';
+import Link from 'next/link';
 import { ReactNode } from 'react';
 
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
@@ -54,6 +55,7 @@ import Stamps06 from '~/public/work/stamps/stamps_06.png';
 import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
 
+import Paragraph from './[slug]/components/Paragraph';
 import SupabaseCard from './components/SupabaseCard';
 
 export const filters = ['all', 'illustration', 'branding', 'ux-ui', 'other'] as const;
@@ -68,10 +70,12 @@ export type StaticProject = {
   filters: Filter[];
   preview: StaticImageData;
   aspect?: number;
-  assets?: StaticImageData[][];
+  blocks?: Array<Array<StaticImageData | ReactNode>>;
+  blocksConfig?: {
+    assetsStretch?: boolean;
+  };
   tags?: string[];
   link?: string;
-  assetsStretch?: boolean;
 };
 
 export type ComponentProject = {
@@ -83,6 +87,7 @@ export type ComponentProject = {
 export type Project = StaticProject | ComponentProject;
 
 // aspect - width/height
+// todo: consider contentlayer or some other lightweight cms
 export const projects: Project[] = [
   {
     type: 'project',
@@ -92,16 +97,26 @@ export const projects: Project[] = [
     filters: ['illustration'],
     description:
       "Digital Stamp Collection is my personal project of digitally recreating my grandpa's stamps. It's an homage to his journey, now brought online. Inspired by my family's stamp collection, I started my own philately collection, but in a digital format. With over 100 stamps created and three distinct styles explored, I continue to push boundaries. Stay tuned for updates on this project at marijanasimag.com/stamps-showoff.",
-    assets: [
+    blocks: [
       [Stamps00],
       [Stamps01, Stamps02, Stamps03],
+      [
+        <Paragraph key="1">
+          Through this collection I&apos;ve set myself a goal of trying out new things. As my love
+          for illustration grew, so did my “style” evolve. Stamps started off as monoline, then I
+          decided to learn Procreate, after that more layout exploration ensued. More on this
+          project soon <Link href="/stamp-showoff">here</Link>
+        </Paragraph>,
+      ],
       [Stamps04, Stamps05, Stamps06],
       [Stamps07],
     ],
+    blocksConfig: {
+      assetsStretch: true,
+    },
     tags: ['Adobe Illustrator', 'Procreate', '© 2022'],
     link: 'https://instagram.com/marijanasimag.design',
     aspect: 0.7,
-    assetsStretch: true,
   },
   {
     type: 'project',
@@ -112,7 +127,7 @@ export const projects: Project[] = [
     description:
       'Cover illustration for Infinum, a software development agency, and the blog post discussing the challenges of using cryptocurrencies and Interledger — an open protocol suite developed with the intention of making payments work as easy as email.',
     aspect: 1.5,
-    assets: [[Crypto00]],
+    blocks: [[Crypto00]],
     tags: ['Adobe Illustrator', 'Procreate', '© 2020'],
     link: 'https://infinum.com/news/cryptocurrency-transactions-made-simple-with-interledger/',
   },
@@ -125,7 +140,7 @@ export const projects: Project[] = [
     description:
       'A branding project for an urban fashion brand that blends class with streetwear flair. Distinctive high contrast typeface combined with bold colors as its primary brand components shows off brands unique personality.',
     aspect: 1,
-    assets: [[HighRoads00], [HighRoads01, HighRoads02]],
+    blocks: [[HighRoads00], [HighRoads01, HighRoads02]],
     tags: ['Adobe Illustrator', '© 2020'],
   },
   {
@@ -138,7 +153,7 @@ export const projects: Project[] = [
       'An illustration for a challenge presented by Memobottle, known for its unique paper-inspired design that allows the bottles to sit flat against laptops, books, and any other item you might carry. The challenge called artists to showcase their creativity by sketching, shooting, or freestyling the Memobottle in various environments. For my submission, I decided to add a playful twist, featuring their A5 and Slim memobottle floating in a the pool.',
     aspect: 1.5,
     tags: ['Adobe Illustrator', '© 2021'],
-    assets: [[Memobottle00]],
+    blocks: [[Memobottle00]],
     link: 'https://www.instagram.com/explore/tags/memoart21/',
   },
   {
@@ -150,7 +165,7 @@ export const projects: Project[] = [
     aspect: 1.2,
     description:
       'In collaboration with Lepidečki Brewery, we designed a crisp and refreshing lager beer for Infinum that comes in all-black cans with an eye-catching white label featuring an oversized Neue Haas font that will make you want to spin the bottle and take a sip.',
-    assets: [[InfinumBeer00]],
+    blocks: [[InfinumBeer00]],
     tags: ['Adobe Illustrator', '© 2022'],
   },
 
@@ -163,7 +178,7 @@ export const projects: Project[] = [
     description:
       'I collected tons of tickets, stickers, papers, and generally memories that I shared with my fiance over the last 9 years. These are some of them but made digital. If you think ZET ticket is a bit random, wait till I recreate part 2. Bonus pic — Dora for scale.',
     aspect: 0.75,
-    assets: [[MemoriesPoster00]],
+    blocks: [[MemoriesPoster00]],
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
   },
   {
@@ -207,7 +222,7 @@ export const projects: Project[] = [
     description:
       'With the brand being known for its light, clean, and bold aesthetic, the merchandise was designed to reflect these qualities and use signature red color as an accent.',
     aspect: 0.73,
-    assets: [
+    blocks: [
       [InfinumMerch00],
       [InfinumMerch01, InfinumMerch02],
       [InfinumMerch03, InfinumMerch04, InfinumMerch05],
@@ -223,7 +238,7 @@ export const projects: Project[] = [
     description:
       'Series of posters for Royal Opera House, taking a refreshing perspective on these well-known stories.',
     aspect: 0.73,
-    assets: [[OperaPosters00], [OperaPosters01, OperaPosters02, OperaPosters03]],
+    blocks: [[OperaPosters00], [OperaPosters01, OperaPosters02, OperaPosters03]],
   },
   {
     type: 'project',
@@ -234,7 +249,7 @@ export const projects: Project[] = [
     description:
       'In the midst of a worldwide quarantine, Christmas 2020 called for a touch of sweetness to uplift spirits. We answered the call by curating a delightful three-pack of Croatian honey, as a heartfelt gift for our clients. With over 500 gifts shipped, we aimed to bring a taste of warmth and indulgence to homes during these challenging times.',
     aspect: 1,
-    assets: [[Honey00], [Honey01], [Honey02, Honey03]],
+    blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
     tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
@@ -244,7 +259,7 @@ export const projects: Project[] = [
     preview: FruitStickersPreview,
     filters: ['illustration'],
     aspect: 1,
-    assets: [[Memobottle00]],
+    blocks: [[Memobottle00]],
   },
   {
     type: 'project',
@@ -263,7 +278,7 @@ export const projects: Project[] = [
     aspect: 1,
     description:
       "To capture the essence of Elizabeth's Flowers' quality and attention to detail, we opted for a timeless, elegant serif font and a green and subtly pink color palette.",
-    assets: [[ElizabethsFlowers00], [ElizabethsFlowers01, ElizabethsFlowers02]],
+    blocks: [[ElizabethsFlowers00], [ElizabethsFlowers01, ElizabethsFlowers02]],
     tags: ['Adobe Illustrator', '© 2019'],
   },
   {
@@ -275,7 +290,7 @@ export const projects: Project[] = [
     aspect: 1.2,
     description:
       "To capture the essence of Elizabeth's Flowers' quality and attention to detail, we opted for a timeless, elegant serif font and a green and subtly pink color palette.",
-    assets: [[HavgrimPreview00], [HavgrimPreview01, HavgrimPreview02, HavgrimPreview03]],
+    blocks: [[HavgrimPreview00], [HavgrimPreview01, HavgrimPreview02, HavgrimPreview03]],
     tags: ['Adobe Illustrator', '© 2019'],
   },
 ];
