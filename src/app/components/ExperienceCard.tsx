@@ -38,7 +38,7 @@ export default function ExperienceCard() {
           {positions.map((p, i) => (
             <li
               key={i}
-              className="pb-4 border-b border-main-theme-overlay flex items-center justify-between last-of-type:border-none"
+              className="flex-col items-start xs:flex-row pb-4 border-b border-main-theme-overlay flex xs:items-center justify-between last-of-type:border-none"
             >
               <span className="flex-1 flex items-center gap-2">
                 <span className="text-text-secondary">
