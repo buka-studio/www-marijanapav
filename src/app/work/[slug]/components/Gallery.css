@@ -1,0 +1,16 @@
+.gallery-overlay {
+  animation: show 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-content {
+  animation: show 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

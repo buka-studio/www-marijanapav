@@ -19,7 +19,7 @@ export default function Header({ children }: { children?: ReactNode }) {
       className={clsx(
         'flex justify-between py-4 px-5 z-10 sticky top-0 transition-all duration-300 rounded-br-[32px] rounded-bl-[32px] ease-in-out flex-wrap',
         {
-          ['translate-y-[-120px]']: y > headerTriggerY && directionY === 'down',
+          ['translate-y-[-128px]']: y > headerTriggerY && directionY === 'down',
           ['backdrop-blur-[6px] bg-transparent [&]']: y > headerTriggerY,
         },
       )}
@@ -36,7 +36,9 @@ export default function Header({ children }: { children?: ReactNode }) {
         />
         <span className="hidden md:inline">Marijana Šimag</span>
       </Link>
-      {children && <div className="order-3 mt-4 w-full lg:w-auto lg:order-none">{children}</div>}
+      {children && (
+        <div className="order-3 mt-4 lg:mt-0 w-full lg:w-auto lg:order-none">{children}</div>
+      )}
       <ThemeSwitcher />
     </header>
   );

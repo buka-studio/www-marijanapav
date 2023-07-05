@@ -1,15 +1,17 @@
-import Image, { StaticImageData } from 'next/image';
+import { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 
 import { LinkIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
+import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
 import ViewLogger from '~/src/components/ViewCounter';
 
 import MouseVarsProvider from '../../components/MouseVarsProvider';
 import { projects, StaticProject } from '../constants';
+import Gallery, { GalleryTrigger } from './components/Gallery';
 import PaginationCard from './components/PaginationCard';
 
 function hostname(url: string): string {
@@ -39,17 +41,19 @@ export default function Work({ params }: { params: { slug: string } }) {
     notFound();
   }
 
+  const allImages = project.blocks?.flat().filter((e) => 'src' in (e as any)) as StaticImageData[];
+
   return (
-    <>
+    <Gallery sources={allImages}>
       {project.slug && <ViewLogger pathname={`/work/${project.slug}`} />}
       <div className="flex-1 py-10 px-5 [html:has(&)_footer>*:not(.nav)]:invisible">
         <Heading className="text-5xl mb-2 text-left max-w-xl">{project.title}</Heading>
         <p className="max-w-xl text-left">{project.description}</p>
-        <div className="mt-10 flex items-center justify-between">
+        <div className="mt-10 flex justify-between gap-3 flex-col sm:items-center sm:flex-row items-start ">
           {(project.tags?.length || 0) > 0 && (
-            <div className="flex justify-left gap-2">
+            <div className="flex justify-left gap-2 flex-wrap">
               {project.tags?.map((t, i) => (
-                <Tag key={i} className="text-sm ">
+                <Tag key={i} className="text-sm">
                   {t}
                 </Tag>
               ))}
@@ -58,13 +62,13 @@ export default function Work({ params }: { params: { slug: string } }) {
           {project.link && (
             <Tag>
               <a
-                className="text-text-alt flex gap-2"
+                className="flex text-sm gap-2 items-center"
                 href={project.link}
                 target="_blank"
                 rel="noreferrer noopener"
               >
                 {hostname(project.link)}
-                <LinkIcon />
+                <LinkIcon className="w-5 h-5" />
               </a>
             </Tag>
           )}
@@ -77,12 +81,12 @@ export default function Work({ params }: { params: { slug: string } }) {
                 <div className="flex gap-2 md:gap-4 justify-left" key={i}>
                   {(b as StaticImageData[]).map((e, i) => (
                     <div key={i} className="max-h-[700px] [&:only-child_img]:object-cover flex-1">
-                      <Image
-                        src={e}
+                      <GalleryTrigger
                         key={i}
-                        alt=""
-                        className="max-h-full w-full object-cover m-auto"
-                      />
+                        at={allImages.findIndex((e) => e.src === (b as StaticImageData[])[i].src)}
+                      >
+                        <Image src={e} alt="" className="max-h-full w-full object-cover m-auto" />
+                      </GalleryTrigger>
                     </div>
                   ))}
                 </div>
@@ -117,6 +121,6 @@ export default function Work({ params }: { params: { slug: string } }) {
           </div>
         </MouseVarsProvider>
       </div>
-    </>
+    </Gallery>
   );
 }
