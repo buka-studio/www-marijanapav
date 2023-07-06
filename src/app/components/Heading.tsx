@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import clsx from 'clsx';
+import { ComponentProps, useEffect, useRef } from 'react';
 
 import HighlightedText, { Controls } from '~/src/components/HighlightedHeading';
 import Heading from '~/src/components/ui/Heading';
@@ -9,7 +10,7 @@ const lines = ['Visual designer', 'exploring the best', 'of traditional & digita
 
 const staggerMs = 300;
 
-export default function Hheading() {
+export default function Hheading({ className, ...props }: ComponentProps<'h1'>) {
   const index = useRef(0);
   const textRefs = useRef(new Map<number, Controls>());
 
@@ -28,11 +29,11 @@ export default function Hheading() {
   }, [index]);
 
   return (
-    <Heading className="mb-[82px] max-w-[900px]">
+    <Heading className={clsx('max-w-[900px]', className)}>
       {lines.map((l, i) => (
         <HighlightedText
           aria-hidden
-          className="text-5xl lg:text-8xl font-archivo"
+          className="text-4xl lg:text-8xl font-archivo"
           ref={(e) => textRefs.current.set(i, e!)}
           key={l}
         >

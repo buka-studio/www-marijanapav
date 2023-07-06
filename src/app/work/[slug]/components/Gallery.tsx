@@ -56,7 +56,7 @@ function nextIndex(i: number, length: number) {
 }
 
 export default function GalleryContextProvider({
-  sources,
+  sources = [],
   children,
 }: {
   sources: string[] | StaticImageData[];

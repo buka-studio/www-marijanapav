@@ -7,7 +7,7 @@ import FloatingNav from './FloatingNav';
 export default function Footer({ children }: { children?: ReactNode }) {
   return (
     <>
-      <div className="mb-5 md:mb-0 md:fixed sticky bottom-5 nav mx-auto md:bottom-8 md:left-1/2 md:-translate-x-1/2 rounded-full z-10">
+      <div className="mb-5 md:mb-0 md:fixed sticky bottom-5 nav mx-auto md:bottom-8 md:left-1/2 md:-translate-x-1/2 rounded-full z-[11]">
         <FloatingNav />
       </div>
       <footer className="flex justify-between pb-4 md:pb-8 text-text-primary px-5 z-10">

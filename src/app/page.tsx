@@ -70,8 +70,8 @@ export default async function Home() {
       <div className="fixed glow h-[400px] w-[400px] blur-3xl rounded-full pointer-events-none" />
       <div className="flex flex-col px-5 py-5 md:py-12">
         <main className="pb-[100px]">
-          <Heading />
-          <div className="mb-[82px] sm:flex-row items-start sm:items-center flex-col sm:gap-4 flex gap-2 text-text-primary">
+          <Heading className="mb-8" />
+          <div className="mb-20 sm:flex-row items-start sm:items-center flex-col sm:gap-4 flex gap-2 text-text-primary">
             <div>What I do</div>
             <div className="flex gap-2">
               {projectLinks.map(({ label, ...linkProps }) => (

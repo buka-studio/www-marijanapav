@@ -23,8 +23,8 @@ export default function StampsCard() {
   return (
     <Card className="">
       <div className="flex flex-col">
-        <div className="w-full overflow-hidden relative rounded-xl mb-5 min-h-[240px] md:min-h-[480px]">
-          <div className="stamps absolute translate-x-[10%] translate-y-[30px] scale-[120%] [&_>*:not(:first-child)]:mt-[-1px]">
+        <div className="w-full overflow-hidden relative rounded-xl mb-5 min-h-[240px] xl:min-h-[480px]">
+          <div className="stamps absolute translate-x-[8%] translate-y-[30px] scale-[120%] [&_>*:not(:first-child)]:mt-[-1px]">
             <Stamps />
           </div>
         </div>

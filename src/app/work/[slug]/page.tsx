@@ -44,7 +44,7 @@ export default function Work({ params }: { params: { slug: string } }) {
   const allImages = project.blocks?.flat().filter((e) => 'src' in (e as any)) as StaticImageData[];
 
   return (
-    <Gallery sources={allImages}>
+    <>
       {project.slug && <ViewLogger pathname={`/work/${project.slug}`} />}
       <div className="flex-1 py-10 px-5 [html:has(&)_footer>*:not(.nav)]:invisible">
         <Heading className="text-5xl mb-2 text-left max-w-xl">{project.title}</Heading>
@@ -73,32 +73,35 @@ export default function Work({ params }: { params: { slug: string } }) {
             </Tag>
           )}
         </div>
-        <div className="flex flex-col gap-2 md:gap-4 mt-[80px]">
-          {project.blocks?.map((b, i) => {
-            const isImageBlock = b.every((e) => 'src' in (e as any));
-            if (isImageBlock) {
+        <Gallery sources={allImages}>
+          <div className="flex flex-col gap-2 md:gap-4 mt-[80px]">
+            {project.blocks?.map((b, i) => {
+              const isImageBlock = b.every((e) => 'src' in (e as any));
+              if (isImageBlock) {
+                return (
+                  <div className="flex gap-2 md:gap-4 justify-left" key={i}>
+                    {(b as StaticImageData[]).map((e, i) => (
+                      <div key={i} className="max-h-[700px] [&:only-child_img]:object-cover flex-1">
+                        <GalleryTrigger
+                          key={i}
+                          at={allImages.findIndex((e) => e.src === (b as StaticImageData[])[i].src)}
+                        >
+                          <Image src={e} alt="" className="max-h-full w-full object-cover m-auto" />
+                        </GalleryTrigger>
+                      </div>
+                    ))}
+                  </div>
+                );
+              }
               return (
-                <div className="flex gap-2 md:gap-4 justify-left" key={i}>
-                  {(b as StaticImageData[]).map((e, i) => (
-                    <div key={i} className="max-h-[700px] [&:only-child_img]:object-cover flex-1">
-                      <GalleryTrigger
-                        key={i}
-                        at={allImages.findIndex((e) => e.src === (b as StaticImageData[])[i].src)}
-                      >
-                        <Image src={e} alt="" className="max-h-full w-full object-cover m-auto" />
-                      </GalleryTrigger>
-                    </div>
-                  ))}
+                <div className="my-8" key={i}>
+                  {(b as ReactNode[]).map((e, i) => e)}
                 </div>
               );
-            }
-            return (
-              <div className="my-8" key={i}>
-                {(b as ReactNode[]).map((e, i) => e)}
-              </div>
-            );
-          })}
-        </div>
+            })}
+          </div>
+        </Gallery>
+
         <MouseVarsProvider>
           <div className="flex flex-col max-w-3xl m-auto gap-9 mt-20">
             {previousProject || nextProject ? (
@@ -121,6 +124,6 @@ export default function Work({ params }: { params: { slug: string } }) {
           </div>
         </MouseVarsProvider>
       </div>
-    </Gallery>
+    </>
   );
 }
