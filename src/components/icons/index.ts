@@ -6,6 +6,7 @@ import ChevronIcon from './Chevron.svg';
 import ContentCopyIcon from './Content-copy.svg';
 import DarkIcon from './Dark.svg';
 import DribbbleIcon from './Dribbble.svg';
+import ExitIcon from './Exit.svg';
 import EyeOffIcon from './Eye-off.svg';
 import EyeIcon from './Eye.svg';
 import FilterIcon from './Filter.svg';
@@ -26,28 +27,29 @@ import TwitterIcon from './Twitter.svg';
 
 export {
   ActiveIcon,
+  ArrowRightIcon,
   BehanceIcon,
+  BukaIcon,
   ChevronIcon,
   ContentCopyIcon,
+  DarkIcon,
   DribbbleIcon,
-  EyeOffIcon,
+  ExitIcon,
   EyeIcon,
+  EyeOffIcon,
   FilterIcon,
+  InfoIcon,
   InstagramIcon,
   LeftIcon,
   LettersIcon,
+  LightIcon,
   LinkIcon,
   LinkedinIcon,
   LogoIcon,
+  PinIcon,
   PublishedIcon,
-  ArrowRightIcon,
+  ResetIcon,
+  SystemIcon,
   TopIcon,
   TwitterIcon,
-  BukaIcon,
-  InfoIcon,
-  ResetIcon,
-  PinIcon,
-  DarkIcon,
-  LightIcon,
-  SystemIcon,
 };

@@ -29,7 +29,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
     >
       <div
         className={clsx(
-          'card rounded-[14px] bg-panel-background text-text-primary [&_>*]:opacity-1 relative z-[1] p-2',
+          'card rounded-[14px] bg-panel-background text-text-primary [&_>*]:opacity-1 relative z-[1] p-1 md:p-2',
           className,
         )}
         ref={contentRef}

@@ -2,6 +2,7 @@ const { fontFamily } = require('tailwindcss/defaultTheme');
 const globalTokens = require('./tokens/style/global.json');
 const themeTokens = require('./tokens/style/theme-light.json');
 const { filterTokensByType } = require('./tokens/util');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 const globalColors = filterTokensByType('color', globalTokens);
 const themeColors = filterTokensByType('color', themeTokens);
@@ -23,6 +24,8 @@ module.exports = {
         card: '0px 4px 36px var(--panel-dropshadow-color)',
       },
       screens: {
+        xs: '475px',
+        ...defaultTheme.screens,
         '2xl': '1336px',
       },
     },
