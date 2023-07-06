@@ -43,10 +43,9 @@ import MemoriesPoster03 from '~/public/work/memories-poster/memories_03.png';
 import MemoriesPoster04 from '~/public/work/memories-poster/memories_04.png';
 import MemoriesPoster05 from '~/public/work/memories-poster/memories_05.png';
 import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
-import OperaPosters00 from '~/public/work/opera-posters/posters_00.jpg';
-import OperaPosters01 from '~/public/work/opera-posters/posters_01.jpg';
-import OperaPosters02 from '~/public/work/opera-posters/posters_02.jpg';
-import OperaPosters03 from '~/public/work/opera-posters/posters_03.jpg';
+import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
+import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
+import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
 import OperaPostersPreview from '~/public/work/opera-posters/preview.png';
 import ProgramEndPreview from '~/public/work/program-end/preview.png';
 import DigitalStampCollection from '~/public/work/stamps/preview.png';
@@ -58,6 +57,8 @@ import Stamps04 from '~/public/work/stamps/stamps_04.png';
 import Stamps05 from '~/public/work/stamps/stamps_05.png';
 import Stamps06 from '~/public/work/stamps/stamps_06.png';
 import Stamps07 from '~/public/work/stamps/stamps_07.png';
+import Stamps08 from '~/public/work/stamps/stamps_08.png';
+import Stamps09 from '~/public/work/stamps/stamps_09.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
 
 import Paragraph from './[slug]/components/Paragraph';
@@ -101,20 +102,24 @@ export const projects: Project[] = [
     preview: DigitalStampCollection,
     filters: ['illustration'],
     description:
-      "Digital Stamp Collection is my personal project of digitally recreating my grandpa's stamps. It's an homage to his journey, now brought online. Inspired by my family's stamp collection, I started my own philately collection, but in a digital format. With over 100 stamps created and three distinct styles explored, I continue to push boundaries. Stay tuned for updates on this project at marijanasimag.com/stamps-showoff.",
+      "This is my personal project of digitally recreating my grandpa's stamps. It's an homage to his journey, now brought online. I started my own philately collection, but in a digital format. Through this collection I've set myself a goal of trying out new things.",
     blocks: [
       [Stamps00],
       [Stamps01, Stamps02, Stamps03],
+      [Stamps04, Stamps05, Stamps06],
       [
         <Paragraph key="1">
-          Through this collection I&apos;ve set myself a goal of trying out new things. As my love
-          for illustration grew, so did my “style” evolve. Stamps started off as monoline, then I
-          decided to learn Procreate, after that more layout exploration ensued. More on this
+          With over 100 stamps created and three distinct styles explored, I try to push boundaries
+          and learn new softwares. As my love for illustration grew, so did my “style” evolve. In
+          2020 when the quarantine started so did my monoline collection. First iterations were made
+          in Adobe Illustrator, until I wanted to learn Procreate; then stamps got more and more
+          detailed and textured, only to later get an Intuos Pro and learn Affinity Designer aswell.
+          I keep saying next phase should be stamps in motion but we'll see about that! More on this
           project soon <Link href="/stamp-showoff">here</Link>
         </Paragraph>,
       ],
-      [Stamps04, Stamps05, Stamps06],
       [Stamps07],
+      [Stamps08, Stamps09],
     ],
     blocksConfig: {
       assetsStretch: true,
@@ -166,10 +171,10 @@ export const projects: Project[] = [
     title: 'Infinum Craft Beer Can Packaging',
     slug: 'infinum-beer',
     preview: InfinumBeerPreview,
-    filters: ['branding', 'ux-ui'],
+    filters: ['branding', 'other'],
     aspect: 1.2,
     description:
-      'In collaboration with Lepidečki Brewery, we designed a crisp and refreshing lager beer for Infinum that comes in all-black cans with an eye-catching white label featuring an oversized Neue Haas font that will make you want to spin the bottle and take a sip.',
+      'Infinum collaboration with Lepidečki Brewery. We designed a crisp and refreshing lager beer for Infinum events aimed at developers, nudging users to think of Github PRs. The "Pour Request" beer comes in all-black cans with an eye-catching white label featuring an oversized Neue Haas font that will make you want to spin the bottle and take a sip.',
     blocks: [[InfinumBeer00]],
     tags: ['Adobe Illustrator', '© 2022'],
   },
@@ -181,7 +186,7 @@ export const projects: Project[] = [
     preview: MemoriesPosterPreview,
     filters: ['branding', 'ux-ui'],
     description:
-      'I collected tons of tickets, stickers, papers, and generally memories that I shared with my fiance over the last 9 years. These are some of them but made digital.',
+      'I collected tons of tickets, stickers, papers, and generally memories that I shared with my fiance over the years. These are some of them but made digital.',
     aspect: 0.75,
     blocks: [
       [MemoriesPoster00],
@@ -213,13 +218,13 @@ export const projects: Project[] = [
     preview: InfinumPostersPreview,
     filters: ['illustration', 'branding'],
     description:
-      'Series of posters for Royal Opera House, taking a refreshing perspective on these well-known stories.',
+      "An exploration of Infinum's new typeface and refreshed branding brought to life through a collection of large B2 office posters inspired by iconic Vignelli type compositions. Each layout showcases the essence of Infinum's brand identity and pays homage to the power of the bold Neue Haas typeface, aligning with Infinum's brand ethos.",
     aspect: 0.7,
   },
   {
     type: 'component',
     content: <SupabaseCard />,
-    filters: ['branding', 'ux-ui', 'illustration'],
+    filters: ['branding', 'ux-ui'],
   },
 
   {
@@ -247,7 +252,7 @@ export const projects: Project[] = [
     description:
       'Series of posters for Royal Opera House, taking a refreshing perspective on these well-known stories.',
     aspect: 0.73,
-    blocks: [[OperaPosters00], [OperaPosters01, OperaPosters02, OperaPosters03]],
+    blocks: [[OperaPosters00, OperaPosters01, OperaPosters02]],
   },
   {
     type: 'project',

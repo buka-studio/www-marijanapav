@@ -12,7 +12,12 @@ export default function SupabaseCard() {
           <LinkIcon className="ml-4 inline w-6 h-6" />
         </p>
         <Heading className="text-3xl md:text-4xl">
-          <a href="#" className="group">
+          <a
+            href="https://supabase.com/blog/designing-with-ai-midjourney"
+            className="group"
+            rel="noreferrer"
+            target="_blank"
+          >
             Designing with&nbsp;AI
           </a>
         </Heading>
