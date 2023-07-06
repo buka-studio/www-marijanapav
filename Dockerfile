@@ -2,7 +2,7 @@
 
 # Adjust NODE_VERSION as desired
 ARG NODE_VERSION=20
-FROM node:${NODE_VERSION}-slim as base
+FROM node:${NODE_VERSION}-alpine as base
 
 LABEL fly_launch_runtime="Next.js"
 
@@ -17,8 +17,11 @@ ENV NODE_ENV=production
 FROM base as build
 
 # Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install -y python-is-python3 pkg-config build-essential 
+# RUN apt-get update -qq && \
+#     apt-get install -y python-is-python3 pkg-config build-essential 
+
+RUN apk add --no-cache libc6-compat
+RUN apk add g++ make py3-pip
 
 # Install node modules
 COPY --link package.json package-lock.json ./
@@ -32,7 +35,6 @@ RUN npm run build
 
 # Remove development dependencies
 RUN npm prune --omit=dev
-
 
 # Final stage for app image
 FROM base

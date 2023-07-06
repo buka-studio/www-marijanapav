@@ -114,7 +114,7 @@ export const projects: Project[] = [
           2020 when the quarantine started so did my monoline collection. First iterations were made
           in Adobe Illustrator, until I wanted to learn Procreate; then stamps got more and more
           detailed and textured, only to later get an Intuos Pro and learn Affinity Designer aswell.
-          I keep saying next phase should be stamps in motion but we'll see about that! More on this
+          I keep saying next phase should be stamps in motion but we&apos;ll see about that! More on this
           project soon <Link href="/stamp-showoff">here</Link>
         </Paragraph>,
       ],
