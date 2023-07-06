@@ -91,7 +91,7 @@ export default function GalleryContextProvider({
           if (nextI !== undefined) {
             setIndex(nextI);
           }
-        }, 500);
+        }, 1000);
       },
       {
         root: scrollAreaRef.current,
@@ -146,13 +146,13 @@ export default function GalleryContextProvider({
       {children}
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Portal>
-          <Dialog.Overlay className="gallery-overlay bg-neutral-900 inset-0 fixed z-10 backdrop-blur [.theme-light_&]:bg-white [.theme-dark_&]:bg-neutral-950 [.theme-dark_&]:bg-opacity-80 [.theme-light_&]:bg-opacity-80" />
+          <Dialog.Overlay className="gallery-overlay bg-neutral-900 inset-0 fixed z-20 backdrop-blur [.theme-light_&]:bg-white [.theme-dark_&]:bg-neutral-950 [.theme-dark_&]:bg-opacity-80 [.theme-light_&]:bg-opacity-80" />
           <Dialog.Content
             className="gallery-content pointer-events-none
-          h-[calc(90vh-85px)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] z-[11] fixed"
+          h-[calc(calc(var(--vh,1vh)*90)-85px)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] z-[21] fixed focus-visible:outline-none"
           >
             <div
-              className="flex overflow-x-auto gap-4 snap snap-mandatory snap-x scrollbar-none h-full"
+              className="flex focus-visible:outline-none overflow-x-auto gap-4 snap snap-mandatory snap-x scrollbar-none h-full"
               ref={(e) => {
                 if (e && !scrollAreaRef.current && !firstOpen.current) {
                   e.scroll({
@@ -165,8 +165,18 @@ export default function GalleryContextProvider({
               }}
             >
               {sources.map((src, i) => (
-                <div className="slide w-[90vw] shrink-0 px-3 snap-start h-full" key={i}>
-                  <Image alt="" src={src} className="w-full h-full object-contain" />
+                <div
+                  className="slide w-[90vw] shrink-0 px-3 snap-start h-full focus-visible:outline-none"
+                  key={i}
+                  ref={(e) => {
+                    photoRefs.current.set(e!, { e: e!, i });
+                  }}
+                >
+                  <Image
+                    alt=""
+                    src={src}
+                    className="w-full h-full object-contain focus-visible:outline-none"
+                  />
                 </div>
               ))}
             </div>
