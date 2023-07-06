@@ -57,7 +57,7 @@ export default function Navabar() {
         )}
       >
         <span className="bg-main-theme-3 h-[2rem] w-[2rem] flex justify-end items-center z-[1] rounded-full px-2 relative">
-          <ArrowRightIcon className="w-6 h-6 -rotate-90" />
+          <ArrowRightIcon className="w-6 h-6 -rotate-90 text-text-primary" />
         </span>
       </button>
     </>
