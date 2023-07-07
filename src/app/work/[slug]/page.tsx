@@ -9,8 +9,9 @@ import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
 import ViewLogger from '~/src/components/ViewCounter';
 
-import DynamivVHProvider from '../../components/DynamicVHProvider';
+import DynamicVHProvider from '../../components/DynamicVHProvider';
 import MouseVarsProvider from '../../components/MouseVarsProvider';
+import Divider from '../components/Divider';
 import { projects, StaticProject } from '../constants';
 import Gallery, { GalleryTrigger } from './components/Gallery';
 import PaginationCard from './components/PaginationCard';
@@ -74,7 +75,7 @@ export default function Work({ params }: { params: { slug: string } }) {
             </Tag>
           )}
         </div>
-        <DynamivVHProvider>
+        <DynamicVHProvider>
           <Gallery sources={allImages}>
             <div className="flex flex-col gap-2 md:gap-4 mt-[80px]">
               {project.blocks?.map((b, i) => {
@@ -112,7 +113,12 @@ export default function Work({ params }: { params: { slug: string } }) {
               })}
             </div>
           </Gallery>
-        </DynamivVHProvider>
+        </DynamicVHProvider>
+        <Divider className="mt-24 text-center text-sm">
+          {project.title} <span className="hidden md:inline">·</span> <br className="md:hidden" />{' '}
+          Published Jun 18th 2023
+        </Divider>
+
         <MouseVarsProvider>
           <div className="flex flex-col max-w-3xl m-auto gap-9 mt-20">
             {previousProject || nextProject ? (
