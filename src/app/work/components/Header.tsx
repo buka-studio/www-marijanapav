@@ -17,7 +17,7 @@ function getFilterLabel(tag: string): string {
 export default function Header({ filter }: { filter?: Filter }) {
   return (
     <MainHeader>
-      <div className="filters flex gap-1 items-center overflow-x-auto flex-nowrap whitespace-nowrap md:overflow-visible overflow-y-hidden">
+      <div className="filters flex gap-1 items-center overflow-x-auto flex-nowrap whitespace-nowrap md:overflow-visible overflow-y-hidden scrollbar-none">
         {filters.map((f) => (
           <Link href={f === 'all' ? `/work` : `/work?f=${f}`} passHref legacyBehavior key={f}>
             <Button

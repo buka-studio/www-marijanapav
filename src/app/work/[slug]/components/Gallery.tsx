@@ -51,14 +51,15 @@ export function GalleryTrigger({
   );
 }
 
-function prevIndex(i: number, length: number) {
+function getPrevIndex(i: number, length: number) {
   return (i + length - 1) % length;
 }
 
-function nextIndex(i: number, length: number) {
+function getNextIndex(i: number, length: number) {
   return (i + 1) % length;
 }
 
+// todo: impl infinite slider
 function Slider({
   sources,
   index,
@@ -104,9 +105,9 @@ function Slider({
   useEffect(() => {
     function handleArrowKeys(e: KeyboardEvent) {
       if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        setIndex((i) => prevIndex(i, sources.length));
+        setIndex((i) => getPrevIndex(i, sources.length));
       } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        setIndex((i) => nextIndex(i, sources.length));
+        setIndex((i) => getNextIndex(i, sources.length));
       }
     }
 
@@ -114,18 +115,24 @@ function Slider({
     return () => window.removeEventListener('keydown', handleArrowKeys);
   }, [setIndex, sources.length]);
 
+  const prevIndex = useRef(index);
   useEffect(() => {
     if (!scrollAreaRef.current) {
       return;
     }
 
+    const wraparound =
+      (index === 0 && prevIndex.current === sources.length - 1) ||
+      (prevIndex.current === 0 && index === sources.length - 1);
+
     scrollAreaRef.current!.scroll({
       left: scrollAreaRef.current!.clientWidth * index,
-      behavior: !didFirstScroll.current ? 'auto' : 'smooth',
+      behavior: !didFirstScroll.current || wraparound ? 'auto' : 'smooth',
     });
 
+    prevIndex.current = index;
     didFirstScroll.current = true;
-  }, [index]);
+  }, [index, sources.length]);
 
   return (
     <div className="h-full w-full relative">
@@ -158,13 +165,13 @@ function Slider({
         </Dialog.Close>
       </div>
       <Button
-        onClick={() => setIndex((i) => prevIndex(i, sources.length))}
+        onClick={() => setIndex((i) => getPrevIndex(i, sources.length))}
         aria-label="Go to previous slide"
         className="left-0 top-1/2 -translate-y-1/2 fixed"
         iconLeft={<ArrowRightIcon className="rotate-180" />}
       />
       <Button
-        onClick={() => setIndex((i) => nextIndex(i, sources.length))}
+        onClick={() => setIndex((i) => getNextIndex(i, sources.length))}
         aria-label="Go to next slide"
         className="right-0 top-1/2 -translate-y-1/2 fixed"
         iconLeft={<ArrowRightIcon />}
