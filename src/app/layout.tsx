@@ -43,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </ThemeProvider>
+        <div className='top-layer h-screen w-screen top-0 left-0 fixed pointer-events-none z-50'/>
       </body>
     </html>
   );
