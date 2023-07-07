@@ -10,7 +10,7 @@ function getMainEl() {
 }
 
 function getThemeClassnames() {
-  return Array.from(getMainEl()?.classList.values()!).filter((c) => c.startsWith('theme-'));
+  return Array.from(getMainEl()?.classList.values()! || []).filter((c) => c.startsWith('theme-'));
 }
 
 function getColorThemeFromClass(classList: string[]): ColorTheme | undefined {

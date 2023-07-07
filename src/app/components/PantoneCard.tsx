@@ -35,7 +35,7 @@ export default function PantoneCard() {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          const [theme] = Array.from(el?.classList.values()!).filter((c) => c.startsWith('theme-'));
+          const [theme] = Array.from(el?.classList.values()! || []).filter((c) => c.startsWith('theme-'));
 
           setPantone(theme ? pantoneByTheme[theme.slice(6) as Theme] : undefined);
         }

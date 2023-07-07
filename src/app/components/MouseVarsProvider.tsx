@@ -9,7 +9,7 @@ export default function MouseVarsProvider({ children }: { children: ReactNode })
   useEffect(() => {
     const handler = ({ clientX, clientY }: MouseEvent) => {
       const shinyCards = document.querySelectorAll('.' + relativeMouseClassname);
-      const targetBCRs = Array.from(shinyCards).map((el) => ({
+      const targetBCRs = Array.from(shinyCards || []).map((el) => ({
         el: el as HTMLElement,
         bcr: el.getBoundingClientRect(),
       }));
