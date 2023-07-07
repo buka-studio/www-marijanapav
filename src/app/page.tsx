@@ -60,6 +60,12 @@ const fetchSneakPeekCount = () =>
       return 0;
     });
 
+export const metadata = {
+  title: 'About | Marijana Šimag',
+  description:
+    'Visual designer and Illustrator working remotely from Croatia, deep diving into all things digital, focusing on web design and UX.',
+};
+
 export default async function Home() {
   const currentCount = await fetchSneakPeekCount();
 

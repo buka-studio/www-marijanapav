@@ -4,6 +4,12 @@ import ViewLogger from '~/src/components/ViewCounter';
 import Header from './components/Header';
 import { Filter, projects } from './constants';
 
+export const metadata = {
+  title: 'Work | Marijana Šimag',
+  description:
+    'Explore a curated selection of work projects and a few passion projects ranging from print to digital.',
+};
+
 export default function Work({ searchParams }: { searchParams: { f?: Filter } }) {
   const filteredProjects = projects.filter((p) => {
     if (!searchParams?.f || searchParams?.f === 'all') {

@@ -1,8 +1,4 @@
-'use client';
-
-import { useState } from 'react';
-
-import { ContentCopyIcon } from '~/src/components/icons';
+import CopyToClipboard from '~/src/components/CopyToClipboard';
 import Button from '~/src/components/ui/Button';
 import ViewLogger from '~/src/components/ViewCounter';
 
@@ -33,9 +29,12 @@ const links = [
 
 const email = 'hello@marijanasimag.com';
 
-export default function Contact() {
-  const [copied, setCopied] = useState(false);
+export const metadata = {
+  title: 'Contact | Marijana Šimag',
+  description: 'Reach out to say hi, talk future projects or talk about my cat.',
+};
 
+export default function Contact() {
   return (
     <>
       <Header />
@@ -52,16 +51,7 @@ export default function Contact() {
               <wbr />
               simag.com
             </a>
-            <Button
-              iconLeft={<ContentCopyIcon />}
-              onClick={() => {
-                navigator.clipboard.writeText(email).then(() => {
-                  setCopied(true);
-                });
-              }}
-            >
-              {copied ? 'Copied!' : 'Copy'}
-            </Button>
+            <CopyToClipboard content={email} />
           </div>
 
           <div className="flex gap-2 flex-wrap justify-center">
