@@ -47,7 +47,7 @@ export default function Navabar() {
       </nav>
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        aria-label="Sroll to top"
+        aria-label="Scroll to top"
         className={clsx(
           'anchor-top absolute top-1/2 -translate-y-1/2  rounded-full transition-all duration-300 ',
           {

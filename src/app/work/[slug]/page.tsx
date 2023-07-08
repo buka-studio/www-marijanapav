@@ -32,7 +32,7 @@ export default function Work({ params }: { params: { slug: string } }) {
     .find((p) => 'slug' in p && p.slug === params?.slug) as StaticProject;
 
   const associatedProjects = projects.filter(
-    (p) => p.type === 'project' && intersection(p.tags, project.tags).length > 0,
+    (p) => p.type === 'project' && !p.hidden && intersection(p.tags, project.tags).length > 0,
   ) as StaticProject[];
   const projectIndex = associatedProjects.findIndex((p) => p.slug === project.slug);
   const previousProject = projectIndex > 0 && associatedProjects[projectIndex - 1];

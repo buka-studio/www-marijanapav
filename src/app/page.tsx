@@ -22,11 +22,14 @@ import MouseVarsProvider from './components/MouseVarsProvider';
 
 import './page.css';
 
-const projectLinks = [
+import { Filter } from './work/constants';
+
+type FilterHref = `/work?f=${Filter}`;
+
+const projectLinks: Array<{ label: string; href: FilterHref }> = [
   { label: 'Branding', href: '/work?f=branding' },
-  { label: 'UX/UI', href: '/work?f=product-design' },
+  { label: 'UX/UI', href: '/work?f=ux-ui' },
   { label: 'Illustration', href: '/work?f=illustration' },
-  { label: 'Other', href: '/work?f=other' },
 ];
 
 const cards = [

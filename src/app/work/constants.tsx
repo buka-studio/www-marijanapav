@@ -36,12 +36,12 @@ import InfinumPostersPreview from '~/public/work/infinum-posters/preview.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
 import Memobottle00 from '~/public/work/memobottle/memobottle_00.jpg';
 import MemobottlePreview from '~/public/work/memobottle/preview.png';
-import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.jpg';
 import MemoriesPoster01 from '~/public/work/memories-poster/memories_01.png';
 import MemoriesPoster02 from '~/public/work/memories-poster/memories_02.png';
 import MemoriesPoster03 from '~/public/work/memories-poster/memories_03.png';
 import MemoriesPoster04 from '~/public/work/memories-poster/memories_04.png';
 import MemoriesPoster05 from '~/public/work/memories-poster/memories_05.png';
+import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.jpg';
 import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
 import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
@@ -90,7 +90,7 @@ export type ComponentProject = {
   filters: Filter[];
 };
 
-export type Project = StaticProject | ComponentProject;
+export type Project = (StaticProject | ComponentProject) & { hidden?: boolean };
 
 // aspect - width/height
 // todo: consider contentlayer or some other lightweight cms
@@ -114,8 +114,8 @@ export const projects: Project[] = [
           2020 when the quarantine started so did my monoline collection. First iterations were made
           in Adobe Illustrator, until I wanted to learn Procreate; then stamps got more and more
           detailed and textured, only to later get an Intuos Pro and learn Affinity Designer aswell.
-          I keep saying next phase should be stamps in motion but we&apos;ll see about that! More on this
-          project soon <Link href="/stamp-showoff">here</Link>
+          I keep saying next phase should be stamps in motion but we&apos;ll see about that! More on
+          this project soon <Link href="/stamp-showoff">here</Link>
         </Paragraph>,
       ],
       [Stamps07],
