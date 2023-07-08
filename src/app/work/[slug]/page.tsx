@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 
+import DynamicVHProvider from '~/src/components/DynamicVHProvider';
 import { LinkIcon } from '~/src/components/icons';
+import MouseVarsProvider from '~/src/components/MouseVarsProvider';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
 import ViewLogger from '~/src/components/ViewCounter';
 
-import DynamicVHProvider from '../../components/DynamicVHProvider';
-import MouseVarsProvider from '../../components/MouseVarsProvider';
 import Divider from '../components/Divider';
 import { projects, StaticProject } from '../constants';
 import Gallery, { GalleryTrigger } from './components/Gallery';

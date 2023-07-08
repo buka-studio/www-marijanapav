@@ -1,8 +1,9 @@
 import Link from 'next/link';
 
+import MouseVarsProvider from '~/src/components/MouseVarsProvider';
 import Button from '~/src/components/ui/Button';
+import ViewLogger from '~/src/components/ViewCounter';
 
-import ViewLogger from '../components/ViewCounter';
 import {
   BioCard,
   BukaCard,
@@ -18,7 +19,6 @@ import {
 } from './components';
 import Header from './components/Header';
 import Heading from './components/Heading';
-import MouseVarsProvider from './components/MouseVarsProvider';
 
 import './page.css';
 

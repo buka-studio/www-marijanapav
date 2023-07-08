@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 
 import { ArrowRightIcon } from '~/src/components/icons';
+import { relativeMouseClassname } from '~/src/components/MouseVarsProvider';
 import Image from '~/src/components/ui/Image';
 
-import { relativeMouseClassname } from '../../../components/MouseVarsProvider';
 import Card from '../../components/Card';
 import { StaticProject } from '../../constants';
 
