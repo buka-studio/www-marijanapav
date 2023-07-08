@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "~1.0.4",
+    "@radix-ui/react-slot": "~1.0.2",
     "@supabase/supabase-js": "~2.26.0",
     "@types/node": "20.4.0",
     "@types/react": "18.2.14",

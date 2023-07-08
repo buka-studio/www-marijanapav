@@ -84,11 +84,9 @@ export default async function Home() {
             <div>What I do</div>
             <div className="flex gap-2">
               {projectLinks.map(({ label, ...linkProps }) => (
-                <Link {...linkProps} key={label} legacyBehavior>
-                  <Button as="a" size="sm" {...linkProps}>
-                    {label}
-                  </Button>
-                </Link>
+                <Button size="sm" asChild key={label}>
+                  <Link {...linkProps}>{label}</Link>
+                </Button>
               ))}
             </div>
           </div>

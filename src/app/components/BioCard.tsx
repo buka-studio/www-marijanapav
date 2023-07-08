@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import {
   ArrowRightIcon,
   BehanceIcon,
@@ -11,6 +13,7 @@ import Image from '~/src/components/ui/Image';
 
 import PortraitSrc from '../../../public/home/me.jpg';
 import Card from './Card';
+
 import './cards.css';
 
 const social = [
@@ -81,8 +84,8 @@ export default function BioCard() {
             </a>
           ))}
         </div>
-        <Button className="mt-10 md:mt-0" iconRight={<ArrowRightIcon />}>
-          Let&apos;s talk
+        <Button className="mt-10 md:mt-0" iconRight={<ArrowRightIcon />} asChild>
+          <Link href="/contact">Let&apos;s talk</Link>
         </Button>
       </div>
     </Card>

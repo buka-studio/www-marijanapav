@@ -57,10 +57,9 @@ export default function Contact() {
           <div className="flex gap-2 flex-wrap justify-center">
             {links.map(({ label, ...rest }) => {
               const linkProps = { ...rest, target: '_blank', rel: 'noopener noreferrer' };
-              // todo: fix prop types in Button for anchors
               return (
-                <Button key={label} as="a" {...linkProps}>
-                  {label}
+                <Button key={label} asChild>
+                  <a {...linkProps}>{label}</a>
                 </Button>
               );
             })}
