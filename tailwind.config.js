@@ -27,6 +27,7 @@ module.exports = {
         xs: '475px',
         ...defaultTheme.screens,
         '2xl': '1336px',
+        hoverable: { raw: '(hover: hover)' },
       },
     },
   },

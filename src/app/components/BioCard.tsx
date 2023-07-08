@@ -68,7 +68,7 @@ export default function BioCard() {
         based in Central Europe, working from my home office, because life&apos;s too short for long
         commutes, but I do have to deal with a cat trying to sit on my keyboard.
       </p>
-      <div className="flex flex-col items-start  justify-between mt-9 text-text-secondary md:flex-row md:items-center">
+      <div className="flex flex-col items-start justify-between mt-9 text-text-secondary md:flex-row md:items-center">
         <div>See what I&apos;ve been doing on:</div>
         <div className="flex mr-auto mt-3 md:mt-0 md:ml-5 gap-2">
           {social.map(({ url, Icon, attrs }) => (
@@ -77,7 +77,7 @@ export default function BioCard() {
               rel="noreferrer noopener"
               key={url}
               href={`${url}`}
-              className="hover transition-all duration-100 cursor-pointer"
+              className="hover transition-all duration-200 cursor-pointer hoverable:text-main-theme-2 hoverable:hover:text-main-theme-1"
               {...attrs}
             >
               <Icon />
