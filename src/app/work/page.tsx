@@ -24,10 +24,12 @@ export default function Work({ searchParams }: { searchParams: { f?: Filter } })
   });
 
   return (
-    <div>
+    <div className="flex flex-col flex-1">
       <Header filter={searchParams?.f as any} />
       <ViewLogger pathname="/work" />
-      <ProjectsGrid projects={filteredProjects} />
+      <main className="flex-1">
+        <ProjectsGrid projects={filteredProjects} />
+      </main>
     </div>
   );
 }

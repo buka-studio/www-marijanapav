@@ -39,7 +39,7 @@ export default function Contact() {
     <>
       <Header />
       <ViewLogger pathname="/contact" />
-      <main className="flex flex-col h-[calc(100vh-65px-125px)] py-8 px-11 flex-1">
+      <main className="flex flex-col py-8 px-11 flex-1">
         <div className="items-center flex-1 justify-center flex flex-col text-text-primary">
           <h1>Say hi or talk future projects</h1>
           <div className="flex md:flex-row flex-col mb-[100px] md:mb-8 gap-6 items-center text-center ">

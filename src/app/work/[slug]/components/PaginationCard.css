@@ -6,6 +6,14 @@
   mask-image: linear-gradient(270deg, transparent, black);
 }
 
+a:focus-visible .left .relative-mouse {
+  mask-image: linear-gradient(90deg, transparent, black);
+}
+
+a:focus-visible .right .relative-mouse {
+  mask-image: linear-gradient(270deg, transparent, black);
+}
+
 @media (hover: hover) {
   .left .relative-mouse,
   .right .relative-mouse {

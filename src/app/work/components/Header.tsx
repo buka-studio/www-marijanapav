@@ -25,14 +25,7 @@ export default function Header({ filter }: { filter?: Filter }) {
             variant={f === filter ? 'secondary' : 'primary'}
             className="text-xs md:text-sm flex-shrink-0"
           >
-            <Link
-              {...{ href: f === 'all' ? `/work` : `/work?f=${f}` }}
-              onClick={() => {
-                window.scrollTo({ top: 0 });
-              }}
-            >
-              {getFilterLabel(f)}
-            </Link>
+            <Link {...{ href: f === 'all' ? `/work` : `/work?f=${f}` }}>{getFilterLabel(f)}</Link>
           </Button>
         ))}
       </div>

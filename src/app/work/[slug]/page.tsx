@@ -128,12 +128,12 @@ export default function Work({ params }: { params: { slug: string } }) {
             ) : null}
             <div className="md:flex-row flex flex-col gap-6 justify-center md:[&>*]:max-w-[400px]">
               {previousProject && (
-                <Link href={`/work/${previousProject.slug}`} className="flex-1">
+                <Link href={`/work/${previousProject.slug}`} className="flex-1 rounded-xl">
                   <PaginationCard direction="left" project={previousProject} />
                 </Link>
               )}
               {nextProject && (
-                <Link href={`/work/${nextProject.slug}`} className="flex-1">
+                <Link href={`/work/${nextProject.slug}`} className="flex-1 rounded-xl">
                   <PaginationCard direction="right" project={nextProject} />
                 </Link>
               )}
