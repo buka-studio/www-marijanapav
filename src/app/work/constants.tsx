@@ -4,9 +4,9 @@ import { ReactNode } from 'react';
 
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
 import Cryptocurrency from '~/public/work/crypto/preview.png';
-import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflowers_00.jpg';
-import ElizabethsFlowers01 from '~/public/work/elizabeths-flowers/elizabethsflowers_01.jpg';
-import ElizabethsFlowers02 from '~/public/work/elizabeths-flowers/elizabethsflowers_02.jpg';
+import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflowers_00.png';
+import ElizabethsFlowers01 from '~/public/work/elizabeths-flowers/elizabethsflowers_01.png';
+import ElizabethsFlowers02 from '~/public/work/elizabeths-flowers/elizabethsflowers_02.png';
 import ElizabethsFlowers from '~/public/work/elizabeths-flowers/preview.png';
 import FruitStickersPreview from '~/public/work/fruit-stickers/preview.png';
 import HavgrimPreview00 from '~/public/work/havgrim/havgrim_00.png';
@@ -32,22 +32,38 @@ import InfinumMerch03 from '~/public/work/infinum-merch/infinum_merch_03.jpg';
 import InfinumMerch04 from '~/public/work/infinum-merch/infinum_merch_04.jpg';
 import InfinumMerch05 from '~/public/work/infinum-merch/infinum_merch_05.jpg';
 import InfinumSwagPreview from '~/public/work/infinum-merch/preview.png';
+import InfinumPosters00 from '~/public/work/infinum-posters/infinum-posters_00.png';
+import InfinumPosters01 from '~/public/work/infinum-posters/infinum-posters_01.png';
+import InfinumPosters02 from '~/public/work/infinum-posters/infinum-posters_02.png';
+import InfinumPosters03 from '~/public/work/infinum-posters/infinum-posters_03.png';
 import InfinumPostersPreview from '~/public/work/infinum-posters/preview.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
 import Memobottle00 from '~/public/work/memobottle/memobottle_00.jpg';
 import MemobottlePreview from '~/public/work/memobottle/preview.png';
+import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.jpg';
 import MemoriesPoster01 from '~/public/work/memories-poster/memories_01.png';
 import MemoriesPoster02 from '~/public/work/memories-poster/memories_02.png';
 import MemoriesPoster03 from '~/public/work/memories-poster/memories_03.png';
 import MemoriesPoster04 from '~/public/work/memories-poster/memories_04.png';
 import MemoriesPoster05 from '~/public/work/memories-poster/memories_05.png';
-import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.jpg';
 import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
+import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.png';
+import MidnightStudio01 from '~/public/work/midnight-studio/midnight-studio_01.png';
+import MidnightStudio02 from '~/public/work/midnight-studio/midnight-studio_02.png';
+import MidnightStudioPreview from '~/public/work/midnight-studio/midnight-studio_preview.png';
 import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
 import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
 import OperaPostersPreview from '~/public/work/opera-posters/preview.png';
-import ProgramEndPreview from '~/public/work/program-end/preview.png';
+import SignOff00 from '~/public/work/program-end/sign-off_00.png';
+import SignOff01 from '~/public/work/program-end/sign-off_01.png';
+import SignOff02 from '~/public/work/program-end/sign-off_02.png';
+import SignOff03 from '~/public/work/program-end/sign-off_03.png';
+import SignOffPreview from '~/public/work/program-end/sign-off_preview.png';
+import RobiWeb00 from '~/public/work/robi-web/robi-web_00.png';
+import RobiWeb01 from '~/public/work/robi-web/robi-web_01.png';
+import RobiWeb02 from '~/public/work/robi-web/robi-web_02.png';
+import RobiWebPreview from '~/public/work/robi-web/robi-web_preview.png';
 import DigitalStampCollection from '~/public/work/stamps/preview.png';
 import Stamps00 from '~/public/work/stamps/stamps_00.png';
 import Stamps01 from '~/public/work/stamps/stamps_01.png';
@@ -146,7 +162,7 @@ export const projects: Project[] = [
     title: 'The High Road Streetwear Brand Logo',
     slug: 'high-roads',
     preview: HighRoadsPreview,
-    filters: ['illustration', 'branding'],
+    filters: ['branding'],
     description:
       'A branding project for an urban fashion brand that blends class with streetwear flair. Distinctive high contrast typeface combined with bold colors as its primary brand components shows off brands unique personality.',
     aspect: 1,
@@ -184,7 +200,7 @@ export const projects: Project[] = [
     title: 'Memories Poster',
     slug: 'memories-poster',
     preview: MemoriesPosterPreview,
-    filters: ['branding', 'ux-ui'],
+    filters: ['illustration'],
     description:
       'I collected tons of tickets, stickers, papers, and generally memories that I shared with my fiance over the years. These are some of them but made digital.',
     aspect: 0.75,
@@ -196,6 +212,7 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
   },
   {
+    hidden: true,
     type: 'project',
     title: 'Supabase Icons',
     slug: 'supabase-icons',
@@ -204,6 +221,7 @@ export const projects: Project[] = [
     aspect: 1.2,
   },
   {
+    hidden: true,
     type: 'project',
     title: 'Kettle Illustration',
     slug: 'kettle',
@@ -213,12 +231,29 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
+    title: 'Interactive Developer Portfolio Website',
+    slug: 'dev-website',
+    preview: RobiWebPreview,
+    filters: ['ux-ui'],
+    description:
+      'An online work-in-progress developer portfolio that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
+    blocks: [[RobiWeb00], [RobiWeb01], [RobiWeb02]],
+    tags: ['Figma', 'Illustrator', '© 2023'],
+    link: 'https://rpavlini.com',
+    aspect: 1.2,
+  },
+
+  {
+    type: 'project',
     title: 'Infinum Posters',
     slug: 'infinum-posters',
     preview: InfinumPostersPreview,
-    filters: ['illustration', 'branding'],
+    filters: ['branding'],
     description:
       "An exploration of Infinum's new typeface and refreshed branding brought to life through a collection of large B2 office posters inspired by iconic Vignelli type compositions. Each layout showcases the essence of Infinum's brand identity and pays homage to the power of the bold Neue Haas typeface, aligning with Infinum's brand ethos.",
+    blocks: [[InfinumPosters00], [InfinumPosters01], [InfinumPosters02, InfinumPosters03]],
+    tags: ['Figma', '© 2022'],
+    link: 'https://infinum.com/brand',
     aspect: 0.7,
   },
   {
@@ -232,7 +267,7 @@ export const projects: Project[] = [
     title: 'Infinum Merch',
     slug: 'infinum-swag',
     preview: InfinumSwagPreview,
-    filters: ['branding', 'ux-ui'],
+    filters: ['branding', 'other'],
     description:
       'With the brand being known for its light, clean, and bold aesthetic, the merchandise was designed to reflect these qualities and use signature red color as an accent.',
     aspect: 0.73,
@@ -259,7 +294,7 @@ export const projects: Project[] = [
     title: 'Packaging for Croatian honey collection ',
     slug: 'infinum-honey',
     preview: InfinumHoneyPreview,
-    filters: ['branding', 'ux-ui'],
+    filters: ['branding', 'other'],
     description:
       'In the midst of a worldwide quarantine, Christmas 2020 called for a touch of sweetness to uplift spirits. We answered the call by curating a delightful three-pack of Croatian honey, as a heartfelt gift for our clients. With over 500 gifts shipped, we aimed to bring a taste of warmth and indulgence to homes during these challenging times.',
     aspect: 1,
@@ -267,21 +302,28 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
+    hidden: true,
     type: 'project',
     title: 'Fruit Stickers',
     slug: 'fruit-stickers',
     preview: FruitStickersPreview,
     filters: ['illustration'],
+    description: 'Remember when TV programs ended at 00:00?',
     aspect: 1,
-    blocks: [[Memobottle00]],
+    blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
+    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
     type: 'project',
-    title: 'Program End Illustration',
+    title: 'Sign-off Poster Series',
     slug: 'program-end',
-    preview: ProgramEndPreview,
+    preview: SignOffPreview,
     filters: ['illustration'],
-    aspect: 0.65,
+    description:
+      'Remember when TV programs used to end at midnight? What did you imagine happens after clock runs 00:00? These series of nostalgic posters takes you back to the days when the familiar image signaled the end of late-night programming. Posters showcase gradual deconstruction of the well known visual, from its structured grid to an explosion of colors and forms.',
+    blocks: [[SignOff00], [SignOff01, SignOff02, SignOff03]],
+    tags: ['Adobe Illustrator', '© 2020'],
+    aspect: 0.7,
   },
   {
     type: 'project',
@@ -303,8 +345,20 @@ export const projects: Project[] = [
     filters: ['branding'],
     aspect: 1.2,
     description:
-      "To capture the essence of Elizabeth's Flowers' quality and attention to detail, we opted for a timeless, elegant serif font and a green and subtly pink color palette.",
+      'Nestled in the captivating landscapes of the Faroe Islands, the Havgrim Hotel branding captures the essence of tradition and timeless elegance. With its classic light color palette and refined typography, it evokes a sense of heritage.',
     blocks: [[HavgrimPreview00], [HavgrimPreview01, HavgrimPreview02, HavgrimPreview03]],
+    tags: ['Adobe Illustrator', '© 2019'],
+  },
+  {
+    type: 'project',
+    title: 'Midnight Design Studio Branding',
+    slug: 'midnight-studio',
+    preview: MidnightStudioPreview,
+    filters: ['branding'],
+    aspect: 0.7,
+    description:
+      'Branding for a dynamic design studio specializing in bold and captivating branding projects. Through a fusion of sharp typography and striking color palettes, we created impactful visual identity that resonates with the target audience',
+    blocks: [[MidnightStudio00], [MidnightStudio01, MidnightStudio02]],
     tags: ['Adobe Illustrator', '© 2019'],
   },
 ];

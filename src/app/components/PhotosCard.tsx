@@ -15,6 +15,7 @@ import photo8 from '~/public/home/photos/photo_8.jpg';
 import photo9 from '~/public/home/photos/photo_9.jpg';
 import photo10 from '~/public/home/photos/photo_10.jpg';
 import photo11 from '~/public/home/photos/photo_11.jpg';
+import photo12 from '~/public/home/photos/photo_12.jpg';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 
@@ -33,6 +34,7 @@ export const photos = [
   photo9,
   photo10,
   photo11,
+  photo12,
 ];
 
 const slideDurationMs = 5000;
