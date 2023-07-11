@@ -4,16 +4,15 @@ import { Archivo, Inter } from 'next/font/google';
 import Footer from './components/Footer';
 import { ThemeProvider } from './components/ThemeProvider';
 
-import '../../tokens/style/global.css';
-import '../../tokens/style/theme-blue-dark.css';
-import '../../tokens/style/theme-blue-light.css';
-import '../../tokens/style/theme-blue.css';
-import '../../tokens/style/theme-dark.css';
-import '../../tokens/style/theme-green-dark.css';
-import '../../tokens/style/theme-green-light.css';
-import '../../tokens/style/theme-light.css';
-import '../../tokens/style/theme-red-dark.css';
-import '../../tokens/style/theme-red-light.css';
+import '~/tokens/style/global.css';
+import '~/tokens/style/theme-blue-dark.css';
+import '~/tokens/style/theme-blue-light.css';
+import '~/tokens/style/theme-dark.css';
+import '~/tokens/style/theme-green-dark.css';
+import '~/tokens/style/theme-green-light.css';
+import '~/tokens/style/theme-light.css';
+import '~/tokens/style/theme-red-dark.css';
+import '~/tokens/style/theme-red-light.css';
 import './globals.css';
 
 const inter = Inter({

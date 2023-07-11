@@ -26,7 +26,7 @@ export default function Header({ children }: { children?: ReactNode }) {
     >
       <Link
         href="/"
-        className="flex gap-2 text-text-primary items-center"
+        className="flex gap-2 text-text-primary items-center rounded-full"
         aria-label="Go to Home page"
       >
         <LogoIcon
@@ -34,7 +34,7 @@ export default function Header({ children }: { children?: ReactNode }) {
             ['text-main-theme-1']: y > headerTriggerY,
           })}
         />
-        <span className="hidden md:inline">Marijana Šimag</span>
+        <span className="hidden md:inline pr-1">Marijana Šimag</span>
       </Link>
       {children && (
         <div className="order-3 mt-4 lg:mt-0 w-full lg:w-auto lg:order-none">{children}</div>

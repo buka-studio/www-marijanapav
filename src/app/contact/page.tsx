@@ -39,7 +39,7 @@ export default function Contact() {
     <>
       <Header />
       <ViewLogger pathname="/contact" />
-      <main className="flex flex-col h-[calc(100vh-65px-125px)] py-8 px-11 flex-1">
+      <main className="flex flex-col py-8 px-11 flex-1">
         <div className="items-center flex-1 justify-center flex flex-col text-text-primary">
           <h1>Say hi or talk future projects</h1>
           <div className="flex md:flex-row flex-col mb-[100px] md:mb-8 gap-6 items-center text-center ">
@@ -57,10 +57,9 @@ export default function Contact() {
           <div className="flex gap-2 flex-wrap justify-center">
             {links.map(({ label, ...rest }) => {
               const linkProps = { ...rest, target: '_blank', rel: 'noopener noreferrer' };
-              // todo: fix prop types in Button for anchors
               return (
-                <Button key={label} as="a" {...linkProps}>
-                  {label}
+                <Button key={label} asChild>
+                  <a {...linkProps}>{label}</a>
                 </Button>
               );
             })}

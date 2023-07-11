@@ -40,7 +40,11 @@ export default function Navabar() {
           }}
         />
         {Object.entries(links).map(([path, l], i) => (
-          <Link href={path} key={l.label} className="py-1 px-4 z-[1] text-text-primary">
+          <Link
+            href={path}
+            key={l.label}
+            className="py-1 px-4 z-[1] text-text-primary rounded-full"
+          >
             {l.label}
           </Link>
         ))}

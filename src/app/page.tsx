@@ -1,8 +1,9 @@
 import Link from 'next/link';
 
+import MouseVarsProvider from '~/src/components/MouseVarsProvider';
 import Button from '~/src/components/ui/Button';
+import ViewLogger from '~/src/components/ViewCounter';
 
-import ViewLogger from '../components/ViewCounter';
 import {
   BioCard,
   BukaCard,
@@ -18,7 +19,6 @@ import {
 } from './components';
 import Header from './components/Header';
 import Heading from './components/Heading';
-import MouseVarsProvider from './components/MouseVarsProvider';
 
 import './page.css';
 
@@ -84,11 +84,9 @@ export default async function Home() {
             <div>What I do</div>
             <div className="flex gap-2">
               {projectLinks.map(({ label, ...linkProps }) => (
-                <Link {...linkProps} key={label} legacyBehavior>
-                  <Button as="a" size="sm" {...linkProps}>
-                    {label}
-                  </Button>
-                </Link>
+                <Button size="sm" asChild key={label}>
+                  <Link {...linkProps}>{label}</Link>
+                </Button>
               ))}
             </div>
           </div>

@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 
+import DynamicVHProvider from '~/src/components/DynamicVHProvider';
 import { LinkIcon } from '~/src/components/icons';
+import MouseVarsProvider from '~/src/components/MouseVarsProvider';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
 import ViewLogger from '~/src/components/ViewCounter';
 
-import DynamicVHProvider from '../../components/DynamicVHProvider';
-import MouseVarsProvider from '../../components/MouseVarsProvider';
 import Divider from '../components/Divider';
 import { projects, StaticProject } from '../constants';
 import Gallery, { GalleryTrigger } from './components/Gallery';
@@ -128,12 +128,12 @@ export default function Work({ params }: { params: { slug: string } }) {
             ) : null}
             <div className="md:flex-row flex flex-col gap-6 justify-center md:[&>*]:max-w-[400px]">
               {previousProject && (
-                <Link href={`/work/${previousProject.slug}`} className="flex-1">
+                <Link href={`/work/${previousProject.slug}`} className="flex-1 rounded-xl">
                   <PaginationCard direction="left" project={previousProject} />
                 </Link>
               )}
               {nextProject && (
-                <Link href={`/work/${nextProject.slug}`} className="flex-1">
+                <Link href={`/work/${nextProject.slug}`} className="flex-1 rounded-xl">
                   <PaginationCard direction="right" project={nextProject} />
                 </Link>
               )}

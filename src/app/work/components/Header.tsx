@@ -19,18 +19,14 @@ export default function Header({ filter }: { filter?: Filter }) {
     <MainHeader>
       <div className="filters flex gap-1 items-center overflow-x-auto flex-nowrap whitespace-nowrap md:overflow-visible overflow-y-hidden scrollbar-none">
         {filters.map((f) => (
-          <Link href={f === 'all' ? `/work` : `/work?f=${f}`} passHref legacyBehavior key={f}>
-            <Button
-              as="a"
-              variant={f === filter ? 'secondary' : 'primary'}
-              className="text-xs md:text-sm flex-shrink-0"
-              onClick={() => {
-                window.scrollTo({ top: 0 });
-              }}
-            >
-              {getFilterLabel(f)}
-            </Button>
-          </Link>
+          <Button
+            key={f}
+            asChild
+            variant={f === filter ? 'secondary' : 'primary'}
+            className="text-xs md:text-sm flex-shrink-0"
+          >
+            <Link {...{ href: f === 'all' ? `/work` : `/work?f=${f}` }}>{getFilterLabel(f)}</Link>
+          </Button>
         ))}
       </div>
     </MainHeader>
