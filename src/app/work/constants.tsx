@@ -2,6 +2,8 @@ import { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
+import BugReport00 from '~/public/work/bug-report/bur-report_00.png';
+import BugReportPreview from '~/public/work/bug-report/bur-report_preview.png';
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
 import Cryptocurrency from '~/public/work/crypto/preview.png';
 import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflowers_00.png';
@@ -51,6 +53,7 @@ import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.p
 import MidnightStudio01 from '~/public/work/midnight-studio/midnight-studio_01.png';
 import MidnightStudio02 from '~/public/work/midnight-studio/midnight-studio_02.png';
 import MidnightStudioPreview from '~/public/work/midnight-studio/midnight-studio_preview.png';
+import OperaPosters0 from '~/public/work/opera-posters/posters_0.png';
 import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
 import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
@@ -118,20 +121,22 @@ export const projects: Project[] = [
     preview: DigitalStampCollection,
     filters: ['illustration'],
     description:
-      "This is my personal project of digitally recreating my grandpa's stamps. It's an homage to his journey, now brought online. I started my own philately collection, but in a digital format. Through this collection I've set myself a goal of trying out new things.",
+      "This is my personal project of digitally recreating my grandpa's stamps. It's a homage to his philatelic journey, now brought online. I started my own philately collection, but in a digital format. Through this collection I've set myself a goal of trying out new softwares/styles.",
     blocks: [
       [Stamps00],
       [Stamps01, Stamps02, Stamps03],
       [Stamps04, Stamps05, Stamps06],
       [
         <Paragraph key="1">
-          With over 100 stamps created and three distinct styles explored, I try to push boundaries
-          and learn new softwares. As my love for illustration grew, so did my “style” evolve. In
-          2020 when the quarantine started so did my monoline collection. First iterations were made
-          in Adobe Illustrator, until I wanted to learn Procreate; then stamps got more and more
-          detailed and textured, only to later get an Intuos Pro and learn Affinity Designer aswell.
-          I keep saying next phase should be stamps in motion but we&apos;ll see about that! More on
-          this project soon <Link href="/stamp-showoff">here</Link>
+          In 2020 when the quarantine started so did my digital stamp collection. With over 100
+          stamps recreated and three distinct styles explored, I try to push boundaries and learn
+          new softwares. <br />
+          <br />
+          The initial designs were created using Adobe Illustrator, but my curiosity led me to
+          explore Procreate and later on Affinity Desiner x Intous Pro. As a result, the stamps
+          became more detailed and textured over time. I keep saying next phase should be stamps in
+          motion but we&apos;ll see about that! More on this project soon{' '}
+          <Link href="/stamp-showoff">here</Link>
         </Paragraph>,
       ],
       [Stamps07],
@@ -157,6 +162,7 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Procreate', '© 2020'],
     link: 'https://infinum.com/news/cryptocurrency-transactions-made-simple-with-interledger/',
   },
+
   {
     type: 'project',
     title: 'The High Road Streetwear Brand Logo',
@@ -164,7 +170,7 @@ export const projects: Project[] = [
     preview: HighRoadsPreview,
     filters: ['branding'],
     description:
-      'A branding project for an urban fashion brand that blends class with streetwear flair. Distinctive high contrast typeface combined with bold colors as its primary brand components shows off brands unique personality.',
+      'A branding project for an urban fashion brand that blends class with streetwear flair. Distinctive high contrast typeface combined with bold colors as its primary brand components shows off a bit of the brands personality.',
     aspect: 1,
     blocks: [[HighRoads00], [HighRoads01, HighRoads02]],
     tags: ['Adobe Illustrator', '© 2020'],
@@ -178,7 +184,7 @@ export const projects: Project[] = [
     description:
       'An illustration for a challenge presented by Memobottle, known for its unique paper-inspired design that allows the bottles to sit flat against laptops, books, and any other item you might carry. The challenge called artists to showcase their creativity by sketching, shooting, or freestyling the Memobottle in various environments. For my submission, I decided to add a playful twist, featuring their A5 and Slim memobottle floating in a the pool.',
     aspect: 1.5,
-    tags: ['Adobe Illustrator', '© 2021'],
+    tags: ['Adobe Illustrator', 'Procreate', '© 2021'],
     blocks: [[Memobottle00]],
     link: 'https://www.instagram.com/explore/tags/memoart21/',
   },
@@ -229,18 +235,19 @@ export const projects: Project[] = [
     filters: ['illustration'],
     aspect: 0.85,
   },
+
   {
     type: 'project',
-    title: 'Interactive Developer Portfolio Website',
-    slug: 'dev-website',
-    preview: RobiWebPreview,
-    filters: ['ux-ui'],
+    title: 'Bug-Reporting iOS Library blog illustration',
+    slug: 'bug-report',
+    preview: BugReportPreview,
+    filters: ['illustration'],
     description:
-      'An online work-in-progress developer portfolio that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
-    blocks: [[RobiWeb00], [RobiWeb01], [RobiWeb02]],
-    tags: ['Figma', 'Illustrator', '© 2023'],
-    link: 'https://rpavlini.com',
-    aspect: 1.2,
+      'Cover illustration for Infinum, a software development agency, and the blog post about Bugsnatch, that helps Quality Assurance engineers with exterminating the bugs early on.',
+    aspect: 1.5,
+    blocks: [[BugReport00]],
+    tags: ['Adobe Illustrator', 'Procreate', '© 2020'],
+    link: 'https://infinum.com/blog/snatch-bugs-with-bug-reporting-ios-library/',
   },
 
   {
@@ -276,6 +283,7 @@ export const projects: Project[] = [
       [InfinumMerch01, InfinumMerch02],
       [InfinumMerch03, InfinumMerch04, InfinumMerch05],
     ],
+    link: 'https://infinum.com/brand',
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2022'],
   },
   {
@@ -287,7 +295,20 @@ export const projects: Project[] = [
     description:
       'Series of posters for Royal Opera House, taking a refreshing perspective on these well-known stories.',
     aspect: 0.73,
-    blocks: [[OperaPosters00, OperaPosters01, OperaPosters02]],
+    blocks: [[OperaPosters0], [OperaPosters00, OperaPosters01, OperaPosters02]],
+  },
+  {
+    type: 'project',
+    title: 'Interactive Developer Portfolio Website',
+    slug: 'dev-website',
+    preview: RobiWebPreview,
+    filters: ['ux-ui'],
+    description:
+      'An online work-in-progress developer portfolio that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
+    blocks: [[RobiWeb00], [RobiWeb01], [RobiWeb02]],
+    tags: ['Figma', 'Illustrator', '© 2023'],
+    link: 'https://rpavlini.com',
+    aspect: 1.2,
   },
   {
     type: 'project',
@@ -315,6 +336,31 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
+    title: 'Midnight Design Studio Branding',
+    slug: 'midnight-studio',
+    preview: MidnightStudioPreview,
+    filters: ['branding'],
+    aspect: 0.7,
+    description:
+      'Branding for a design studio specializing in bold and captivating branding identities. Through a fusion of sharp typography and striking color palettes, we created impactful visual identity that resonates with the target audience',
+    blocks: [[MidnightStudio00], [MidnightStudio01, MidnightStudio02]],
+    tags: ['Adobe Illustrator', '© 2019'],
+  },
+
+  {
+    type: 'project',
+    title: 'The Havgrim Seaside Hotel Branding',
+    slug: 'havgrim',
+    preview: HavgrimPreview,
+    filters: ['branding'],
+    aspect: 1.2,
+    description:
+      'Nestled in the captivating landscapes of the Faroe Islands, the Havgrim Hotel branding captures the essence of tradition and timeless elegance. With its classic light color palette and refined typography, it evokes a sense of heritage.',
+    blocks: [[HavgrimPreview00], [HavgrimPreview01, HavgrimPreview02, HavgrimPreview03]],
+    tags: ['Adobe Illustrator', '© 2019'],
+  },
+  {
+    type: 'project',
     title: 'Sign-off Poster Series',
     slug: 'program-end',
     preview: SignOffPreview,
@@ -335,30 +381,6 @@ export const projects: Project[] = [
     description:
       "To capture the essence of Elizabeth's Flowers' quality and attention to detail, we opted for a timeless, elegant serif font and a green and subtly pink color palette.",
     blocks: [[ElizabethsFlowers00], [ElizabethsFlowers01, ElizabethsFlowers02]],
-    tags: ['Adobe Illustrator', '© 2019'],
-  },
-  {
-    type: 'project',
-    title: 'The Havgrim Seaside Hotel Branding',
-    slug: 'havgrim',
-    preview: HavgrimPreview,
-    filters: ['branding'],
-    aspect: 1.2,
-    description:
-      'Nestled in the captivating landscapes of the Faroe Islands, the Havgrim Hotel branding captures the essence of tradition and timeless elegance. With its classic light color palette and refined typography, it evokes a sense of heritage.',
-    blocks: [[HavgrimPreview00], [HavgrimPreview01, HavgrimPreview02, HavgrimPreview03]],
-    tags: ['Adobe Illustrator', '© 2019'],
-  },
-  {
-    type: 'project',
-    title: 'Midnight Design Studio Branding',
-    slug: 'midnight-studio',
-    preview: MidnightStudioPreview,
-    filters: ['branding'],
-    aspect: 0.7,
-    description:
-      'Branding for a dynamic design studio specializing in bold and captivating branding projects. Through a fusion of sharp typography and striking color palettes, we created impactful visual identity that resonates with the target audience',
-    blocks: [[MidnightStudio00], [MidnightStudio01, MidnightStudio02]],
     tags: ['Adobe Illustrator', '© 2019'],
   },
 ];
