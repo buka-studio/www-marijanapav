@@ -78,11 +78,11 @@ export default function Work({ params }: { params: { slug: string } }) {
         <DynamicVHProvider>
           <Gallery sources={allImages}>
             <div className="flex flex-col gap-2 md:gap-4 mt-[80px]">
-              {project.blocks?.map((b, i) => {
+              {project.blocks?.map((b, blockI) => {
                 const isImageBlock = b.every((e) => 'src' in (e as any));
                 if (isImageBlock) {
                   return (
-                    <div className="flex gap-2 md:gap-4 justify-left" key={i}>
+                    <div className="flex gap-2 md:gap-4 justify-left" key={blockI}>
                       {(b as StaticImageData[]).map((e, i) => (
                         <div
                           key={i}
@@ -95,6 +95,7 @@ export default function Work({ params }: { params: { slug: string } }) {
                             )}
                           >
                             <Image
+                              priority={blockI === 0}
                               src={e}
                               alt=""
                               className="max-h-full w-full object-cover m-auto"
@@ -106,7 +107,7 @@ export default function Work({ params }: { params: { slug: string } }) {
                   );
                 }
                 return (
-                  <div className="my-8" key={i}>
+                  <div className="my-8" key={blockI}>
                     {(b as ReactNode[]).map((e, i) => e)}
                   </div>
                 );

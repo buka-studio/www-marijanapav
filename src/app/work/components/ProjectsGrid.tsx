@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import Image from '~/src/components/ui/Image';
@@ -36,6 +36,21 @@ export default function ProjectsGrid({ projects }: Props) {
 
   const mobile = useMatchMedia('(max-width: 768px)', false);
 
+  function setTitleHeight(i: number) {
+    cardRefs.current
+      .get(i)
+      ?.style.setProperty(
+        '--title-height',
+        titleRefs.current.get(i)?.clientHeight?.toString() || '0',
+      );
+  }
+
+  useEffect(() => {
+    cardRefs.current.forEach((_, i) => {
+      setTitleHeight(i);
+    });
+  }, []);
+
   return (
     <div className="flex-1 py-10 px-5">
       <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3, 1200: 4 }}>
@@ -52,15 +67,8 @@ export default function ProjectsGrid({ projects }: Props) {
                     duration: 0.5,
                     delay: i * 0.1,
                   }}
-                  onAnimationComplete={() => {
-                    cardRefs.current
-                      .get(i)
-                      ?.style.setProperty(
-                        '--title-height',
-                        titleRefs.current.get(i)?.clientHeight?.toString() || '0',
-                      );
-                  }}
-                  className=" rounded-2xl relative group flex group"
+                  onAnimationComplete={() => setTitleHeight(i)}
+                  className="rounded-2xl relative group flex group"
                   style={{ aspectRatio: project.aspect || 'initial' }}
                 >
                   <Card
@@ -70,20 +78,21 @@ export default function ProjectsGrid({ projects }: Props) {
                     containerClassName="h-full w-full"
                     className="h-full w-full overflow-hidden"
                   >
-                    <div className="overflow-hidden rounded-lg w-full h-full group-hover:translate-y-[calc(var(--title-height)*-1px)] transition-all duration-300 translate-y-0">
-                      <div className="group-hover:translate-y-[calc(var(--title-height)*1px)] transition-all duration-300 translate-y-0 h-full w-full rounded-lg overflow-hidden">
+                    <div className="overflow-hidden rounded-lg w-full h-full group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)] transition-all duration-300 translate-y-0">
+                      <div className="relative group-hover:translate-y-[calc(var(--title-height)*1px)] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] transition-all duration-300 translate-y-0 h-full w-full rounded-lg overflow-hidden">
                         <Image
                           alt={project.description || ''}
                           src={project.preview}
                           fill
                           className="object-cover object-top"
                           sizes="(max-width: 900px): 50vw, (max-width: 1200px) 33vw, 320px"
+                          priority={i < 4}
                         />
                       </div>
                     </div>
 
                     <div
-                      className="title text-text-primary px-3 left-0 p-2 group-hover:translate-y-[-4px] transition-all duration-300 translate-y-full title absolute bottom-0 w-full rounded-tr-md rounded-tl-md"
+                      className="title text-text-primary px-3 left-0 p-2 group-hover:translate-y-[-4px] group-focus-visible:translate-y-[-4px] transition-all duration-300 translate-y-full title absolute bottom-0 w-full rounded-tr-md rounded-tl-md"
                       ref={(e) => {
                         titleRefs.current.set(i, e!);
                       }}
