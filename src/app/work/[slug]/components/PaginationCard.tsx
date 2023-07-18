@@ -23,7 +23,7 @@ export default function PaginationCard({
     >
       <div
         className={clsx(
-          'w-full h-full relative-mouse bg-panel-background md:[grid-row:1] md:[grid-column:1] rounded-lg overflow-hidden',
+          'w-full h-full relative-mouse bg-panel-background md:[grid-row:1] md:[grid-column:1] rounded-lg overflow-hidden relative',
           relativeMouseClassname,
           { ['[grid-column:2]']: direction === 'left' },
         )}
@@ -32,6 +32,7 @@ export default function PaginationCard({
           src={project.preview.src}
           className="object-cover w-full opacity-30 h-full group-hover:scale-110 transition-all duration-500 ease-in-out"
           fill
+          sizes="(max-width: 768px) 50vw, 350px"
           alt=""
         />
       </div>
@@ -49,7 +50,7 @@ export default function PaginationCard({
             ['transform rotate-180']: direction === 'left',
           })}
         />
-        <p className="text-center p-2">{project.title}</p>
+        <p className="max-w-[70%] text-center p-2">{project.title}</p>
       </div>
     </Card>
   );

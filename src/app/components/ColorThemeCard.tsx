@@ -1,10 +1,10 @@
 'use client';
 
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ComponentProps } from 'react';
 
-import { ResetIcon } from '~/src/components/icons';
+import { ArrowRightIcon, ResetIcon } from '~/src/components/icons';
 
 import Card from './Card';
 import useColorTheme, { colorThemes } from './useColorTheme';
@@ -49,8 +49,21 @@ function Grid({ ...props }: ComponentProps<'svg'>) {
   );
 }
 
+const slideRightProps: Partial<ComponentProps<typeof motion.div>> = {
+  initial: { opacity: 0, x: -50 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: 50 },
+  transition: {
+    duration: 0.3,
+    type: 'tween',
+    ease: 'easeInOut',
+  },
+};
+
 export default function ColorThemeCard() {
   const { colorTheme, removeColorTheme, setColorTheme } = useColorTheme();
+
+  const colorPicked = Boolean(colorTheme);
 
   return (
     <Card>
@@ -93,11 +106,31 @@ export default function ColorThemeCard() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between">
-          <p className="text-text-secondary">Bring back grayscale</p>
-          <button aria-label="Reset colored theme" onClick={removeColorTheme}>
-            <ResetIcon className="text-text-secondary" />
-          </button>
+        <div className="h-6 flex-shrink-0 overflow-hidden">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              className="flex justify-between"
+              key={String(colorPicked)}
+              {...slideRightProps}
+            >
+              <p className="text-text-secondary">
+                {colorTheme ? 'Bring back grayscale' : 'Pick a color'}
+              </p>
+
+              <button
+                aria-label="Reset color theme"
+                className="group"
+                onClick={removeColorTheme}
+                disabled={!colorTheme}
+              >
+                {colorTheme ? (
+                  <ResetIcon className="group-hover:text-main-theme-1 text-text-secondary transition-all duration-200" />
+                ) : (
+                  <ArrowRightIcon className="text-text-secondary -rotate-90 h-5 w-5" />
+                )}
+              </button>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </Card>

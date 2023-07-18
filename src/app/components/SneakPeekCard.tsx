@@ -106,6 +106,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
           // todo: better alt text
           alt="A sneak peek of my current project"
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 284px"
           placeholder="blur"
           className={clsx('object-cover object-center transition-all duration-300', {
             'grayscale-0 blur-0': revealed,
