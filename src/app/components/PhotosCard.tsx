@@ -104,7 +104,7 @@ export default function PhotosCard() {
         </Heading>
       </div>
       <div
-        className="flex aspect-square w-full rounded-xl overflow-x-auto gap-4 snap-x snap-mandatory scrollbar-none md:mt-auto"
+        className="flex aspect-square w-full rounded-xl overflow-x-auto gap-4 snap-x snap-mandatory scrollbar-none xl:mt-auto md:order-2 xl:order-none"
         ref={scrollAreaRef}
       >
         {photos.map((p, i) => (
@@ -126,7 +126,7 @@ export default function PhotosCard() {
           </div>
         ))}
       </div>
-      <div className="flex gap-[6px] pt-5 pb-1 justify-center">
+      <div className="md:order-1 xl:order-last flex gap-[6px] md:my-2 md:mt-auto mt-5 xl:mt-5 xl:mb-0 pb-1 justify-center">
         {photos.map((p, i) => (
           <button
             aria-label={`Go to photo ${i + 1}`}
@@ -142,7 +142,7 @@ export default function PhotosCard() {
               ['bg-main-theme-overlay w-[16px]']: i !== photo,
               ['w-[50px] bg-main-theme-1']: i === photo,
             })}
-          ></button>
+          />
         ))}
       </div>
     </Card>
