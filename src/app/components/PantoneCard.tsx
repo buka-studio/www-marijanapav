@@ -1,7 +1,8 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
 
 import { Theme } from '~/src/app/constants';
 import ClientRendered from '~/src/components/ClientRendered';
@@ -26,6 +27,17 @@ const pantoneByTheme: Record<Theme, Pantone> = {
   light: { name: 'Ghost Fog' },
 };
 
+const slideLeftProps: Partial<ComponentProps<typeof motion.div>> = {
+  initial: { opacity: 0, x: 50 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: -50 },
+  transition: {
+    duration: 0.3,
+    type: 'tween',
+    ease: 'easeInOut',
+  },
+};
+
 export default function PantoneCard() {
   const [pantone, setPantone] = useState<Pantone | undefined>();
   const { resolvedTheme } = useTheme();
@@ -35,7 +47,9 @@ export default function PantoneCard() {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          const [theme] = Array.from(el?.classList.values()! || []).filter((c) => c.startsWith('theme-'));
+          const [theme] = Array.from(el?.classList.values()! || []).filter((c) =>
+            c.startsWith('theme-'),
+          );
 
           setPantone(theme ? pantoneByTheme[theme.slice(6) as Theme] : undefined);
         }
@@ -47,17 +61,19 @@ export default function PantoneCard() {
     });
   }, []);
 
+  const name = (pantone || pantoneByTheme[resolvedTheme as Theme])?.name;
+  console.log(name);
   return (
     <Card containerClassName="z-[3]">
       <div className="h-[268px] flex flex-col gap-4 w-full">
         <div className="bg-main-theme-2 transition-all duration-250 flex-1 rounded-lg"></div>
-        <div className="flex justify-between">
-          <p className="text-text-secondary">
-            PANTONE{' '}
-            <ClientRendered>
-              {(pantone || pantoneByTheme[resolvedTheme as Theme])?.name}
-            </ClientRendered>
-          </p>
+        <div className="flex justify-between overflow-hidden">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.p className="text-text-secondary" key={name} {...slideLeftProps}>
+              PANTONE <ClientRendered>{name}</ClientRendered>
+            </motion.p>
+          </AnimatePresence>
+
           <button aria-describedby="pantone-tooltip" aria-label="Open Pantone tooltip">
             <InfoIcon className="text-text-secondary" />
             <div role="tooltip" id="pantone-tooltip">
