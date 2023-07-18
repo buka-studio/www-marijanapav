@@ -31,7 +31,7 @@ function Button({
         {...rest}
         className={twMerge(
           clsx(
-            'group transition-all duration-200 ui-button rounded-full flex items-center gap-3 outline-offset-2 relative overflow-hidden focus-within:ring-offset-current cursor-pointer',
+            'group transition-all duration-200 ui-button rounded-full flex items-center gap-3 outline-offset-2 relative overflow-hidden focus-within:ring-offset-current cursor-pointer [clip-path:border-box]',
             {
               ['text-sm leading-6 py-[6px] px-4']: size === 'default',
               ['text-xs px-3 py-1']: size === 'sm',
