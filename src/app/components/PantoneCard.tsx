@@ -62,7 +62,7 @@ export default function PantoneCard() {
   }, []);
 
   const name = (pantone || pantoneByTheme[resolvedTheme as Theme])?.name;
-  console.log(name);
+
   return (
     <Card containerClassName="z-[3]">
       <div className="h-[268px] flex flex-col gap-4 w-full">
