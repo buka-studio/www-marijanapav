@@ -7,21 +7,16 @@ const positions = [
   {
     title: 'Brand Designer',
     company: { name: 'Supabase', href: 'https://supabase.com/' },
-    from: '2022',
   },
   {
     title: 'Brand Designer',
     company: { name: 'Infinum', href: 'https://infinum.com/' },
-    from: '2018',
-    to: '2022',
   },
   {
     title: 'Designer',
     company: { name: 'Norma Studio' },
-    from: '2017',
-    to: '2018',
   },
-  { title: 'Freelancing', from: '2015', to: '2018' },
+  { title: 'Freelancing' },
 ];
 
 export default function ExperienceCard() {
@@ -55,9 +50,6 @@ export default function ExperienceCard() {
                     )}
                   </Tag>
                 ) : null}
-              </span>
-              <span className="text-text-secondary">
-                {p.from}—{p.to ? p.to : 'ongoing'}
               </span>
             </li>
           ))}
