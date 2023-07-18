@@ -67,7 +67,7 @@ export default function ColorThemeCard() {
 
   return (
     <Card>
-      <div className="h-[268px] flex content-center flex-col gap-4 w-full">
+      <div className="h-[268px] flex content-center flex-col gap-3 w-full">
         <div className="relative h-full">
           <Grid className="absolute top-0 left-0 w-full h-full" />
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">

@@ -24,6 +24,7 @@ module.exports = {
         card: '0px 4px 36px var(--panel-dropshadow-color)',
       },
       screens: {
+        xxs: '360px',
         xs: '475px',
         ...defaultTheme.screens,
         '2xl': '1336px',

@@ -117,7 +117,7 @@ export default function Work({ params }: { params: { slug: string } }) {
         </DynamicVHProvider>
         <Divider className="mt-24 text-center text-sm">
           {project.title} <span className="hidden md:inline">·</span> <br className="md:hidden" />{' '}
-          Published Jun 18th 2023
+          {project.publishedAt && `Published ${project.publishedAt}`}
         </Divider>
 
         <MouseVarsProvider>

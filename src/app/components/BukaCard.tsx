@@ -12,7 +12,7 @@ export default function BukaCard() {
         </div>
         <div className="flex gap-4 items-center">
           <BukaIcon />
-          <Heading className="text-4xl md:text-5xl">
+          <Heading className="text-4xl lg:text-5xl">
             <a href="https://www.buka.studio" className="flex items-center gap-3 group">
               buka.studio
               <LinkIcon className="w-8 h-8 md:w-12 md:h-12 group-hover:bg-main-theme-3 rounded-full p-1 transition-all duration-150" />
@@ -20,9 +20,8 @@ export default function BukaCard() {
           </Heading>
         </div>
         <p className="text-text-secondary">
-          Branding and web project for a design and dev studio
-          <br />
-          (not yet live but I dare you to check the placeholder).
+          Branding and web project for a design and dev studio (not&nbsp;yet live but I dare you to
+          check the placeholder).
         </p>
       </div>
     </Card>

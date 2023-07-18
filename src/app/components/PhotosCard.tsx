@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import photo0 from '~/public/home/photos/photo_0.jpg';
 import photo1 from '~/public/home/photos/photo_1.jpg';
@@ -98,7 +99,7 @@ export default function PhotosCard() {
 
   return (
     <Card className="flex flex-col">
-      <div className="xl:mb-[66px] mb-2 flex gap-2 justify-between w-full">
+      <div className="xl:mb-auto mb-6 flex gap-2 justify-between w-full">
         <Heading as="h1" className="text-primary text-text-secondary font-sans">
           Bits and pieces from my camera roll
         </Heading>
@@ -126,7 +127,7 @@ export default function PhotosCard() {
           </div>
         ))}
       </div>
-      <div className="md:order-1 xl:order-last flex gap-[6px] md:my-2 md:mt-auto mt-5 xl:mt-5 xl:mb-0 pb-1 justify-center">
+      <div className="md:order-1 xl:order-last flex gap-[6px] md:my-2 md:mt-auto mt-5 xl:mt-5 xl:mb-0 pb-1 justify-center items-center">
         {photos.map((p, i) => (
           <button
             aria-label={`Go to photo ${i + 1}`}
@@ -138,10 +139,12 @@ export default function PhotosCard() {
               });
             }}
             key={p.src}
-            className={clsx('h-[6px]  rounded-full transition-all duration-150', {
-              ['bg-main-theme-overlay w-[16px]']: i !== photo,
-              ['w-[50px] bg-main-theme-1']: i === photo,
-            })}
+            className={twMerge(
+              clsx('h-[10px] rounded-full transition-all duration-150', {
+                ['bg-main-theme-overlay w-[10px]']: i !== photo,
+                ['w-[50px] bg-main-theme-1 h-[6px]']: i === photo,
+              }),
+            )}
           />
         ))}
       </div>
