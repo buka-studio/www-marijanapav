@@ -1,6 +1,6 @@
 .theme-blue-dark {
-  --text-primary: #3b58ff;
-  --text-secondary: #3b58ffe6;
+  --text-primary: #587AF1;
+  --text-secondary: #587af1e6;
   --text-alt: #1E34B6;
   --text-alt2: #150070;
   --panel-background: #000;
@@ -16,7 +16,7 @@
   --panel-blur-y: 0;
   --panel-blur-blur: 920;
   --panel-blur-spread: 100;
-  --panel-blur-color: #3b58ff;
+  --panel-blur-color: #587af1;
   --panel-blur-type: dropShadow;
   --panel-dropshadow-detail-x: 0;
   --panel-dropshadow-detail-y: 0;
@@ -30,12 +30,12 @@
   --panel-pointer-spread: 30;
   --panel-pointer-color: #1E34B6;
   --panel-pointer-type: dropShadow;
-  --main-theme-1: #3b58ff;
+  --main-theme-1: #587AF1;
   --main-theme-2: #1E34B6;
   --main-theme-3: #150070;
   --main-theme-4: #000026;
   --main-background: #030212;
-  --main-theme-overlay: #3b58ff33;
+  --main-theme-overlay: #587af11a;
   --main-transparent: #0302121a;
   --button-focus-x: 0;
   --button-focus-y: 0;
