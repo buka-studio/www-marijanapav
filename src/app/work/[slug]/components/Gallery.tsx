@@ -12,7 +12,9 @@ import Image from '~/src/components/ui/Image';
 import './Gallery.css';
 
 function getTopLayer() {
-  return document.querySelector('.top-layer')! as HTMLElement;
+  return typeof window !== 'undefined'
+    ? (document.querySelector('.top-layer')! as HTMLElement)
+    : null;
 }
 
 const GalleryContext = React.createContext((index: number) => {});
@@ -135,14 +137,14 @@ function Slider({
   }, [index, sources.length]);
 
   return (
-    <div className="h-full w-full relative">
+    <div className="relative h-full w-full">
       <div
-        className="flex focus-visible:outline-none overflow-x-auto gap-4 snap snap-mandatory snap-x scrollbar-none h-full"
+        className="snap flex h-full snap-x snap-mandatory gap-4 overflow-x-auto scrollbar-none focus-visible:outline-none"
         ref={scrollAreaRef}
       >
         {sources.map((src, i) => (
           <div
-            className="slide w-[90vw] shrink-0 px-3 snap-start h-full focus-visible:outline-none"
+            className="slide h-full w-[90vw] shrink-0 snap-start px-3 focus-visible:outline-none"
             key={i}
             ref={(e) => {
               photoRefs.current.set(e!, { e: e!, i });
@@ -151,12 +153,12 @@ function Slider({
             <Image
               alt=""
               src={src}
-              className="w-full h-full object-contain focus-visible:outline-none"
+              className="h-full w-full object-contain focus-visible:outline-none"
             />
           </div>
         ))}
       </div>
-      <div className="header z-[11] fixed top-[-65px] flex py-5 w-full justify-between ">
+      <div className="header fixed top-[-65px] z-[11] flex w-full justify-between py-5 ">
         <div className="counter">
           {index + 1} / {sources.length}
         </div>
@@ -167,13 +169,13 @@ function Slider({
       <Button
         onClick={() => setIndex((i) => getPrevIndex(i, sources.length))}
         aria-label="Go to previous slide"
-        className="left-0 top-1/2 -translate-y-1/2 fixed"
+        className="fixed left-0 top-1/2 -translate-y-1/2"
         iconLeft={<ArrowRightIcon className="rotate-180" />}
       />
       <Button
         onClick={() => setIndex((i) => getNextIndex(i, sources.length))}
         aria-label="Go to next slide"
-        className="right-0 top-1/2 -translate-y-1/2 fixed"
+        className="fixed right-0 top-1/2 -translate-y-1/2"
         iconLeft={<ArrowRightIcon />}
       />
     </div>
@@ -200,10 +202,10 @@ export default function GalleryContextProvider({
       {children}
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Portal container={getTopLayer()}>
-          <Dialog.Overlay className="gallery-overlay bg-neutral-900 inset-0 fixed z-20 backdrop-blur [.theme-light_&]:bg-white [.theme-dark_&]:bg-neutral-950 [.theme-dark_&]:bg-opacity-80 [.theme-light_&]:bg-opacity-80" />
+          <Dialog.Overlay className="gallery-overlay fixed inset-0 z-20 bg-neutral-900 backdrop-blur [.theme-dark_&]:bg-neutral-950 [.theme-dark_&]:bg-opacity-80 [.theme-light_&]:bg-white [.theme-light_&]:bg-opacity-80" />
           <Dialog.Content
             className="gallery-content pointer-events-none
-          h-[calc(calc(var(--vh,1vh)*90)-85px)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] z-[21] fixed focus-visible:outline-none"
+          fixed left-1/2 top-1/2 z-[21] h-[calc(calc(var(--vh,1vh)*90)-85px)] w-[90vw] -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none"
           >
             <Slider sources={sources} index={index} setIndex={setIndex} />
           </Dialog.Content>

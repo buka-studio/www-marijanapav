@@ -79,7 +79,7 @@ export default function ColorThemeCard() {
                     <button
                       key={t}
                       onClick={() => setColorTheme(t)}
-                      className={clsx('flex items-center')}
+                      className={clsx('flex items-center rounded-full')}
                     >
                       <div
                         className={clsx(
@@ -119,7 +119,7 @@ export default function ColorThemeCard() {
 
               <button
                 aria-label="Reset color theme"
-                className="group"
+                className="group rounded-full"
                 onClick={removeColorTheme}
                 disabled={!colorTheme}
               >

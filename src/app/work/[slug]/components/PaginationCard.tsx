@@ -19,18 +19,18 @@ export default function PaginationCard({
   return (
     <Card
       containerClassName="group"
-      className={clsx('grid md:grid-cols-1 grid-rows-1 grid-cols-[1fr_1fr]', direction)}
+      className={clsx('grid grid-cols-[1fr_1fr] grid-rows-1 md:grid-cols-1', direction)}
     >
       <div
         className={clsx(
-          'w-full h-full relative-mouse bg-panel-background md:[grid-row:1] md:[grid-column:1] rounded-lg overflow-hidden relative',
+          'relative-mouse relative h-full w-full overflow-hidden rounded-lg bg-panel-background md:[grid-column:1] md:[grid-row:1]',
           relativeMouseClassname,
           { ['[grid-column:2]']: direction === 'left' },
         )}
       >
         <Image
           src={project.preview.src}
-          className="object-cover w-full opacity-30 h-full group-hover:scale-110 transition-all duration-500 ease-in-out"
+          className="h-full w-full object-cover opacity-30 transition-all duration-500 ease-in-out group-hover:scale-110"
           fill
           sizes="(max-width: 768px) 50vw, 350px"
           alt=""
@@ -38,7 +38,7 @@ export default function PaginationCard({
       </div>
       <div
         className={clsx(
-          'flex flex-col gap-2 justify-center items-center h-[140px] md:min-h-[230px] [grid-row:1] md:[grid-column:1] relative z-[1]',
+          ' relative z-[1] flex h-[140px] flex-col items-center justify-center gap-2 [grid-row:1] md:min-h-[230px] md:[grid-column:1]',
           {
             ['[grid-column:2]']: direction === 'right',
           },
@@ -46,11 +46,11 @@ export default function PaginationCard({
       >
         {' '}
         <ArrowRightIcon
-          className={clsx('text-text-primary bg-main-theme-3 p-1 w-8 h-8 rounded-full', {
-            ['transform rotate-180']: direction === 'left',
+          className={clsx('h-8 w-8 rounded-full bg-main-theme-3 p-1 text-text-primary', {
+            ['rotate-180 transform']: direction === 'left',
           })}
         />
-        <p className="max-w-[70%] text-center p-2">{project.title}</p>
+        <p className="max-w-[70%] p-1 text-center text-sm md:p-2 md:text-base">{project.title}</p>
       </div>
     </Card>
   );

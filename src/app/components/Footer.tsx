@@ -20,6 +20,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
               href="https://fonts.google.com/specimen/Archivo"
               target="_blank"
               rel="noopener noreferrer"
+              className="rounded-sm"
             >
               Archivo
             </a>
@@ -28,6 +29,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
               href="https://fonts.google.com/specimen/Inter"
               target="_blank"
               rel="noopener noreferrer"
+              className="rounded-sm"
             >
               Inter
             </a>
@@ -37,7 +39,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
 
         <div className="text-xs flex gap-2 items-center">
           Built by{' '}
-          <a href="https://rpavlini.com" className="underline">
+          <a href="https://rpavlini.com" className="underline rounded-sm">
             rpavlini.com
           </a>
         </div>

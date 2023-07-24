@@ -45,7 +45,7 @@ export default function Contact() {
           <div className="flex md:flex-row flex-col mb-[100px] md:mb-8 gap-6 items-center text-center ">
             <a
               href="mailto:hello@marijanasimag.com"
-              className="text-[clamp(2.25rem,2vw+1rem,3.75rem)] font-archivo"
+              className="text-[clamp(2.25rem,2vw+1rem,3.75rem)] font-archivo rounded-lg"
             >
               hello@marijana
               <wbr />
