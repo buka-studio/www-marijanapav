@@ -1,10 +1,10 @@
 .theme-blue-dark {
-  --text-primary: #587AF1;
-  --text-secondary: #587af1e6;
+  --text-primary: #4f79ff;
+  --text-secondary: #4f79ffe6;
   --text-alt: #1E34B6;
-  --text-alt2: #150070;
+  --text-alt2: #0c1231;
   --panel-background: #000;
-  --panel-border: linear-gradient(0deg, #15007000 0%, #150070 100%);
+  --panel-border: linear-gradient(0deg, #0c123100 0%, #0c1231 100%);
   --panel-blend-layer: linear-gradient(0deg, #00000000 0%, #000000 100%);
   --panel-dropshadow-x: 0;
   --panel-dropshadow-y: 4;
@@ -16,7 +16,7 @@
   --panel-blur-y: 0;
   --panel-blur-blur: 920;
   --panel-blur-spread: 100;
-  --panel-blur-color: #587af1;
+  --panel-blur-color: #4f79ff;
   --panel-blur-type: dropShadow;
   --panel-dropshadow-detail-x: 0;
   --panel-dropshadow-detail-y: 0;
@@ -30,12 +30,12 @@
   --panel-pointer-spread: 30;
   --panel-pointer-color: #1E34B6;
   --panel-pointer-type: dropShadow;
-  --main-theme-1: #587AF1;
+  --main-theme-1: #4f79ff;
   --main-theme-2: #1E34B6;
-  --main-theme-3: #150070;
+  --main-theme-3: #0c1231;
   --main-theme-4: #000026;
   --main-background: #030212;
-  --main-theme-overlay: #587af11a;
+  --main-theme-overlay: #4f79ff1a;
   --main-transparent: #0302121a;
   --button-focus-x: 0;
   --button-focus-y: 0;

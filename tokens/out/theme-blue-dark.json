@@ -1,11 +1,11 @@
 {
   "text": {
     "primary": {
-      "value": "#587AF1",
+      "value": "#4f79ff",
       "type": "color"
     },
     "secondary": {
-      "value": "#587af1e6",
+      "value": "#4f79ffe6",
       "type": "color"
     },
     "alt": {
@@ -13,7 +13,7 @@
       "type": "color"
     },
     "alt2": {
-      "value": "#150070",
+      "value": "#0c1231",
       "type": "color"
     }
   },
@@ -23,7 +23,7 @@
       "type": "color"
     },
     "border": {
-      "value": "linear-gradient(0deg, #15007000 0%, #150070 100%)",
+      "value": "linear-gradient(0deg, #0c123100 0%, #0c1231 100%)",
       "type": "color"
     },
     "blend-layer": {
@@ -74,7 +74,7 @@
         "type": "spread"
       },
       "color": {
-        "value": "#587af1",
+        "value": "#4f79ff",
         "type": "color"
       },
       "type": {
@@ -137,7 +137,7 @@
   },
   "main": {
     "theme-1": {
-      "value": "#587AF1",
+      "value": "#4f79ff",
       "type": "color"
     },
     "theme-2": {
@@ -145,7 +145,7 @@
       "type": "color"
     },
     "theme-3": {
-      "value": "#150070",
+      "value": "#0c1231",
       "type": "color"
     },
     "theme-4": {
@@ -157,7 +157,7 @@
       "type": "color"
     },
     "theme-overlay": {
-      "value": "#587af11a",
+      "value": "#4f79ff1a",
       "type": "color"
     },
     "transparent": {

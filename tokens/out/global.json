@@ -1,9 +1,9 @@
 {
   "blue_dark": {
     "500": {
-      "value": "#587AF1",
+      "value": "#4f79ff",
       "type": "color",
-      "description": "3B58FF\n3046C8"
+      "description": "3B58FF\n3046C8\n587AF1 "
     },
     "600": {
       "value": "#1E34B6",
@@ -11,7 +11,7 @@
       "description": "1000A3\n1E34B6"
     },
     "700": {
-      "value": "#150070",
+      "value": "#0c1231",
       "type": "color",
       "description": "150070"
     },
