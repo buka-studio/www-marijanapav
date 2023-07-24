@@ -144,7 +144,7 @@ function Slider({
       >
         {sources.map((src, i) => (
           <div
-            className="slide h-full w-[90vw] shrink-0 snap-start px-3 focus-visible:outline-none"
+            className="slide h-full w-full shrink-0 snap-center px-3 focus-visible:outline-none"
             key={i}
             ref={(e) => {
               photoRefs.current.set(e!, { e: e!, i });
@@ -153,6 +153,7 @@ function Slider({
             <Image
               alt=""
               src={src}
+              sizes="(max-width: 1360px) 90vw, 1360px"
               className="h-full w-full object-contain focus-visible:outline-none"
             />
           </div>
@@ -205,7 +206,7 @@ export default function GalleryContextProvider({
           <Dialog.Overlay className="gallery-overlay fixed inset-0 z-20 bg-neutral-900 backdrop-blur [.theme-dark_&]:bg-neutral-950 [.theme-dark_&]:bg-opacity-80 [.theme-light_&]:bg-white [.theme-light_&]:bg-opacity-80" />
           <Dialog.Content
             className="gallery-content pointer-events-none
-          fixed left-1/2 top-1/2 z-[21] h-[calc(calc(var(--vh,1vh)*90)-85px)] w-[90vw] -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none"
+          fixed left-1/2 top-1/2 z-[21] h-[calc(calc(var(--vh,1vh)*90)-85px)] w-[90vw] max-w-screen-2xl -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none"
           >
             <Slider sources={sources} index={index} setIndex={setIndex} />
           </Dialog.Content>
