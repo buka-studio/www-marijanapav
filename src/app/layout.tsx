@@ -28,6 +28,8 @@ const archivo = Archivo({
 
 export const metadata: Metadata = {
   title: "Marijana Šimag's Personal Website",
+  metadataBase:
+    process.env.NODE_ENV === 'production' ? new URL('https://marijanasimag.com') : undefined,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,13 +38,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.variable} ${archivo.variable} font-sans`}>
         <ThemeProvider>
           <div className="main bg-main-background">
-            <div className="max-w-screen-2xl m-auto min-h-screen flex flex-col">
+            <div className="m-auto flex min-h-screen max-w-screen-2xl flex-col">
               {children}
               <Footer />
             </div>
           </div>
         </ThemeProvider>
-        <div className='top-layer h-screen w-screen top-0 left-0 fixed pointer-events-none z-50'/>
+        <div className="top-layer pointer-events-none fixed left-0 top-0 z-50 h-screen w-screen" />
       </body>
     </html>
   );
