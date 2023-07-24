@@ -48,12 +48,12 @@ export default function Work({ params }: { params: { slug: string } }) {
   return (
     <>
       {project.slug && <ViewLogger pathname={`/work/${project.slug}`} />}
-      <div className="flex-1 py-10 px-5 [html:has(&)_footer>*:not(.nav)]:invisible">
-        <Heading className="text-5xl mb-2 text-left max-w-xl">{project.title}</Heading>
+      <div className="flex-1 px-5 py-10 [html:has(&)_footer>*:not(.nav)]:invisible">
+        <Heading className="mb-2 max-w-xl text-left text-5xl">{project.title}</Heading>
         <p className="max-w-xl text-left">{project.description}</p>
-        <div className="mt-10 flex justify-between gap-3 flex-col sm:items-center sm:flex-row items-start ">
+        <div className="mt-10 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center ">
           {(project.tags?.length || 0) > 0 && (
-            <div className="flex justify-left gap-2 flex-wrap">
+            <div className="justify-left flex flex-wrap gap-2">
               {project.tags?.map((t, i) => (
                 <Tag key={i} className="text-sm">
                   {t}
@@ -62,31 +62,31 @@ export default function Work({ params }: { params: { slug: string } }) {
             </div>
           )}
           {project.link && (
-            <Tag>
+            <Tag asChild>
               <a
-                className="flex text-sm gap-2 items-center"
+                className="flex items-center gap-2 text-sm"
                 href={project.link}
                 target="_blank"
                 rel="noreferrer noopener"
               >
                 {hostname(project.link)}
-                <LinkIcon className="w-5 h-5" />
+                <LinkIcon className="h-5 w-5" />
               </a>
             </Tag>
           )}
         </div>
         <DynamicVHProvider>
           <Gallery sources={allImages}>
-            <div className="flex flex-col gap-2 md:gap-4 mt-[80px]">
+            <div className="mt-[80px] flex flex-col gap-2 md:gap-4">
               {project.blocks?.map((b, blockI) => {
                 const isImageBlock = b.every((e) => 'src' in (e as any));
                 if (isImageBlock) {
                   return (
-                    <div className="flex gap-2 md:gap-4 justify-left" key={blockI}>
+                    <div className="justify-left flex gap-2 md:gap-4" key={blockI}>
                       {(b as StaticImageData[]).map((e, i) => (
                         <div
                           key={i}
-                          className="max-h-[700px] [&:only-child_img]:object-cover flex-1"
+                          className="max-h-[700px] flex-1 [&:only-child_img]:object-cover"
                         >
                           <GalleryTrigger
                             key={i}
@@ -98,7 +98,7 @@ export default function Work({ params }: { params: { slug: string } }) {
                               priority={blockI === 0}
                               src={e}
                               alt=""
-                              className="max-h-full w-full object-cover m-auto"
+                              className="m-auto max-h-full w-full object-cover focus-within:outline-main-theme-1"
                             />
                           </GalleryTrigger>
                         </div>
@@ -121,13 +121,13 @@ export default function Work({ params }: { params: { slug: string } }) {
         </Divider>
 
         <MouseVarsProvider>
-          <div className="flex flex-col max-w-3xl m-auto gap-9 mt-20">
+          <div className="m-auto mt-20 flex max-w-3xl flex-col gap-9">
             {previousProject || nextProject ? (
-              <Heading className="text-4xl text-center" as="h2">
+              <Heading className="text-center text-4xl" as="h2">
                 Explore other projects
               </Heading>
             ) : null}
-            <div className="md:flex-row flex flex-col gap-6 justify-center md:[&>*]:max-w-[400px]">
+            <div className="flex flex-col justify-center gap-6 md:flex-row md:[&>*]:max-w-[400px]">
               {previousProject && (
                 <Link href={`/work/${previousProject.slug}`} className="flex-1 rounded-xl">
                   <PaginationCard direction="left" project={previousProject} />

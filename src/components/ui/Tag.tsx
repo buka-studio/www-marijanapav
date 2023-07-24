@@ -1,29 +1,26 @@
+import { Slot } from '@radix-ui/react-slot';
 import clsx from 'clsx';
-import { ComponentProps, ReactNode, forwardRef } from 'react';
+import { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type Props = {
-  children?: ReactNode;
+  asChild?: boolean;
 };
 
-const Tag = forwardRef<HTMLDivElement, Props & ComponentProps<'div'>>(function Tag(
-  { children, className = '', ...rest },
-  ref,
-) {
+function Tag({ asChild, className, ...rest }: Props & ComponentProps<'div'>) {
+  const Component = asChild ? Slot : ('div' as any);
+
   return (
-    <div
+    <Component
+      {...rest}
       className={twMerge(
         clsx(
           'ui-tag rounded-lg px-2 py-1 flex items-center justify-center text-text-primary bg-main-theme-3',
           className,
         ),
       )}
-      ref={ref}
-      {...rest}
-    >
-      {children}
-    </div>
+    />
   );
-});
+}
 
 export default Tag;

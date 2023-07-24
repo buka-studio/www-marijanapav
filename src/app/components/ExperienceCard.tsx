@@ -38,14 +38,14 @@ export default function ExperienceCard() {
           {positions.map((p, i) => (
             <li
               key={i}
-              className="items-start flex-row pb-4 border-b border-main-theme-overlay flex items-center justify-between last-of-type:border-none"
+              className="flex-row pb-4 border-b border-main-theme-overlay flex items-center justify-between last-of-type:border-none"
             >
               <span className="flex-1 flex items-center gap-2">
                 <span className="text-text-secondary">
                   {p.title} {p.company && 'at'}{' '}
                 </span>
                 {p.company ? (
-                  <Tag>
+                  <Tag asChild>
                     {p.company.href ? (
                       <a className="text-xs" href={p.company.href} rel="noreferrer" target="_blank">
                         {p.company.name}
