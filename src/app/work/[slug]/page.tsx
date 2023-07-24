@@ -26,6 +26,10 @@ function intersection<T>(a: T[] = [], b: T[] = []): T[] {
   return a.filter((x) => s1.has(x));
 }
 
+function genImageSizes(length: number): string {
+  return `(max-width: 1360px) ${Math.round(100 / length)}vw, ${Math.round(1360 / length)}px`;
+}
+
 export default function Work({ params }: { params: { slug: string } }) {
   const project = projects
     .filter((p) => p.type === 'project')
@@ -78,12 +82,12 @@ export default function Work({ params }: { params: { slug: string } }) {
         <DynamicVHProvider>
           <Gallery sources={allImages}>
             <div className="mt-[80px] flex flex-col gap-2 md:gap-4">
-              {project.blocks?.map((b, blockI) => {
-                const isImageBlock = b.every((e) => 'src' in (e as any));
+              {project.blocks?.map((block, blockI) => {
+                const isImageBlock = block.every((e) => 'src' in (e as any));
                 if (isImageBlock) {
                   return (
                     <div className="justify-left flex gap-2 md:gap-4" key={blockI}>
-                      {(b as StaticImageData[]).map((e, i) => (
+                      {(block as StaticImageData[]).map((e, i, items) => (
                         <div
                           key={i}
                           className="max-h-[700px] flex-1 [&:only-child_img]:object-cover"
@@ -91,13 +95,14 @@ export default function Work({ params }: { params: { slug: string } }) {
                           <GalleryTrigger
                             key={i}
                             at={allImages.findIndex(
-                              (e) => e.src === (b as StaticImageData[])[i].src,
+                              (e) => e.src === (block as StaticImageData[])[i].src,
                             )}
                           >
                             <Image
                               priority={blockI === 0}
                               src={e}
                               alt=""
+                              sizes={genImageSizes(items.length)}
                               className="m-auto max-h-full w-full object-cover focus-within:outline-main-theme-1"
                             />
                           </GalleryTrigger>
@@ -108,7 +113,7 @@ export default function Work({ params }: { params: { slug: string } }) {
                 }
                 return (
                   <div className="my-8" key={blockI}>
-                    {(b as ReactNode[]).map((e, i) => e)}
+                    {(block as ReactNode[]).map((e, i) => e)}
                   </div>
                 );
               })}
