@@ -30,7 +30,7 @@ export default function ExperienceCard() {
       <div className="px-2">
         <Heading
           as="h1"
-          className="text-base text-text-secondary font-sans pb-6 border-b border-main-theme-overlay my-4"
+          className="my-4 border-b border-main-theme-overlay pb-6 font-sans text-base text-text-secondary"
         >
           Work Experience
         </Heading>
@@ -38,9 +38,9 @@ export default function ExperienceCard() {
           {positions.map((p, i) => (
             <li
               key={i}
-              className="flex-row pb-4 border-b border-main-theme-overlay flex items-center justify-between last-of-type:border-none"
+              className="flex flex-row items-center justify-between border-b border-main-theme-overlay pb-4 last-of-type:border-none"
             >
-              <span className="flex-1 flex items-center gap-2">
+              <span className="flex flex-1 items-center gap-2">
                 <span className="text-text-secondary">
                   {p.title} {p.company && 'at'}{' '}
                 </span>
@@ -62,8 +62,8 @@ export default function ExperienceCard() {
                 </span>
                 {!p.to && (
                   <span className="relative flex h-3 w-3 xs:hidden">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-text-primary opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-text-secondary"></span>
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-text-primary opacity-75"></span>
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-text-secondary"></span>
                   </span>
                 )}
               </span>

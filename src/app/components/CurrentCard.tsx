@@ -8,20 +8,20 @@ import Card from './Card';
 export default function CurrentCard() {
   return (
     <Card className="">
-      <div className="flex flex-col h-full">
+      <div className="flex h-full flex-col">
         <div className="mb-2 text-text-secondary">Currently exploring</div>
-        <Heading className="text-4xl md:text-5xl xl:text-6xl mb-3 flex items-center gap-3">
-          MidJourney<Tag className="text-xs mt-5 font-sans">v5.1</Tag>
+        <Heading className="mb-3 flex items-center gap-3 text-4xl md:text-5xl xl:text-6xl">
+          MidJourney<Tag className="mt-5 font-sans text-xs">v5.1</Tag>
         </Heading>
-        <div className="mt-auto relative">
+        <div className="relative mt-auto">
           <Image
             src={MidjourneyImage}
             alt="Midjourney generated image"
             placeholder="blur"
             height={170}
-            className="rounded-xl w-full object-cover object-top max-h-[170px]"
+            className="max-h-[170px] w-full rounded-xl object-cover object-top"
           />
-          <div className="transition-colors duration-200 rounded-xl bg-main-theme-overlay absolute h-full w-full top-0 left-0" />
+          <div className="absolute left-0 top-0 h-full w-full rounded-xl bg-main-theme-overlay transition-colors duration-200" />
         </div>
       </div>
     </Card>

@@ -30,10 +30,10 @@ export default function Navabar() {
 
   return (
     <>
-      <nav className="flex items-center rounded-full p-1 gap-2 relative bg-panel-background shadow-card z-[1]">
+      <nav className="relative z-[1] flex items-center gap-2 rounded-full bg-panel-background p-1 shadow-card">
         {/* note: motion.div layoutId loses position after page scrolls */}
         <div
-          className="absolute h-[90%] bg-main-theme-3 rounded-full transition-all duration-300 ease-out"
+          className="absolute h-[90%] rounded-full bg-main-theme-3 transition-all duration-300 ease-out"
           style={{
             width: `${links[pathSegment]?.width}rem`,
             left: highlightOffset,
@@ -43,7 +43,7 @@ export default function Navabar() {
           <Link
             href={path}
             key={l.label}
-            className="py-1 px-4 z-[1] text-text-primary rounded-full"
+            className="z-[1] rounded-full px-4 py-1 text-text-primary"
           >
             {l.label}
           </Link>
@@ -60,8 +60,8 @@ export default function Navabar() {
           },
         )}
       >
-        <span className="bg-main-theme-3 h-[2rem] w-[2rem] flex justify-end items-center z-[1] rounded-full px-2 relative">
-          <ArrowRightIcon className="w-6 h-6 -rotate-90 text-text-primary" />
+        <span className="relative z-[1] flex h-[2rem] w-[2rem] items-center justify-end rounded-full bg-main-theme-3 px-2">
+          <ArrowRightIcon className="h-6 w-6 -rotate-90 text-text-primary" />
         </span>
       </button>
     </>

@@ -65,8 +65,8 @@ export default function PantoneCard() {
 
   return (
     <Card containerClassName="z-[3]">
-      <div className="h-[268px] flex flex-col gap-3 w-full">
-        <div className="bg-main-theme-2 transition-all duration-250 flex-1 rounded-lg"></div>
+      <div className="flex h-[268px] w-full flex-col gap-3">
+        <div className="duration-250 flex-1 rounded-lg bg-main-theme-2 transition-all"></div>
         <div className="flex justify-between">
           <div className="flex-1 overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>

@@ -60,7 +60,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
   return (
     <Card className="flex flex-col">
       <div className="mb-2 text-text-secondary">What I&apos;m working on atm</div>
-      <div className="flex items-start justify-between mb-8 xl:mb-[120px]">
+      <div className="mb-8 flex items-start justify-between xl:mb-[120px]">
         <Heading as="h1" className="text-primary text-4xl md:text-5xl xl:text-6xl">
           Sneak <br className="hidden md:block" />
           peek
@@ -68,7 +68,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
       </div>
       <div className="progress relative mb-2 rounded-full bg-main-theme-overlay pr-2 text-text-alt2">
         <div
-          className="progress-bar absolute bg-text-primary rounded-full h-full min-w-[130px] transition-all duration-300"
+          className="progress-bar absolute h-full min-w-[130px] rounded-full bg-text-primary transition-all duration-300"
           style={
             {
               width: `calc(130px + ((100% - 130px) / ${maxClicks}) * ${Math.min(
@@ -79,20 +79,20 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
           }
         />
         <button
-          className="bg-text-primary rounded-full flex items-center gap-2 relative py-[4px] px-2 text-sm w-[130px] text-text-alt2"
+          className="relative flex w-[130px] items-center gap-2 rounded-full bg-text-primary px-2 py-[4px] text-sm text-text-alt2"
           onClick={() => {
             setClickCount((c) => c + 1);
           }}
         >
-          {revealed ? <EyeIcon className="w-5 h-5" /> : <EyeOffIcon className="w-5 h-5" />}
+          {revealed ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}
           Click to {revealed ? 'hide' : 'see'}
         </button>
         <span
           className={clsx(
-            'absolute right-2 top-[4px] transition-all duration-[500ms] ease-out text-sm',
+            'absolute right-2 top-[4px] text-sm transition-all duration-[500ms] ease-out',
             {
               ['-translate-x-4 opacity-0 ']: !revealed,
-              ['opacity-100 translate-x-0']: revealed,
+              ['translate-x-0 opacity-100']: revealed,
             },
           )}
         >
@@ -100,7 +100,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
         </span>
       </div>
 
-      <div className="w-full min-h-[284px] relative rounded-xl overflow-hidden h-full">
+      <div className="relative h-full min-h-[284px] w-full overflow-hidden rounded-xl">
         <Image
           src={SneakPeekPhoto}
           // todo: better alt text
@@ -109,8 +109,8 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
           sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 284px"
           placeholder="blur"
           className={clsx('object-cover object-center transition-all duration-300', {
-            'grayscale-0 blur-0': revealed,
-            'grayscale blur-sm': !revealed,
+            'blur-0 grayscale-0': revealed,
+            'blur-sm grayscale': !revealed,
           })}
         />
 

@@ -24,7 +24,7 @@ export default function Work({ searchParams }: { searchParams: { f?: Filter } })
   });
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-1 flex-col">
       <Header filter={searchParams?.f as any} />
       <ViewLogger pathname="/work" />
       <main className="flex-1">

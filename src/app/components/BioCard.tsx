@@ -46,21 +46,21 @@ const social = [
 
 export default function BioCard() {
   return (
-    <Card className="p-4 flex-1 flex flex-col rounded-2xl gap-4  bg-panel-background">
+    <Card className="flex flex-1 flex-col gap-4 rounded-2xl bg-panel-background  p-4">
       <div className="relative">
         <Image
           alt="A wild Marijana caught drawing"
           src={PortraitSrc}
           placeholder="blur"
-          className="rounded-xl w-full object-cover object-top max-h-[455px]"
+          className="max-h-[455px] w-full rounded-xl object-cover object-top"
           loading="eager"
           sizes="(max-width: 768px) 100vw, 768px"
           priority
         />
-        <div className="transition-colors duration-200 rounded-xl bg-main-theme-overlay absolute h-full w-full top-0 left-0" />
+        <div className="absolute left-0 top-0 h-full w-full rounded-xl bg-main-theme-overlay transition-colors duration-200" />
       </div>
 
-      <p className="leading-7 panel text-text-secondary">
+      <p className="panel leading-7 text-text-secondary">
         I&apos;ve had a chance to work in various environments, including a design studio, an
         agency, and now at Supabase &#9825;, a fast-growing startup. Through these different
         settings I worked on various skills, from editorial design, illustration, packaging, to a
@@ -68,16 +68,16 @@ export default function BioCard() {
         based in Central Europe, working from my home office, because life&apos;s too short for long
         commutes, but I do have to deal with a cat trying to sit on my keyboard.
       </p>
-      <div className="flex flex-col items-start justify-between mt-9 text-text-secondary md:flex-row md:items-center">
+      <div className="mt-9 flex flex-col items-start justify-between text-text-secondary md:flex-row md:items-center">
         <div>See what I&apos;ve been doing on:</div>
-        <div className="flex mr-auto mt-3 md:mt-0 md:ml-5 gap-2">
+        <div className="mr-auto mt-3 flex gap-2 md:ml-5 md:mt-0">
           {social.map(({ url, Icon, attrs }) => (
             <a
               target="_blank"
               rel="noreferrer noopener"
               key={url}
               href={`${url}`}
-              className="rounded-full hover transition-all duration-200 cursor-pointer hoverable:text-main-theme-2 hoverable:hover:text-main-theme-1"
+              className="hover cursor-pointer rounded-full transition-all duration-200 hoverable:text-main-theme-2 hoverable:hover:text-main-theme-1"
               {...attrs}
             >
               <Icon />

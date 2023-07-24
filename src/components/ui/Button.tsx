@@ -31,13 +31,13 @@ function Button({
         {...rest}
         className={twMerge(
           clsx(
-            'group transition-all duration-200 ui-button rounded-full flex items-center gap-3 outline-offset-2 relative overflow-hidden cursor-pointer [clip-path:border-box]',
+            'ui-button group relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-full outline-offset-2 transition-all duration-200 [clip-path:border-box]',
             {
-              ['text-sm leading-6 py-[6px] px-4']: size === 'default',
-              ['text-xs px-3 py-1']: size === 'sm',
+              ['px-4 py-[6px] text-sm leading-6']: size === 'default',
+              ['px-3 py-1 text-xs']: size === 'sm',
               ['px-1 py-1']: !children,
-              ['text-text-primary bg-main-theme-3']: variant === 'primary',
-              ['text-text-alt2 bg-text-primary']: variant === 'secondary',
+              ['bg-main-theme-3 text-text-primary']: variant === 'primary',
+              ['bg-text-primary text-text-alt2']: variant === 'secondary',
               ['text-text-primary']: variant === 'text',
             },
           ),
@@ -48,7 +48,7 @@ function Button({
         {iconRight && iconRight}
         <div
           className={clsx(
-            'right-0 pointer-events-none absolute top-0 w-full h-full [.theme-light_&]:mix-blend-color-burn [.theme-dark_&]:mix-blend-color-dodge bg-neutral-500 transition-all duration-300 group-hover:translate-x-0 group-focus-visible:translate-x-0 -translate-x-full',
+            'pointer-events-none absolute right-0 top-0 h-full w-full -translate-x-full bg-neutral-500 transition-all duration-300 group-hover:translate-x-0 group-focus-visible:translate-x-0 [.theme-dark_&]:mix-blend-color-dodge [.theme-light_&]:mix-blend-color-burn',
           )}
         />
       </Component>

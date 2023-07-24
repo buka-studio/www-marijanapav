@@ -8,15 +8,15 @@ import useDidMount from '~/src/hooks/useDidMount';
 
 const controls = [
   {
-    icon: <DarkIcon className="w-5 h-5 z-1 relative" />,
+    icon: <DarkIcon className="z-1 relative h-5 w-5" />,
     value: 'dark',
   },
   {
-    icon: <LightIcon className="w-5 h-5 z-1 relative" />,
+    icon: <LightIcon className="z-1 relative h-5 w-5" />,
     value: 'light',
   },
   {
-    icon: <SystemIcon className="w-5 h-5 z-1 relative" />,
+    icon: <SystemIcon className="z-1 relative h-5 w-5" />,
     value: 'system',
   },
 ];
@@ -33,11 +33,11 @@ export default function ThemeSwitcher() {
   const highlightOffset = `${activeIndex * 0.75 + activeIndex * (1.25 + 0.375 * 2) + 0.25}rem`;
 
   return (
-    <div className="flex items-center gap-3 rounded-full border-main-theme-overlay border p-1 shadow-card bg-panel-background relative">
+    <div className="relative flex items-center gap-3 rounded-full border border-main-theme-overlay bg-panel-background p-1 shadow-card">
       {/* note: motion.div layoutId loses position after page scrolls */}
       {didMount && (
         <div
-          className="absolute left-0 h-8 w-8 bg-main-theme-3 rounded-full top-[1.75] !transition-[left] duration-300 ease-out"
+          className="absolute left-0 top-[1.75] h-8 w-8 rounded-full bg-main-theme-3 !transition-[left] duration-300 ease-out"
           style={{
             left: highlightOffset,
           }}
@@ -48,7 +48,7 @@ export default function ThemeSwitcher() {
         const isActive = didMount && theme === value;
         return (
           <button
-            className={clsx('p-[0.375rem] hover:text-main-theme-1 rounded-full relative', {
+            className={clsx('relative rounded-full p-[0.375rem] hover:text-main-theme-1', {
               ['text-text-secondary']: !isActive,
               ['text-main-theme-1']: isActive,
             })}

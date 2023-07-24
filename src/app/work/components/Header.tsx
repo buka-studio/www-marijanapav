@@ -17,13 +17,13 @@ function getFilterLabel(tag: string): string {
 export default function Header({ filter }: { filter?: Filter }) {
   return (
     <MainHeader>
-      <div className="filters flex gap-1 items-center overflow-x-auto flex-nowrap whitespace-nowrap md:overflow-visible overflow-y-hidden scrollbar-none">
+      <div className="filters flex flex-nowrap items-center gap-1 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-none md:overflow-visible">
         {filters.map((f) => (
           <Button
             key={f}
             asChild
             variant={f === filter ? 'secondary' : 'primary'}
-            className="text-xs md:text-sm flex-shrink-0"
+            className="flex-shrink-0 text-xs md:text-sm"
           >
             <Link {...{ href: f === 'all' ? `/work` : `/work?f=${f}` }}>{getFilterLabel(f)}</Link>
           </Button>

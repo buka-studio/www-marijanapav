@@ -99,18 +99,18 @@ export default function PhotosCard() {
 
   return (
     <Card className="flex flex-col">
-      <div className="xl:mb-auto mb-6 flex gap-2 justify-between w-full">
-        <Heading as="h1" className="text-primary text-text-secondary font-sans">
+      <div className="mb-6 flex w-full justify-between gap-2 xl:mb-auto">
+        <Heading as="h1" className="text-primary font-sans text-text-secondary">
           Bits and pieces from my camera roll
         </Heading>
       </div>
       <div
-        className="flex aspect-square w-full rounded-xl overflow-x-auto gap-4 snap-x snap-mandatory scrollbar-none xl:mt-auto md:order-2 xl:order-none"
+        className="flex aspect-square w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-xl scrollbar-none md:order-2 xl:order-none xl:mt-auto"
         ref={scrollAreaRef}
       >
         {photos.map((p, i) => (
           <div
-            className="h-full aspect-square relative snap-start"
+            className="relative aspect-square h-full snap-start"
             key={p.src}
             ref={(e) => {
               photoRefs.current.set(e!, { e: e!, i });
@@ -121,13 +121,13 @@ export default function PhotosCard() {
               alt=""
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 478px"
-              className="object-cover object-center rounded-xl"
+              className="rounded-xl object-cover object-center"
             />
-            <div className="transition-colors duration-200 rounded-xl bg-main-theme-overlay absolute h-full w-full top-0 left-0" />
+            <div className="absolute left-0 top-0 h-full w-full rounded-xl bg-main-theme-overlay transition-colors duration-200" />
           </div>
         ))}
       </div>
-      <div className="md:order-1 xl:order-last flex gap-[6px] md:my-2 md:mt-auto mt-5 xl:mt-5 xl:mb-0 pb-1 justify-center items-center">
+      <div className="mt-5 flex items-center justify-center gap-[6px] pb-1 md:order-1 md:my-2 md:mt-auto xl:order-last xl:mb-0 xl:mt-5">
         {photos.map((p, i) => (
           <button
             aria-label={`Go to photo ${i + 1}`}
@@ -141,8 +141,8 @@ export default function PhotosCard() {
             key={p.src}
             className={twMerge(
               clsx('h-[10px] rounded-full transition-all duration-150', {
-                ['bg-main-theme-overlay w-[10px]']: i !== photo,
-                ['w-[50px] bg-main-theme-1 h-[6px]']: i === photo,
+                ['w-[10px] bg-main-theme-overlay']: i !== photo,
+                ['h-[6px] w-[50px] bg-main-theme-1']: i === photo,
               }),
             )}
           />

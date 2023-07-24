@@ -52,7 +52,7 @@ export default function ProjectsGrid({ projects }: Props) {
   }, []);
 
   return (
-    <div className="flex-1 py-10 px-5">
+    <div className="flex-1 px-5 py-10">
       <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3, 1200: 4 }}>
         <Masonry gutter={mobile ? '0.5rem' : '1rem'}>
           {projects.map((project, i) =>
@@ -68,7 +68,7 @@ export default function ProjectsGrid({ projects }: Props) {
                     delay: i * 0.1,
                   }}
                   onAnimationComplete={() => setTitleHeight(i)}
-                  className="rounded-2xl relative group flex group"
+                  className="group group relative flex rounded-2xl"
                   style={{ aspectRatio: project.aspect || 'initial' }}
                 >
                   <Card
@@ -78,8 +78,8 @@ export default function ProjectsGrid({ projects }: Props) {
                     containerClassName="h-full w-full"
                     className="h-full w-full overflow-hidden"
                   >
-                    <div className="overflow-hidden rounded-lg w-full h-full group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)] transition-all duration-300 translate-y-0">
-                      <div className="relative group-hover:translate-y-[calc(var(--title-height)*1px)] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] transition-all duration-300 translate-y-0 h-full w-full rounded-lg overflow-hidden">
+                    <div className="h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)]">
+                      <div className="relative h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-focus-visible:translate-y-[calc(var(--title-height)*1px)]">
                         <Image
                           alt={project.description || ''}
                           src={project.preview}
@@ -92,7 +92,7 @@ export default function ProjectsGrid({ projects }: Props) {
                     </div>
 
                     <div
-                      className="title text-text-primary px-3 left-0 p-2 group-hover:translate-y-[-4px] group-focus-visible:translate-y-[-4px] transition-all duration-300 translate-y-full title absolute bottom-0 w-full rounded-tr-md rounded-tl-md"
+                      className="title title absolute bottom-0 left-0 w-full translate-y-full rounded-tl-md rounded-tr-md p-2 px-3 text-text-primary transition-all duration-300 group-hover:translate-y-[-4px] group-focus-visible:translate-y-[-4px]"
                       ref={(e) => {
                         titleRefs.current.set(i, e!);
                       }}
@@ -113,7 +113,7 @@ export default function ProjectsGrid({ projects }: Props) {
                   delay: i * 0.1,
                 }}
                 exit={{ translateY: 100, opacity: 0 }}
-                className="relative group flex group"
+                className="group group relative flex"
                 key={i}
               >
                 {project.content}

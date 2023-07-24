@@ -7,15 +7,15 @@ import FloatingNav from './FloatingNav';
 export default function Footer({ children }: { children?: ReactNode }) {
   return (
     <>
-      <div className="mb-5 md:mb-0 md:fixed sticky bottom-5 nav mx-auto md:bottom-8 md:left-1/2 md:-translate-x-1/2 rounded-full z-[11]">
+      <div className="nav sticky bottom-5 z-[11] mx-auto mb-5 rounded-full md:fixed md:bottom-8 md:left-1/2 md:mb-0 md:-translate-x-1/2">
         <FloatingNav />
       </div>
-      <footer className="flex justify-between pb-4 md:pb-8 text-text-primary px-5 z-10">
-        <div className="flex gap-2 items-center">
-          <div className="rounded-full p-2 bg-main-theme-3">
+      <footer className="z-10 flex justify-between px-5 pb-4 text-text-primary md:pb-8">
+        <div className="flex items-center gap-2">
+          <div className="rounded-full bg-main-theme-3 p-2">
             <LettersIcon />
           </div>
-          <span className="[&_a]:underline text-xs">
+          <span className="text-xs [&_a]:underline">
             <a
               href="https://fonts.google.com/specimen/Archivo"
               target="_blank"
@@ -37,9 +37,9 @@ export default function Footer({ children }: { children?: ReactNode }) {
           </span>
         </div>
 
-        <div className="text-xs flex gap-2 items-center">
+        <div className="flex items-center gap-2 text-xs">
           Built by{' '}
-          <a href="https://rpavlini.com" className="underline rounded-sm">
+          <a href="https://rpavlini.com" className="rounded-sm underline">
             rpavlini.com
           </a>
         </div>

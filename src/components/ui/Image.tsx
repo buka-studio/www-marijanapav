@@ -16,8 +16,8 @@ const Image = forwardRef<HTMLImageElement, ComponentProps<typeof NextImage>>(
           setLoaded(true);
         }}
         className={clsx(props.className || '', 'transition-all duration-500', {
-          ['blur-md scale-95']: !loaded,
-          ['blur-0 scale-100']: loaded,
+          ['scale-95 blur-md']: !loaded,
+          ['scale-100 blur-0']: loaded,
         })}
       />
     );

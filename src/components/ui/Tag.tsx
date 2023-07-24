@@ -15,7 +15,7 @@ function Tag({ asChild, className, ...rest }: Props & ComponentProps<'div'>) {
       {...rest}
       className={twMerge(
         clsx(
-          'ui-tag rounded-lg px-2 py-1 flex items-center justify-center text-text-primary bg-main-theme-3',
+          'ui-tag flex items-center justify-center rounded-lg bg-main-theme-3 px-2 py-1 text-text-primary',
           className,
         ),
       )}

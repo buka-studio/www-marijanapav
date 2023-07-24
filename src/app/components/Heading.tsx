@@ -33,7 +33,7 @@ export default function Hheading({ className, ...props }: ComponentProps<'h1'>) 
       {lines.map((l, i) => (
         <HighlightedText
           aria-hidden
-          className="text-4xl lg:text-8xl font-archivo"
+          className="font-archivo text-4xl lg:text-8xl"
           ref={(e) => textRefs.current.set(i, e!)}
           key={l}
         >

@@ -266,16 +266,16 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
   const revealed = step === maxSteps;
 
   return (
-    <div className="relative w-full h-full" ref={ref}>
+    <div className="relative h-full w-full" ref={ref}>
       <div
-        className={clsx('absolute top-0 left-0 w-full h-full bg-main-theme-overlay', {
+        className={clsx('absolute left-0 top-0 h-full w-full bg-main-theme-overlay', {
           'opacity-0': revealed,
         })}
       />
       <canvas
         ref={canvasRef}
         className={clsx(
-          'absolute top-0 left-0 aspect-square rounded-xl transition-all ease-linear duration-300',
+          'absolute left-0 top-0 aspect-square rounded-xl transition-all duration-300 ease-linear',
           {
             'opacity-0': revealed,
             'opacity-100': !revealed,

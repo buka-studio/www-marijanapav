@@ -17,16 +17,16 @@ export default function Header({ children }: { children?: ReactNode }) {
   return (
     <header
       className={clsx(
-        'flex justify-between py-4 px-5 z-10 sticky top-0 transition-all duration-300 rounded-br-[32px] rounded-bl-[32px] ease-in-out flex-wrap',
+        'sticky top-0 z-10 flex flex-wrap justify-between rounded-bl-[32px] rounded-br-[32px] px-5 py-4 transition-all duration-300 ease-in-out',
         {
           ['translate-y-[-128px]']: y > headerTriggerY && directionY === 'down',
-          ['backdrop-blur-[6px] bg-transparent [&]']: y > headerTriggerY,
+          ['[&] bg-transparent backdrop-blur-[6px]']: y > headerTriggerY,
         },
       )}
     >
       <Link
         href="/"
-        className="flex gap-2 text-text-primary items-center rounded-full"
+        className="flex items-center gap-2 rounded-full text-text-primary"
         aria-label="Go to Home page"
       >
         <LogoIcon
@@ -34,10 +34,10 @@ export default function Header({ children }: { children?: ReactNode }) {
             ['text-main-theme-1']: y > headerTriggerY,
           })}
         />
-        <span className="hidden md:inline pr-1">Marijana Šimag</span>
+        <span className="hidden pr-1 md:inline">Marijana Šimag</span>
       </Link>
       {children && (
-        <div className="order-3 mt-4 lg:mt-0 w-full lg:w-auto lg:order-none">{children}</div>
+        <div className="order-3 mt-4 w-full lg:order-none lg:mt-0 lg:w-auto">{children}</div>
       )}
       <ThemeSwitcher />
     </header>

@@ -15,7 +15,7 @@ function Grid({ ...props }: ComponentProps<'svg'>) {
   return (
     <div
       className={clsx(
-        'text-text-alt2 border-text-alt2 border-[1px] rounded-xl overflow-hidden',
+        'overflow-hidden rounded-xl border-[1px] border-text-alt2 text-text-alt2',
         props?.className,
       )}
     >
@@ -67,12 +67,12 @@ export default function ColorThemeCard() {
 
   return (
     <Card>
-      <div className="h-[268px] flex content-center flex-col gap-3 w-full">
+      <div className="flex h-[268px] w-full flex-col content-center gap-3">
         <div className="relative h-full">
-          <Grid className="absolute top-0 left-0 w-full h-full" />
-          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-            <div className="p-[1px] [background:var(--panel-border)] rounded-full">
-              <div className="relative flex gap-5 rounded-full py-2 px-3 bg-panel-background shadow-card">
+          <Grid className="absolute left-0 top-0 h-full w-full" />
+          <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
+            <div className="rounded-full p-[1px] [background:var(--panel-border)]">
+              <div className="relative flex gap-5 rounded-full bg-panel-background px-3 py-2 shadow-card">
                 {colorThemes.map((t, i) => {
                   const isActive = t === colorTheme;
                   return (
@@ -83,7 +83,7 @@ export default function ColorThemeCard() {
                     >
                       <div
                         className={clsx(
-                          'transition-all duration-200 border-2 w-7 h-7 rounded-full relative flex items-center justify-center',
+                          'relative flex h-7 w-7 items-center justify-center rounded-full border-2 transition-all duration-200',
                           {
                             ['border-main-theme-1']: isActive,
                             ['border-main-theme-2']: !isActive,
@@ -92,7 +92,7 @@ export default function ColorThemeCard() {
                       >
                         {isActive ? (
                           <motion.span
-                            className="absolute h-3 w-3 bg-main-theme-1 rounded-full"
+                            className="absolute h-3 w-3 rounded-full bg-main-theme-1"
                             layoutId="color-theme-dot"
                           />
                         ) : (
@@ -124,9 +124,9 @@ export default function ColorThemeCard() {
                 disabled={!colorTheme}
               >
                 {colorTheme ? (
-                  <ResetIcon className="group-hover:text-main-theme-1 text-text-secondary transition-all duration-200" />
+                  <ResetIcon className="text-text-secondary transition-all duration-200 group-hover:text-main-theme-1" />
                 ) : (
-                  <ArrowRightIcon className="text-text-secondary -rotate-90 h-5 w-5" />
+                  <ArrowRightIcon className="h-5 w-5 -rotate-90 text-text-secondary" />
                 )}
               </button>
             </motion.div>

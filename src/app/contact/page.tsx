@@ -39,13 +39,13 @@ export default function Contact() {
     <>
       <Header />
       <ViewLogger pathname="/contact" />
-      <main className="flex flex-col py-8 px-11 flex-1">
-        <div className="items-center flex-1 justify-center flex flex-col text-text-primary">
+      <main className="flex flex-1 flex-col px-11 py-8">
+        <div className="flex flex-1 flex-col items-center justify-center text-text-primary">
           <h1>Say hi or talk future projects</h1>
-          <div className="flex md:flex-row flex-col mb-[100px] md:mb-8 gap-6 items-center text-center ">
+          <div className="mb-[100px] flex flex-col items-center gap-6 text-center md:mb-8 md:flex-row ">
             <a
               href="mailto:hello@marijanasimag.com"
-              className="text-[clamp(2.25rem,2vw+1rem,3.75rem)] font-archivo rounded-lg"
+              className="rounded-lg font-archivo text-[clamp(2.25rem,2vw+1rem,3.75rem)]"
             >
               hello@marijana
               <wbr />
@@ -54,7 +54,7 @@ export default function Contact() {
             <CopyToClipboard content={email} />
           </div>
 
-          <div className="flex gap-2 flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center gap-2">
             {links.map(({ label, ...rest }) => {
               const linkProps = { ...rest, target: '_blank', rel: 'noopener noreferrer' };
               return (

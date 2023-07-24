@@ -76,11 +76,11 @@ export default async function Home() {
     <div>
       <Header />
       <ViewLogger pathname="/" />
-      <div className="fixed glow h-[400px] w-[400px] blur-3xl rounded-full pointer-events-none" />
+      <div className="glow pointer-events-none fixed h-[400px] w-[400px] rounded-full blur-3xl" />
       <div className="flex flex-col px-5 py-5 md:py-12">
         <main className="pb-[100px]">
           <Heading className="mb-8" />
-          <div className="mb-20 xxs:flex-row items-start xxs:items-center flex-col xxs:gap-4 flex gap-2 text-text-primary">
+          <div className="mb-20 flex flex-col items-start gap-2 text-text-primary xxs:flex-row xxs:items-center xxs:gap-4">
             <div>What I do</div>
             <div className="flex gap-2">
               {projectLinks.map(({ label, ...linkProps }) => (
