@@ -67,13 +67,19 @@ export default function PantoneCard() {
     <Card containerClassName="z-[3]">
       <div className="h-[268px] flex flex-col gap-3 w-full">
         <div className="bg-main-theme-2 transition-all duration-250 flex-1 rounded-lg"></div>
-        <div className="flex justify-between overflow-hidden">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.p className="text-text-secondary" key={name} {...slideLeftProps}>
-              PANTONE <ClientRendered>{name}</ClientRendered>
-            </motion.p>
-          </AnimatePresence>
-          <button aria-describedby="pantone-tooltip" aria-label="Open Pantone tooltip">
+        <div className="flex justify-between">
+          <div className="flex-1 overflow-hidden">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p className="text-text-secondary" key={name} {...slideLeftProps}>
+                PANTONE <ClientRendered>{name}</ClientRendered>
+              </motion.p>
+            </AnimatePresence>
+          </div>
+          <button
+            aria-describedby="pantone-tooltip"
+            aria-label="Open Pantone tooltip"
+            className="rounded-full"
+          >
             <InfoIcon className="text-text-secondary" />
             <div role="tooltip" id="pantone-tooltip">
               Sorry, these Pantone color names are entirely fictional.
