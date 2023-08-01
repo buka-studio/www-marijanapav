@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 const supabaseClient = () => createClient(process.env.DB_URL!, process.env.DB_TOKEN!);
@@ -33,6 +34,11 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  const cookieStore = cookies();
+  if (cookieStore.get('notrack')) {
+    return NextResponse.json({ message: 'Not tracking.', count: 0 }, { status: 200 });
+  }
+
   const { searchParams } = new URL(req.url);
 
   try {
