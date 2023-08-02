@@ -20,7 +20,7 @@ export default async function Home() {
       <Header />
       <ViewLogger pathname="/shop" />
       <main className="flex flex-1 flex-col px-11 py-8">
-        <div className="relative mb-[100px] flex flex-col items-center gap-2 md:mb-[200px] md:mt-[calc(var(--vh,1vh)*10)]">
+        <div className="relative mb-[100px] flex flex-col items-center gap-2 md:mb-[150px] md:mt-[calc(var(--vh,1vh)*10)]">
           <p className="text-sm uppercase">Shop</p>
           <Heading className="text-center text-[clamp(2.25rem,2vw+2.5rem,4rem)] leading-none">
             Coming soon
