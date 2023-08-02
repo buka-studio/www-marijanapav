@@ -9,3 +9,9 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+@media (max-width: 475px) {
+  .anchor-top::before {
+    width: 40px;
+  }
+}

@@ -8,12 +8,15 @@ import useScroll from '../../hooks/useScroll';
 
 import './FloatingNav.css';
 
+import { twMerge } from 'tailwind-merge';
+
 import { ArrowRightIcon } from '../../components/icons';
 
 const links = {
-  '/work': { label: 'Work', width: 4.5 },
-  '/': { label: 'About', width: 4.8125 },
-  '/contact': { label: 'Contact', width: 5.8125 },
+  '/work': { label: 'Work', width: 4.1 },
+  '/': { label: 'About', width: 4.55 },
+  '/shop': { label: 'Shop', width: 4.125 },
+  '/contact': { label: 'Contact', width: 5.25 },
 };
 
 export default function Navabar() {
@@ -43,7 +46,7 @@ export default function Navabar() {
           <Link
             href={path}
             key={l.label}
-            className="z-[1] rounded-full px-4 py-1 text-text-primary"
+            className="z-[1] rounded-full px-4 py-1 text-sm text-text-primary"
           >
             {l.label}
           </Link>
@@ -52,12 +55,14 @@ export default function Navabar() {
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Scroll to top"
-        className={clsx(
-          'anchor-top absolute top-1/2 -translate-y-1/2  rounded-full transition-all duration-300 ',
-          {
-            ['right-0 opacity-0']: y < 50,
-            ['-right-[2rem]']: y > 50,
-          },
+        className={twMerge(
+          clsx(
+            'anchor-top absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ',
+            {
+              ['right-0 opacity-0']: y < 50,
+              ['-top-10 right-0 xs:-right-[2rem] xs:top-1/2']: y > 50,
+            },
+          ),
         )}
       >
         <span className="relative z-[1] flex h-[2rem] w-[2rem] items-center justify-end rounded-full bg-main-theme-3 px-2">
