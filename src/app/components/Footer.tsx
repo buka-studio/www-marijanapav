@@ -36,13 +36,6 @@ export default function Footer({ children }: { children?: ReactNode }) {
             .
           </span>
         </div>
-
-        <div className="flex items-center gap-2 text-xs">
-          Built by{' '}
-          <a href="https://rpavlini.com" className="rounded-sm underline">
-            rpavlini.com
-          </a>
-        </div>
       </footer>
     </>
   );
