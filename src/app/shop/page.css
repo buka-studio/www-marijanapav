@@ -1,0 +1,13 @@
+footer,
+header {
+  pointer-events: none;
+}
+
+footer > *,
+header > * {
+  pointer-events: initial;
+}
+
+.main {
+  overflow: hidden;
+}

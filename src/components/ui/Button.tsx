@@ -6,6 +6,7 @@ import { twMerge } from 'tailwind-merge';
 type Props = {
   asChild?: boolean;
   className?: string;
+  buttonClassName?: string;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
   children?: ReactNode;
@@ -19,6 +20,7 @@ function Button({
   iconRight,
   children,
   className = '',
+  buttonClassName = '',
   size = 'default',
   variant = 'primary',
   ...rest
@@ -40,6 +42,7 @@ function Button({
               ['bg-text-primary text-text-alt2']: variant === 'secondary',
               ['text-text-primary']: variant === 'text',
             },
+            buttonClassName,
           ),
         )}
       >
