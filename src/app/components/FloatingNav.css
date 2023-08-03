@@ -3,15 +3,16 @@
   position: absolute;
   width: 5rem;
   background-color: var(--panel-background);
-  height: 2.5rem;
+  height: 2.25rem;
   border-radius: 50px;
-  right: -0.25rem;
+  right: -0.15rem;
   top: 50%;
   transform: translateY(-50%);
 }
 
 @media (max-width: 475px) {
   .anchor-top::before {
-    width: 40px;
+    width: 2.25rem;
+    right: -0.125rem;
   }
 }
