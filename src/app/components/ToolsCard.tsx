@@ -19,7 +19,7 @@ export default function ToolsCard() {
         <div className="flex justify-between">
           <span className="text-text-secondary">Tools I love</span>
         </div>
-        <div className="relative h-[calc(3.5rem*4)] overflow-hidden text-[3.5rem] leading-[4rem] md:h-[calc(3.5rem*5)] xl:h-[calc(3.5rem*4)]">
+        <div className="relative h-[calc(3.5rem*4)] overflow-hidden text-[2.5rem] leading-[1.2] md:h-[calc(3.5rem*5)] md:text-[3.5rem] md:leading-[4rem] xl:h-[calc(3.5rem*4)]">
           <div className="track animate-[carousel-vertical_10s_linear_infinite]">
             {tools.concat(tools).map((t, i) => (
               <div key={i} className="font-archivo font-medium text-text-primary">
