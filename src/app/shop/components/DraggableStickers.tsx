@@ -26,10 +26,10 @@ const stickers = [
   CoffeeMachine,
   Battery,
   Copyright,
-  LoremIpsum,
   Buka,
   FigmaExport,
   Stamp2,
+  LoremIpsum,
 ];
 
 function lerp(a: number, b: number, t: number) {
