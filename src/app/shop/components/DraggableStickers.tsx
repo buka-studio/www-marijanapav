@@ -1,7 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { CSSProperties, useRef } from 'react';
+import clsx from 'clsx';
+import { motion, useAnimationControls } from 'framer-motion';
+import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 
 import Battery from '~/public/stickers/Battery.svg';
 import Buka from '~/public/stickers/Buka.svg';
@@ -15,6 +16,7 @@ import OptionKey from '~/public/stickers/Option-key.svg';
 import Stamp1 from '~/public/stickers/Stamp1.svg';
 import Stamp2 from '~/public/stickers/Stamp2.svg';
 import Zet from '~/public/stickers/Zet.svg';
+import Button from '~/src/components/ui/Button';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 
 const stickers = [
@@ -53,24 +55,96 @@ export default function DraggableStickers({
 }) {
   const constraintsRef = useRef(null);
 
-  const stickerRefs = useRef(new Map<HTMLElement, { z: number }>());
+  const stickerRefs = useRef(new Map<number, { e: HTMLElement; z: number; dragging: boolean }>());
   const isMdScreen = useMatchMedia('(min-width: 768px) and (max-width: 1024)');
   const isSmScreen = useMatchMedia('(max-width: 768px)');
+  const controls = useAnimationControls();
 
-  function handleDragStart(e: MouseEvent) {
+  const [resetEnabled, setResetEnabled] = useState(false);
+
+  function handleDragStart(i: number) {
     const newMaxI = Math.max(...Array.from(stickerRefs.current.values()).map(({ z }) => z)) + 1;
 
-    const target = e.target as HTMLElement;
-    const container = target.classList.contains('sticker')
-      ? target
-      : target.closest('svg')?.parentElement;
+    const target = stickerRefs.current.get(i);
 
-    if (container) {
-      container.style.setProperty('--z', newMaxI.toString());
+    if (target?.e) {
+      target.e.style.setProperty('--z', newMaxI.toString());
+
+      stickerRefs.current.set(i, {
+        ...target,
+        z: newMaxI,
+        dragging: true,
+      });
     }
 
-    stickerRefs.current.set(container!, { z: newMaxI });
+    setResetEnabled(false);
   }
+
+  function handleDragEnd(i: number) {
+    const target = stickerRefs.current.get(i);
+
+    if (target) {
+      stickerRefs.current.set(i, {
+        ...target,
+        dragging: false,
+      });
+    }
+
+    const isDraggingAny = Array.from(stickerRefs.current.values()).some(({ dragging }) => dragging);
+
+    if (!isDraggingAny) {
+      setResetEnabled(true);
+    }
+  }
+
+  useEffect(() => {
+    controls.start('initial');
+  }, [controls]);
+
+  function handleResetStickers() {
+    controls.start('initial');
+  }
+
+  const stickerMotionVariants = useMemo(() => {
+    return stickers.map((_, i) => {
+      const len = stickers.length;
+      const isInFirstHalf = i < Math.floor(stickers.length / 2);
+      const t = i / (len - 1);
+      const isOdd = i & 1;
+
+      let initialX: number;
+      let initialY: number;
+      if (isSmScreen) {
+        initialX = Math.sin(lerp(-1, 1, t)) * 150 * -1;
+        initialY = (isOdd ? -1 : 1) * randInt(20, 50);
+      } else {
+        initialX =
+          Math.abs(Math.sin(lerp(-1, 1, t))) *
+          (isMdScreen ? 150 : randInt(300, 500)) *
+          (isInFirstHalf ? -1 : 1);
+
+        initialY = (isOdd ? -1 : 1) * randInt(20, 50);
+      }
+
+      const initRotate = Math.random() * (Math.sign(Math.sin(Math.random() * 100)) * 30);
+      const initScale = isSmScreen ? 0.7 : isMdScreen ? 0.75 : 1.25;
+
+      const variants = {
+        hidden: {
+          opacity: 0,
+        },
+        initial: {
+          rotate: initRotate,
+          x: initialX,
+          y: initialY,
+          opacity: 1,
+          scale: initScale,
+        },
+      };
+
+      return variants;
+    });
+  }, [isMdScreen, isSmScreen]);
 
   return (
     <>
@@ -88,28 +162,20 @@ export default function DraggableStickers({
         }
         className="relative z-[1] grid grid-cols-[clamp(200px,50vw,300px)] grid-rows-[auto] justify-center"
       >
+        <div
+          className={clsx('m-auto inline-flex transition-all duration-200', {
+            'opacity-0': !resetEnabled,
+            'opacity-100': resetEnabled,
+          })}
+        >
+          <Button onClick={handleResetStickers} disabled={!resetEnabled}>
+            Reset Stickers
+          </Button>
+        </div>
+
         {stickers.map((Sticker, i) => {
-          const len = stickers.length;
-          const isInFirstHalf = i < Math.floor(stickers.length / 2);
-          const t = i / (len - 1);
-          const isOdd = i & 1;
-
-          let initialX: number;
-          let initialY: number;
-          if (isSmScreen) {
-            initialX = Math.sin(lerp(-1, 1, t)) * 150 * -1;
-            initialY = (isOdd ? -1 : 1) * randInt(20, 50);
-          } else {
-            initialX =
-              Math.abs(Math.sin(lerp(-1, 1, t))) *
-              (isMdScreen ? 150 : randInt(300, 500)) *
-              (isInFirstHalf ? -1 : 1);
-
-            initialY = (isOdd ? -1 : 1) * randInt(20, 50);
-          }
-
-          const initScale = isSmScreen ? 0.7 : isMdScreen ? 0.75 : 1.25;
-          const initRotate = Math.random() * (Math.sign(Math.sin(Math.random() * 100)) * 30);
+          const variants = stickerMotionVariants[i];
+          const initScale = variants.initial.scale as number;
 
           return (
             <motion.div
@@ -118,27 +184,25 @@ export default function DraggableStickers({
               key={i}
               drag
               ref={(e) => {
-                stickerRefs.current.set(e!, { z: 1 });
+                stickerRefs.current.set(i, {
+                  z: 1,
+                  e: e!,
+                  dragging: false,
+                });
               }}
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                rotate: initRotate,
-                x: initialX,
-                y: initialY,
-                opacity: 1,
-                scale: initScale,
-              }}
+              initial="hidden"
+              animate={controls}
+              variants={variants}
               transition={{
                 y: { duration: 1.2, type: 'spring', bounce: Math.random() * 0.6 },
                 x: { duration: 1.2, type: 'spring', bounce: Math.random() * 0.6 },
                 opacity: { duration: 0.5 },
               }}
               whileDrag={{ scale: initScale * 1.2, cursor: 'grabbing', rotate: 0 }}
-              onDragStart={handleDragStart}
+              onDragStart={() => handleDragStart(i)}
               dragConstraints={constraintsRef}
               dragTransition={{ bounceStiffness: 100, bounceDamping: 10, power: 0.4 }}
+              onDragTransitionEnd={() => handleDragEnd(i)}
             >
               <Sticker />
             </motion.div>
