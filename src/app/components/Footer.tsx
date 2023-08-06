@@ -36,6 +36,16 @@ export default function Footer({ children }: { children?: ReactNode }) {
             .
           </span>
         </div>
+
+        <div className="flex items-center gap-2 text-xs">
+          Code on
+          <a
+            href="https://github.com/buka-studio/www-marijanasimag"
+            className="rounded-sm underline"
+          >
+            Github
+          </a>
+        </div>
       </footer>
     </>
   );

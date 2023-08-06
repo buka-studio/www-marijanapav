@@ -1,6 +1,5 @@
 import ActiveIcon from './Active.svg';
 import ArrowRightIcon from './ArrowRight.svg';
-import BehanceIcon from './Behance.svg';
 import BukaIcon from './Buka.svg';
 import ChevronIcon from './Chevron.svg';
 import ContentCopyIcon from './Content-copy.svg';
@@ -24,11 +23,11 @@ import ResetIcon from './Reset.svg';
 import SystemIcon from './System.svg';
 import TopIcon from './Top.svg';
 import TwitterIcon from './Twitter.svg';
+import GithubIcon from './github.svg';
 
 export {
   ActiveIcon,
   ArrowRightIcon,
-  BehanceIcon,
   BukaIcon,
   ChevronIcon,
   ContentCopyIcon,
@@ -52,4 +51,5 @@ export {
   SystemIcon,
   TopIcon,
   TwitterIcon,
+  GithubIcon,
 };
