@@ -173,7 +173,7 @@ export default function DraggableStickers({
         className="relative z-[1] grid grid-cols-[clamp(200px,50vw,300px)] grid-rows-[auto] justify-center"
       >
         <div
-          className={clsx('m-auto inline-flex transition-all duration-200', {
+          className={clsx('m-auto inline-flex transition-all duration-300', {
             'opacity-0': !resetEnabled,
             'opacity-100': resetEnabled,
           })}
