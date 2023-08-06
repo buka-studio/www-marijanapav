@@ -62,49 +62,6 @@ export default function DraggableStickers({
 
   const [resetEnabled, setResetEnabled] = useState(false);
 
-  function handleDragStart(i: number) {
-    const newMaxI = Math.max(...Array.from(stickerRefs.current.values()).map(({ z }) => z)) + 1;
-
-    const target = stickerRefs.current.get(i);
-
-    if (target?.e) {
-      target.e.style.setProperty('--z', newMaxI.toString());
-
-      stickerRefs.current.set(i, {
-        ...target,
-        z: newMaxI,
-        dragging: true,
-      });
-    }
-
-    setResetEnabled(false);
-  }
-
-  function handleDragEnd(i: number) {
-    const target = stickerRefs.current.get(i);
-
-    if (target) {
-      stickerRefs.current.set(i, {
-        ...target,
-        dragging: false,
-      });
-    }
-
-    const isDraggingAny = Array.from(stickerRefs.current.values()).some(({ dragging }) => dragging);
-
-    if (!isDraggingAny) {
-      setResetEnabled(true);
-    }
-  }
-
-  useEffect(() => {
-    controls.start('initial');
-  }, [controls]);
-
-  function handleResetStickers() {
-    controls.start('initial');
-  }
-
   const stickerMotionVariants = useMemo(() => {
     return stickers.map((_, i) => {
       const len = stickers.length;
@@ -145,6 +102,59 @@ export default function DraggableStickers({
       return variants;
     });
   }, [isMdScreen, isSmScreen]);
+
+  function handleDragStart(i: number) {
+    const newMaxI = Math.max(...Array.from(stickerRefs.current.values()).map(({ z }) => z)) + 1;
+
+    const target = stickerRefs.current.get(i);
+
+    if (target?.e) {
+      target.e.style.setProperty('--z', newMaxI.toString());
+
+      stickerRefs.current.set(i, {
+        ...target,
+        z: newMaxI,
+        dragging: true,
+      });
+    }
+
+    setResetEnabled(false);
+  }
+
+  function handleDragEnd(i: number) {
+    const target = stickerRefs.current.get(i);
+
+    if (target) {
+      controls.start({
+        scale: stickerMotionVariants[i].initial.scale,
+      });
+    }
+  }
+
+  function handleDragTransitionEnd(i: number) {
+    const target = stickerRefs.current.get(i);
+
+    if (target) {
+      stickerRefs.current.set(i, {
+        ...target,
+        dragging: false,
+      });
+    }
+
+    const isDraggingAny = Array.from(stickerRefs.current.values()).some(({ dragging }) => dragging);
+
+    if (!isDraggingAny) {
+      setResetEnabled(true);
+    }
+  }
+
+  useEffect(() => {
+    controls.start('initial');
+  }, [controls]);
+
+  function handleResetStickers() {
+    controls.start('initial');
+  }
 
   return (
     <>
@@ -202,7 +212,8 @@ export default function DraggableStickers({
               onDragStart={() => handleDragStart(i)}
               dragConstraints={constraintsRef}
               dragTransition={{ bounceStiffness: 100, bounceDamping: 10, power: 0.4 }}
-              onDragTransitionEnd={() => handleDragEnd(i)}
+              onDragTransitionEnd={() => handleDragTransitionEnd(i)}
+              onDragEnd={() => handleDragEnd(i)}
             >
               <Sticker />
             </motion.div>
