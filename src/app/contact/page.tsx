@@ -1,29 +1,29 @@
 import CopyToClipboard from '~/src/components/CopyToClipboard';
-import Button from '~/src/components/ui/Button';
 import ViewLogger from '~/src/components/ViewCounter';
+import Button from '~/src/components/ui/Button';
 
 import Header from '../components/Header';
 
 const links = [
   {
-    label: 'Instagram',
-    href: 'https://www.instagram.com/marijanasimag/',
+    label: 'Twitter',
+    href: 'https://twitter.com/MarijanaSimag',
   },
   {
     label: 'Linkedin',
     href: 'https://www.linkedin.com/in/marijana-simag/',
   },
   {
-    label: 'Behance',
-    href: 'https://www.behance.net/marijanasimag',
+    label: 'Instagram',
+    href: 'https://www.instagram.com/marijanasimag/',
   },
   {
     label: 'Dribbble',
     href: 'https://dribbble.com/marijanasimag',
   },
   {
-    label: 'Twitter',
-    href: 'https://twitter.com/MarijanaSimag',
+    label: 'Github',
+    href: 'https://www.github.com/marijanasimag',
   },
 ];
 

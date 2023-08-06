@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 import {
   ArrowRightIcon,
-  BehanceIcon,
   DribbbleIcon,
+  GithubIcon,
   InstagramIcon,
   LinkedinIcon,
   TwitterIcon,
@@ -13,7 +13,6 @@ import Image from '~/src/components/ui/Image';
 
 import PortraitSrc from '../../../public/home/me.jpg';
 import Card from './Card';
-
 import './cards.css';
 
 const social = [
@@ -38,9 +37,9 @@ const social = [
     attrs: { 'aria-label': 'Go to Dribbble' },
   },
   {
-    url: 'https://www.behance.net/marijanasimag',
-    Icon: BehanceIcon,
-    attrs: { 'aria-label': 'Go to Behance' },
+    url: 'https://github.com/marijanasimag',
+    Icon: GithubIcon,
+    attrs: { 'aria-label': 'Go to Github' },
   },
 ];
 
