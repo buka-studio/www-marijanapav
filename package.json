@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run build-tokens && next dev",
     "build": "npm run build-tokens && next build",
     "start": "next start",
     "lint": "next lint",

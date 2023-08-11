@@ -80,4 +80,4 @@ console.log('Build started...');
 });
 
 console.log('\n==============================================');
-console.log('\nBuild completed!');
+console.log('\nToken build completed!');
