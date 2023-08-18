@@ -38,12 +38,12 @@ export default function Footer({ children }: { children?: ReactNode }) {
         </div>
 
         <div className="flex items-center gap-2 text-xs">
-          Code on
+          See code on
           <a
             href="https://github.com/buka-studio/www-marijanasimag"
             className="rounded-sm underline"
           >
-            Github
+            GitHub
           </a>
         </div>
       </footer>

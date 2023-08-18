@@ -13,6 +13,7 @@ import Image from '~/src/components/ui/Image';
 
 import PortraitSrc from '../../../public/home/me.jpg';
 import Card from './Card';
+
 import './cards.css';
 
 const social = [
@@ -24,7 +25,7 @@ const social = [
   {
     url: 'https://www.linkedin.com/in/marijana-simag/',
     Icon: LinkedinIcon,
-    attrs: { 'aria-label': 'Go to Linkedin' },
+    attrs: { 'aria-label': 'Go to LinkedIn' },
   },
   {
     url: 'https://www.instagram.com/marijanasimag/',
@@ -39,7 +40,7 @@ const social = [
   {
     url: 'https://github.com/marijanasimag',
     Icon: GithubIcon,
-    attrs: { 'aria-label': 'Go to Github' },
+    attrs: { 'aria-label': 'Go to GithHub' },
   },
 ];
 

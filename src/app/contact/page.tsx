@@ -1,6 +1,6 @@
 import CopyToClipboard from '~/src/components/CopyToClipboard';
-import ViewLogger from '~/src/components/ViewCounter';
 import Button from '~/src/components/ui/Button';
+import ViewLogger from '~/src/components/ViewCounter';
 
 import Header from '../components/Header';
 
@@ -10,7 +10,7 @@ const links = [
     href: 'https://twitter.com/MarijanaSimag',
   },
   {
-    label: 'Linkedin',
+    label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/marijana-simag/',
   },
   {
@@ -22,7 +22,7 @@ const links = [
     href: 'https://dribbble.com/marijanasimag',
   },
   {
-    label: 'Github',
+    label: 'GitHub',
     href: 'https://www.github.com/marijanasimag',
   },
 ];
