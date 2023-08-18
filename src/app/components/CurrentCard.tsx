@@ -16,6 +16,7 @@ export default function CurrentCard() {
         <div className="relative mt-auto">
           <Image
             src={MidjourneyImage}
+            quality={90}
             alt="Midjourney generated image"
             placeholder="blur"
             height={170}
