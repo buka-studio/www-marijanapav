@@ -79,6 +79,9 @@ import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import Stamps08 from '~/public/work/stamps/stamps_08.png';
 import Stamps09 from '~/public/work/stamps/stamps_09.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
+import SupabaseLW6 from '~/public/work/supabase-lw6/preview.png';
+import SupabaseLW7 from '~/public/work/supabase-lw7/preview.png';
+import SupabaseLW8 from '~/public/work/supabase-lw8/preview.png';
 
 import Paragraph from './[slug]/components/Paragraph';
 import SupabaseCard from './components/SupabaseCard';
@@ -117,6 +120,18 @@ export type Project = (StaticProject | ComponentProject) & {
 // aspect - width/height
 // todo: consider contentlayer or some other lightweight cms
 export const projects: Project[] = [
+  {
+    hidden: true,
+    type: 'project',
+    title: 'Supabase Launch Week 8 Branding',
+    slug: 'supabase-lw8',
+    preview: SupabaseLW8,
+    filters: ['illustration'],
+    description: 'Remember when TV programs ended at 00:00?',
+    aspect: 0.8,
+    blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
+    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
+  },
   {
     type: 'project',
     title: 'Digital Stamp Collection',
@@ -271,6 +286,18 @@ export const projects: Project[] = [
     content: <SupabaseCard />,
     filters: ['branding', 'ux-ui'],
   },
+  {
+    hidden: true,
+    type: 'project',
+    title: 'Supabase Launch Week 7 Branding',
+    slug: 'supabase-lw7',
+    preview: SupabaseLW7,
+    filters: ['illustration'],
+    description: 'Remember when TV programs ended at 00:00?',
+    aspect: 0.8,
+    blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
+    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
+  },
 
   {
     type: 'project',
@@ -298,7 +325,18 @@ export const projects: Project[] = [
     description:
       'Series of posters for Royal Opera House, taking a refreshing perspective on these well-known stories.',
     aspect: 0.73,
-    blocks: [[OperaPosters0], [OperaPosters00, OperaPosters01, OperaPosters02]],
+    blocks: [[OperaPosters00, OperaPosters01, OperaPosters02]],
+  },
+  {
+    hidden: true,
+    type: 'project',
+    title: 'Supabase Launch Week 6 Branding',
+    slug: 'supabase-lw6',
+    preview: SupabaseLW6,
+    filters: ['illustration'],
+    description: 'Remember when TV programs ended at 00:00?',
+    aspect: 0.8,
+    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
     type: 'project',
@@ -322,7 +360,10 @@ export const projects: Project[] = [
     description:
       'In the midst of a worldwide quarantine, Christmas 2020 called for a touch of sweetness to uplift spirits. We answered the call by curating a delightful three-pack of Croatian honey, as a heartfelt gift for our clients. With over 500 gifts shipped, we aimed to bring a taste of warmth and indulgence to homes during these challenging times.',
     aspect: 1,
-    blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
+    blocks: [
+      [Honey00, Honey01],
+      [Honey02, Honey03],
+    ],
     tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
