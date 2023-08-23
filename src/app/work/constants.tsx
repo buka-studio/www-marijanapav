@@ -53,7 +53,6 @@ import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.p
 import MidnightStudio01 from '~/public/work/midnight-studio/midnight-studio_01.png';
 import MidnightStudio02 from '~/public/work/midnight-studio/midnight-studio_02.png';
 import MidnightStudioPreview from '~/public/work/midnight-studio/midnight-studio_preview.png';
-import OperaPosters0 from '~/public/work/opera-posters/posters_0.png';
 import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
 import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
@@ -326,6 +325,7 @@ export const projects: Project[] = [
       'Series of posters for Royal Opera House, taking a refreshing perspective on these well-known stories.',
     aspect: 0.73,
     blocks: [[OperaPosters00, OperaPosters01, OperaPosters02]],
+    tags: ['Adobe Illustrator', 'Procreate', '© 2021'],
   },
   {
     hidden: true,

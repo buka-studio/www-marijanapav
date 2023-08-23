@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import MouseVarsProvider from '~/src/components/MouseVarsProvider';
+import MousePositionVarsSetter from '~/src/components/MousePositionVarsSetter';
 import Button from '~/src/components/ui/Button';
 import ViewLogger from '~/src/components/ViewCounter';
 
@@ -76,6 +76,7 @@ export default async function Home() {
     <div>
       <Header />
       <ViewLogger pathname="/" />
+      <MousePositionVarsSetter />
       <div className="glow pointer-events-none fixed h-[400px] w-[400px] rounded-full blur-3xl" />
       <div className="flex flex-col px-5 py-5 md:py-12">
         <main className="pb-[100px]">
@@ -90,15 +91,13 @@ export default async function Home() {
               ))}
             </div>
           </div>
-          <MouseVarsProvider>
-            <div className="cards">
-              {cards.map(({ gridArea, Component }, i) => (
-                <div key={i} style={{ gridArea }}>
-                  <Component currentCount={currentCount} />
-                </div>
-              ))}
-            </div>
-          </MouseVarsProvider>
+          <div className="cards">
+            {cards.map(({ gridArea, Component }, i) => (
+              <div key={i} style={{ gridArea }}>
+                <Component currentCount={currentCount} />
+              </div>
+            ))}
+          </div>
         </main>
       </div>
     </div>

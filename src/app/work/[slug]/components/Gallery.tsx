@@ -151,6 +151,7 @@ function Slider({
             }}
           >
             <Image
+              quality={85}
               alt=""
               src={src}
               sizes="(max-width: 1360px) 90vw, 1360px"

@@ -1,11 +1,13 @@
 'use client';
 
+import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import Image from '~/src/components/ui/Image';
+import Tag from '~/src/components/ui/Tag';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 
 import { Project } from '../constants';
@@ -57,7 +59,12 @@ export default function ProjectsGrid({ projects }: Props) {
         <Masonry gutter={mobile ? '0.5rem' : '1rem'}>
           {projects.map((project, i) =>
             project.type === 'project' ? (
-              <Link passHref legacyBehavior key={project.slug} href={`/work/${project.slug}`}>
+              <Link
+                passHref
+                legacyBehavior
+                key={project.slug}
+                href={project.hidden ? '#' : `/work/${project.slug}`}
+              >
                 <motion.a
                   initial={{ translateY: 75, opacity: 0 }}
                   animate={{ translateY: 0, opacity: 1 }}
@@ -68,7 +75,10 @@ export default function ProjectsGrid({ projects }: Props) {
                     delay: i * 0.1,
                   }}
                   onAnimationComplete={() => setTitleHeight(i)}
-                  className="group group relative flex rounded-2xl"
+                  className={clsx('relative flex rounded-2xl', {
+                    group: !project.hidden,
+                    'group/hidden cursor-default': project.hidden,
+                  })}
                   style={{ aspectRatio: project.aspect || 'initial' }}
                 >
                   <Card
@@ -79,18 +89,17 @@ export default function ProjectsGrid({ projects }: Props) {
                     className="h-full w-full overflow-hidden"
                   >
                     <div className="h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)]">
-                      <div className="relative h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-focus-visible:translate-y-[calc(var(--title-height)*1px)]">
+                      <div className="relative h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-hover/hidden:blur-[2px] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] group-focus-visible/hidden:blur-[2px]">
                         <Image
                           alt={project.description || ''}
                           src={project.preview}
                           fill
-                          className="object-cover object-top"
+                          className="object-cover object-top group-hover/hidden:opacity-50 group-focus-visible/hidden:opacity-50"
                           sizes="(max-width: 900px): 50vw, (max-width: 1200px) 33vw, 320px"
                           priority={i < 4}
                         />
                       </div>
                     </div>
-
                     <div
                       className="title title absolute bottom-0 left-0 w-full translate-y-full rounded-tl-md rounded-tr-md p-2 px-3 text-text-primary transition-all duration-300 group-hover:translate-y-[-4px] group-focus-visible:translate-y-[-4px]"
                       ref={(e) => {
@@ -99,6 +108,9 @@ export default function ProjectsGrid({ projects }: Props) {
                     >
                       {project.title}
                     </div>
+                    <Tag className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-300 group-hover/hidden:opacity-100 group-focus-visible/hidden:opacity-100">
+                      Coming Soon
+                    </Tag>
                   </Card>
                 </motion.a>
               </Link>

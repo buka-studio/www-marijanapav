@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 import { forwardRef, ReactNode, useRef } from 'react';
 
-import { relativeMouseClassname } from '~/src/components/MouseVarsProvider';
+import { relativeMouseClassname } from '~/src/components/MousePositionVarsSetter';
 
 import './Card.css';
 

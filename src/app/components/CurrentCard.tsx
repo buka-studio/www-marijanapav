@@ -20,7 +20,7 @@ export default function CurrentCard() {
             alt="Midjourney generated image"
             placeholder="blur"
             height={170}
-            className="max-h-[170px] w-full rounded-xl object-cover object-top"
+            className="max-h-[170px] w-full rounded-xl object-cover object-top [.theme-light_&]:invert"
           />
           <div className="absolute left-0 top-0 h-full w-full rounded-xl bg-main-theme-overlay transition-colors duration-200" />
         </div>

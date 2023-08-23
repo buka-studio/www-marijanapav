@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 import { ArrowRightIcon } from '~/src/components/icons';
-import { relativeMouseClassname } from '~/src/components/MouseVarsProvider';
+import { relativeMouseClassname } from '~/src/components/MousePositionVarsSetter';
 import Image from '~/src/components/ui/Image';
 
 import Card from '../../components/Card';
@@ -18,7 +18,7 @@ export default function PaginationCard({
 }) {
   return (
     <Card
-      containerClassName="group"
+      containerClassName="group shadow-none"
       className={clsx('grid grid-cols-[1fr_1fr] grid-rows-1 md:grid-cols-1', direction)}
     >
       <div
@@ -46,7 +46,7 @@ export default function PaginationCard({
       >
         {' '}
         <ArrowRightIcon
-          className={clsx('h-8 w-8 rounded-full bg-main-theme-3 p-1 text-text-primary', {
+          className={clsx('h-8 w-8 rounded-full bg-main-theme-3 p-1 text-text-primary opacity-60', {
             ['rotate-180 transform']: direction === 'left',
           })}
         />
