@@ -1,11 +1,10 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export const relativeMouseClassname = 'relative-mouse';
 
-// note: any other way to do this w/o creating a component for client boundary?
-export default function MouseVarsProvider({ children }: { children: ReactNode }) {
+export default function MousePositionVarsSetter() {
   useEffect(() => {
     const handler = ({ clientX, clientY }: MouseEvent) => {
       const shinyCards = document.querySelectorAll('.' + relativeMouseClassname);
@@ -31,5 +30,5 @@ export default function MouseVarsProvider({ children }: { children: ReactNode })
     };
   }, []);
 
-  return children as any;
+  return null;
 }

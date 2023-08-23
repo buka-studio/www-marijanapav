@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect } from 'react';
+import { useEffect } from 'react';
 
 const listenerOptions = {
   passive: true,
@@ -17,8 +17,7 @@ function debounceCallback(callback: () => void, limitMs: number) {
 
 export const dvh100 = `calc(var(--vh, 1vh) * 99.99)`;
 
-// note: any other way to do this w/o creating a component for client boundary?
-export default function DynamicVHProvider({ children }: { children: ReactNode }) {
+export default function DynamicVHVarsSetter() {
   useEffect(() => {
     let mounted = true;
     const update = () => {
@@ -40,5 +39,5 @@ export default function DynamicVHProvider({ children }: { children: ReactNode })
     };
   }, []);
 
-  return children as any;
+  return null;
 }
