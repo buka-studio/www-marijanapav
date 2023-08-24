@@ -20,8 +20,8 @@ export default function BukaCard() {
           </Heading>
         </div>
         <p className="text-text-secondary">
-          Branding and web project for a design and dev studio (not&nbsp;yet live but I dare you to
-          check the placeholder).
+          Branding and landing page project for a design and development studio based in Zagreb,
+          Croatia.
         </p>
       </div>
     </Card>

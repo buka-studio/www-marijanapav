@@ -10,7 +10,6 @@ import CmdKey from '~/public/stickers/Cmd-key.svg';
 import CoffeeMachine from '~/public/stickers/Coffee-machine.svg';
 import Copyright from '~/public/stickers/Copyright.svg';
 import FigmaExport from '~/public/stickers/Figma-export.svg';
-import FigmaFrame from '~/public/stickers/Figma-frame.svg';
 import LoremIpsum from '~/public/stickers/Lorem-ipsum.svg';
 import OptionKey from '~/public/stickers/Option-key.svg';
 import Stamp1 from '~/public/stickers/Stamp1.svg';
@@ -21,7 +20,6 @@ import useMatchMedia from '~/src/hooks/useMatchMedia';
 
 const stickers = [
   Stamp1,
-  FigmaFrame,
   Zet,
   CmdKey,
   OptionKey,

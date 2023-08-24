@@ -34,6 +34,7 @@ import InfinumMerch03 from '~/public/work/infinum-merch/infinum_merch_03.jpg';
 import InfinumMerch04 from '~/public/work/infinum-merch/infinum_merch_04.jpg';
 import InfinumMerch05 from '~/public/work/infinum-merch/infinum_merch_05.jpg';
 import InfinumSwagPreview from '~/public/work/infinum-merch/preview.png';
+import InfinumPosters0 from '~/public/work/infinum-posters/infinum-posters_0.png';
 import InfinumPosters00 from '~/public/work/infinum-posters/infinum-posters_00.png';
 import InfinumPosters01 from '~/public/work/infinum-posters/infinum-posters_01.png';
 import InfinumPosters02 from '~/public/work/infinum-posters/infinum-posters_02.png';
@@ -53,6 +54,7 @@ import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.p
 import MidnightStudio01 from '~/public/work/midnight-studio/midnight-studio_01.png';
 import MidnightStudio02 from '~/public/work/midnight-studio/midnight-studio_02.png';
 import MidnightStudioPreview from '~/public/work/midnight-studio/midnight-studio_preview.png';
+import OperaPosters0 from '~/public/work/opera-posters/posters_0.png';
 import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
 import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
@@ -81,6 +83,12 @@ import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
 import SupabaseLW6 from '~/public/work/supabase-lw6/preview.png';
 import SupabaseLW7 from '~/public/work/supabase-lw7/preview.png';
 import SupabaseLW8 from '~/public/work/supabase-lw8/preview.png';
+import SupabaseLW81 from '~/public/work/supabase-lw8/supabase1.png';
+import SupabaseLW82 from '~/public/work/supabase-lw8/supabase2.png';
+import SupabaseLW83 from '~/public/work/supabase-lw8/supabase3.png';
+import SupabaseLW84 from '~/public/work/supabase-lw8/supabase4.png';
+import SupabaseLW85 from '~/public/work/supabase-lw8/supabase5.png';
+import SupabaseLW86 from '~/public/work/supabase-lw8/supabase6.png';
 
 import Paragraph from './[slug]/components/Paragraph';
 import SupabaseCard from './components/SupabaseCard';
@@ -125,11 +133,17 @@ export const projects: Project[] = [
     title: 'Supabase Launch Week 8 Branding',
     slug: 'supabase-lw8',
     preview: SupabaseLW8,
-    filters: ['illustration'],
-    description: 'Remember when TV programs ended at 00:00?',
+    filters: ['ux-ui'],
+    description:
+      "Supabase Launch Week is week-long event packed with product updates, community announcements, meetups, daily video announcements, and live Discord hangouts. It's a showcase of what the Supabase team has been working on in the past few months, and on the design front it's an opportunity to push our brand's boundaries.",
     aspect: 0.8,
-    blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
-    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
+    blocks: [
+      [SupabaseLW81, SupabaseLW82],
+      [SupabaseLW83, SupabaseLW84],
+      [SupabaseLW85, SupabaseLW86],
+    ],
+    tags: ['Figma', '© 2023'],
+    link: 'https://supabase.com/launch-week',
   },
   {
     type: 'project',
@@ -275,7 +289,11 @@ export const projects: Project[] = [
     filters: ['branding'],
     description:
       "An exploration of Infinum's new typeface and refreshed branding brought to life through a collection of large B2 office posters inspired by iconic Vignelli type compositions. Each layout showcases the essence of Infinum's brand identity and pays homage to the power of the bold Neue Haas typeface, aligning with Infinum's brand ethos.",
-    blocks: [[InfinumPosters00], [InfinumPosters01], [InfinumPosters02, InfinumPosters03]],
+    blocks: [
+      [InfinumPosters0, InfinumPosters00],
+      [InfinumPosters01],
+      [InfinumPosters02, InfinumPosters03, InfinumPosters03],
+    ],
     tags: ['Figma', '© 2022'],
     link: 'https://infinum.com/brand',
     aspect: 0.7,
@@ -324,7 +342,7 @@ export const projects: Project[] = [
     description:
       'Series of posters for Royal Opera House, taking a refreshing perspective on these well-known stories.',
     aspect: 0.73,
-    blocks: [[OperaPosters00, OperaPosters01, OperaPosters02]],
+    blocks: [[OperaPosters0], [OperaPosters00, OperaPosters01, OperaPosters02]],
     tags: ['Adobe Illustrator', 'Procreate', '© 2021'],
   },
   {
