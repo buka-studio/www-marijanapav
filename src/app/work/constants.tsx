@@ -6,9 +6,11 @@ import BugReport00 from '~/public/work/bug-report/bur-report_00.png';
 import BugReportPreview from '~/public/work/bug-report/bur-report_preview.png';
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
 import Cryptocurrency from '~/public/work/crypto/preview.png';
-import ElizabethsFlowers00 from '~/public/work/elizabeths-flowers/elizabethsflowers_00.png';
 import ElizabethsFlowers01 from '~/public/work/elizabeths-flowers/elizabethsflowers_01.png';
 import ElizabethsFlowers02 from '~/public/work/elizabeths-flowers/elizabethsflowers_02.png';
+import ElizabethsFlowers03 from '~/public/work/elizabeths-flowers/elizabethsflowers_03.png';
+import ElizabethsFlowers04 from '~/public/work/elizabeths-flowers/elizabethsflowers_04.png';
+import ElizabethsFlowers05 from '~/public/work/elizabeths-flowers/elizabethsflowers_05.png';
 import ElizabethsFlowers from '~/public/work/elizabeths-flowers/preview.png';
 import FruitStickersPreview from '~/public/work/fruit-stickers/preview.png';
 import HavgrimPreview00 from '~/public/work/havgrim/havgrim_00.png';
@@ -16,9 +18,11 @@ import HavgrimPreview01 from '~/public/work/havgrim/havgrim_01.png';
 import HavgrimPreview02 from '~/public/work/havgrim/havgrim_02.png';
 import HavgrimPreview03 from '~/public/work/havgrim/havgrim_03.png';
 import HavgrimPreview from '~/public/work/havgrim/preview.png';
-import HighRoads00 from '~/public/work/high-roads/highroads_00.jpg';
 import HighRoads01 from '~/public/work/high-roads/highroads_01.jpg';
 import HighRoads02 from '~/public/work/high-roads/highroads_02.jpg';
+import HighRoads03 from '~/public/work/high-roads/highroads_03.jpg';
+import HighRoads04 from '~/public/work/high-roads/highroads_04.jpg';
+import HighRoads05 from '~/public/work/high-roads/highroads_05.jpg';
 import HighRoadsPreview from '~/public/work/high-roads/preview.png';
 import InfinumBeer00 from '~/public/work/infinum-beer/infinumbeer_00.png';
 import InfinumBeerPreview from '~/public/work/infinum-beer/preview.png';
@@ -43,12 +47,7 @@ import InfinumPostersPreview from '~/public/work/infinum-posters/preview.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
 import Memobottle00 from '~/public/work/memobottle/memobottle_00.jpg';
 import MemobottlePreview from '~/public/work/memobottle/preview.png';
-import MemoriesPoster01 from '~/public/work/memories-poster/memories_01.png';
-import MemoriesPoster02 from '~/public/work/memories-poster/memories_02.png';
-import MemoriesPoster03 from '~/public/work/memories-poster/memories_03.png';
-import MemoriesPoster04 from '~/public/work/memories-poster/memories_04.png';
-import MemoriesPoster05 from '~/public/work/memories-poster/memories_05.png';
-import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.jpg';
+import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.png';
 import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
 import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.png';
 import MidnightStudio01 from '~/public/work/midnight-studio/midnight-studio_01.png';
@@ -79,6 +78,7 @@ import Stamps06 from '~/public/work/stamps/stamps_06.png';
 import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import Stamps08 from '~/public/work/stamps/stamps_08.png';
 import Stamps09 from '~/public/work/stamps/stamps_09.png';
+import Stamps10 from '~/public/work/stamps/stamps_10.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
 import SupabaseLW6 from '~/public/work/supabase-lw6/preview.png';
 import SupabaseLW7 from '~/public/work/supabase-lw7/preview.png';
@@ -152,26 +152,27 @@ export const projects: Project[] = [
     preview: DigitalStampCollection,
     filters: ['illustration'],
     description:
-      "This is my personal project of digitally recreating my grandpa's stamps. It's a homage to his philatelic journey, now brought online. I started my own philately collection, but in a digital format. Through this collection I've set myself a goal of trying out new softwares/styles.",
+      "This is my personal project of digitally recreating my grandpa's stamps. It's a homage to his philatelic journey, brought online when I started my own philately collection, but in a different format. Through this collection I've set myself a goal of trying out new softwares.",
     blocks: [
       [Stamps00],
       [Stamps01, Stamps02, Stamps03],
       [Stamps04, Stamps05, Stamps06],
+      [Stamps10],
       [
         <Paragraph key="1">
           In 2020 when the quarantine started so did my digital stamp collection. With over 100
           stamps recreated and three distinct styles explored, I try to push boundaries and learn
           new softwares. <br />
           <br />
-          The initial designs were created using Adobe Illustrator, but my curiosity led me to
-          explore Procreate and later on Affinity Desiner x Intous Pro. As a result, the stamps
-          became more detailed and textured over time. I keep saying next phase should be stamps in
-          motion but we&apos;ll see about that! More on this project soon{' '}
+          The initial designs were created using Adobe Illustrator, then curiosity led me to explore
+          Procreate and later on Affinity Desiner x Intous Pro. As a result, the stamps became more
+          detailed and textured with each switch of the software. I keep saying next phase should be
+          stamps in motion but we&apos;ll see about that! More on this project soon{' '}
           <Link href="/stamp-showoff">here</Link>
         </Paragraph>,
       ],
-      [Stamps07],
-      [Stamps08, Stamps09],
+
+      [Stamps07, Stamps08, Stamps09],
     ],
     blocksConfig: {
       assetsStretch: true,
@@ -203,7 +204,10 @@ export const projects: Project[] = [
     description:
       'A branding project for an urban fashion brand that blends class with streetwear flair. Distinctive high contrast typeface combined with bold colors as its primary brand components shows off a bit of the brands personality.',
     aspect: 1,
-    blocks: [[HighRoads00], [HighRoads01, HighRoads02]],
+    blocks: [
+      [HighRoads01, HighRoads02],
+      [HighRoads03, HighRoads04, HighRoads05],
+    ],
     tags: ['Adobe Illustrator', '© 2020'],
   },
   {
@@ -241,11 +245,7 @@ export const projects: Project[] = [
     description:
       'I collected tons of tickets, stickers, papers, and generally memories that I shared with my fiance over the years. These are some of them but made digital.',
     aspect: 0.75,
-    blocks: [
-      [MemoriesPoster00],
-      [MemoriesPoster01, MemoriesPoster02, MemoriesPoster03],
-      [MemoriesPoster04, MemoriesPoster05],
-    ],
+    blocks: [[MemoriesPoster00]],
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
   },
   {
@@ -311,7 +311,7 @@ export const projects: Project[] = [
     preview: SupabaseLW7,
     filters: ['illustration'],
     description: 'Remember when TV programs ended at 00:00?',
-    aspect: 0.8,
+    aspect: 1,
     blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
     tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
@@ -353,7 +353,7 @@ export const projects: Project[] = [
     preview: SupabaseLW6,
     filters: ['illustration'],
     description: 'Remember when TV programs ended at 00:00?',
-    aspect: 0.8,
+    aspect: 1,
     tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
@@ -442,7 +442,10 @@ export const projects: Project[] = [
     aspect: 1,
     description:
       "To capture the essence of Elizabeth's Flowers' quality and attention to detail, we opted for a timeless, elegant serif font and a green and subtly pink color palette.",
-    blocks: [[ElizabethsFlowers00], [ElizabethsFlowers01, ElizabethsFlowers02]],
+    blocks: [
+      [ElizabethsFlowers01, ElizabethsFlowers02],
+      [ElizabethsFlowers03, ElizabethsFlowers04, ElizabethsFlowers05],
+    ],
     tags: ['Adobe Illustrator', '© 2019'],
   },
 ];
