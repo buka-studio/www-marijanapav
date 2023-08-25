@@ -58,10 +58,11 @@ import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
 import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
 import OperaPostersPreview from '~/public/work/opera-posters/preview.png';
-import SignOff00 from '~/public/work/program-end/sign-off_00.png';
 import SignOff01 from '~/public/work/program-end/sign-off_01.png';
 import SignOff02 from '~/public/work/program-end/sign-off_02.png';
 import SignOff03 from '~/public/work/program-end/sign-off_03.png';
+import SignOff04 from '~/public/work/program-end/sign-off_04.png';
+import SignOff05 from '~/public/work/program-end/sign-off_05.png';
 import SignOffPreview from '~/public/work/program-end/sign-off_preview.png';
 import RobiWeb00 from '~/public/work/robi-web/robi-web_00.png';
 import RobiWeb01 from '~/public/work/robi-web/robi-web_01.png';
@@ -80,6 +81,11 @@ import Stamps08 from '~/public/work/stamps/stamps_08.png';
 import Stamps09 from '~/public/work/stamps/stamps_09.png';
 import Stamps10 from '~/public/work/stamps/stamps_10.png';
 import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
+import SupabaseIcons00 from '~/public/work/supabase-icons/supabase-icons_00.png';
+import SupabaseIcons01 from '~/public/work/supabase-icons/supabase-icons_01.png';
+import SupabaseIcons02 from '~/public/work/supabase-icons/supabase-icons_02.png';
+import SupabaseIcons03 from '~/public/work/supabase-icons/supabase-icons_03.png';
+import SupabaseIconsGif from '~/public/work/supabase-icons/supabase-icons.webp';
 import SupabaseLW6 from '~/public/work/supabase-lw6/preview.png';
 import SupabaseLW7 from '~/public/work/supabase-lw7/preview.png';
 import SupabaseLW8 from '~/public/work/supabase-lw8/preview.png';
@@ -249,11 +255,15 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
   },
   {
-    hidden: true,
+    //hidden: true,
     type: 'project',
     title: 'Supabase Icons',
     slug: 'supabase-icons',
     preview: SupabaseIconsPreview,
+    blocks: [
+      [SupabaseIcons00, SupabaseIconsGif],
+      [SupabaseIcons01, SupabaseIcons02, SupabaseIcons03],
+    ],
     filters: ['branding', 'ux-ui'],
     aspect: 1.2,
   },
@@ -376,7 +386,7 @@ export const projects: Project[] = [
     preview: InfinumHoneyPreview,
     filters: ['branding', 'other'],
     description:
-      'In the midst of a worldwide quarantine, Christmas 2020 called for a touch of sweetness to uplift spirits. We answered the call by curating a delightful three-pack of Croatian honey, as a heartfelt gift for our clients. With over 500 gifts shipped, we aimed to bring a taste of warmth and indulgence to homes during these challenging times.',
+      'In the midst of a worldwide quarantine, Christmas 2020 called for a touch of sweetness to uplift spirits. We answered the call by curating a three-pack of Croatian honey, as a heartfelt gift for our clients. With over 500 gifts shipped, we aimed to bring a taste of warmth and indulgence to homes during these challenging times.',
     aspect: 1,
     blocks: [
       [Honey00, Honey01],
@@ -429,8 +439,11 @@ export const projects: Project[] = [
     filters: ['illustration'],
     description:
       'Remember when TV programs used to end at midnight? What did you imagine happens after clock runs 00:00? These series of nostalgic posters takes you back to the days when the familiar image signaled the end of late-night programming. Posters showcase gradual deconstruction of the well known visual, from its structured grid to an explosion of colors and forms.',
-    blocks: [[SignOff00], [SignOff01, SignOff02, SignOff03]],
-    tags: ['Adobe Illustrator', '© 2020'],
+    blocks: [
+      [SignOff01, SignOff02, SignOff03],
+      [SignOff04, SignOff05],
+    ],
+    tags: ['Adobe Illustrator', '© 2021'],
     aspect: 0.7,
   },
   {
