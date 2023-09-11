@@ -1,7 +1,6 @@
 import ProjectsGrid from '~/src/app/work/components/ProjectsGrid';
 import ViewLogger from '~/src/components/ViewCounter';
 
-import Header from './components/Header';
 import { Filter, projects } from './constants';
 
 export const metadata = {
@@ -21,7 +20,6 @@ export default function Work({ searchParams }: { searchParams: { f?: Filter } })
 
   return (
     <div className="flex flex-1 flex-col">
-      <Header filter={searchParams?.f as any} />
       <ViewLogger pathname="/work" />
       <main className="flex-1">
         <ProjectsGrid projects={filteredProjects} />

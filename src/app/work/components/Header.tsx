@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 import Button from '~/src/components/ui/Button';
 
 import MainHeader from '../../components/Header';
-import { Filter, filters } from '../constants';
+import { filters } from '../constants';
 
 function getFilterLabel(tag: string): string {
   return tag
@@ -14,7 +15,10 @@ function getFilterLabel(tag: string): string {
     .join(' ');
 }
 
-export default function Header({ filter }: { filter?: Filter }) {
+export default function Header() {
+  const params = useSearchParams();
+  const filter = params?.get('f');
+
   return (
     <MainHeader>
       <div className="filters flex flex-nowrap items-center gap-1 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-none md:overflow-visible">
