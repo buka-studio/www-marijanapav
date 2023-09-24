@@ -109,7 +109,7 @@ export default function ProjectsGrid({ projects }: Props) {
                     >
                       {project.title}
                     </div>
-                    <Tag className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-300 group-hover/hidden:opacity-100 group-focus-visible/hidden:opacity-100">
+                    <Tag className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-300 group-hover/hidden:opacity-100 group-focus-visible/hidden:opacity-100 whitespace-nowrap text-xs sm:text-sm">
                       Coming Soon
                     </Tag>
                   </Card>

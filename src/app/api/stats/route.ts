@@ -2,7 +2,11 @@ import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-const supabaseClient = () => createClient(process.env.DB_URL!, process.env.DB_TOKEN!);
+const supabaseClient = () => createClient(process.env.DB_URL!, process.env.DB_TOKEN!, {
+  auth: {
+    persistSession: false
+  }
+});
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
