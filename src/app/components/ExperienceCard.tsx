@@ -3,7 +3,13 @@ import Tag from '~/src/components/ui/Tag';
 
 import Card from './Card';
 
-const positions = [
+type Position = {
+  title: string;
+  company: { name: string; href: string };
+  from: string;
+  to?: string;
+};
+const positions: Position[] = [
   {
     title: 'Co-founder',
     company: { name: 'Buka Studio', href: 'https://buka.studio/' },
@@ -14,19 +20,19 @@ const positions = [
     company: { name: 'Supabase', href: 'https://supabase.com/' },
     from: '2022',
   },
-  {
-    title: 'Brand Designer',
-    company: { name: 'Infinum', href: 'https://infinum.com/' },
-    from: '2018',
-    to: '2022',
-  },
-  {
-    title: 'Designer',
-    company: { name: 'Norma Studio' },
-    from: '2017',
-    to: '2018',
-  },
-  { title: 'Freelancing', from: '2015', to: '2018' },
+  // {
+  //   title: 'Brand Designer',
+  //   company: { name: 'Infinum', href: 'https://infinum.com/' },
+  //   from: '2018',
+  //   to: '2022',
+  // },
+  // {
+  //   title: 'Designer',
+  //   company: { name: 'Norma Studio' },
+  //   from: '2017',
+  //   to: '2018',
+  // },
+  // { title: 'Freelancing', from: '2015', to: '2018' },
 ];
 
 export default function ExperienceCard() {
@@ -35,9 +41,9 @@ export default function ExperienceCard() {
       <div className="px-2">
         <Heading
           as="h1"
-          className="my-4 border-b border-main-theme-overlay pb-6 font-sans text-base text-text-secondary"
+          className="mb-28 border-main-theme-overlay pb-6 font-sans text-base text-text-secondary"
         >
-          Work Experience
+          Work
         </Heading>
         <ul className="flex flex-col gap-4">
           {positions.map((p, i) => (

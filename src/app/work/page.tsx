@@ -11,6 +11,10 @@ export const metadata = {
 
 export default function Work({ searchParams }: { searchParams: { f?: Filter } }) {
   const filteredProjects = projects.filter((p) => {
+    if (p.hidden) {
+      return false;
+    }
+
     if (!searchParams?.f || searchParams?.f === 'all') {
       return true;
     }

@@ -21,7 +21,7 @@ module.exports = {
         ...themeColors,
       },
       boxShadow: {
-        card: '0px 4px 36px var(--panel-dropshadow-color)',
+        card: '0px 0px 20px var(--panel-dropshadow-color)',
       },
       screens: {
         xxs: '360px',

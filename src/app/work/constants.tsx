@@ -217,6 +217,7 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', '© 2020'],
   },
   {
+    hidden: true,
     type: 'project',
     title: 'Memobottle design challenge',
     slug: 'memobottle',
@@ -255,7 +256,6 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
   },
   {
-    //hidden: true,
     type: 'project',
     title: 'Supabase Icons',
     slug: 'supabase-icons',
@@ -278,6 +278,7 @@ export const projects: Project[] = [
   },
 
   {
+    hidden: true,
     type: 'project',
     title: 'Bug-Reporting iOS Library blog illustration',
     slug: 'bug-report',
@@ -367,6 +368,7 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
+    hidden: true,
     type: 'project',
     title: 'Interactive Developer Portfolio Website',
     slug: 'dev-website',
