@@ -34,7 +34,7 @@
 }
 
 @media (max-width: 768px) {
-  .cards {
+  .home-cards {
     grid-template-columns: 100%;
     grid-template-rows: auto 1fr auto auto auto auto auto auto;
     grid-template-areas:

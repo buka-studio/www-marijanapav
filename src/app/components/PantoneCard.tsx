@@ -64,7 +64,7 @@ export default function PantoneCard() {
   const name = (pantone || pantoneByTheme[resolvedTheme as Theme])?.name;
 
   return (
-    <Card containerClassName="z-[3]">
+    <Card containerClassName="z-[3] pantone-card">
       <div className="flex h-[268px] w-full flex-col gap-3">
         <div className="duration-250 flex-1 rounded-lg bg-main-theme-2 transition-all"></div>
         <div className="flex justify-between">
