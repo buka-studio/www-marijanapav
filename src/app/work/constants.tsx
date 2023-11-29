@@ -366,7 +366,6 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
-    hidden: true,
     type: 'project',
     title: 'Interactive Illustrated Cards',
     slug: 'illustrated-cards',
