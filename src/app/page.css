@@ -1,4 +1,4 @@
-.cards {
+.home-cards {
   display: grid;
   grid-gap: 20px;
   grid-template-columns: 300px minmax(auto, 480px) auto;
@@ -13,14 +13,14 @@
     '👀 🧪 💌';
 }
 
-.cards > *,
+.home-cards > *,
 .ui-card,
 .card {
   height: 100%;
 }
 
 @media (max-width: 1280px) {
-  .cards {
+  .home-cards {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(6, auto);
     grid-template-areas:

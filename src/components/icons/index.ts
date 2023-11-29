@@ -9,8 +9,10 @@ import ExitIcon from './Exit.svg';
 import EyeOffIcon from './Eye-off.svg';
 import EyeIcon from './Eye.svg';
 import FilterIcon from './Filter.svg';
+import GithubIcon from './github.svg';
 import InfoIcon from './Info.svg';
 import InstagramIcon from './Instagram.svg';
+import JoystickIcon from './Joystick.svg';
 import LeftIcon from './Left.svg';
 import LettersIcon from './Letters.svg';
 import LightIcon from './Light.svg';
@@ -23,7 +25,6 @@ import ResetIcon from './Reset.svg';
 import SystemIcon from './System.svg';
 import TopIcon from './Top.svg';
 import TwitterIcon from './Twitter.svg';
-import GithubIcon from './github.svg';
 
 export {
   ActiveIcon,
@@ -37,8 +38,10 @@ export {
   EyeIcon,
   EyeOffIcon,
   FilterIcon,
+  GithubIcon,
   InfoIcon,
   InstagramIcon,
+  JoystickIcon,
   LeftIcon,
   LettersIcon,
   LightIcon,
@@ -51,5 +54,4 @@ export {
   SystemIcon,
   TopIcon,
   TwitterIcon,
-  GithubIcon,
 };

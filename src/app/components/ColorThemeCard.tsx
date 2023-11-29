@@ -4,50 +4,11 @@ import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ComponentProps } from 'react';
 
+import GridBackground from '~/src/components/GridBackground';
 import { ArrowRightIcon, ResetIcon } from '~/src/components/icons';
 
 import Card from './Card';
 import useColorTheme, { colorThemes } from './useColorTheme';
-
-function Grid({ ...props }: ComponentProps<'svg'>) {
-  const n = 200;
-
-  return (
-    <div
-      className={clsx(
-        'overflow-hidden rounded-xl border-[1px] border-text-alt2 text-text-alt2',
-        props?.className,
-      )}
-    >
-      <svg viewBox={`0 0 ${n} ${n}`} fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          {Array.from({ length: n / 10 }).map((_, r, a) => (
-            <line
-              key={r}
-              x1={0}
-              y1={r * 10}
-              x2={n}
-              y2={r * 10}
-              stroke="currentColor"
-              strokeWidth={0.5}
-            />
-          ))}
-          {Array.from({ length: n / 10 }).map((_, c, a) => (
-            <line
-              key={c}
-              x1={c * 10}
-              y1={0}
-              x2={c * 10}
-              y2={n}
-              stroke="currentColor"
-              strokeWidth={0.5}
-            />
-          ))}
-        </g>
-      </svg>
-    </div>
-  );
-}
 
 const slideRightProps: Partial<ComponentProps<typeof motion.div>> = {
   initial: { opacity: 0, x: -50 },
@@ -69,7 +30,7 @@ export default function ColorThemeCard() {
     <Card>
       <div className="flex h-[268px] w-full flex-col content-center gap-3">
         <div className="relative h-full">
-          <Grid className="absolute left-0 top-0 h-full w-full" />
+          <GridBackground className="absolute left-0 top-0 h-full w-full" />
           <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
             <div className="rounded-full p-[1px] [background:var(--panel-border)]">
               <div className="relative flex gap-5 rounded-full bg-panel-background px-3 py-2 shadow-card">

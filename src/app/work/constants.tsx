@@ -24,6 +24,7 @@ import HighRoads03 from '~/public/work/high-roads/highroads_03.jpg';
 import HighRoads04 from '~/public/work/high-roads/highroads_04.jpg';
 import HighRoads05 from '~/public/work/high-roads/highroads_05.jpg';
 import HighRoadsPreview from '~/public/work/high-roads/preview.png';
+import IllustratedCardsPreview from '~/public/work/illustrated-cards/preview.png';
 import InfinumBeer00 from '~/public/work/infinum-beer/infinumbeer_00.png';
 import InfinumBeerPreview from '~/public/work/infinum-beer/preview.png';
 import Honey00 from '~/public/work/infinum-honey/honey_00.jpg';
@@ -64,10 +65,6 @@ import SignOff03 from '~/public/work/program-end/sign-off_03.png';
 import SignOff04 from '~/public/work/program-end/sign-off_04.png';
 import SignOff05 from '~/public/work/program-end/sign-off_05.png';
 import SignOffPreview from '~/public/work/program-end/sign-off_preview.png';
-import RobiWeb00 from '~/public/work/robi-web/robi-web_00.png';
-import RobiWeb01 from '~/public/work/robi-web/robi-web_01.png';
-import RobiWeb02 from '~/public/work/robi-web/robi-web_02.png';
-import RobiWebPreview from '~/public/work/robi-web/robi-web_preview.png';
 import DigitalStampCollection from '~/public/work/stamps/preview.png';
 import Stamps00 from '~/public/work/stamps/stamps_00.png';
 import Stamps01 from '~/public/work/stamps/stamps_01.png';
@@ -96,6 +93,7 @@ import SupabaseLW84 from '~/public/work/supabase-lw8/supabase4.png';
 import SupabaseLW85 from '~/public/work/supabase-lw8/supabase5.png';
 import SupabaseLW86 from '~/public/work/supabase-lw8/supabase6.png';
 
+import Cards from './[slug]/components/Cards';
 import Paragraph from './[slug]/components/Paragraph';
 import SupabaseCard from './components/SupabaseCard';
 
@@ -368,16 +366,15 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
-    title: 'Interactive Developer Portfolio Website',
-    slug: 'dev-website',
-    preview: RobiWebPreview,
+    title: 'Interactive Illustrated Cards',
+    slug: 'illustrated-cards',
+    preview: IllustratedCardsPreview,
     filters: ['ux-ui'],
+    aspect: 0.93,
     description:
-      'An online work-in-progress developer portfolio that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
-    blocks: [[RobiWeb00], [RobiWeb01], [RobiWeb02]],
+      'A set of illustrated cards that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
+    blocks: [[<Cards key="cards" />]],
     tags: ['Figma', 'Illustrator', '© 2023'],
-    link: 'https://rpavlini.com',
-    aspect: 1.2,
   },
   {
     type: 'project',

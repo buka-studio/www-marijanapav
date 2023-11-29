@@ -91,7 +91,7 @@ export default async function Home() {
               ))}
             </div>
           </div>
-          <div className="cards">
+          <div className="home-cards">
             {cards.map(({ gridArea, Component }, i) => (
               <div key={i} style={{ gridArea }}>
                 <Component currentCount={currentCount} />
