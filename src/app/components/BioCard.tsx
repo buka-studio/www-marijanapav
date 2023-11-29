@@ -18,27 +18,27 @@ import './cards.css';
 
 const social = [
   {
-    url: 'https://twitter.com/MarijanaSimag',
+    url: 'https://twitter.com/marijanapav',
     Icon: TwitterIcon,
     attrs: { 'aria-label': 'Go to Twitter' },
   },
   {
-    url: 'https://www.linkedin.com/in/marijana-simag/',
+    url: 'https://www.linkedin.com/in/marijana-pavlinic/',
     Icon: LinkedinIcon,
     attrs: { 'aria-label': 'Go to LinkedIn' },
   },
   {
-    url: 'https://www.instagram.com/marijanasimag/',
+    url: 'https://www.instagram.com/marijanapavlinic/',
     Icon: InstagramIcon,
     attrs: { 'aria-label': 'Go to Instagram' },
   },
   {
-    url: 'https://dribbble.com/marijanasimag',
+    url: 'https://dribbble.com/marijanapav',
     Icon: DribbbleIcon,
     attrs: { 'aria-label': 'Go to Dribbble' },
   },
   {
-    url: 'https://github.com/marijanasimag',
+    url: 'https://github.com/marijanapav',
     Icon: GithubIcon,
     attrs: { 'aria-label': 'Go to GithHub' },
   },
