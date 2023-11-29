@@ -11,8 +11,8 @@ const Image = forwardRef<HTMLImageElement, ComponentProps<typeof NextImage>>(
       <NextImage
         {...props}
         ref={ref}
-        onLoadingComplete={(e) => {
-          props.onLoadingComplete?.(e);
+        onLoad={(e) => {
+          props.onLoad?.(e);
           setLoaded(true);
         }}
         className={clsx(props.className || '', 'transition-all duration-500', {
