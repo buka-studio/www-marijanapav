@@ -11,7 +11,7 @@ export default function CurrentCard() {
       <div className="flex h-full flex-col">
         <div className="mb-2 text-text-secondary">Currently exploring</div>
         <Heading className="mb-3 flex items-center gap-3 text-4xl md:text-5xl xl:text-6xl">
-          MidJourney<Tag className="mt-5 font-sans text-xs">v5.1</Tag>
+          MidJourney<Tag className="mt-5 font-sans text-xs">--v 6.0</Tag>
         </Heading>
         <div className="relative mt-auto">
           <Image
