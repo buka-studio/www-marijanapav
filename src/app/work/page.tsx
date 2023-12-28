@@ -4,7 +4,7 @@ import ViewLogger from '~/src/components/ViewCounter';
 import { Filter, projects } from './constants';
 
 export const metadata = {
-  title: 'Work | Marijana Šimag',
+  title: 'Work | Marijana Pavlinić',
   description:
     'Explore a curated selection of work projects and a few passion projects ranging from print to digital.',
 };

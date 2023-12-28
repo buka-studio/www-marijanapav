@@ -34,7 +34,7 @@ export default function Header({ children }: { children?: ReactNode }) {
             ['text-main-theme-1']: y > headerTriggerY,
           })}
         />
-        <span className="hidden pr-1 md:inline">Marijana Šimag</span>
+        <span className="hidden pr-1 md:inline">Marijana Pavlinić</span>
       </Link>
       {children && (
         <div className="order-3 mt-4 w-full lg:order-none lg:mt-0 lg:w-auto">{children}</div>

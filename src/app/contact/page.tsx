@@ -7,30 +7,30 @@ import Header from '../components/Header';
 const links = [
   {
     label: 'Twitter',
-    href: 'https://twitter.com/MarijanaSimag',
+    href: 'https://twitter.com/marijanapav',
   },
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/marijana-simag/',
+    href: 'https://www.linkedin.com/in/marijana-pavlinic/',
   },
   {
     label: 'Instagram',
-    href: 'https://www.instagram.com/marijanasimag/',
+    href: 'https://www.instagram.com/marijanapavlinic/',
   },
   {
     label: 'Dribbble',
-    href: 'https://dribbble.com/marijanasimag',
+    href: 'https://dribbble.com/marijanapav',
   },
   {
     label: 'GitHub',
-    href: 'https://www.github.com/marijanasimag',
+    href: 'https://www.github.com/marijanapav',
   },
 ];
 
-const email = 'hello@marijanasimag.com';
+const email = 'hello@marijanapav.com';
 
 export const metadata = {
-  title: 'Contact | Marijana Šimag',
+  title: 'Contact | Marijana Pavlinić',
   description: 'Reach out to say hi, talk future projects or talk about my cat.',
 };
 
@@ -49,7 +49,7 @@ export default function Contact() {
             >
               hello@marijana
               <wbr />
-              simag.com
+              pav.com
             </a>
             <CopyToClipboard content={email} />
           </div>
