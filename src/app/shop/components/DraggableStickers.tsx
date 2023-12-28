@@ -7,7 +7,6 @@ import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import Battery from '~/public/stickers/Battery.svg';
 import Buka from '~/public/stickers/Buka.svg';
 import CmdKey from '~/public/stickers/Cmd-key.svg';
-import CoffeeMachine from '~/public/stickers/Coffee-machine.svg';
 import Copyright from '~/public/stickers/Copyright.svg';
 import FigmaExport from '~/public/stickers/Figma-export.svg';
 import LoremIpsum from '~/public/stickers/Lorem-ipsum.svg';
@@ -23,7 +22,6 @@ const stickers = [
   Zet,
   CmdKey,
   OptionKey,
-  CoffeeMachine,
   Battery,
   Copyright,
   Buka,
