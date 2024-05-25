@@ -97,7 +97,7 @@ import Cards from './[slug]/components/Cards';
 import Paragraph from './[slug]/components/Paragraph';
 import SupabaseCard from './components/SupabaseCard';
 
-export const filters = ['all', 'illustration', 'branding', 'ux-ui', 'other'] as const;
+export const filters = ['all', 'illustration', 'branding', 'ux-ui', 'merch'] as const;
 
 export type Filter = (typeof filters)[number];
 
@@ -131,6 +131,18 @@ export type Project = (StaticProject | ComponentProject) & {
 // aspect - width/height
 // todo: consider contentlayer or some other lightweight cms
 export const projects: Project[] = [
+  {
+    type: 'project',
+    title: 'Supabase Icons',
+    slug: 'supabase-icons',
+    preview: SupabaseIcons01,
+    blocks: [
+      [SupabaseIcons00, SupabaseIconsGif],
+      [SupabaseIcons01, SupabaseIcons02, SupabaseIcons03],
+    ],
+    filters: ['branding', 'ux-ui'],
+    aspect: 1.2,
+  },
   {
     hidden: true,
     type: 'project',
@@ -209,7 +221,18 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Procreate', '© 2020'],
     link: 'https://infinum.com/news/cryptocurrency-transactions-made-simple-with-interledger/',
   },
-
+  {
+    type: 'project',
+    title: 'Interactive Illustrated Cards',
+    slug: 'illustrated-cards',
+    preview: IllustratedCardsPreview,
+    filters: ['ux-ui'],
+    aspect: 0.7,
+    description:
+      'A set of illustrated cards that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
+    blocks: [[<Cards key="cards" />]],
+    tags: ['Figma', 'Illustrator', '© 2023'],
+  },
   {
     type: 'project',
     title: 'The High Road Streetwear Brand Logo',
@@ -244,7 +267,7 @@ export const projects: Project[] = [
     title: 'Infinum Craft Beer Can Packaging',
     slug: 'infinum-beer',
     preview: InfinumBeerPreview,
-    filters: ['branding', 'other'],
+    filters: ['branding', 'merch'],
     aspect: 1.2,
     description:
       'Infinum collaboration with Lepidečki Brewery. We designed a crisp and refreshing lager beer for Infinum events aimed at developers, nudging users to think of Github PRs. The "Pour Request" beer comes in all-black cans with an eye-catching white label featuring an oversized Neue Haas font that will make you want to spin the bottle and take a sip.',
@@ -263,18 +286,6 @@ export const projects: Project[] = [
     aspect: 0.75,
     blocks: [[MemoriesPoster00]],
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
-  },
-  {
-    type: 'project',
-    title: 'Supabase Icons',
-    slug: 'supabase-icons',
-    preview: SupabaseIcons01,
-    blocks: [
-      [SupabaseIcons00, SupabaseIconsGif],
-      [SupabaseIcons01, SupabaseIcons02, SupabaseIcons03],
-    ],
-    filters: ['branding', 'ux-ui'],
-    aspect: 1.2,
   },
   {
     hidden: true,
@@ -330,7 +341,7 @@ export const projects: Project[] = [
     title: 'Infinum Merch',
     slug: 'infinum-swag',
     preview: InfinumSwagPreview,
-    filters: ['branding', 'other'],
+    filters: ['branding', 'merch'],
     description:
       'With the brand being known for its light, clean, and bold aesthetic, the merchandise was designed to reflect these qualities and use signature red color as an accent.',
     aspect: 0.73,
@@ -368,22 +379,10 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
-    title: 'Interactive Illustrated Cards',
-    slug: 'illustrated-cards',
-    preview: IllustratedCardsPreview,
-    filters: ['ux-ui'],
-    aspect: 0.93,
-    description:
-      'A set of illustrated cards that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
-    blocks: [[<Cards key="cards" />]],
-    tags: ['Figma', 'Illustrator', '© 2023'],
-  },
-  {
-    type: 'project',
     title: 'Packaging for Croatian honey collection ',
     slug: 'infinum-honey',
     preview: InfinumHoneyPreview,
-    filters: ['branding', 'other'],
+    filters: ['branding', 'merch'],
     description:
       'In the midst of a worldwide quarantine, Christmas 2020 called for a touch of sweetness to uplift spirits. We answered the call by curating a three-pack of Croatian honey, as a heartfelt gift for our clients. With over 500 gifts shipped, we aimed to bring a taste of warmth and indulgence to homes during these challenging times.',
     aspect: 1,
