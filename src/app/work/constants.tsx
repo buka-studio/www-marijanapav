@@ -182,8 +182,19 @@ export const projects: Project[] = [
       assetsStretch: true,
     },
     tags: ['Adobe Illustrator', 'Procreate', '© 2022'],
-    link: 'https://instagram.com/marijanasimag.design',
     aspect: 0.7,
+  },
+  {
+    hidden: true,
+    type: 'project',
+    title: 'Supabase Launch Week 7 Branding',
+    slug: 'supabase-lw7',
+    preview: SupabaseLW7,
+    filters: ['illustration'],
+    description: 'Remember when TV programs ended at 00:00?',
+    aspect: 1,
+    blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
+    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
     type: 'project',
@@ -257,7 +268,7 @@ export const projects: Project[] = [
     type: 'project',
     title: 'Supabase Icons',
     slug: 'supabase-icons',
-    preview: SupabaseIconsPreview,
+    preview: SupabaseIcons01,
     blocks: [
       [SupabaseIcons00, SupabaseIconsGif],
       [SupabaseIcons01, SupabaseIcons02, SupabaseIcons03],
@@ -308,21 +319,10 @@ export const projects: Project[] = [
     aspect: 0.7,
   },
   {
+    hidden: true,
     type: 'component',
     content: <SupabaseCard />,
     filters: ['branding', 'ux-ui'],
-  },
-  {
-    hidden: true,
-    type: 'project',
-    title: 'Supabase Launch Week 7 Branding',
-    slug: 'supabase-lw7',
-    preview: SupabaseLW7,
-    filters: ['illustration'],
-    description: 'Remember when TV programs ended at 00:00?',
-    aspect: 1,
-    blocks: [[Honey00], [Honey01], [Honey02, Honey03]],
-    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
 
   {
@@ -343,6 +343,7 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2022'],
   },
   {
+    hidden: true,
     type: 'project',
     title: 'Series of Royal Opera Posters',
     slug: 'opera-posters',
@@ -430,6 +431,7 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', '© 2019'],
   },
   {
+    hidden: true,
     type: 'project',
     title: 'Sign-off Poster Series',
     slug: 'program-end',

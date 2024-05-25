@@ -12,9 +12,9 @@ export default function Footer({ children }: { children?: ReactNode }) {
       </div>
       <footer className="z-10 flex justify-between px-5 pb-4 text-text-primary md:pb-8">
         <div className="flex items-center gap-2">
-          <div className="rounded-full bg-main-theme-3 p-2">
+          {/* <div className="rounded-full bg-main-theme-3 p-2">
             <LettersIcon />
-          </div>
+          </div> */}
           <span className="text-xs [&_a]:underline">
             <a
               href="https://fonts.google.com/specimen/Archivo"
@@ -33,12 +33,11 @@ export default function Footer({ children }: { children?: ReactNode }) {
             >
               Inter
             </a>
-            .
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-xs">
-          See code on
+        <div className="text-xs">
+          See code on{' '}
           <a
             href="https://github.com/buka-studio/www-marijanasimag"
             className="rounded-sm underline"
