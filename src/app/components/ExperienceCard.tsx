@@ -20,12 +20,12 @@ const positions: Position[] = [
     company: { name: 'Supabase', href: 'https://supabase.com/' },
     from: '2022',
   },
-  // {
-  //   title: 'Brand Designer',
-  //   company: { name: 'Infinum', href: 'https://infinum.com/' },
-  //   from: '2018',
-  //   to: '2022',
-  // },
+  {
+    title: 'Brand Designer',
+    company: { name: 'Infinum', href: 'https://infinum.com/' },
+    from: '2018',
+    to: '2022',
+  },
   // {
   //   title: 'Designer',
   //   company: { name: 'Norma Studio' },
