@@ -13,15 +13,15 @@ export default function BukaCard() {
         <div className="flex items-center gap-4">
           <BukaIcon />
           <Heading className="text-4xl lg:text-5xl">
-            <a href="https://www.buka.studio" className="group flex items-center gap-3 rounded-lg">
-              buka.studio
-              <LinkIcon className="h-8 w-8 rounded-full p-1 transition-all duration-150 group-hover:bg-main-theme-3 md:h-12 md:w-12" />
+            <a className="group flex items-center gap-3 rounded-lg">
+              Echo Tab
+              {/* <LinkIcon className="h-8 w-8 rounded-full p-1 transition-all duration-150 group-hover:bg-main-theme-3 md:h-12 md:w-12" /> */}
             </a>
           </Heading>
         </div>
         <p className="text-text-secondary">
-          Branding and landing page project for a design and development studio based in Zagreb,
-          Croatia.
+          A clean and simple browser extension, that helps you manage thousands of open tabs, with
+          multi-select, smart tagging and CmdK command menu for quick browsing experience.
         </p>
       </div>
     </Card>

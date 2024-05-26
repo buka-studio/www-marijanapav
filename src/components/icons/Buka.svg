@@ -1,21 +1,20 @@
 <svg width="72" height="73" viewBox="0 0 72 73" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g clip-path="url(#clip0_1413_59992)">
+  <g clip-path="url(#clip0_1555_12494)">
     <rect
-      x=".004"
-      y=".777"
-      width="71.997"
-      height="72"
-      rx="19.514"
-      fill="var(--main-theme-overlay, currentColor)"
+      x="0.503906"
+      y="1.27783"
+      width="70.9966"
+      height="71"
+      rx="15.5"
+      fill="var(--main-theme-4, currentColor)"
+      stroke="var(--main-theme-2, currentColor)"
     />
-    <path
-      d="M33.075 44.242c10.716-3.464 18.626-13.166 19.45-24.826H18.61V53.51h34.093V33.838a38.745 38.745 0 0 1-19.628 10.404Z"
-      fill="var(--main-theme-1, currentColor)"
-    />
+    <circle cx="36" cy="36.7778" r="13.7256" fill="var(--main-theme-1, currentColor)" />
+    <circle cx="35.9999" cy="36.7777" r="18.9159" stroke="var(--main-theme-2, currentColor)" />
   </g>
   <defs>
-    <clipPath id="clip0_1413_59992">
-      <path fill="#fff" transform="translate(0 .777)" d="M0 0h72v72H0z" />
+    <clipPath id="clip0_1555_12494">
+      <rect width="72" height="72" fill="white" transform="translate(0 0.777832)" />
     </clipPath>
   </defs>
 </svg>
