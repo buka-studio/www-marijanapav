@@ -27,7 +27,7 @@ const links = [
   },
 ];
 
-const email = 'hello@marijanapav.com';
+const email = 'marijana@buka.studio';
 
 export const metadata = {
   title: 'Contact | Marijana Pavlinić',
@@ -44,12 +44,10 @@ export default function Contact() {
           <h1>Say hi or talk future projects</h1>
           <div className="mb-[100px] flex flex-col items-center gap-6 text-center md:mb-8 md:flex-row ">
             <a
-              href="mailto:hello@marijanasimag.com"
+              href="mailto:marijana@buka.studio"
               className="rounded-lg font-archivo text-[clamp(2.25rem,2vw+1rem,3.75rem)]"
             >
-              hello@marijana
-              <wbr />
-              pav.com
+              marijana@buka.studio
             </a>
             <CopyToClipboard content={email} />
           </div>
