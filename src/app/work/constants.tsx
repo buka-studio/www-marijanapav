@@ -4,8 +4,11 @@ import { ReactNode } from 'react';
 
 import BugReport00 from '~/public/work/bug-report/bur-report_00.png';
 import BugReportPreview from '~/public/work/bug-report/bur-report_preview.png';
+import BukaWebPreview from '~/public/work/buka-studio-web/buka-web-preview.png';
+import BukaWeb from '~/public/work/buka-studio-web/buka-web.png';
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
 import Cryptocurrency from '~/public/work/crypto/preview.png';
+import EchoTab from '~/public/work/echo-tab/echo-tab.webp';
 import ElizabethsFlowers01 from '~/public/work/elizabeths-flowers/elizabethsflowers_01.png';
 import ElizabethsFlowers02 from '~/public/work/elizabeths-flowers/elizabethsflowers_02.png';
 import ElizabethsFlowers03 from '~/public/work/elizabeths-flowers/elizabethsflowers_03.png';
@@ -92,6 +95,8 @@ import SupabaseLW83 from '~/public/work/supabase-lw8/supabase3.png';
 import SupabaseLW84 from '~/public/work/supabase-lw8/supabase4.png';
 import SupabaseLW85 from '~/public/work/supabase-lw8/supabase5.png';
 import SupabaseLW86 from '~/public/work/supabase-lw8/supabase6.png';
+import SupabaseMerchPreview from '~/public/work/supabase-merch/supabase-merch-preview.png';
+import SupabaseMerch from '~/public/work/supabase-merch/supabase-merch.png';
 
 import Cards from './[slug]/components/Cards';
 import Paragraph from './[slug]/components/Paragraph';
@@ -133,6 +138,40 @@ export type Project = (StaticProject | ComponentProject) & {
 export const projects: Project[] = [
   {
     type: 'project',
+    title: 'buka.studio web',
+    slug: 'buka-web',
+    preview: BukaWebPreview,
+    filters: ['ux-ui'],
+    link: 'https://buka.studio',
+    tags: ['Figma', '© 2024'],
+    aspect: 0.7,
+  },
+  {
+    type: 'project',
+    title: 'EchoTab Chrome Extension',
+    slug: 'echo-tab',
+    preview: EchoTab,
+    blocks: [[EchoTab]],
+    filters: ['ux-ui'],
+    description:
+      'A clean and simple browser extension, that helps you manage thousands of open tabs, with multi-select, smart tagging and CmdK command menu for quick browsing experience.',
+    link: '',
+    tags: ['Figma', '© 2024'],
+    aspect: 1.5,
+  },
+  {
+    type: 'project',
+    title: 'Supabase Merch',
+    slug: 'supabase-merch',
+    preview: SupabaseMerchPreview,
+    blocks: [[SupabaseMerch]],
+    filters: ['branding', 'merch'],
+    tags: ['Adobe Illustrator', '© 2023'],
+
+    aspect: 1.5,
+  },
+  {
+    type: 'project',
     title: 'Supabase Icons',
     slug: 'supabase-icons',
     preview: SupabaseIcons01,
@@ -141,7 +180,7 @@ export const projects: Project[] = [
       [SupabaseIcons01, SupabaseIcons02, SupabaseIcons03],
     ],
     filters: ['branding', 'ux-ui'],
-    aspect: 1.2,
+    aspect: 1,
   },
   {
     hidden: true,
@@ -268,7 +307,7 @@ export const projects: Project[] = [
     slug: 'infinum-beer',
     preview: InfinumBeerPreview,
     filters: ['branding', 'merch'],
-    aspect: 1.2,
+    aspect: 1,
     description:
       'Infinum collaboration with Lepidečki Brewery. We designed a crisp and refreshing lager beer for Infinum events aimed at developers, nudging users to think of Github PRs. The "Pour Request" beer comes in all-black cans with an eye-catching white label featuring an oversized Neue Haas font that will make you want to spin the bottle and take a sip.',
     blocks: [[InfinumBeer00]],
