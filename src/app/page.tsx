@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import MousePositionVarsSetter from '~/src/components/MousePositionVarsSetter';
 import Button from '~/src/components/ui/Button';
-import ViewLogger from '~/src/components/ViewCounter';
+import ViewCounter from '~/src/components/ViewCounter';
 
 import {
   BioCard,
@@ -28,7 +28,7 @@ type FilterHref = `/work?f=${Filter}`;
 
 const projectLinks: Array<{ label: string; href: FilterHref }> = [
   { label: 'Branding', href: '/work?f=branding' },
-  { label: 'UX/UI', href: '/work?f=ux-ui' },
+  { label: 'Digital', href: '/work?f=digital' },
   { label: 'Illustration', href: '/work?f=illustration' },
 ];
 
@@ -75,7 +75,7 @@ export default async function Home() {
   return (
     <div>
       <Header />
-      <ViewLogger pathname="/" />
+      <ViewCounter pathname="/" />
       <MousePositionVarsSetter />
       <div className="glow pointer-events-none fixed h-[400px] w-[400px] rounded-full blur-3xl" />
       <div className="flex flex-col px-5 py-5 md:py-12">

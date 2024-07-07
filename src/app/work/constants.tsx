@@ -1,3 +1,4 @@
+// import Cards from './[slug]/components/Cards';
 import { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
@@ -5,7 +6,6 @@ import { ReactNode } from 'react';
 import BugReport00 from '~/public/work/bug-report/bur-report_00.png';
 import BugReportPreview from '~/public/work/bug-report/bur-report_preview.png';
 import BukaWebPreview from '~/public/work/buka-studio-web/buka-web-preview.png';
-import BukaWeb from '~/public/work/buka-studio-web/buka-web.png';
 import Crypto00 from '~/public/work/crypto/crypto_00.jpg';
 import Cryptocurrency from '~/public/work/crypto/preview.png';
 import EchoTab from '~/public/work/echo-tab/echo-tab.webp';
@@ -68,8 +68,12 @@ import SignOff03 from '~/public/work/program-end/sign-off_03.png';
 import SignOff04 from '~/public/work/program-end/sign-off_04.png';
 import SignOff05 from '~/public/work/program-end/sign-off_05.png';
 import SignOffPreview from '~/public/work/program-end/sign-off_preview.png';
-import DigitalStampCollection from '~/public/work/stamps/preview.png';
 import Stamps00 from '~/public/work/stamps/stamps_00.png';
+import s1 from '~/public/work/stamps/s1.png';
+import s2 from '~/public/work/stamps/s2.png';
+import s3 from '~/public/work/stamps/s3.png';
+import s4 from '~/public/work/stamps/s4.png';
+
 import Stamps01 from '~/public/work/stamps/stamps_01.png';
 import Stamps02 from '~/public/work/stamps/stamps_02.png';
 import Stamps03 from '~/public/work/stamps/stamps_03.png';
@@ -80,7 +84,7 @@ import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import Stamps08 from '~/public/work/stamps/stamps_08.png';
 import Stamps09 from '~/public/work/stamps/stamps_09.png';
 import Stamps10 from '~/public/work/stamps/stamps_10.png';
-import SupabaseIconsPreview from '~/public/work/supabase-icons/preview.png';
+import Stars from '~/public/work/stamps/stars.gif';
 import SupabaseIcons00 from '~/public/work/supabase-icons/supabase-icons_00.png';
 import SupabaseIcons01 from '~/public/work/supabase-icons/supabase-icons_01.png';
 import SupabaseIcons02 from '~/public/work/supabase-icons/supabase-icons_02.png';
@@ -98,11 +102,10 @@ import SupabaseLW86 from '~/public/work/supabase-lw8/supabase6.png';
 import SupabaseMerchPreview from '~/public/work/supabase-merch/supabase-merch-preview.png';
 import SupabaseMerch from '~/public/work/supabase-merch/supabase-merch.png';
 
-import Cards from './[slug]/components/Cards';
 import Paragraph from './[slug]/components/Paragraph';
 import SupabaseCard from './components/SupabaseCard';
 
-export const filters = ['all', 'illustration', 'branding', 'ux-ui', 'merch'] as const;
+export const filters = ['all', 'illustration', 'branding', 'digital', 'merch'] as const;
 
 export type Filter = (typeof filters)[number];
 
@@ -115,9 +118,8 @@ export type StaticProject = {
   preview: StaticImageData;
   aspect?: number;
   blocks?: Array<Array<StaticImageData | ReactNode>>;
-  blocksConfig?: {
-    assetsStretch?: boolean;
-  };
+  images?: StaticImageData[];
+  dynamic?: boolean;
   tags?: string[];
   link?: string;
   publishedAt?: string;
@@ -133,7 +135,7 @@ export type Project = (StaticProject | ComponentProject) & {
   hidden?: boolean;
 };
 
-// aspect - width/height
+// aspect - width/height - for grid layout
 // todo: consider contentlayer or some other lightweight cms
 export const projects: Project[] = [
   {
@@ -141,7 +143,7 @@ export const projects: Project[] = [
     title: 'buka.studio web',
     slug: 'buka-web',
     preview: BukaWebPreview,
-    filters: ['ux-ui'],
+    filters: ['digital'],
     link: 'https://buka.studio',
     tags: ['Figma', '© 2024'],
     aspect: 0.7,
@@ -152,7 +154,7 @@ export const projects: Project[] = [
     slug: 'echo-tab',
     preview: EchoTab,
     blocks: [[EchoTab]],
-    filters: ['ux-ui'],
+    filters: ['digital'],
     description:
       'A clean and simple browser extension, that helps you manage thousands of open tabs, with multi-select, smart tagging and CmdK command menu for quick browsing experience.',
     link: '',
@@ -179,7 +181,7 @@ export const projects: Project[] = [
       [SupabaseIcons00, SupabaseIconsGif],
       [SupabaseIcons01, SupabaseIcons02, SupabaseIcons03],
     ],
-    filters: ['branding', 'ux-ui'],
+    filters: ['branding', 'digital'],
     aspect: 1,
   },
   {
@@ -188,7 +190,7 @@ export const projects: Project[] = [
     title: 'Supabase Launch Week 8 Branding',
     slug: 'supabase-lw8',
     preview: SupabaseLW8,
-    filters: ['ux-ui'],
+    filters: ['digital'],
     description:
       "Supabase Launch Week is week-long event packed with product updates, community announcements, meetups, daily video announcements, and live Discord hangouts. It's a showcase of what the Supabase team has been working on in the past few months, and on the design front it's an opportunity to push our brand's boundaries.",
     aspect: 0.8,
@@ -204,10 +206,12 @@ export const projects: Project[] = [
     type: 'project',
     title: 'Digital Stamp Collection',
     slug: 'stamp-collection',
-    preview: DigitalStampCollection,
+    preview: Stars,
     filters: ['illustration'],
     description:
       "This is my personal project of digitally recreating my grandpa's stamps. It's a homage to his philatelic journey, brought online when I started my own philately collection, but in a different format. Through this collection I've set myself a goal of trying out new softwares.",
+    // images: [Stamps00, Stamps00, Stamps00, Stamps00, Stars],
+    images: [s1,s2,s3,s4, MemoriesPoster00],
     blocks: [
       [Stamps00],
       [Stamps01, Stamps02, Stamps03],
@@ -229,9 +233,6 @@ export const projects: Project[] = [
 
       [Stamps07, Stamps08, Stamps09],
     ],
-    blocksConfig: {
-      assetsStretch: true,
-    },
     tags: ['Adobe Illustrator', 'Procreate', '© 2022'],
     aspect: 0.7,
   },
@@ -265,12 +266,12 @@ export const projects: Project[] = [
     title: 'Interactive Illustrated Cards',
     slug: 'illustrated-cards',
     preview: IllustratedCardsPreview,
-    filters: ['ux-ui'],
+    filters: ['digital'],
     aspect: 0.7,
     description:
       'A set of illustrated cards that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
-    blocks: [[<Cards key="cards" />]],
     tags: ['Figma', 'Illustrator', '© 2023'],
+    dynamic: true,
   },
   {
     type: 'project',
@@ -372,7 +373,7 @@ export const projects: Project[] = [
     hidden: true,
     type: 'component',
     content: <SupabaseCard />,
-    filters: ['branding', 'ux-ui'],
+    filters: ['branding', 'digital'],
   },
 
   {

@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import { ComponentProps, forwardRef, ReactNode } from 'react';
-import { twMerge } from 'tailwind-merge';
+
+import { cn } from '~/src/util';
 
 type Props = {
   action?: ReactNode;
@@ -13,13 +13,13 @@ const Input = forwardRef<HTMLInputElement, Props & ComponentProps<'input'>>(func
 ) {
   return (
     <div
-      className={clsx(
+      className={cn(
         'reounded-full inline-flex rounded-full border border-transparent bg-main-theme-3 p-1 [&:has(>_input:focus-visible)]:outline [&:has(>_input:focus-visible)]:outline-main-theme-1',
         containerClassName,
       )}
     >
       <input
-        className={twMerge(
+        className={cn(
           'input rounded-full bg-transparent px-4 text-text-primary placeholder:text-text-alt focus-visible:outline-none',
           className,
         )}

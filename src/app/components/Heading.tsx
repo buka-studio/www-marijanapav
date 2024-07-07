@@ -1,10 +1,10 @@
 'use client';
 
-import clsx from 'clsx';
 import { ComponentProps, useEffect, useRef } from 'react';
 
 import HighlightedText, { Controls } from '~/src/components/HighlightedHeading';
 import Heading from '~/src/components/ui/Heading';
+import { cn } from '~/src/util';
 
 const lines = ['Visual designer', 'exploring the best', 'of traditional & digital'];
 
@@ -29,7 +29,7 @@ export default function Hheading({ className, ...props }: ComponentProps<'h1'>) 
   }, [index]);
 
   return (
-    <Heading className={clsx('max-w-[900px]', className)}>
+    <Heading className={cn('max-w-[900px]', className)}>
       {lines.map((l, i) => (
         <HighlightedText
           aria-hidden

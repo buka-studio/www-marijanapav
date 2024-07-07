@@ -2,8 +2,9 @@
 
 import { useEffect } from 'react';
 
-export default function ViewLogger({ pathname }: { pathname: string }) {
+export function useViewLogger(pathname: string) {
   useEffect(() => {
+    if (!pathname) return;
     const params = new URLSearchParams([
       ['pathname', pathname],
       ['type', 'view'],
@@ -13,6 +14,10 @@ export default function ViewLogger({ pathname }: { pathname: string }) {
       method: 'POST',
     });
   }, [pathname]);
+}
+
+export default function ViewLogger({ pathname }: { pathname: string }) {
+  useViewLogger(pathname);
 
   return null;
 }

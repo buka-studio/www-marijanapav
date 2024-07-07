@@ -1,9 +1,9 @@
 'use client';
 
-import clsx from 'clsx';
 import { forwardRef, ReactNode, useRef } from 'react';
 
 import { relativeMouseClassname } from '~/src/components/MousePositionVarsSetter';
+import { cn } from '~/src/util';
 
 import './Card.css';
 
@@ -25,13 +25,13 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
 
   return (
     <Component
-      className={clsx(
+      className={cn(
         'ui-card relative rounded-[22px] bg-panel-border p-[1px] shadow-card',
         containerClassName,
       )}
     >
       <div
-        className={clsx(
+        className={cn(
           'card [&_>*]:opacity-1 relative z-[1] rounded-[21px] bg-panel-background p-4 text-text-primary',
           className,
         )}
@@ -40,7 +40,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
         {children}
       </div>
       <div
-        className={clsx(
+        className={cn(
           'absolute left-0 top-0 h-full w-full rounded-[22px] bg-main-theme-1 opacity-30',
           relativeMouseClassname,
         )}

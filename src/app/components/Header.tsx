@@ -1,11 +1,11 @@
 'use client';
 
-import clsx from 'clsx';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
 import { LogoIcon } from '~/src/components/icons';
 import useScroll from '~/src/hooks/useScroll';
+import { cn } from '~/src/util';
 
 import ThemeSwitcher from './ThemeSwitcher';
 
@@ -16,11 +16,11 @@ export default function Header({ children }: { children?: ReactNode }) {
 
   return (
     <header
-      className={clsx(
+      className={cn(
         'sticky top-0 z-10 flex flex-wrap justify-between rounded-bl-[32px] rounded-br-[32px] px-5 py-4 transition-all duration-300 ease-in-out',
         {
-          ['translate-y-[-128px]']: y > headerTriggerY && directionY === 'down',
-          ['[&] bg-transparent backdrop-blur-[6px]']: y > headerTriggerY,
+          'translate-y-[-128px]': y > headerTriggerY && directionY === 'down',
+          '[&] bg-transparent backdrop-blur-[6px]': y > headerTriggerY,
         },
       )}
     >
@@ -30,8 +30,8 @@ export default function Header({ children }: { children?: ReactNode }) {
         aria-label="Go to Home page"
       >
         <LogoIcon
-          className={clsx('transition-all duration-300', {
-            ['text-main-theme-1']: y > headerTriggerY,
+          className={cn('transition-all duration-300', {
+            'text-main-theme-1': y > headerTriggerY,
           })}
         />
         <span className="hidden pr-1 md:inline">Marijana Pavlinić</span>

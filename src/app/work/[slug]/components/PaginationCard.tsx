@@ -1,8 +1,7 @@
-import clsx from 'clsx';
-
 import { ArrowRightIcon } from '~/src/components/icons';
 import { relativeMouseClassname } from '~/src/components/MousePositionVarsSetter';
 import Image from '~/src/components/ui/Image';
+import { cn } from '~/src/util';
 
 import Card from '../../components/Card';
 import { StaticProject } from '../../constants';
@@ -19,13 +18,13 @@ export default function PaginationCard({
   return (
     <Card
       containerClassName="group shadow-none"
-      className={clsx('grid grid-cols-[1fr_1fr] grid-rows-1 md:grid-cols-1', direction)}
+      className={cn('grid grid-cols-[1fr_1fr] grid-rows-1 md:grid-cols-1', direction)}
     >
       <div
-        className={clsx(
+        className={cn(
           'relative-mouse relative h-full w-full overflow-hidden rounded-lg bg-panel-background md:[grid-column:1] md:[grid-row:1]',
           relativeMouseClassname,
-          { ['[grid-column:2]']: direction === 'left' },
+          { '[grid-column:2]': direction === 'left' },
         )}
       >
         <Image
@@ -37,17 +36,17 @@ export default function PaginationCard({
         />
       </div>
       <div
-        className={clsx(
+        className={cn(
           ' relative z-[1] flex h-[140px] flex-col items-center justify-center gap-2 [grid-row:1] md:min-h-[230px] md:[grid-column:1]',
           {
-            ['[grid-column:2]']: direction === 'right',
+            '[grid-column:2]': direction === 'right',
           },
         )}
       >
         {' '}
         <ArrowRightIcon
-          className={clsx('h-8 w-8 rounded-full bg-main-theme-3 p-1 text-text-primary opacity-60', {
-            ['rotate-180 transform']: direction === 'left',
+          className={cn('h-8 w-8 rounded-full bg-main-theme-3 p-1 text-text-primary opacity-60', {
+            'rotate-180 transform': direction === 'left',
           })}
         />
         <p className="max-w-[70%] p-1 text-center text-sm md:p-2 md:text-base">{project.title}</p>

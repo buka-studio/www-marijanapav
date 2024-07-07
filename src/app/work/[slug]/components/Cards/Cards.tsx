@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import { motion, useAnimation, useMotionValue } from 'framer-motion';
 import { ComponentProps, ReactNode, useEffect, useRef, useState } from 'react';
 
@@ -11,6 +10,7 @@ import GridBackground from '~/src/components/GridBackground';
 import { JoystickIcon } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
+import { cn } from '~/src/util';
 
 import CardEffects from './CardEffects';
 
@@ -135,7 +135,7 @@ export function Card({ children, className }: { children: ReactNode; className?:
         el.style.setProperty(`--mouse-x`, `${x}`);
         el.style.setProperty(`--mouse-y`, `${y}`);
       }}
-      className={clsx(className, 'card flex overflow-hidden rounded-2xl')}
+      className={cn('card flex overflow-hidden rounded-2xl', className)}
     >
       <div className="relative">
         <div className="illustration">{children}</div>
@@ -240,7 +240,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
           <SwipeableCard
             key={c + i}
             constrained
-            className={clsx(
+            className={cn(
               'highlight-transparent pointer-events-none absolute z-[1] last:pointer-events-auto',
             )}
             i={i}
@@ -255,7 +255,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
             style={{ rotate: rotations[c] }}
           >
             <Card
-              className={clsx(c, '[.bw_&]:saturate-0', {
+              className={cn(c, '[.bw_&]:saturate-0', {
                 'blur-[1px] grayscale-[0.5]': !active,
                 'blur-none grayscale-0': active,
               })}
@@ -272,7 +272,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
             className="z-[1]"
             key={c + i}
           >
-            <Card className={clsx(c, '[.bw_&]:saturate-0')}>{Illustration}</Card>
+            <Card className={cn(c, '[.bw_&]:saturate-0')}>{Illustration}</Card>
           </motion.button>
         );
       })}
@@ -302,7 +302,7 @@ export default function Cards() {
     setEffect(undefined);
   }
   return (
-    <div className="bw cards-container relative transform-gpu overflow-hidden rounded-3xl border border-neutral-300 py-[150px] shadow-[inset_0_0_4px_0_rgba(0,0,0,0.05),inset_0_0_30px_0_rgba(0,0,0,0.08)] [.theme-dark_&]:border-neutral-800 [.theme-dark_&]:shadow-[inset_0_0_4px_0_rgba(0,0,0,0.85),inset_0_0_20px_0_rgba(0,0,0,0.75)]">
+    <div className="bw cards-container relative w-full transform-gpu overflow-hidden rounded-3xl border border-neutral-300 py-[150px] shadow-[inset_0_0_4px_0_rgba(0,0,0,0.05),inset_0_0_30px_0_rgba(0,0,0,0.08)] [.theme-dark_&]:border-neutral-800 [.theme-dark_&]:shadow-[inset_0_0_4px_0_rgba(0,0,0,0.85),inset_0_0_20px_0_rgba(0,0,0,0.75)]">
       <GridBackground
         className="grid-bg pointer-events-none absolute left-[-1px] top-[-1px] h-[calc(100%+2px)] w-[calc(100%+2px)] text-[rgba(0,0,0,0.05)] [.theme-dark_&]:text-[rgba(200,200,200,0.05)]"
         n={400}

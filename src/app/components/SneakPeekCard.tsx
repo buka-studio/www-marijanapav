@@ -1,12 +1,12 @@
 'use client';
 
-import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
+import { cn } from '~/src/util';
 
 import SneakPeekPhoto from '../../../public/home/sneak_peek_2.png';
 import Card from './Card';
@@ -88,11 +88,11 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
           Click to {revealed ? 'hide' : 'see'}
         </button>
         <span
-          className={clsx(
-            'absolute right-2 top-[4px] text-sm transition-all duration-[500ms] ease-out',
+          className={cn(
+            'duration-[500ms] absolute right-2 top-[4px] text-sm transition-all ease-out',
             {
-              ['-translate-x-4 opacity-0 ']: !revealed,
-              ['translate-x-0 opacity-100']: revealed,
+              '-translate-x-4 opacity-0 ': !revealed,
+              'translate-x-0 opacity-100': revealed,
             },
           )}
         >
@@ -108,7 +108,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 284px"
           placeholder="blur"
-          className={clsx('object-cover object-center transition-all duration-300', {
+          className={cn('object-cover object-center transition-all duration-300', {
             'blur-0 grayscale-0': revealed,
             'blur-sm grayscale': !revealed,
           })}

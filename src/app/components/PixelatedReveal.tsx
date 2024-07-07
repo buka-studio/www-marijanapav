@@ -1,12 +1,12 @@
 'use client';
 
-import clsx from 'clsx';
 import { useTheme } from 'next-themes';
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 import './cards.css';
 
 import useResizeRef from '~/src/hooks/useResizeRef';
+import { cn } from '~/src/util';
 
 import useColorTheme from './useColorTheme';
 
@@ -268,13 +268,13 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
   return (
     <div className="relative h-full w-full" ref={ref}>
       <div
-        className={clsx('absolute left-0 top-0 h-full w-full bg-main-theme-overlay', {
+        className={cn('absolute left-0 top-0 h-full w-full bg-main-theme-overlay', {
           'opacity-0': revealed,
         })}
       />
       <canvas
         ref={canvasRef}
-        className={clsx(
+        className={cn(
           'absolute left-0 top-0 aspect-square rounded-xl transition-all duration-300 ease-linear',
           {
             'opacity-0': revealed,

@@ -1,13 +1,10 @@
 'use client';
 
 import * as Dialog from '@radix-ui/react-dialog';
-import clsx from 'clsx';
 import { StaticImageData } from 'next/image';
-import React, { ComponentProps, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { ComponentProps, useCallback, useContext, useState } from 'react';
 
-import { ArrowRightIcon, ExitIcon } from '~/src/components/icons';
-import Button from '~/src/components/ui/Button';
-import Image from '~/src/components/ui/Image';
+import { cn } from '~/src/util';
 
 import './Gallery.css';
 
@@ -37,7 +34,7 @@ export function GalleryTrigger({
 
   return (
     <button
-      className={clsx('contents [&>*]:hover:brightness-75', className)}
+      className={cn('contents [&>*]:hover:brightness-75', className)}
       onClick={() => {
         open(at);
       }}
@@ -50,137 +47,6 @@ export function GalleryTrigger({
         return child;
       })}
     </button>
-  );
-}
-
-function getPrevIndex(i: number, length: number) {
-  return (i + length - 1) % length;
-}
-
-function getNextIndex(i: number, length: number) {
-  return (i + 1) % length;
-}
-
-// todo: impl infinite slider
-function Slider({
-  sources,
-  index,
-  setIndex,
-}: {
-  sources: string[] | StaticImageData[];
-  index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
-}) {
-  const photoRefs = useRef(new Map<Element, { e: Element; i: number }>());
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const didFirstScroll = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let visible: Element;
-
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            visible = e.target;
-          }
-        }
-        const nextI = photoRefs.current.get(visible!)?.i;
-        if (nextI === undefined) {
-          return;
-        }
-        setIndex(nextI);
-      },
-      {
-        root: scrollAreaRef.current,
-        threshold: 1,
-      },
-    );
-
-    for (const [e] of photoRefs.current) {
-      if (e instanceof Element) {
-        observer?.observe(e);
-      }
-    }
-  }, [setIndex]);
-
-  useEffect(() => {
-    function handleArrowKeys(e: KeyboardEvent) {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        setIndex((i) => getPrevIndex(i, sources.length));
-      } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        setIndex((i) => getNextIndex(i, sources.length));
-      }
-    }
-
-    window.addEventListener('keydown', handleArrowKeys);
-    return () => window.removeEventListener('keydown', handleArrowKeys);
-  }, [setIndex, sources.length]);
-
-  const prevIndex = useRef(index);
-  useEffect(() => {
-    if (!scrollAreaRef.current) {
-      return;
-    }
-
-    const wraparound =
-      (index === 0 && prevIndex.current === sources.length - 1) ||
-      (prevIndex.current === 0 && index === sources.length - 1);
-
-    scrollAreaRef.current!.scroll({
-      left: scrollAreaRef.current!.clientWidth * index,
-      behavior: !didFirstScroll.current || wraparound ? 'auto' : 'smooth',
-    });
-
-    prevIndex.current = index;
-    didFirstScroll.current = true;
-  }, [index, sources.length]);
-
-  return (
-    <div className="relative h-full w-full">
-      <div
-        className="snap flex h-full snap-x snap-mandatory gap-4 overflow-x-auto scrollbar-none focus-visible:outline-none"
-        ref={scrollAreaRef}
-      >
-        {sources.map((src, i) => (
-          <div
-            className="slide h-full w-full shrink-0 snap-center px-3 focus-visible:outline-none"
-            key={i}
-            ref={(e) => {
-              photoRefs.current.set(e!, { e: e!, i });
-            }}
-          >
-            <Image
-              quality={85}
-              alt=""
-              src={src}
-              sizes="(max-width: 1360px) 90vw, 1360px"
-              className="h-full w-full object-contain focus-visible:outline-none"
-            />
-          </div>
-        ))}
-      </div>
-      <div className="header fixed top-[-65px] z-[11] flex w-full justify-between py-5 ">
-        <div className="counter">
-          {index + 1} / {sources.length}
-        </div>
-        <Dialog.Close asChild>
-          <Button aria-label="Close" iconLeft={<ExitIcon />} />
-        </Dialog.Close>
-      </div>
-      <Button
-        onClick={() => setIndex((i) => getPrevIndex(i, sources.length))}
-        aria-label="Go to previous slide"
-        className="fixed left-0 top-1/2 -translate-y-1/2"
-        iconLeft={<ArrowRightIcon className="rotate-180" />}
-      />
-      <Button
-        onClick={() => setIndex((i) => getNextIndex(i, sources.length))}
-        aria-label="Go to next slide"
-        className="fixed right-0 top-1/2 -translate-y-1/2"
-        iconLeft={<ArrowRightIcon />}
-      />
-    </div>
   );
 }
 
@@ -209,7 +75,7 @@ export default function GalleryContextProvider({
             className="gallery-content pointer-events-none
           fixed left-1/2 top-1/2 z-[21] h-[calc(calc(var(--vh,1vh)*90)-85px)] w-[90vw] max-w-screen-2xl -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none"
           >
-            <Slider sources={sources} index={index} setIndex={setIndex} />
+            {/* <Slider sources={sources} index={index} setIndex={setIndex} /> */}
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>

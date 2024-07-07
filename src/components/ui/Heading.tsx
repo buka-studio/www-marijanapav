@@ -1,5 +1,6 @@
 import { ComponentProps, forwardRef, ReactNode } from 'react';
-import { twMerge } from 'tailwind-merge';
+
+import { cn } from '~/src/util';
 
 type H = `h${1 | 2 | 3 | 4 | 5 | 6}`;
 
@@ -16,7 +17,7 @@ const Heading = forwardRef<HTMLHeadingElement, Props & ComponentProps<'h1'>>(fun
 
   return (
     <Component
-      className={twMerge('ui-heading font-archivo text-text-primary', className)}
+      className={cn('ui-heading font-archivo text-text-primary', className)}
       ref={ref}
       {...rest}
     >

@@ -1,9 +1,8 @@
 'use client';
 
-import clsx from 'clsx';
-
 import Button from '~/src/components/ui/Button';
 import Input from '~/src/components/ui/Input';
+import { cn } from '~/src/util';
 
 export default function SubscribeForm({ className = '' }: { className?: string }) {
   function handleSubscribe() {
@@ -11,7 +10,7 @@ export default function SubscribeForm({ className = '' }: { className?: string }
   }
 
   return (
-    <form className={clsx(className)}>
+    <form className={cn(className)}>
       <Input
         type="email"
         placeholder="Enter email"

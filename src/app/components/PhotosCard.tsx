@@ -1,8 +1,6 @@
 'use client';
 
-import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import photo0 from '~/public/home/photos/photo_0.jpg';
 import photo1 from '~/public/home/photos/photo_1.jpg';
@@ -17,6 +15,7 @@ import photo9 from '~/public/home/photos/photo_9.jpg';
 import photo10 from '~/public/home/photos/photo_10.jpg';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
+import { cn } from '~/src/util';
 
 import Card from './Card';
 
@@ -135,12 +134,10 @@ export default function PhotosCard() {
               });
             }}
             key={p.src}
-            className={twMerge(
-              clsx('h-[10px] rounded-full transition-all duration-150', {
-                ['w-[10px] bg-main-theme-overlay']: i !== photo,
-                ['h-[6px] w-[50px] bg-main-theme-1']: i === photo,
-              }),
-            )}
+            className={cn('h-[10px] rounded-full transition-all duration-150', {
+              'w-[10px] bg-main-theme-overlay': i !== photo,
+              'h-[6px] w-[50px] bg-main-theme-1': i === photo,
+            })}
           />
         ))}
       </div>

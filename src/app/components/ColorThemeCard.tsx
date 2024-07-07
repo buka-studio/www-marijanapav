@@ -1,11 +1,11 @@
 'use client';
 
-import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ComponentProps } from 'react';
 
 import GridBackground from '~/src/components/GridBackground';
 import { ArrowRightIcon, ResetIcon } from '~/src/components/icons';
+import { cn } from '~/src/util';
 
 import Card from './Card';
 import useColorTheme, { colorThemes } from './useColorTheme';
@@ -40,14 +40,14 @@ export default function ColorThemeCard() {
                     <button
                       key={t}
                       onClick={() => setColorTheme(t)}
-                      className={clsx('flex items-center rounded-full')}
+                      className={cn('flex items-center rounded-full')}
                     >
                       <div
-                        className={clsx(
+                        className={cn(
                           'relative flex h-7 w-7 items-center justify-center rounded-full border-2 transition-all duration-200',
                           {
-                            ['border-main-theme-1']: isActive,
-                            ['border-main-theme-2']: !isActive,
+                            'border-main-theme-1': isActive,
+                            'border-main-theme-2': !isActive,
                           },
                         )}
                       >

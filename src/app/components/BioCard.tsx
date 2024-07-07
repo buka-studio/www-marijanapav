@@ -46,7 +46,7 @@ const social = [
 
 export default function BioCard() {
   return (
-    <Card className="flex flex-1 flex-col gap-4 rounded-2xl bg-panel-background  p-4">
+    <Card className="flex flex-1 flex-col gap-4 bg-panel-background p-4">
       <div className="relative">
         <Image
           alt="A wild Marijana caught drawing"

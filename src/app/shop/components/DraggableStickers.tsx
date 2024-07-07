@@ -1,6 +1,5 @@
 'use client';
 
-import clsx from 'clsx';
 import { motion, useAnimationControls } from 'framer-motion';
 import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -16,6 +15,7 @@ import Stamp2 from '~/public/stickers/Stamp2.svg';
 import Zet from '~/public/stickers/Zet.svg';
 import Button from '~/src/components/ui/Button';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
+import { cn } from '~/src/util';
 
 const stickers = [
   Stamp1,
@@ -169,7 +169,7 @@ export default function DraggableStickers({
         className="relative z-[1] grid grid-cols-[clamp(200px,50vw,300px)] grid-rows-[auto] justify-center"
       >
         <div
-          className={clsx('m-auto inline-flex transition-all duration-300', {
+          className={cn('m-auto inline-flex transition-all duration-300', {
             'opacity-0': !resetEnabled,
             'opacity-100': resetEnabled,
           })}

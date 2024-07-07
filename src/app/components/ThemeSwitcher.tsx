@@ -1,10 +1,10 @@
 'use client';
 
-import clsx from 'clsx';
 import { useTheme } from 'next-themes';
 
 import { DarkIcon, LightIcon, SystemIcon } from '~/src/components/icons';
 import useDidMount from '~/src/hooks/useDidMount';
+import { cn } from '~/src/util';
 
 const controls = [
   {
@@ -48,9 +48,9 @@ export default function ThemeSwitcher() {
         const isActive = didMount && theme === value;
         return (
           <button
-            className={clsx('relative rounded-full p-[0.375rem] hover:text-main-theme-1', {
-              ['text-text-secondary']: !isActive,
-              ['text-main-theme-1']: isActive,
+            className={cn('relative rounded-full p-[0.375rem] hover:text-main-theme-1', {
+              'text-text-secondary': !isActive,
+              'text-main-theme-1': isActive,
             })}
             key={value}
             aria-label={`Switch to ${value} theme`}

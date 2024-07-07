@@ -1,7 +1,8 @@
 'use client';
 
-import clsx from 'clsx';
 import { forwardRef, ReactNode, useRef } from 'react';
+
+import { cn } from '~/src/util';
 
 type Props = {
   children: ReactNode;
@@ -21,15 +22,15 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
 
   return (
     <Component
-      className={clsx(
+      className={cn(
         'ui-card relative rounded-2xl bg-panel-border p-[1px] shadow-card [background:var(--panel-border)]',
         containerClassName,
       )}
       ref={ref}
     >
       <div
-        className={clsx(
-          'card [&_>*]:opacity-1 relative z-[1] rounded-[14px] bg-panel-background p-1 text-text-primary md:p-2',
+        className={cn(
+          'card [&_>*]:opacity-1 relative z-[1] rounded-[15px] bg-panel-background p-1 text-text-primary',
           className,
         )}
         ref={contentRef}

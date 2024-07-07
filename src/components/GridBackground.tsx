@@ -1,16 +1,18 @@
-import clsx from 'clsx';
 import { ComponentProps } from 'react';
+
+import { cn } from '../util';
 
 // todo: move to canvas?
 export default function GridBackground({
   n = 200,
+  className,
   ...props
 }: ComponentProps<'svg'> & { n?: number }) {
   return (
     <div
-      className={clsx(
+      className={cn(
         'overflow-hidden rounded-xl border-[1px] border-text-alt2 text-text-alt2',
-        props?.className,
+        className,
       )}
     >
       <svg
