@@ -7,6 +7,10 @@
   color: var(--main-theme-2);
 }
 
+:root {
+  background: var(--main-background);
+}
+
 * {
   -webkit-font-smoothing: antialiased;
 }

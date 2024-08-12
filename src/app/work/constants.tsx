@@ -1,4 +1,3 @@
-// import Cards from './[slug]/components/Cards';
 import { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
@@ -68,12 +67,8 @@ import SignOff03 from '~/public/work/program-end/sign-off_03.png';
 import SignOff04 from '~/public/work/program-end/sign-off_04.png';
 import SignOff05 from '~/public/work/program-end/sign-off_05.png';
 import SignOffPreview from '~/public/work/program-end/sign-off_preview.png';
+import DigitalStampCollection from '~/public/work/stamps/preview.png';
 import Stamps00 from '~/public/work/stamps/stamps_00.png';
-import s1 from '~/public/work/stamps/s1.png';
-import s2 from '~/public/work/stamps/s2.png';
-import s3 from '~/public/work/stamps/s3.png';
-import s4 from '~/public/work/stamps/s4.png';
-
 import Stamps01 from '~/public/work/stamps/stamps_01.png';
 import Stamps02 from '~/public/work/stamps/stamps_02.png';
 import Stamps03 from '~/public/work/stamps/stamps_03.png';
@@ -84,7 +79,6 @@ import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import Stamps08 from '~/public/work/stamps/stamps_08.png';
 import Stamps09 from '~/public/work/stamps/stamps_09.png';
 import Stamps10 from '~/public/work/stamps/stamps_10.png';
-import Stars from '~/public/work/stamps/stars.gif';
 import SupabaseIcons00 from '~/public/work/supabase-icons/supabase-icons_00.png';
 import SupabaseIcons01 from '~/public/work/supabase-icons/supabase-icons_01.png';
 import SupabaseIcons02 from '~/public/work/supabase-icons/supabase-icons_02.png';
@@ -102,6 +96,7 @@ import SupabaseLW86 from '~/public/work/supabase-lw8/supabase6.png';
 import SupabaseMerchPreview from '~/public/work/supabase-merch/supabase-merch-preview.png';
 import SupabaseMerch from '~/public/work/supabase-merch/supabase-merch.png';
 
+import Cards from './[slug]/components/Cards';
 import Paragraph from './[slug]/components/Paragraph';
 import SupabaseCard from './components/SupabaseCard';
 
@@ -118,8 +113,9 @@ export type StaticProject = {
   preview: StaticImageData;
   aspect?: number;
   blocks?: Array<Array<StaticImageData | ReactNode>>;
-  images?: StaticImageData[];
-  dynamic?: boolean;
+  blocksConfig?: {
+    assetsStretch?: boolean;
+  };
   tags?: string[];
   link?: string;
   publishedAt?: string;
@@ -135,7 +131,7 @@ export type Project = (StaticProject | ComponentProject) & {
   hidden?: boolean;
 };
 
-// aspect - width/height - for grid layout
+// aspect - width/height
 // todo: consider contentlayer or some other lightweight cms
 export const projects: Project[] = [
   {
@@ -206,12 +202,10 @@ export const projects: Project[] = [
     type: 'project',
     title: 'Digital Stamp Collection',
     slug: 'stamp-collection',
-    preview: Stars,
+    preview: DigitalStampCollection,
     filters: ['illustration'],
     description:
       "This is my personal project of digitally recreating my grandpa's stamps. It's a homage to his philatelic journey, brought online when I started my own philately collection, but in a different format. Through this collection I've set myself a goal of trying out new softwares.",
-    // images: [Stamps00, Stamps00, Stamps00, Stamps00, Stars],
-    images: [s1,s2,s3,s4, MemoriesPoster00],
     blocks: [
       [Stamps00],
       [Stamps01, Stamps02, Stamps03],
@@ -233,6 +227,9 @@ export const projects: Project[] = [
 
       [Stamps07, Stamps08, Stamps09],
     ],
+    blocksConfig: {
+      assetsStretch: true,
+    },
     tags: ['Adobe Illustrator', 'Procreate', '© 2022'],
     aspect: 0.7,
   },
@@ -270,8 +267,8 @@ export const projects: Project[] = [
     aspect: 0.7,
     description:
       'A set of illustrated cards that explores a monoline and monochromatic visual language. It incorporates holographic elements and includes various interactive games to showcase the dynamic movement of the cards.',
+    blocks: [[<Cards key="cards" />]],
     tags: ['Figma', 'Illustrator', '© 2023'],
-    dynamic: true,
   },
   {
     type: 'project',

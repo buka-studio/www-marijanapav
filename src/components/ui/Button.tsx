@@ -34,7 +34,7 @@ function Button({
         className={cn(
           'ui-button group relative flex cursor-pointer items-center gap-3 rounded-full outline-offset-2 transition-all duration-200 [clip-path:border-box]',
           {
-            'py-6px] px-4 text-sm leading-6': size === 'default',
+            'px-4 py-[0.375rem] text-sm leading-6': size === 'default',
             'px-3 py-1 text-xs': size === 'sm',
             'px-1 py-1': !children,
             'bg-main-theme-3 text-text-primary': variant === 'primary',
