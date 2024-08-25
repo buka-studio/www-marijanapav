@@ -62,18 +62,12 @@ import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
 import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
 import OperaPostersPreview from '~/public/work/opera-posters/preview.png';
-import SignOff01 from '~/public/work/program-end/sign-off_01.png';
-import SignOff02 from '~/public/work/program-end/sign-off_02.png';
-import SignOff03 from '~/public/work/program-end/sign-off_03.png';
-import SignOff04 from '~/public/work/program-end/sign-off_04.png';
-import SignOff05 from '~/public/work/program-end/sign-off_05.png';
 import SignOffPreview from '~/public/work/program-end/sign-off_preview.png';
+import SignOff01 from '~/public/work/program-end/sign-off01.png';
+import SignOff02 from '~/public/work/program-end/sign-off02.png';
+import SignOff03 from '~/public/work/program-end/sign-off03.png';
+import SignOff04 from '~/public/work/program-end/sign-off04.png';
 import Stamps00 from '~/public/work/stamps/stamps_00.png';
-import s1 from '~/public/work/stamps/s1.png';
-import s2 from '~/public/work/stamps/s2.png';
-import s3 from '~/public/work/stamps/s3.png';
-import s4 from '~/public/work/stamps/s4.png';
-
 import Stamps01 from '~/public/work/stamps/stamps_01.png';
 import Stamps02 from '~/public/work/stamps/stamps_02.png';
 import Stamps03 from '~/public/work/stamps/stamps_03.png';
@@ -91,6 +85,12 @@ import SupabaseIcons02 from '~/public/work/supabase-icons/supabase-icons_02.png'
 import SupabaseIcons03 from '~/public/work/supabase-icons/supabase-icons_03.png';
 import SupabaseIconsGif from '~/public/work/supabase-icons/supabase-icons.webp';
 import SupabaseLW6 from '~/public/work/supabase-lw6/preview.png';
+import SupabaseLW71 from '~/public/work/supabase-lw7/lw7-01.png';
+import SupabaseLW72 from '~/public/work/supabase-lw7/lw7-02.png';
+import SupabaseLW73 from '~/public/work/supabase-lw7/lw7-03.png';
+import SupabaseLW74 from '~/public/work/supabase-lw7/lw7-04.png';
+import SupabaseLW75 from '~/public/work/supabase-lw7/lw7-05.png';
+import SupabaseLW76 from '~/public/work/supabase-lw7/lw7-06.png';
 import SupabaseLW7 from '~/public/work/supabase-lw7/preview.png';
 import SupabaseLW8 from '~/public/work/supabase-lw8/preview.png';
 import SupabaseLW81 from '~/public/work/supabase-lw8/supabase1.png';
@@ -112,7 +112,7 @@ export type Filter = (typeof filters)[number];
 export type StaticProject = {
   type?: 'project';
   title: string;
-  description?: string;
+  description?: ReactNode;
   slug?: string;
   filters: Filter[];
   preview: StaticImageData;
@@ -143,6 +143,7 @@ export const projects: Project[] = [
     title: 'buka.studio web',
     slug: 'buka-web',
     preview: BukaWebPreview,
+    images: [BukaWebPreview],
     filters: ['digital'],
     link: 'https://buka.studio',
     tags: ['Figma', '© 2024'],
@@ -210,8 +211,6 @@ export const projects: Project[] = [
     filters: ['illustration'],
     description:
       "This is my personal project of digitally recreating my grandpa's stamps. It's a homage to his philatelic journey, brought online when I started my own philately collection, but in a different format. Through this collection I've set myself a goal of trying out new softwares.",
-    // images: [Stamps00, Stamps00, Stamps00, Stamps00, Stars],
-    images: [s1,s2,s3,s4, MemoriesPoster00],
     blocks: [
       [Stamps00],
       [Stamps01, Stamps02, Stamps03],
@@ -237,10 +236,11 @@ export const projects: Project[] = [
     aspect: 0.7,
   },
   {
-    hidden: true,
     type: 'project',
     title: 'Supabase Launch Week 7 Branding',
     slug: 'supabase-lw7',
+    images: [SupabaseLW71, SupabaseLW72, SupabaseLW73, SupabaseLW74, SupabaseLW75, SupabaseLW76],
+
     preview: SupabaseLW7,
     filters: ['illustration'],
     description: 'Remember when TV programs ended at 00:00?',
@@ -456,7 +456,6 @@ export const projects: Project[] = [
     blocks: [[MidnightStudio00], [MidnightStudio01, MidnightStudio02]],
     tags: ['Adobe Illustrator', '© 2019'],
   },
-
   {
     type: 'project',
     title: 'The Havgrim Seaside Hotel Branding',
@@ -470,7 +469,6 @@ export const projects: Project[] = [
     tags: ['Adobe Illustrator', '© 2019'],
   },
   {
-    hidden: true,
     type: 'project',
     title: 'Sign-off Poster Series',
     slug: 'program-end',
@@ -478,10 +476,7 @@ export const projects: Project[] = [
     filters: ['illustration'],
     description:
       'Remember when TV programs used to end at midnight? What did you imagine happens after clock runs 00:00? These series of nostalgic posters takes you back to the days when the familiar image signaled the end of late-night programming. Posters showcase gradual deconstruction of the well known visual, from its structured grid to an explosion of colors and forms.',
-    blocks: [
-      [SignOff01, SignOff02, SignOff03],
-      [SignOff04, SignOff05],
-    ],
+    images: [SignOff01, SignOff02, SignOff03, SignOff04],
     tags: ['Adobe Illustrator', '© 2021'],
     aspect: 0.7,
   },

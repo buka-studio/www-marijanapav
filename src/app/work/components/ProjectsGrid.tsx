@@ -82,10 +82,22 @@ export default function ProjectsGrid({ projects }: Props) {
                   }
                 }}
               >
-                <DialogContent className="flex h-full max-h-[calc(var(--vh,1vh)*100)] flex-col pb-6 sm:rounded-[20px] md:max-h-[min(calc(var(--vh,1vh)*100),700px)]">
-                  <div className="-mx-3 h-full">
+                <DialogContent className="flex h-full max-h-[calc(var(--vh,1vh)*100)] max-w-screen-md flex-col pb-6 sm:rounded-[20px] md:max-h-[min(calc(var(--vh,1vh)*100),800px)]">
+                  <div
+                    className={cn('-mx-3 h-full', {
+                      '-mt-3': Boolean(DynamicComponent),
+                    })}
+                  >
                     {DynamicComponent ? (
-                      <DynamicComponent />
+                      <div className="relative h-full">
+                        <DynamicComponent />
+                        <DialogClose aria-label="Close dialog" asChild>
+                          <Button
+                            iconLeft={<ExitIcon className="h-6 w-6" />}
+                            className="absolute right-5 top-5 opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100"
+                          />
+                        </DialogClose>
+                      </div>
                     ) : (
                       <Carousel
                         className=""
@@ -127,12 +139,14 @@ export default function ProjectsGrid({ projects }: Props) {
                         )}
                       </div>
                     </div>
-                    <DialogDescription className="mt-4 max-h-[150px] overflow-auto border-t border-t-main-theme-4 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
-                      {project.description}
-                    </DialogDescription>
+                    {project.description && (
+                      <DialogDescription className="mt-4 max-h-[150px] overflow-auto border-t border-t-main-theme-4 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
+                        {project.description}
+                      </DialogDescription>
+                    )}
                   </div>
                 </DialogContent>
-                <DialogTrigger asChild>
+                <DialogTrigger asChild disabled={!Boolean(project.images) && !project.dynamic}>
                   <motion.button
                     key={project.slug}
                     initial={{ translateY: 75, opacity: 0 }}
@@ -160,7 +174,7 @@ export default function ProjectsGrid({ projects }: Props) {
                       <div className="h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)]">
                         <div className="relative h-full w-full translate-y-0 overflow-hidden rounded-xl transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-hover/hidden:blur-[2px] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] group-focus-visible/hidden:blur-[2px]">
                           <Image
-                            alt={project.description || ''}
+                            alt={project.title}
                             src={project.preview}
                             quality={80}
                             fill

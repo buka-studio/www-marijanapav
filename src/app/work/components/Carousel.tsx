@@ -130,18 +130,24 @@ export default function Carousel({
         </div>
         {actions}
       </div>
-      <Button
-        onClick={() => setIndex((i) => getPrevIndex(i, sources.length))}
-        aria-label="Go to previous slide"
-        className="absolute left-5 opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100 [@media(max-height:499px)]:bottom-5 [@media(min-height:500px)]:top-1/2 [@media(min-height:500px)]:-translate-y-1/2"
-        iconLeft={<ArrowRightIcon className="rotate-180" />}
-      />
-      <Button
-        onClick={() => setIndex((i) => getNextIndex(i, sources.length))}
-        aria-label="Go to next slide"
-        className="absolute right-5 opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100 [@media(max-height:499px)]:bottom-5 [@media(min-height:500px)]:top-1/2 [@media(min-height:500px)]:-translate-y-1/2"
-        iconLeft={<ArrowRightIcon />}
-      />
+      {sources.length > 1 && (
+        <>
+          <Button
+            onClick={() => setIndex((i) => getPrevIndex(i, sources.length))}
+            disabled={sources.length === 1}
+            aria-label="Go to previous slide"
+            className="absolute left-5 opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100 [@media(max-height:499px)]:bottom-5 [@media(min-height:500px)]:top-1/2 [@media(min-height:500px)]:-translate-y-1/2"
+            iconLeft={<ArrowRightIcon className="rotate-180" />}
+          />
+          <Button
+            onClick={() => setIndex((i) => getNextIndex(i, sources.length))}
+            disabled={sources.length === 1}
+            aria-label="Go to next slide"
+            className="absolute right-5 opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100 [@media(max-height:499px)]:bottom-5 [@media(min-height:500px)]:top-1/2 [@media(min-height:500px)]:-translate-y-1/2"
+            iconLeft={<ArrowRightIcon />}
+          />
+        </>
+      )}
     </div>
   );
 }
