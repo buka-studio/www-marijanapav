@@ -59,7 +59,7 @@ export default function Solitaire({ cardSrc }: { cardSrc: string }) {
   const tickDiff = useRef(0);
 
   const narrow = useMatchMedia('(max-width: 640px)');
-  const cardSize = narrow ? { width: 80, height: 120 } : { width: 200, height: 300 };
+  const cardSize = narrow ? { width: 80, height: 120 } : { width: 100, height: 150 };
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -144,7 +144,7 @@ export default function Solitaire({ cardSrc }: { cardSrc: string }) {
         }
         className="hidden"
       />
-      <canvas ref={canvas} className="h-full w-full bg-white [.theme-dark_&]:bg-black"></canvas>;
+      <canvas ref={canvas} className="h-full w-full bg-main-background"></canvas>;
     </div>
   );
 }

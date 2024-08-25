@@ -223,7 +223,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
 
   return (
     <motion.div
-      className="cards relative z-[1] flex w-full flex-1 items-center justify-center gap-2"
+      className="cards relative z-[1] flex h-full w-full flex-1 items-center justify-center gap-2"
       initial="hidden"
       animate={effect ? 'hidden' : 'shown'}
     >
@@ -302,7 +302,7 @@ export default function Cards() {
     setEffect(undefined);
   }
   return (
-    <div className="bw cards-container relative w-full transform-gpu overflow-hidden rounded-3xl border border-neutral-300 py-[150px] shadow-[inset_0_0_4px_0_rgba(0,0,0,0.05),inset_0_0_30px_0_rgba(0,0,0,0.08)] [.theme-dark_&]:border-neutral-800 [.theme-dark_&]:shadow-[inset_0_0_4px_0_rgba(0,0,0,0.85),inset_0_0_20px_0_rgba(0,0,0,0.75)]">
+    <div className="bw cards-container relative h-full w-full transform-gpu overflow-hidden rounded-[20px]">
       <GridBackground
         className="grid-bg pointer-events-none absolute left-[-1px] top-[-1px] h-[calc(100%+2px)] w-[calc(100%+2px)] text-[rgba(0,0,0,0.05)] [.theme-dark_&]:text-[rgba(200,200,200,0.05)]"
         n={400}
@@ -313,7 +313,7 @@ export default function Cards() {
         onClick={pickEffect}
         aria-label="Pick a card effect"
         iconLeft={<JoystickIcon className="h-6 w-6" />}
-        className="absolute right-5 top-5 text-text-primary"
+        className="absolute bottom-5 right-5 z-[1] text-text-primary"
       />
     </div>
   );
