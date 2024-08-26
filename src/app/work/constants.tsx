@@ -1,13 +1,8 @@
-// import Cards from './[slug]/components/Cards';
 import { StaticImageData } from 'next/image';
-import Link from 'next/link';
 import { ReactNode } from 'react';
 
-import BugReport00 from '~/public/work/bug-report/bur-report_00.png';
-import BugReportPreview from '~/public/work/bug-report/bur-report_preview.png';
 import BukaBranding01 from '~/public/work/buka-branding/bukabrand.png';
 import BukaBrandingPreview from '~/public/work/buka-branding/preview.png';
-import BukaWebPreview from '~/public/work/buka-studio-web/buka-web-preview.png';
 import BukaWeb from '~/public/work/buka-studio-web/buka-web.png';
 import EchoTabLanding01 from '~/public/work/echo-tab-landing-page/echo-tab-landing page_01.png';
 import EchoTabLanding02 from '~/public/work/echo-tab-landing-page/echo-tab-landing page_02.png';
@@ -53,8 +48,6 @@ import InfinumPosters02 from '~/public/work/infinum-posters/infinum-posters_02.p
 import InfinumPosters03 from '~/public/work/infinum-posters/infinum-posters_03.png';
 import InfinumPostersPreview from '~/public/work/infinum-posters/preview.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
-import Memobottle00 from '~/public/work/memobottle/memobottle_00.jpg';
-import MemobottlePreview from '~/public/work/memobottle/preview.png';
 import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.png';
 import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
 import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.png';
@@ -74,14 +67,8 @@ import SignOff04 from '~/public/work/program-end/sign-off04.png';
 import StampsPreview from '~/public/work/stamps/preview.png';
 import Stamps00 from '~/public/work/stamps/stamps_00.png';
 import Stamps01 from '~/public/work/stamps/stamps_01.png';
-import Stamps02 from '~/public/work/stamps/stamps_02.png';
-import Stamps03 from '~/public/work/stamps/stamps_03.png';
-import Stamps04 from '~/public/work/stamps/stamps_04.png';
-import Stamps05 from '~/public/work/stamps/stamps_05.png';
-import Stamps06 from '~/public/work/stamps/stamps_06.png';
 import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import Stamps08 from '~/public/work/stamps/stamps_08.png';
-import Stamps09 from '~/public/work/stamps/stamps_09.png';
 import Stamps10 from '~/public/work/stamps/stamps_10.png';
 import Stars from '~/public/work/stamps/stars.gif';
 import SupabaseHomepage01 from '~/public/work/supabase-homepage/supabase01.png';
@@ -111,11 +98,7 @@ import SupabaseLW1203 from '~/public/work/supabase-lw12/supabase03.png';
 import SupabaseLW1204 from '~/public/work/supabase-lw12/supabase04.png';
 import SupabaseLW1205 from '~/public/work/supabase-lw12/supabase05.png';
 import SupabaseLW1206 from '~/public/work/supabase-lw12/supabase06.png';
-import SupabaseMerchPreview from '~/public/work/supabase-merch/supabase-merch-preview.png';
-import SupabaseMerch from '~/public/work/supabase-merch/supabase-merch.png';
 
-import { StampsCard } from '../components';
-import Paragraph from './[slug]/components/Paragraph';
 import SupabaseCard from './components/SupabaseCard';
 
 export const filters = ['all', 'illustration', 'branding', 'digital', 'merch'] as const;
