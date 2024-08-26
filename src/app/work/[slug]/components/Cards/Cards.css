@@ -52,8 +52,8 @@
     transform: perspective(var(--width)) rotateX(0deg) rotateY(0deg) translateZ(-30px);
     --factor: 10;
     z-index: 1;
-    --width: 300;
-    --height: 447;
+    --width: 200;
+    --height: 296;
     width: calc(var(--width) * 1px);
     height: calc(var(--height) * 1px);
     padding: 4px;
@@ -87,8 +87,8 @@
   @media ((min-width: 950px) and (pointer: fine)) {
     .cards {
       display: grid;
-      grid-template-columns: repeat(3, 240px);
-      margin-left: calc((240px / 3) / 2 * -1);
+      grid-template-columns: repeat(3, 160px);
+      margin-left: calc((160px / 3) / 2 * -1);
     }
 
     .card:hover,
@@ -160,11 +160,6 @@
   @media (max-width: 950px) {
     .cards {
       min-height: 450px;
-    }
-
-    .card {
-      --width: 270;
-      --height: 405;
     }
   }
 }

@@ -1,36 +1,44 @@
 'use client';
 
-import clsx from 'clsx';
+import { DialogDescription } from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
+import { ComponentType, useEffect, useRef, useState } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
+import DynamicVHVarsSetter from '~/src/components/DynamicVHVarsSetter';
+import { ExitIcon, LinkIcon } from '~/src/components/icons';
+import Button from '~/src/components/ui/Button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from '~/src/components/ui/Dialog';
 import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
+import { useViewLogger } from '~/src/components/ViewCounter';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
+import { cn } from '~/src/util';
 
 import { Project } from '../constants';
 import Card from './Card';
+import Carousel from './Carousel';
+
+const dynamicProjects: Record<string, ComponentType> = {
+  'illustrated-cards': dynamic(() => import('../[slug]/components/Cards'), {
+    loading: () => <p>Loading...</p>,
+  }),
+};
+
+function hostname(url: string): string {
+  return new URL(url).hostname;
+}
 
 type Props = {
   projects: Project[];
 };
-
-// todo: figure out a css native masonry layout that works well with ssr
-// function transpose(matrix: any[][]): any[][] {
-//   return matrix[0].map((_, colIndex) => matrix.map((row) => row[colIndex]));
-// }
-
-// function chunk(array: any[], size: number): any[][] {
-//   const chunked_arr = [];
-//   let index = 0;
-//   while (index < array.length) {
-//     chunked_arr.push(array.slice(index, size + index));
-//     index += size;
-//   }
-//   return chunked_arr;
-// }
 
 export default function ProjectsGrid({ projects }: Props) {
   const titleRefs = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -53,68 +61,144 @@ export default function ProjectsGrid({ projects }: Props) {
     });
   }, []);
 
+  const [openProject, setOpenProject] = useState<string>('');
+  useViewLogger(openProject);
+
   return (
     <div className="flex-1 px-5 py-10">
-      <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3, 1200: 4 }}>
+      <DynamicVHVarsSetter />
+      <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3 }}>
         <Masonry gutter={mobile ? '0.5rem' : '1rem'}>
-          {projects.map((project, i) =>
-            project.type === 'project' ? (
-              <Link
-                passHref
-                legacyBehavior
+          {projects.map((project, i) => {
+            const DynamicComponent =
+              project.type === 'project' && project.dynamic ? dynamicProjects[project.slug!] : null;
+
+            return project.type === 'project' ? (
+              <Dialog
                 key={project.slug}
-                href={project.hidden ? '#' : `/work/${project.slug}`}
+                onOpenChange={(open) => {
+                  if (open) {
+                    setOpenProject(project.slug!);
+                  }
+                }}
               >
-                <motion.a
-                  initial={{ translateY: 75, opacity: 0 }}
-                  animate={{ translateY: 0, opacity: 1 }}
-                  exit={{ translateY: 75, opacity: 0 }}
-                  transition={{
-                    ease: 'easeOut',
-                    duration: 0.5,
-                    delay: i * 0.1,
-                  }}
-                  onAnimationComplete={() => setTitleHeight(i)}
-                  className={clsx('relative flex rounded-2xl', {
-                    group: !project.hidden,
-                    'group/hidden cursor-default': project.hidden,
-                  })}
-                  style={{ aspectRatio: project.aspect || 'initial' }}
-                >
-                  <Card
-                    ref={(e) => {
-                      cardRefs.current.set(i, e!);
-                    }}
-                    containerClassName="h-full w-full"
-                    className="h-full w-full overflow-hidden"
+                <DialogContent className="flex h-full max-h-[calc(var(--vh,1vh)*100)] max-w-screen-md flex-col pb-6 sm:rounded-[20px] md:max-h-[min(calc(var(--vh,1vh)*100),800px)]">
+                  <div
+                    className={cn('-mx-3 h-[90vw] md:h-auto md:flex-1', {
+                      '-mt-3 h-auto': Boolean(DynamicComponent),
+                    })}
                   >
-                    <div className="h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)]">
-                      <div className="relative h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-hover/hidden:blur-[2px] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] group-focus-visible/hidden:blur-[2px]">
-                        <Image
-                          alt={project.description || ''}
-                          src={project.preview}
-                          quality={80}
-                          fill
-                          className="object-cover object-top group-hover/hidden:opacity-50 group-focus-visible/hidden:opacity-50"
-                          sizes="(max-width: 900px): 50vw, (max-width: 1200px) 33vw, 320px"
-                          priority={i < 4}
-                        />
+                    {DynamicComponent ? (
+                      <div className="relative h-full">
+                        <DynamicComponent />
+                        <DialogClose aria-label="Close dialog" asChild>
+                          <Button
+                            iconLeft={<ExitIcon className="h-6 w-6" />}
+                            className="absolute right-5 top-5 opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100"
+                          />
+                        </DialogClose>
+                      </div>
+                    ) : (
+                      <Carousel
+                        className=""
+                        defaultIndex={0}
+                        sources={project.images!}
+                        actions={
+                          <DialogClose aria-label="Close dialog" asChild>
+                            <Button
+                              iconLeft={<ExitIcon className="h-6 w-6" />}
+                              className="opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100"
+                            />
+                          </DialogClose>
+                        }
+                      />
+                    )}
+                  </div>
+
+                  <div className="flex flex-col overflow-auto md:overflow-auto">
+                    <div>
+                      <DialogTitle className="mb-4">{project.title}</DialogTitle>
+                      <div className="flex items-center gap-2">
+                        {project.tags?.map((t) => (
+                          <Tag key={t} className="text-sm text-text-secondary">
+                            {t}
+                          </Tag>
+                        ))}
+                        {project.link && (
+                          <Tag asChild>
+                            <a
+                              className="flex items-center gap-2 text-sm underline"
+                              href={project.link}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                            >
+                              {hostname(project.link)}
+                              <LinkIcon className="h-5 w-5" />
+                            </a>
+                          </Tag>
+                        )}
                       </div>
                     </div>
-                    <div
-                      className="title title absolute bottom-0 left-0 w-full translate-y-full rounded-tl-md rounded-tr-md p-2 px-3 text-text-primary transition-all duration-300 group-hover:translate-y-[-4px] group-focus-visible:translate-y-[-4px]"
+                    {project.description && (
+                      <DialogDescription className="mt-4 overflow-auto border-t border-t-main-theme-4 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
+                        {project.description}
+                      </DialogDescription>
+                    )}
+                  </div>
+                </DialogContent>
+                <DialogTrigger asChild disabled={!Boolean(project.images) && !project.dynamic}>
+                  <motion.button
+                    key={project.slug}
+                    initial={{ translateY: 75, opacity: 0 }}
+                    animate={{ translateY: 0, opacity: 1 }}
+                    exit={{ translateY: 75, opacity: 0 }}
+                    transition={{
+                      ease: 'easeOut',
+                      duration: 0.5,
+                      delay: i * 0.1,
+                    }}
+                    onAnimationComplete={() => setTitleHeight(i)}
+                    className={cn('relative flex rounded-lg text-left md:rounded-2xl', {
+                      group: !project.hidden,
+                      'group/hidden cursor-default': project.hidden,
+                    })}
+                    style={{ aspectRatio: project.aspect || 'initial' }}
+                  >
+                    <Card
                       ref={(e) => {
-                        titleRefs.current.set(i, e!);
+                        cardRefs.current.set(i, e!);
                       }}
+                      containerClassName="h-full w-full"
+                      className="h-full w-full overflow-hidden"
                     >
-                      {project.title}
-                    </div>
-                    <Tag className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-300 group-hover/hidden:opacity-100 group-focus-visible/hidden:opacity-100 whitespace-nowrap text-xs sm:text-sm">
-                      Coming Soon
-                    </Tag>
-                  </Card>
-                </motion.a>
-              </Link>
+                      <div className="h-full w-full translate-y-0 overflow-hidden rounded transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)] md:rounded-lg">
+                        <div className="relative h-full w-full translate-y-0 overflow-hidden rounded transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-hover/hidden:blur-[2px] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] group-focus-visible/hidden:blur-[2px] md:rounded-xl">
+                          <Image
+                            alt={project.title}
+                            src={project.preview}
+                            quality={100}
+                            fill
+                            className="object-cover object-top group-hover/hidden:opacity-50 group-focus-visible/hidden:opacity-50"
+                            sizes="(max-width: 900px): 50vw, (max-width: 1200px) 33vw, 320px"
+                            priority={i < 4}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="title title absolute bottom-0 left-0 w-full translate-y-full rounded-tl-md rounded-tr-md p-2 px-3 text-text-primary transition-all duration-300 group-hover:translate-y-[-4px] group-focus-visible:translate-y-[-4px]"
+                        ref={(e) => {
+                          titleRefs.current.set(i, e!);
+                        }}
+                      >
+                        {project.title}
+                      </div>
+                      <Tag className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-xs opacity-0 transition-all duration-300 group-hover/hidden:opacity-100 group-focus-visible/hidden:opacity-100 sm:text-sm">
+                        Coming Soon
+                      </Tag>
+                    </Card>
+                  </motion.button>
+                </DialogTrigger>
+              </Dialog>
             ) : project.type === 'component' ? (
               <motion.div
                 initial={{ translateY: 100, opacity: 0 }}
@@ -131,8 +215,8 @@ export default function ProjectsGrid({ projects }: Props) {
               >
                 {project.content}
               </motion.div>
-            ) : null,
-          )}
+            ) : null;
+          })}
         </Masonry>
       </ResponsiveMasonry>
     </div>
