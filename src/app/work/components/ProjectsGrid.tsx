@@ -84,8 +84,8 @@ export default function ProjectsGrid({ projects }: Props) {
               >
                 <DialogContent className="flex h-full max-h-[calc(var(--vh,1vh)*100)] max-w-screen-md flex-col pb-6 sm:rounded-[20px] md:max-h-[min(calc(var(--vh,1vh)*100),800px)]">
                   <div
-                    className={cn('-mx-3 h-full', {
-                      '-mt-3': Boolean(DynamicComponent),
+                    className={cn('-mx-3 h-[90vw] md:h-auto md:flex-1', {
+                      '-mt-3 h-auto': Boolean(DynamicComponent),
                     })}
                   >
                     {DynamicComponent ? (
@@ -115,7 +115,7 @@ export default function ProjectsGrid({ projects }: Props) {
                     )}
                   </div>
 
-                  <div>
+                  <div className="flex flex-col overflow-auto md:overflow-auto">
                     <div>
                       <DialogTitle className="mb-4">{project.title}</DialogTitle>
                       <div className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export default function ProjectsGrid({ projects }: Props) {
                       </div>
                     </div>
                     {project.description && (
-                      <DialogDescription className="mt-4 max-h-[150px] overflow-auto border-t border-t-main-theme-4 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
+                      <DialogDescription className="mt-4 overflow-auto border-t border-t-main-theme-4 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
                         {project.description}
                       </DialogDescription>
                     )}
@@ -158,7 +158,7 @@ export default function ProjectsGrid({ projects }: Props) {
                       delay: i * 0.1,
                     }}
                     onAnimationComplete={() => setTitleHeight(i)}
-                    className={cn('relative flex rounded-2xl text-left', {
+                    className={cn('relative flex rounded-lg text-left md:rounded-2xl', {
                       group: !project.hidden,
                       'group/hidden cursor-default': project.hidden,
                     })}
@@ -171,12 +171,12 @@ export default function ProjectsGrid({ projects }: Props) {
                       containerClassName="h-full w-full"
                       className="h-full w-full overflow-hidden"
                     >
-                      <div className="h-full w-full translate-y-0 overflow-hidden rounded-lg transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)]">
-                        <div className="relative h-full w-full translate-y-0 overflow-hidden rounded-xl transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-hover/hidden:blur-[2px] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] group-focus-visible/hidden:blur-[2px]">
+                      <div className="h-full w-full translate-y-0 overflow-hidden rounded transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)] md:rounded-lg">
+                        <div className="relative h-full w-full translate-y-0 overflow-hidden rounded transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-hover/hidden:blur-[2px] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] group-focus-visible/hidden:blur-[2px] md:rounded-xl">
                           <Image
                             alt={project.title}
                             src={project.preview}
-                            quality={80}
+                            quality={100}
                             fill
                             className="object-cover object-top group-hover/hidden:opacity-50 group-focus-visible/hidden:opacity-50"
                             sizes="(max-width: 900px): 50vw, (max-width: 1200px) 33vw, 320px"
