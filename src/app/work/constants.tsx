@@ -142,7 +142,7 @@ export const projects: Project[] = [
     images: [EchoTabLanding01, EchoTabLanding02],
     filters: ['digital', 'branding'],
     description:
-      'Landing page design for a clean and simple browser extension, that helps you manage thousands of open tabs, with multi-select, smart AI tagging and Cmd+K command menu for quick browsing experience.',
+      'Landing page design for a clean and simple browser extension, that helps you manage thousands of saved tabs, with multi-select, smart AI tagging and Cmd+K command menu for an efficient workflow.',
     link: 'https://echotab.buka.studio/',
     tags: ['Figma', '© 2024'],
     aspect: 1.1,
@@ -155,7 +155,7 @@ export const projects: Project[] = [
     images: [EchoTab],
     filters: ['digital'],
     description:
-      'A clean and simple browser extension, that helps you manage thousands of open tabs, with multi-select, smart AI tagging and CmdK command menu for quick browsing experience.',
+      'A clean and simple browser extension, that helps you manage thousands of saved tabs, with multi-select, smart AI tagging and CmdK command menu for an efficient workflow.',
     link: 'https://echotab.buka.studio/',
     tags: ['Figma', '© 2024'],
     aspect: 1.5,

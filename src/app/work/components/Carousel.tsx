@@ -112,7 +112,7 @@ export default function Carousel({
             >
               <div className="absolute inset-0">
                 <Image
-                  quality={100}
+                  quality={90}
                   alt=""
                   src={src}
                   sizes="(max-width: 1360px) 90vw, 1360px"
