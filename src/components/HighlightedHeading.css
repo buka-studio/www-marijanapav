@@ -6,7 +6,7 @@
   background-position-x: 0%;
   -webkit-text-fill-color: transparent;
   transition-property: background-position;
-  transition-duration: 2s;
+  transition-duration: 2.3s;
   transition-delay: 0;
   transition-timing-function: cubic-bezier(0.06, 0.56, 0.24, 0.96);
 }

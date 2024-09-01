@@ -6,7 +6,7 @@ import HighlightedText, { Controls } from '~/src/components/HighlightedHeading';
 import Heading from '~/src/components/ui/Heading';
 import { cn } from '~/src/util';
 
-const lines = ['Visual designer', 'exploring the best', 'of traditional & digital'];
+const lines = ['Designer crafting', ' brands and websites', ''];
 
 const staggerMs = 300;
 
@@ -29,7 +29,7 @@ export default function Hheading({ className, ...props }: ComponentProps<'h1'>) 
   }, [index]);
 
   return (
-    <Heading className={cn('max-w-[900px]', className)}>
+    <Heading className={cn('max-w-[1000px]', className)}>
       {lines.map((l, i) => (
         <HighlightedText
           aria-hidden

@@ -4,7 +4,6 @@ import BukaIcon from './Buka.svg';
 import ChevronIcon from './Chevron.svg';
 import ContentCopyIcon from './Content-copy.svg';
 import DarkIcon from './Dark.svg';
-import DribbbleIcon from './Dribbble.svg';
 import ExitIcon from './Exit.svg';
 import EyeOffIcon from './Eye-off.svg';
 import EyeIcon from './Eye.svg';
@@ -21,6 +20,7 @@ import LinkedinIcon from './Linkedin.svg';
 import LogoIcon from './Logo.svg';
 import PinIcon from './Pin.svg';
 import PublishedIcon from './Published.svg';
+import ReadCVIcon from './readcv.svg';
 import ResetIcon from './Reset.svg';
 import SystemIcon from './System.svg';
 import TopIcon from './Top.svg';
@@ -33,7 +33,7 @@ export {
   ChevronIcon,
   ContentCopyIcon,
   DarkIcon,
-  DribbbleIcon,
+  ReadCVIcon,
   ExitIcon,
   EyeIcon,
   EyeOffIcon,

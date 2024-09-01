@@ -26,12 +26,12 @@ const positions: Position[] = [
     from: '2018',
     to: '2022',
   },
-  // {
-  //   title: 'Designer',
-  //   company: { name: 'Norma Studio' },
-  //   from: '2017',
-  //   to: '2018',
-  // },
+  {
+    title: 'Designer',
+    company: { name: 'Norma Studio', href: 'https://norma.hr/' },
+    from: '2017',
+    to: '2018',
+  },
   // { title: 'Freelancing', from: '2015', to: '2018' },
 ];
 

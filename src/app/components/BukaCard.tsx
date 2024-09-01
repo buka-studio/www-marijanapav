@@ -8,7 +8,7 @@ export default function BukaCard() {
     <Card className="h-full">
       <div className="flex h-full flex-col justify-between gap-7">
         <div className="flex justify-between">
-          <span className="text-text-secondary">What&apos;s Next</span>
+          <span className="text-text-secondary">Latest side-project</span>
         </div>
         <div className="flex items-center gap-4">
           <BukaIcon />
@@ -24,7 +24,7 @@ export default function BukaCard() {
           </Heading>
         </div>
         <p className="text-text-secondary">
-          A clean and simple browser extension, that helps you manage thousands of open tabs, with
+          A clean and simple browser extension, that helps you manage thousands of tabs, with
           multi-select, smart tagging and CmdK command menu for quick browsing experience.
         </p>
       </div>

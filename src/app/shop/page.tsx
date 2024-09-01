@@ -11,7 +11,7 @@ import './page.css';
 const DraggableStickers = dynamic(() => import('./components/DraggableStickers'), { ssr: false });
 
 export const metadata = {
-  title: 'Shop | Marijana Šimag',
+  title: 'Shop | Marijana Pavlinić',
 };
 
 export default async function Home() {

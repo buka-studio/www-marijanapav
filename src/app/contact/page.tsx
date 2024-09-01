@@ -18,8 +18,8 @@ const links = [
     href: 'https://www.instagram.com/marijanapavlinic/',
   },
   {
-    label: 'Dribbble',
-    href: 'https://dribbble.com/marijanapav',
+    label: 'ReadCV',
+    href: 'https://read.cv/marijanapav',
   },
   {
     label: 'GitHub',

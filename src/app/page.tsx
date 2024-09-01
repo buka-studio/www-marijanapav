@@ -64,9 +64,9 @@ const fetchSneakPeekCount = () =>
     });
 
 export const metadata = {
-  title: 'About | Marijana Šimag',
+  title: 'About | Marijana Pavlinić',
   description:
-    'Visual designer and Illustrator working remotely from Croatia, deep diving into all things digital, focusing on web design and UX.',
+    'Designer and Illustrator working remotely from Croatia, deep diving into all things digital, crafting websites and brands.',
 };
 
 export default async function Home() {

@@ -2,10 +2,10 @@ import Link from 'next/link';
 
 import {
   ArrowRightIcon,
-  DribbbleIcon,
   GithubIcon,
   InstagramIcon,
   LinkedinIcon,
+  ReadCVIcon,
   TwitterIcon,
 } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
@@ -33,9 +33,9 @@ const social = [
     attrs: { 'aria-label': 'Go to Instagram' },
   },
   {
-    url: 'https://dribbble.com/marijanapav',
-    Icon: DribbbleIcon,
-    attrs: { 'aria-label': 'Go to Dribbble' },
+    url: 'https://read.cv/marijanapav',
+    Icon: ReadCVIcon,
+    attrs: { 'aria-label': 'Go to ReadCV' },
   },
   {
     url: 'https://github.com/marijanapav',
@@ -61,12 +61,13 @@ export default function BioCard() {
       </div>
 
       <p className="panel leading-7 text-text-secondary">
-        I&apos;ve had a chance to work in various environments, including a design studio, an
-        agency, and now at Supabase &#9825;, a fast-growing startup. Through these different
-        settings I worked on various skills, from editorial design, illustration, packaging, to a
-        deep dive into all things digital, and now mostly focused on web design and UX. I&apos;m
-        based in Central Europe, working from my home office, because life&apos;s too short for long
-        commutes, but I do have to deal with a cat trying to sit on my keyboard.
+        I'm a visual designer interested in tech, co-running
+        <a href="https://www.buka.studio"> Buka Studio</a>. My experience spans from working in a
+        small design studio, an 250+ people agency and currently at Supabase ♡, a fast-growing
+        startup. Along the way, I’ve picked up a mix of skills from editorial design, illustration,
+        merchandise, to now primarily focusing on web design, UX and brand design. I'm based in
+        Central Europe, working from my home office—because life's too short for long commutes, but
+        I do have to deal with a cat trying to sit on my keyboard.
       </p>
       <div className="mt-9 flex flex-col items-start justify-between text-text-secondary md:flex-row md:items-center">
         <div>See what I&apos;ve been doing on:</div>
