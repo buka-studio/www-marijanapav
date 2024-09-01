@@ -61,13 +61,13 @@ export default function BioCard() {
       </div>
 
       <p className="panel leading-7 text-text-secondary">
-        I'm a visual designer interested in tech, co-running
+        I&apos;m a visual designer interested in tech, co-running
         <a href="https://www.buka.studio"> Buka Studio</a>. My experience spans from working in a
         small design studio, an 250+ people agency and currently at Supabase ♡, a fast-growing
-        startup. Along the way, I’ve picked up a mix of skills from editorial design, illustration,
-        merchandise, to now primarily focusing on web design, UX and brand design. I'm based in
-        Central Europe, working from my home office—because life's too short for long commutes, but
-        I do have to deal with a cat trying to sit on my keyboard.
+        startup. Along the way, I&apos;ve picked up a mix of skills from editorial design,
+        illustration, merchandise, to now primarily focusing on web design, UX and brand design.
+        I&apos;m based in Central Europe, working from my home office—because life&apos;s too short
+        for long commutes, but I do have to deal with a cat trying to sit on my keyboard.
       </p>
       <div className="mt-9 flex flex-col items-start justify-between text-text-secondary md:flex-row md:items-center">
         <div>See what I&apos;ve been doing on:</div>

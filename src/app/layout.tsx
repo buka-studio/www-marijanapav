@@ -27,7 +27,7 @@ const archivo = Archivo({
 });
 
 export const metadata: Metadata = {
-  title: "Marijana Šimag's Personal Website",
+  title: "Marijana Pavlinić's Personal Website",
   metadataBase:
     process.env.NODE_ENV === 'production' ? new URL('https://marijanasimag.com') : undefined,
 };
