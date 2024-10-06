@@ -61,7 +61,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
     <Card className="flex flex-col">
       <div className="mb-2 text-text-secondary">What I&apos;m working on atm</div>
       <div className="mb-8 flex items-start justify-between xl:mb-[120px]">
-        <Heading as="h1" className="text-primary text-4xl md:text-5xl xl:text-6xl">
+        <Heading as="h1" className="text-primary text-4xl md:text-5xl xl:text-5xl">
           Sneak <br className="hidden md:block" />
           peek
         </Heading>
