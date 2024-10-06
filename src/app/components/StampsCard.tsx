@@ -29,7 +29,7 @@ export default function StampsCard() {
           </div>
         </div>
         <div className="mb-4 [&_>*]:inline [&_>*]:align-middle">
-          <Heading className="text-4xl md:text-5xl xl:text-6xl">
+          <Heading className="text-4xl md:text-5xl">
             <a href="#" className="group rounded-lg">
               Digital Stamp Collection&nbsp;
               <Tag className="ml-2 inline align-middle font-sans text-xs">Coming&nbsp;soon</Tag>
