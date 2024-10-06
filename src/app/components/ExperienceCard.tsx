@@ -10,6 +10,12 @@ type Position = {
   to?: string;
 };
 const positions: Position[] = [
+
+  {
+    title: 'Designer',
+    company: { name: 'LiveKit', href: 'https://livekit.io' },
+    from: '2024',
+  },
   {
     title: 'Co-founder',
     company: { name: 'Buka Studio', href: 'https://buka.studio/' },
@@ -19,6 +25,7 @@ const positions: Position[] = [
     title: 'Brand Designer',
     company: { name: 'Supabase', href: 'https://supabase.com/' },
     from: '2022',
+    to: '2024',
   },
   {
     title: 'Brand Designer',
