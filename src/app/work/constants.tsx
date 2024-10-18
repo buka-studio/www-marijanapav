@@ -64,6 +64,7 @@ import SignOff01 from '~/public/work/program-end/sign-off01.png';
 import SignOff02 from '~/public/work/program-end/sign-off02.png';
 import SignOff03 from '~/public/work/program-end/sign-off03.png';
 import SignOff04 from '~/public/work/program-end/sign-off04.png';
+import rpavlini from '~/public/work/rpavlini/rpavlini.png';
 import StampsPreview from '~/public/work/stamps/preview.png';
 import Stamps00 from '~/public/work/stamps/stamps_00.png';
 import Stamps01 from '~/public/work/stamps/stamps_01.png';
@@ -159,6 +160,19 @@ export const projects: Project[] = [
     link: 'https://echotab.buka.studio/',
     tags: ['Figma', '© 2024'],
     aspect: 1.5,
+  },
+  {
+    type: 'project',
+    title: 'Buka Studio Branding',
+    slug: 'buka-studio',
+    preview: rpavlini,
+    images: [rpavlini],
+    filters: ['digital', 'branding'],
+    description:
+      'I designed a simple personal website for my partner, drawing inspiration from the minimalist aesthetic that mirrors the simplicity of a markdown file. Next up, we are focused on adding a few components to provide a more personal touch. More on that soon.',
+    link: 'https://rpavlini.com',
+    tags: ['Figma', '© 2024'],
+    aspect: 1.3,
   },
   {
     type: 'project',
