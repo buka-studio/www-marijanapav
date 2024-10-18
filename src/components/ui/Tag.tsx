@@ -14,7 +14,7 @@ function Tag({ asChild, className, ...rest }: Props & ComponentProps<'div'>) {
     <Component
       {...rest}
       className={cn(
-        'ui-tag flex items-center justify-center rounded-lg bg-main-theme-3 px-2 py-1 text-text-primary',
+        'ui-tag flex items-center justify-center whitespace-nowrap rounded-lg bg-main-theme-3 px-2 py-1 text-text-primary',
         className,
       )}
     />

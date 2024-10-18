@@ -118,7 +118,7 @@ export default function ProjectsGrid({ projects }: Props) {
                   <div className="flex flex-col overflow-auto md:overflow-auto">
                     <div>
                       <DialogTitle className="mb-4">{project.title}</DialogTitle>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         {project.tags?.map((t) => (
                           <Tag key={t} className="text-sm text-text-secondary">
                             {t}
