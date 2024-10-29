@@ -215,7 +215,7 @@ export const projects: Project[] = [
     filters: ['digital', 'branding'],
     description:
       'Another Supabase Launch Week, a week of announcing new features. Each day we unlock new features that the team has been working on for the last few months. Each day is accompanied with visuals, diagrams, blog posts, merch and community meetups.',
-    link: '',
+    link: 'https://supabase.com/launch-week',
     tags: ['Figma', '© 2024'],
     aspect: 0.7,
   },
@@ -228,7 +228,7 @@ export const projects: Project[] = [
     filters: ['digital', 'branding'],
     description:
       "Supabase Launch Week is week-long event packed with product updates, community announcements, meetups, daily video announcements, and live Discord hangouts. It's a showcase of what the Supabase team has been working on in the past few months, and on the design front it's an opportunity to push our brand's boundaries.",
-    link: '',
+    link: 'https://supabase.com/launch-week/8',
     tags: ['Figma', '© 2023'],
     aspect: 0.7,
   },
