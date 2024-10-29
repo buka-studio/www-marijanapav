@@ -163,8 +163,8 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
-    title: 'Buka Studio Branding',
-    slug: 'buka-studio',
+    title: 'Robert Pavlinić Personal Website',
+    slug: 'rpavlini',
     preview: rpavlini,
     images: [rpavlini],
     filters: ['digital', 'branding'],
