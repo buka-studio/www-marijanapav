@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import {
   ArrowRightIcon,
+  BlueskyIcon,
   GithubIcon,
   InstagramIcon,
   LinkedinIcon,
@@ -31,6 +32,11 @@ const social = [
     url: 'https://www.instagram.com/marijanapavlinic/',
     Icon: InstagramIcon,
     attrs: { 'aria-label': 'Go to Instagram' },
+  },
+  {
+    url: 'https://bsky.app/profile/marijanapav.com',
+    Icon: BlueskyIcon,
+    attrs: { 'aria-label': 'Go to Bluesky' },
   },
   {
     url: 'https://read.cv/marijanapav',
