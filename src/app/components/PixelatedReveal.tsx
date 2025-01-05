@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import './cards.css';
 
@@ -275,7 +275,7 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
       <canvas
         ref={canvasRef}
         className={cn(
-          'absolute left-0 top-0 aspect-square rounded-xl transition-all duration-300 ease-linear',
+          'absolute left-0 top-0 aspect-square rounded-md transition-all duration-300 ease-linear',
           {
             'opacity-0': revealed,
             'opacity-100': !revealed,
