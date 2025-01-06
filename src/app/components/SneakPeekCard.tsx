@@ -15,6 +15,8 @@ import './cards.css';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
+import TextLink from '~/src/components/ui/TextLink';
+
 const PixelatedReveal = dynamic(() => import('./PixelatedReveal'), { ssr: false });
 
 const maxClicks = 5;
@@ -67,7 +69,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
     <Card className="flex flex-col">
       <div className="mb-2 text-text-secondary">Currently in Progress</div>
       <div className="mb-20 flex items-start justify-between  xl:mb-[120px]">
-        <Heading as="h1" className="text-primary text-4xl md:text-5xl">
+        <Heading as="h1" className="text-primary text-3xl md:text-4xl">
           Sneak <br className="hidden md:block" />
           peek
         </Heading>
@@ -83,9 +85,13 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
               transition={{ duration: 0.3 }}
             >
               Follow on{' '}
-              <a href="https://twitter.com/marijanapav" target="_blank" rel="noopener noreferrer">
+              <TextLink
+                href="https://twitter.com/marijanapav"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Twitter
-              </a>{' '}
+              </TextLink>{' '}
               for more in-progress pieces like this one.{' '}
             </motion.p>
           )}
