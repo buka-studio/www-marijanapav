@@ -11,6 +11,7 @@ import {
 } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
 import Image from '~/src/components/ui/Image';
+import TextLink from '~/src/components/ui/TextLink';
 
 import PortraitSrc from '../../../public/home/me.jpg';
 import Card from './Card';
@@ -58,23 +59,23 @@ export default function BioCard() {
           alt="A wild Marijana caught drawing"
           src={PortraitSrc}
           placeholder="blur"
-          className="max-h-[455px] w-full rounded-xl object-cover object-top"
+          className="max-h-[455px] w-full rounded-md object-cover object-top"
           loading="eager"
           sizes="(max-width: 768px) 100vw, 768px"
           priority
         />
-        <div className="absolute left-0 top-0 h-full w-full rounded-xl bg-main-theme-overlay transition-colors duration-200" />
+        <div className="absolute left-0 top-0 h-full w-full rounded-md bg-main-theme-overlay transition-colors duration-200" />
       </div>
 
       <p className="panel leading-7 text-text-secondary">
-        I&apos;m a visual designer interested in tech, co-running
-        <a href="https://www.buka.studio"> Buka Studio</a>. I have experience working in a variety
-        of environments, from small design studios to a large agency, as well as startups and
-        contracting for various clients. Along the way, I&apos;ve picked up a mix of skills from
-        editorial design, illustration, merchandise, to now primarily focusing on web design, UX and
-        brand design. I&apos;m based in Central Europe, working from my home office—because
-        life&apos;s too short for long commutes, but I do have to deal with a cat trying to sit on
-        my keyboard.
+        I&apos;m a designer interested in tech, co-running{' '}
+        <TextLink href="https://www.buka.studio">Buka Studio</TextLink>. I have experience working
+        in a variety of environments, from small design studios to a large agency, as well as
+        startups and contracting for various clients. Along the way, I&apos;ve picked up a mix of
+        skills from editorial design, illustration, merchandise, to now primarily focusing on web
+        design, UX and brand design. I&apos;m based in Central Europe, working from my home
+        office—because life&apos;s too short for long commutes, but I do have to deal with a cat
+        trying to sit on my keyboard.
       </p>
       <div className="mt-9 flex flex-col items-start justify-between text-text-secondary md:flex-row md:items-center">
         <div>See what I&apos;ve been doing on:</div>

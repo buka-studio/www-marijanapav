@@ -13,6 +13,10 @@ import Card from './Card';
 
 import './cards.css';
 
+import { AnimatePresence, motion } from 'framer-motion';
+
+import TextLink from '~/src/components/ui/TextLink';
+
 const PixelatedReveal = dynamic(() => import('./PixelatedReveal'), { ssr: false });
 
 const maxClicks = 5;
@@ -57,50 +61,75 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
     };
   }, []);
 
+  const handleClick = () => {
+    setClickCount((c) => c + 1);
+  };
+
   return (
     <Card className="flex flex-col">
-      <div className="mb-2 text-text-secondary">What I&apos;m working on atm</div>
-      <div className="mb-8 flex items-start justify-between xl:mb-[120px]">
-        <Heading as="h1" className="text-primary text-4xl md:text-5xl">
+      <div className="mb-2 text-text-secondary">Currently in Progress</div>
+      <div className="mb-20 flex items-start justify-between  xl:mb-[120px]">
+        <Heading as="h1" className="text-primary text-3xl md:text-4xl">
           Sneak <br className="hidden md:block" />
           peek
         </Heading>
       </div>
-      <div className="progress relative mb-2 rounded-full bg-main-theme-overlay pr-2 text-text-alt2">
-        <div
-          className="progress-bar absolute h-full min-w-[130px] rounded-full bg-text-primary transition-all duration-300"
-          style={
-            {
-              width: `calc(130px + ((100% - 130px) / ${maxClicks}) * ${Math.min(
-                cycleClickCount,
-                maxClicks,
-              )})`,
-            } as React.CSSProperties
-          }
-        />
-        <button
-          className="relative flex w-[130px] items-center gap-2 rounded-full bg-text-primary px-2 py-[4px] text-sm text-text-alt2"
-          onClick={() => {
-            setClickCount((c) => c + 1);
-          }}
-        >
-          {revealed ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}
-          Click to {revealed ? 'hide' : 'see'}
-        </button>
-        <span
-          className={cn(
-            'duration-[500ms] absolute right-2 top-[4px] text-sm transition-all ease-out',
-            {
-              '-translate-x-4 opacity-0 ': !revealed,
-              'translate-x-0 opacity-100': revealed,
-            },
+      <div className="relative flex flex-col gap-4">
+        <AnimatePresence>
+          {revealed && (
+            <motion.p
+              className="absolute bottom-[calc(100%+16px)] mt-2 text-sm text-text-secondary [text-wrap:pretty]"
+              initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
+              transition={{ duration: 0.3 }}
+            >
+              Follow on{' '}
+              <TextLink
+                href="https://twitter.com/marijanapav"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Twitter
+              </TextLink>{' '}
+              for more in-progress pieces like this one.{' '}
+            </motion.p>
           )}
-        >
-          {currentCount + clickCount} clicks
-        </span>
+        </AnimatePresence>
+        <div className="progress relative mb-4 rounded-full bg-main-theme-overlay pr-2 text-text-alt2">
+          <div
+            className="progress-bar absolute h-full min-w-[130px] rounded-full bg-text-primary transition-all duration-300"
+            style={
+              {
+                width: `calc(130px + ((100% - 130px) / ${maxClicks}) * ${Math.min(
+                  cycleClickCount,
+                  maxClicks,
+                )})`,
+              } as React.CSSProperties
+            }
+          />
+          <button
+            className="relative flex w-[130px] items-center gap-2 rounded-full bg-text-primary px-2 py-[4px] text-sm text-text-alt2"
+            onClick={handleClick}
+          >
+            {revealed ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}
+            Click to {revealed ? 'hide' : 'see'}
+          </button>
+          <span
+            className={cn(
+              'duration-[500ms] absolute right-2 top-[4px] text-sm transition-all ease-out',
+              {
+                '-translate-x-4 opacity-0 ': !revealed,
+                'translate-x-0 opacity-100': revealed,
+              },
+            )}
+          >
+            {currentCount + clickCount} clicks
+          </span>
+        </div>
       </div>
 
-      <div className="relative h-full min-h-[284px] w-full overflow-hidden rounded-xl">
+      <div className="relative h-full min-h-[284px] w-full overflow-hidden rounded-md">
         <Image
           src={SneakPeekPhoto}
           // todo: better alt text
