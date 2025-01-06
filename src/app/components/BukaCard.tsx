@@ -12,7 +12,7 @@ export default function BukaCard() {
         </div>
         <div className="flex items-center gap-4">
           <BukaIcon />
-          <Heading className="text-4xl md:text-5xl">
+          <Heading className="text-3xl md:text-4xl">
             <a
               className="group flex items-center gap-3 rounded-lg"
               href="https://echotab.buka.studio"

@@ -100,7 +100,7 @@ export default function PhotosCard() {
         </Heading>
       </div>
       <div
-        className="flex aspect-square w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-xl scrollbar-none md:order-2 xl:order-none xl:mt-auto"
+        className="flex aspect-square w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-md scrollbar-none md:order-2 xl:order-none xl:mt-auto"
         ref={scrollAreaRef}
       >
         {photos.map((p, i) => (
@@ -116,9 +116,9 @@ export default function PhotosCard() {
               alt=""
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 478px"
-              className="rounded-xl object-cover object-center"
+              className="rounded-md object-cover object-center"
             />
-            <div className="absolute left-0 top-0 h-full w-full rounded-xl bg-main-theme-overlay transition-colors duration-200" />
+            <div className="absolute left-0 top-0 h-full w-full rounded-md bg-main-theme-overlay transition-colors duration-200" />
           </div>
         ))}
       </div>

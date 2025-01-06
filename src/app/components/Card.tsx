@@ -26,13 +26,13 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
   return (
     <Component
       className={cn(
-        'ui-card relative rounded-[22px] bg-panel-border p-[1px] shadow-card',
+        'ui-card relative rounded-[10px] bg-panel-border p-[1px] shadow-card',
         containerClassName,
       )}
     >
       <div
         className={cn(
-          'card [&_>*]:opacity-1 relative z-[1] rounded-[21px] bg-panel-background p-4 text-text-primary',
+          'card [&_>*]:opacity-1 relative z-[1] rounded-[9px] bg-panel-background p-4 text-text-primary',
           className,
         )}
         ref={contentRef}
@@ -41,7 +41,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
       </div>
       <div
         className={cn(
-          'absolute left-0 top-0 h-full w-full rounded-[22px] bg-main-theme-1 opacity-30',
+          'absolute left-0 top-0 h-full w-full rounded-[10px] bg-main-theme-1 opacity-30',
           relativeMouseClassname,
         )}
         ref={borderRef}
