@@ -59,12 +59,12 @@ export default function BioCard() {
           alt="A wild Marijana caught drawing"
           src={PortraitSrc}
           placeholder="blur"
-          className="max-h-[455px] w-full rounded-sm object-cover object-top"
+          className="max-h-[455px] w-full rounded-md object-cover object-top"
           loading="eager"
           sizes="(max-width: 768px) 100vw, 768px"
           priority
         />
-        <div className="absolute left-0 top-0 h-full w-full rounded-sm bg-main-theme-overlay transition-colors duration-200" />
+        <div className="absolute left-0 top-0 h-full w-full rounded-md bg-main-theme-overlay transition-colors duration-200" />
       </div>
 
       <p className="panel leading-7 text-text-secondary">
