@@ -73,7 +73,7 @@ export default function BioCard() {
         in a variety of environments, from small design studios to a large agency, as well as
         startups and contracting for various clients. Along the way, I&apos;ve picked up a mix of
         skills from editorial design, illustration, merchandise, to now primarily focusing on web
-        design, UX and brand design. I&apos;m based in Central Europe, working from my home
+        design, UX and brand design. I&apos;m based in Europe, Croatia, working from my home
         office—because life&apos;s too short for long commutes, but I do have to deal with a cat
         trying to sit on my keyboard.
       </p>
