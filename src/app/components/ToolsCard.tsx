@@ -29,9 +29,10 @@ export default function ToolsCard() {
           <div className="absolute bottom-[-1px] h-[100px] w-full rotate-180 [background:var(--panel-blend-layer)]" />
         </div>
         <p className="mt-auto leading-7 text-text-secondary">
-          I began in print while studying Visual Communications and gradually shifted to digital.
-          Over time my go-to companion software switched from Illustrator, to InDesign, Procreate,
-          Sketch, Figma. I loved them all, but my fav is Figma &#9825;
+          I started my design journey in print, but after completing my Master's in Visual
+          Communication I mostly focused on digital. Over time my go-to software switched from
+          Illustrator, to InDesign, Procreate, Affinity, Sketch, Figma. I loved them all, but my fav
+          is Figma.
         </p>
       </div>
     </Card>
