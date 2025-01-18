@@ -29,7 +29,7 @@ const archivo = Archivo({
 export const metadata: Metadata = {
   title: "Marijana Pavlinić's Personal Website",
   metadataBase:
-    process.env.NODE_ENV === 'production' ? new URL('https://marijanasimag.com') : undefined,
+    process.env.NODE_ENV === 'production' ? new URL('https://marijanapav.com') : undefined,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
