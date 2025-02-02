@@ -74,6 +74,7 @@ import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import Stamps08 from '~/public/work/stamps/stamps_08.png';
 import Stamps10 from '~/public/work/stamps/stamps_10.png';
 import Stars from '~/public/work/stamps/stars.gif';
+import SupabaseHomepagePreview from '~/public/work/supabase-homepage/preview.png';
 import SupabaseHomepage01 from '~/public/work/supabase-homepage/supabase01.png';
 import SupabaseHomepage02 from '~/public/work/supabase-homepage/supabase02.png';
 import SupabaseHomepage03 from '~/public/work/supabase-homepage/supabase03.png';
@@ -192,14 +193,14 @@ export const projects: Project[] = [
     type: 'project',
     title: 'Supabase Bento Grid',
     slug: 'supabase-hero',
-    preview: SupabaseHomepage01,
+    preview: SupabaseHomepagePreview,
     images: [SupabaseHomepage01, SupabaseHomepage02, SupabaseHomepage03],
     filters: ['digital', 'illustration'],
     description:
       'Design for Supabase hero section that showcases all of Supabase products in a bento grid.',
     link: 'https://supabase.com',
     tags: ['Figma', '© 2023'],
-    aspect: 1.3,
+    aspect: 0.45,
   },
   {
     type: 'project',

@@ -176,7 +176,7 @@ export default function ProjectsGrid({ projects }: Props) {
                           <Image
                             alt={project.title}
                             src={project.preview}
-                            quality={70}
+                            quality={100}
                             fill
                             className="object-cover object-top group-hover/hidden:opacity-50 group-focus-visible/hidden:opacity-50"
                             sizes="(max-width: 900px): 50vw, (max-width: 1200px) 33vw, 420px"
