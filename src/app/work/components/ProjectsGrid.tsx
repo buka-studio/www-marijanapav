@@ -140,7 +140,7 @@ export default function ProjectsGrid({ projects }: Props) {
                       </div>
                     </div>
                     {project.description && (
-                      <DialogDescription className="mt-4 overflow-auto border-t border-t-main-theme-4 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
+                      <DialogDescription className="mt-4 overflow-auto border-t border-t-main-theme-2 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
                         {project.description}
                       </DialogDescription>
                     )}
