@@ -1,7 +1,7 @@
 import Card from './Card';
 
 const tools = [
-  'Affinity Designer',
+  'Affinity Photo',
   'Figma',
   'Procreate',
   'Illustrator',
@@ -30,9 +30,8 @@ export default function ToolsCard() {
         </div>
         <p className="mt-auto leading-7 text-text-secondary">
           I started my design journey in print, but after completing my Master&apos;s in Visual
-          Communication I mostly focused on digital. Over time my go-to software switched from
-          Illustrator, to InDesign, Procreate, Affinity, Sketch, Figma. I loved them all, but my fav
-          is Figma.
+          Communication I mostly focused on digital. Over time my go-to software switched a lot but
+          currently my favorite is Figma.
         </p>
       </div>
     </Card>
