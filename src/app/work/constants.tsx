@@ -4,6 +4,8 @@ import { ReactNode } from 'react';
 import BukaBranding01 from '~/public/work/buka-branding/bukabrand.png';
 import BukaBrandingPreview from '~/public/work/buka-branding/preview.png';
 import BukaWeb from '~/public/work/buka-studio-web/buka-web.png';
+import DatabaseBuildPreview from '~/public/work/database-build/database-build-preview.png';
+import DatabaseBuild from '~/public/work/database-build/database-build.png';
 import EchoTabLanding01 from '~/public/work/echo-tab-landing-page/echo-tab-landing page_01.png';
 import EchoTabLanding02 from '~/public/work/echo-tab-landing-page/echo-tab-landing page_02.png';
 import EchoTabLandingPreview from '~/public/work/echo-tab-landing-page/preview.png';
@@ -247,6 +249,19 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
+    title: 'Postgres sandbox favicon',
+    slug: 'database-build',
+    preview: DatabaseBuildPreview,
+    filters: ['digital'],
+    aspect: 1.2,
+    description:
+      'Icon design for the in-browser Postgres sandbox tool, previously called postgres.new — the icon is a playful take on the recognizable Postgres elephant icon.',
+    tags: ['Figma', '© 2023'],
+    images: [DatabaseBuild],
+    link: 'https://www.producthunt.com/products/supabase#postgres-new',
+  },
+  {
+    type: 'project',
     title: 'Supabase Launch Week 7 Branding',
     slug: 'supabase-lw7',
     images: [SupabaseLW71, SupabaseLW72, SupabaseLW73, SupabaseLW74, SupabaseLW75, SupabaseLW76],
@@ -257,6 +272,7 @@ export const projects: Project[] = [
     aspect: 1,
     tags: ['Figma', 'Midjourney', '© 2023'],
   },
+
   {
     type: 'project',
     title: 'Supabase Icons',
