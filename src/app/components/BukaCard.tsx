@@ -11,7 +11,7 @@ export default function BukaCard() {
           <span className="text-text-secondary">Latest side-project</span>
         </div>
         <div className="flex items-center gap-4">
-          <BukaIcon />
+          <BukaIcon className="[&_.ping]:animate-ping-slow [&_*]:origin-center [&_*]:[transform-box:fill-box]" />
           <Heading className="text-3xl md:text-4xl">
             <a
               className="group flex items-center gap-3 rounded-lg"

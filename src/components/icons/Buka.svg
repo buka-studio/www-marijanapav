@@ -9,8 +9,9 @@
       fill="var(--main-theme-4, currentColor)"
       stroke="var(--main-theme-2, currentColor)"
     />
-    <circle cx="36" cy="36.7778" r="13.7256" fill="var(--main-theme-1, currentColor)" />
-    <circle cx="35.9999" cy="36.7777" r="18.9159" stroke="var(--main-theme-2, currentColor)" />
+    <circle class="ping"  cx="36" cy="36.7778" r="13.7256" fill="var(--main-theme-1, currentColor)" />
+    <circle  cx="36" cy="36.7778" r="13.7256" fill="var(--main-theme-1, currentColor)" />
+   
   </g>
   <defs>
     <clipPath id="clip0_1555_12494">
