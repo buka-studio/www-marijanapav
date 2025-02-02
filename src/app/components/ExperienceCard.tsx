@@ -62,7 +62,7 @@ export default function ExperienceCard() {
                   {p.title} {p.company && 'at'}{' '}
                 </span>
                 {p.company ? (
-                  <Tag asChild>
+                  <Tag asChild className="bg-transparent p-0">
                     {p.company.href ? (
                       <a className="text-md" href={p.company.href} rel="noreferrer" target="_blank">
                         {p.company.name}

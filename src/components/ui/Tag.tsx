@@ -10,7 +10,15 @@ type Props = {
 function Tag({ asChild, className, ...rest }: Props & ComponentProps<'div'>) {
   const Component = asChild ? Slot : ('div' as any);
 
-  return <Component {...rest} className={cn('ui-tag text-text-primary', className)} />;
+  return (
+    <Component
+      {...rest}
+      className={cn(
+        'ui-tag flex items-center justify-center whitespace-nowrap rounded-lg bg-main-theme-3 px-2 py-1 text-text-primary',
+        className,
+      )}
+    />
+  );
 }
 
 export default Tag;
