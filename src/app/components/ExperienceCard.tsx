@@ -10,7 +10,6 @@ type Position = {
   to?: string;
 };
 const positions: Position[] = [
-
   {
     title: 'Designer',
     company: { name: 'LiveKit', href: 'https://livekit.io' },
@@ -65,7 +64,7 @@ export default function ExperienceCard() {
                 {p.company ? (
                   <Tag asChild>
                     {p.company.href ? (
-                      <a className="text-xs" href={p.company.href} rel="noreferrer" target="_blank">
+                      <a className="text-md" href={p.company.href} rel="noreferrer" target="_blank">
                         {p.company.name}
                       </a>
                     ) : (
