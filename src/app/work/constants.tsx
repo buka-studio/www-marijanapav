@@ -6,6 +6,11 @@ import BukaBrandingPreview from '~/public/work/buka-branding/preview.png';
 import BukaWeb from '~/public/work/buka-studio-web/buka-web.png';
 import DatabaseBuildPreview from '~/public/work/database-build/database-build-preview.png';
 import DatabaseBuild from '~/public/work/database-build/database-build.png';
+import DorsclucMerchPreview from '~/public/work/dorscluc-merch/dorscluc_merch_preview.png';
+import DorsclucMerch01 from '~/public/work/dorscluc-merch/dorscluc_merch1.png';
+import DorsclucPreview from '~/public/work/dorscluc/dorscluc_preview.png';
+import DorsclucPreview1 from '~/public/work/dorscluc/dorscluc1.png';
+import DorsclucPreview2 from '~/public/work/dorscluc/dorscluc2.png';
 import EchoTabLanding01 from '~/public/work/echo-tab-landing-page/echo-tab-landing page_01.png';
 import EchoTabLanding02 from '~/public/work/echo-tab-landing-page/echo-tab-landing page_02.png';
 import EchoTabLandingPreview from '~/public/work/echo-tab-landing-page/preview.png';
@@ -148,21 +153,32 @@ export const projects: Project[] = [
     description:
       'Landing page design for a clean and simple browser extension, that helps you manage thousands of saved tabs, with multi-select, smart AI tagging and Cmd+K command menu for an efficient workflow.',
     link: 'https://echotab.buka.studio/',
-    tags: ['Figma', '© 2024'],
+    tags: ['Figma', '© 2024', 'In Progress'],
     aspect: 1.1,
   },
   {
     type: 'project',
-    title: 'EchoTab Chrome Extension',
-    slug: 'echo-tab',
-    preview: EchoTab,
-    images: [EchoTab],
-    filters: ['digital'],
+    title: 'Branding for Croatian Open Source Conference',
+    slug: 'dorscluc',
+    preview: DorsclucPreview,
+    images: [DorsclucPreview1, DorsclucPreview2],
+    filters: ['digital', 'branding', 'In Progress'],
     description:
-      'A clean and simple browser extension, that helps you manage thousands of saved tabs, with multi-select, smart AI tagging and CmdK command menu for an efficient workflow.',
-    link: 'https://echotab.buka.studio/',
-    tags: ['Figma', '© 2024'],
-    aspect: 1.5,
+      'After three decades, DORS/CLUC (Dani otvorenih računalnih sustava / Croatian Linux Users’ Conference) still reigns as Europe’s open-source hub. As the oldest, largest event on free software, open standards, and Linux, it hosts top FOSS names in Croatia and the wider region. For its 30th edition, I designed a dark-mode, CLI inspired brand that is deeply connected with the audience. Come see the new look on the stage in May where 500+ attendees connect and shape the future of tech. ',
+    tags: ['Figma', '© 2025'],
+    aspect: 0.9,
+  },
+  {
+    type: 'project',
+    title: 'Merch for Croatian Open Source Conference',
+    slug: 'dorscluc',
+    preview: DorsclucMerchPreview,
+    images: [DorsclucMerch01],
+    filters: ['merch', 'branding', 'In Progress'],
+    description:
+      'After three decades, DORS/CLUC (Dani otvorenih računalnih sustava / Croatian Linux Users’ Conference) still reigns as Europe’s open-source hub. As the oldest, largest event on free software, open standards, and Linux, it hosts top FOSS names in Croatia and the wider region. For its 30th edition, I designed a dark-mode, CLI inspired merch that is deeply connected with the audience. Come grab the merch in May where 500+ attendees connect and shape the future of tech. ',
+    tags: ['Figma', '© 2025'],
+    aspect: 1,
   },
   {
     type: 'project',
@@ -176,6 +192,19 @@ export const projects: Project[] = [
     link: 'https://rpavlini.com',
     tags: ['Figma', '© 2024'],
     aspect: 1.3,
+  },
+  {
+    type: 'project',
+    title: 'EchoTab Chrome Extension',
+    slug: 'echo-tab',
+    preview: EchoTab,
+    images: [EchoTab],
+    filters: ['digital'],
+    description:
+      'A clean and simple browser extension, that helps you manage thousands of saved tabs, with multi-select, smart AI tagging and CmdK command menu for an efficient workflow.',
+    link: 'https://echotab.buka.studio/',
+    tags: ['Figma', '© 2024'],
+    aspect: 1.5,
   },
   {
     type: 'project',
