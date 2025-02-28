@@ -162,10 +162,10 @@ export const projects: Project[] = [
     slug: 'dorscluc',
     preview: DorsclucPreview,
     images: [DorsclucPreview1, DorsclucPreview2],
-    filters: ['digital', 'branding', 'In Progress'],
+    filters: ['digital', 'branding'],
     description:
       'After three decades, DORS/CLUC (Dani otvorenih računalnih sustava / Croatian Linux Users’ Conference) still reigns as Europe’s open-source hub. As the oldest, largest event on free software, open standards, and Linux, it hosts top FOSS names in Croatia and the wider region. For its 30th edition, I designed a dark-mode, CLI inspired brand that is deeply connected with the audience. Come see the new look on the stage in May where 500+ attendees connect and shape the future of tech. ',
-    tags: ['Figma', '© 2025'],
+    tags: ['Figma', '© 2025', 'In Progress'],
     aspect: 0.9,
   },
   {
@@ -174,10 +174,10 @@ export const projects: Project[] = [
     slug: 'dorscluc',
     preview: DorsclucMerchPreview,
     images: [DorsclucMerch01],
-    filters: ['merch', 'branding', 'In Progress'],
+    filters: ['merch', 'branding'],
     description:
       'After three decades, DORS/CLUC (Dani otvorenih računalnih sustava / Croatian Linux Users’ Conference) still reigns as Europe’s open-source hub. As the oldest, largest event on free software, open standards, and Linux, it hosts top FOSS names in Croatia and the wider region. For its 30th edition, I designed a dark-mode, CLI inspired merch that is deeply connected with the audience. Come grab the merch in May where 500+ attendees connect and shape the future of tech. ',
-    tags: ['Figma', '© 2025'],
+    tags: ['Figma', '© 2025', 'In Progress'],
     aspect: 1,
   },
   {
