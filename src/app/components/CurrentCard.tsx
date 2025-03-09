@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 import FolderClosedIcon from '~/src/components/icons/folder-closed.svg';
@@ -20,11 +20,12 @@ export default function CurrentCard() {
   const folderItems = [
     {
       path: 'buka-studio/www-marijanapav',
-      description: 'Personal portfolio website built with Next.js',
+      description:
+        'Like any designer’s portfolio, this site is a perpetual WIP. I’m often pushing small nitpick commits.',
     },
-    { path: 'buka-studio/www-marijanapav', description: 'Another project description here' },
-    { path: 'buka-studio/www-marijanapav', description: 'Yet another project description' },
-    { path: 'buka-studio/www-marijanapav', description: 'Final project description' },
+    { path: 'livekit/livekit-site', description: 'Another project description here' },
+    { path: 'marijanapav/playground', description: 'Yet another project description' },
+    { path: 'marijanapav/stamps', description: 'Final project description' },
   ];
 
   return (
@@ -41,11 +42,12 @@ export default function CurrentCard() {
                 <motion.div
                   initial={{ scale: 1 }}
                   animate={{
-                    scale: expandedItem === index ? [1, 1.2, 0.95, 1.05, 1] : 1,
+                    scale: expandedItem === index ? [1, 1.1, 1] : 1,
                   }}
                   transition={{
-                    duration: 0.4,
-                    times: [0, 0.2, 0.4, 0.6, 1],
+                    duration: 0.2,
+                    times: [0, 0.5, 1],
+                    ease: 'easeOut',
                   }}
                 >
                   {expandedItem === index ? (
@@ -55,24 +57,29 @@ export default function CurrentCard() {
                   )}
                 </motion.div>
                 <p
-                  className={`text-text-secondary transition-colors duration-200 ${
+                  className={`font-medium text-text-secondary transition-colors duration-200 ${
                     expandedItem === index ? 'text-main-theme-1' : ''
                   }`}
                 >
                   {item.path}
                 </p>
               </div>
-              {expandedItem === index && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-text-secondary/60 ml-7 text-sm"
-                >
-                  {item.description}
-                </motion.div>
-              )}
+              <AnimatePresence>
+                {expandedItem === index && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{
+                      duration: 0.15,
+                      ease: 'easeOut',
+                    }}
+                    className="text-text-secondary/60 ml-7 text-sm"
+                  >
+                    {item.description}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>
