@@ -21,7 +21,7 @@ export default function CurrentCard() {
     {
       path: 'buka-studio/www-marijanapav',
       description:
-        'Like any designer’s portfolio, this site is a perpetual WIP. I’m often pushing small nitpick commits.',
+        "Like any designer's portfolio, this site is a perpetual WIP. I'm often pushing small nitpick commits.",
     },
     { path: 'livekit/livekit-site', description: 'Another project description here' },
     { path: 'marijanapav/playground', description: 'Yet another project description' },
@@ -30,12 +30,12 @@ export default function CurrentCard() {
 
   return (
     <Card className="">
-      <div className="h-70 flex flex-col justify-between">
-        <Heading as="h2" className="mb-10 flex items-center gap-2 font-sans text-text-secondary">
+      <div className="flex h-[280px]  flex-col justify-between">
+        <Heading as="h2" className="mb-14 flex items-center gap-2 font-sans text-text-secondary">
           Currently exploring frontend
         </Heading>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col  gap-2">
           {folderItems.map((item, index) => (
             <div key={index} className="flex flex-col gap-1">
               <div className="flex cursor-pointer gap-2" onClick={() => toggleItem(index)}>
