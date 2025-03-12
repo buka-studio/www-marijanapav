@@ -28,7 +28,6 @@ function ToolbarButton({
             className,
           )}
           {...props}
-          //   layout="position"
           aria-label={tooltipLabel}
         >
           {children}
@@ -188,8 +187,6 @@ export default function DrawingPad({
       clone.setAttribute('height', height.toString());
       clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
-      // const withSetColor = clone.outerHTML.replaceAll('currentColor', color);
-
       return clone.outerHTML;
     },
   }));
@@ -275,7 +272,7 @@ export default function DrawingPad({
           <Toolbar>
             <AnimatePresence mode="wait" initial={false}>
               {svgTooBig ? (
-                <SizeWarning key="size">Oops, you've ran out of ink!</SizeWarning>
+                <SizeWarning key="size">Oops, you&apos;ve ran out of ink!</SizeWarning>
               ) : (
                 <InkLevel key="ink" percentageUsed={totalSize / maxSizeKB} />
               )}
