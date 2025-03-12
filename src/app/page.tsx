@@ -13,6 +13,7 @@ import {
   LocationCard,
   PantoneCard,
   PhotosCard,
+  SketchbookCard,
   SneakPeekCard,
   StampsCard,
   ToolsCard,
@@ -32,7 +33,7 @@ const projectLinks: Array<{ label: string; href: FilterHref }> = [
   { label: 'Illustration', href: '/work?f=illustration' },
 ];
 
-const cards = [
+const getCards = ({ sketchbookCard }: { sketchbookCard: boolean }) => [
   { gridArea: '👋', Component: BioCard },
   { gridArea: '👔', Component: ExperienceCard },
   { gridArea: '📌', Component: LocationCard },
@@ -42,7 +43,7 @@ const cards = [
   { gridArea: '🖼️', Component: PhotosCard },
   { gridArea: '💯', Component: BukaCard },
   { gridArea: '🧪', Component: CurrentCard },
-  { gridArea: '👩‍💻', Component: ToolsCard },
+  { gridArea: '👩‍💻', Component: sketchbookCard ? SketchbookCard : ToolsCard },
   { gridArea: '💌', Component: StampsCard },
 ];
 
@@ -92,7 +93,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="home-cards">
-            {cards.map(({ gridArea, Component }, i) => (
+            {getCards({ sketchbookCard: true }).map(({ gridArea, Component }, i) => (
               <div key={i} style={{ gridArea }}>
                 <Component currentCount={currentCount} />
               </div>
