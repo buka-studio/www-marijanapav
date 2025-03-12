@@ -6,3 +6,16 @@
   );
   transition: opacity 0.5s;
 }
+
+.ui-card:target {
+  animation: target-highlight 2s ease-out;
+}
+
+@keyframes target-highlight {
+  0% {
+    background: var(--main-theme-1);
+  }
+  100% {
+    background: transparent;
+  }
+}

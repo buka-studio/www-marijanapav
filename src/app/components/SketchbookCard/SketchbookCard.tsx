@@ -97,7 +97,7 @@ export default function SketchbookCard() {
   };
 
   return (
-    <Card>
+    <Card id="sketchbook">
       <TooltipProvider>
         <div className="flex h-full w-full flex-col gap-3 overflow-hidden">
           <div className="relative h-full min-h-[300px] w-full overflow-hidden" ref={containerRef}>

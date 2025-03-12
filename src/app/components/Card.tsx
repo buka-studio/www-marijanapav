@@ -12,10 +12,11 @@ type Props = {
   className?: string;
   containerClassName?: string;
   as?: 'div' | 'article';
+  id?: string;
 };
 
 const Card = forwardRef<HTMLDivElement, Props>(function Card(
-  { children, className, containerClassName, as = 'article' },
+  { children, className, id, containerClassName, as = 'article' },
   ref,
 ) {
   const Component = as;
@@ -29,6 +30,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
         'ui-card relative rounded-[10px] bg-panel-border p-[1px] shadow-card',
         containerClassName,
       )}
+      id={id}
     >
       <div
         className={cn(

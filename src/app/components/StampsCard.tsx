@@ -21,7 +21,7 @@ const Stamps = () => (
 
 export default function StampsCard() {
   return (
-    <Card className="">
+    <Card id="stamps">
       <div className="flex flex-col">
         <div className="relative mb-5 min-h-[240px] w-full overflow-hidden rounded-md xl:min-h-[480px]">
           <div className="stamps absolute translate-x-[9%] translate-y-[36px] scale-[120%] [&_>*:not(:first-child)]:mt-[-1px]">
