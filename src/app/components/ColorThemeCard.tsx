@@ -1,10 +1,13 @@
 'use client';
 
+import {
+  ArrowCounterClockwise as ArrowCounterClockwiseIcon,
+  ArrowUp as ArrowUpIcon,
+} from '@phosphor-icons/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ComponentProps } from 'react';
 
 import GridBackground from '~/src/components/GridBackground';
-import { ArrowRightIcon, ResetIcon } from '~/src/components/icons';
 import { cn } from '~/src/util';
 
 import Card from './Card';
@@ -85,9 +88,9 @@ export default function ColorThemeCard() {
                 disabled={!colorTheme}
               >
                 {colorTheme ? (
-                  <ResetIcon className="text-text-secondary transition-all duration-200 group-hover:text-main-theme-1" />
+                  <ArrowCounterClockwiseIcon className="h-5 w-5 text-text-secondary transition-all duration-200 group-hover:text-main-theme-1" />
                 ) : (
-                  <ArrowRightIcon className="h-5 w-5 -rotate-90 text-text-secondary" />
+                  <ArrowUpIcon className="h-5 w-5 text-text-secondary" />
                 )}
               </button>
             </motion.div>

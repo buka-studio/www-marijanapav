@@ -115,7 +115,7 @@ export default function SketchbookCard() {
                           Coming soon
                         </TooltipTrigger>
                       </Button>
-                      <TooltipContent className="text-balanced">
+                      <TooltipContent className="w-[200px] text-center">
                         In the meantime, you can draw something here!
                       </TooltipContent>
                     </Tooltip>

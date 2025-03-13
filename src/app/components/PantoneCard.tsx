@@ -6,6 +6,12 @@ import { ComponentProps, useEffect, useState } from 'react';
 
 import { Theme } from '~/src/app/constants';
 import ClientRendered from '~/src/components/ClientRendered';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '~/src/components/ui/Tooltip';
 
 import { InfoIcon } from '../../components/icons';
 import Card from './Card';
@@ -65,28 +71,28 @@ export default function PantoneCard() {
 
   return (
     <Card containerClassName="z-[3] pantone-card">
-      <div className="flex h-[268px] w-full flex-col gap-3">
-        <div className="duration-250 flex-1 rounded-md bg-main-theme-2 transition-all"></div>
-        <div className="flex justify-between">
-          <div className="flex-1 overflow-hidden">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.p className="text-text-secondary" key={name} {...slideLeftProps}>
-                PANTONE <ClientRendered>{name}</ClientRendered>
-              </motion.p>
-            </AnimatePresence>
-          </div>
-          <button
-            aria-describedby="pantone-tooltip"
-            aria-label="Open Pantone tooltip"
-            className="rounded-full"
-          >
-            <InfoIcon className="text-text-secondary" />
-            <div role="tooltip" id="pantone-tooltip">
-              Sorry, these Pantone color names are entirely fictional.
+      <TooltipProvider>
+        <div className="flex h-[268px] w-full flex-col gap-3">
+          <div className="duration-250 flex-1 rounded-md bg-main-theme-2 transition-all"></div>
+          <div className="flex justify-between">
+            <div className="flex-1 overflow-hidden">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.p className="text-text-secondary" key={name} {...slideLeftProps}>
+                  PANTONE <ClientRendered>{name}</ClientRendered>
+                </motion.p>
+              </AnimatePresence>
             </div>
-          </button>
+            <Tooltip>
+              <TooltipTrigger>
+                <InfoIcon className="text-text-secondary" />
+              </TooltipTrigger>
+              <TooltipContent className="w-[200px] text-center">
+                Sorry, these Pantone color names are entirely fictional.
+              </TooltipContent>
+            </Tooltip>
+          </div>
         </div>
-      </div>
+      </TooltipProvider>
     </Card>
   );
 }

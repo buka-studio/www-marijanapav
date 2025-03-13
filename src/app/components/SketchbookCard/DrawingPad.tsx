@@ -1,11 +1,13 @@
 'use client';
 
-import { X as XIcon } from '@phosphor-icons/react';
+import {
+  ArrowCounterClockwise as ArrowCounterClockwiseIcon,
+  X as XIcon,
+} from '@phosphor-icons/react';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { getStroke } from 'perfect-freehand';
 import { ComponentProps, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
-import { ResetIcon } from '~/src/components/icons';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/src/components/ui/Tooltip';
 import { cn } from '~/src/util';
 
@@ -284,7 +286,7 @@ export default function DrawingPad({
               onClick={handleUndo}
               tooltipLabel="Undo"
             >
-              <ResetIcon className="h-6 w-6" />
+              <ArrowCounterClockwiseIcon className="h-6 w-6" />
             </ToolbarButton>
             {onCancel && (
               <ToolbarButton key="cancel" onClick={onCancel} tooltipLabel="Cancel">
