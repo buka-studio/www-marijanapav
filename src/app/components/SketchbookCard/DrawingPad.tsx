@@ -1,5 +1,3 @@
-'use client';
-
 import {
   ArrowCounterClockwise as ArrowCounterClockwiseIcon,
   X as XIcon,
@@ -237,7 +235,7 @@ export default function DrawingPad({
 
   useEffect(() => {
     onDraw(points.length > 0 || paths.length > 0);
-  }, [paths, points]);
+  }, [paths, points, onDraw]);
 
   const pathData = getPathFromPoints(points);
 

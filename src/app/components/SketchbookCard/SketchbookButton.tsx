@@ -1,5 +1,3 @@
-'use client';
-
 import {
   CheckCircle as CheckCircleIcon,
   PaperPlaneTilt as PaperPlaneTiltIcon,
@@ -10,7 +8,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import { ReactNode, useState } from 'react';
 
-import { SketchbookStates } from './models';
+import { SketchbookState } from './models';
 
 const initialVariants = {
   collapsed: {
@@ -82,7 +80,7 @@ export default function SketchbookButton({
   hasDrawn,
   onClick,
 }: {
-  state: SketchbookStates;
+  state: SketchbookState;
   hasDrawn: boolean;
   onClick: () => void;
 }) {

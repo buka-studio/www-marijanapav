@@ -117,7 +117,7 @@ export default function Sketchbooks({
         safeToRemove();
       }, 300);
     }
-  }, [isPresent]);
+  }, [isPresent, safeToRemove]);
 
   return (
     <div

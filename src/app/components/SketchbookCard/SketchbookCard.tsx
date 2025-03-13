@@ -14,7 +14,7 @@ import {
 
 import Card from '../Card';
 import DrawingPad, { DrawingPadRef } from './DrawingPad';
-import { SketchbookStates } from './models';
+import { SketchbookState } from './models';
 import Screenshot, { ScreenshotRef } from './Screenshot';
 import SketchbookButton from './SketchbookButton';
 import Sketchbooks from './Sketchbooks';
@@ -22,7 +22,7 @@ import Sketchbooks from './Sketchbooks';
 type Formats = 'svg' | 'png';
 
 export default function SketchbookCard() {
-  const [state, setState] = useState<SketchbookStates>('initial');
+  const [state, setState] = useState<SketchbookState>('initial');
   const [hasDrawn, setHasDrawn] = useState(false);
   const drawingPadRef = useRef<DrawingPadRef | null>(null);
   const screenshotRef = useRef<ScreenshotRef | null>(null);
@@ -106,9 +106,6 @@ export default function SketchbookCard() {
               {state === 'initial' ? (
                 <Sketchbooks count={10} className="group" key="sketchbooks">
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 focus-within:opacity-100 group-hover:opacity-100">
-                    {/* <Button iconRight={<LinkIcon className="h-5 w-5" />} buttonClassName="gap-2">
-                    See More
-                  </Button> */}
                     <Tooltip>
                       <Button buttonClassName="gap-2" asChild>
                         <TooltipTrigger onClick={() => setState('drawing')}>
@@ -125,7 +122,7 @@ export default function SketchbookCard() {
                 <DrawingPad
                   key="drawing-pad"
                   drawingPadRef={drawingPadRef}
-                  onDraw={(filled) => setHasDrawn(filled)}
+                  onDraw={setHasDrawn}
                   onClear={() => setHasDrawn(false)}
                   onCancel={() => {
                     setState('initial');

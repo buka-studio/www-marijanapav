@@ -1,1 +1,1 @@
-export type SketchbookStates = 'initial' | 'drawing' | 'sending' | 'sent' | 'error';
+export type SketchbookState = 'initial' | 'drawing' | 'sending' | 'sent' | 'error';
