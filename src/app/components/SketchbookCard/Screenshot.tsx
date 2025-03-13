@@ -45,7 +45,7 @@ export default function Screenshot({ screenshotRef, className }: ScreenshotProps
         },
         { duration: 0 },
       ],
-      ['canvas', { filter: 'blur(10px)' }, { duration: 0 }],
+      ['canvas', { filter: 'blur(20px)' }, { duration: 0 }],
     ]);
   };
 
@@ -57,23 +57,24 @@ export default function Screenshot({ screenshotRef, className }: ScreenshotProps
 
     await animate([
       [scope.current, { opacity: 1 }, { duration: 0 }],
-      ['canvas', { filter: 'blur(0px)' }, { duration: 0.2 }],
+      ['canvas', { filter: 'blur(3px)' }, { duration: 0.4 }],
       [
         scope.current,
         { bottom: 20, right: 20, width: newWidth, height: newHeight },
         {
-          duration: 0.2,
-          at: '-0.1',
+          duration: 0.3,
+          at: '-0.2',
         },
       ],
+      ['canvas', { filter: 'blur(0px)' }, { duration: 0.1, at: '-0.1' }],
     ]);
   };
 
   const shakeAnimation = async (repeat: number) => {
     for (let i = 0; i < repeat; i++) {
       await animate([
-        [scope.current, { x: -10 }, { duration: 0.05 }],
-        [scope.current, { x: 10 }, { duration: 0.05 }],
+        [scope.current, { x: -10 }, { duration: 0.075 }],
+        [scope.current, { x: 10 }, { duration: 0.075 }],
       ]);
     }
   };
@@ -92,7 +93,7 @@ export default function Screenshot({ screenshotRef, className }: ScreenshotProps
       [
         scope.current,
         { opacity: 0, y: 50, scale: 0.75, filter: 'blur(5px)' },
-        { type: 'spring', duration: 0.5 },
+        { type: 'spring', duration: 0.75 },
       ],
     ]);
   };
