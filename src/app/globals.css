@@ -9,6 +9,8 @@
 
 :root {
   background: var(--main-background);
+  scroll-padding-top: 80px;
+  scroll-behavior: smooth;
 }
 
 * {

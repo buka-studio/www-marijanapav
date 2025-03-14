@@ -13,9 +13,6 @@ export default function MousePositionVarsSetter() {
         bcr: el.getBoundingClientRect(),
       }));
 
-      document.body.style.setProperty('--mouse-x', `${clientX}px`);
-      document.body.style.setProperty('--mouse-y', `${clientY}px`);
-
       for (const { el, bcr } of targetBCRs) {
         const x = clientX - bcr.left;
         const y = clientY - bcr.top;

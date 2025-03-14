@@ -22,7 +22,6 @@ import LogoIcon from './Logo.svg';
 import PinIcon from './Pin.svg';
 import PublishedIcon from './Published.svg';
 import ReadCVIcon from './readcv.svg';
-import ResetIcon from './Reset.svg';
 import SystemIcon from './System.svg';
 import TopIcon from './Top.svg';
 import TwitterIcon from './Twitter.svg';
@@ -30,11 +29,11 @@ import TwitterIcon from './Twitter.svg';
 export {
   ActiveIcon,
   ArrowRightIcon,
+  BlueskyIcon,
   BukaIcon,
   ChevronIcon,
   ContentCopyIcon,
   DarkIcon,
-  ReadCVIcon,
   ExitIcon,
   EyeIcon,
   EyeOffIcon,
@@ -46,14 +45,13 @@ export {
   LeftIcon,
   LettersIcon,
   LightIcon,
-  LinkIcon,
   LinkedinIcon,
+  LinkIcon,
   LogoIcon,
   PinIcon,
   PublishedIcon,
-  ResetIcon,
+  ReadCVIcon,
   SystemIcon,
   TopIcon,
   TwitterIcon,
-  BlueskyIcon,
 };
