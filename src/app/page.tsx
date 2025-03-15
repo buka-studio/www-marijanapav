@@ -7,10 +7,11 @@ import ViewCounter from '~/src/components/ViewCounter';
 import {
   BioCard,
   BukaCard,
+  CodeCard,
   ColorThemeCard,
-  CurrentCard,
   ExperienceCard,
   LocationCard,
+  NotesCard,
   PantoneCard,
   PhotosCard,
   SketchbookCard,
@@ -42,9 +43,10 @@ const getCards = ({ sketchbookCard }: { sketchbookCard: boolean }) => [
   { gridArea: '👀', Component: SneakPeekCard },
   { gridArea: '🖼️', Component: PhotosCard },
   { gridArea: '💯', Component: BukaCard },
-  { gridArea: '🧪', Component: CurrentCard },
+  { gridArea: '🧪', Component: CodeCard },
   { gridArea: '👩‍💻', Component: sketchbookCard ? SketchbookCard : ToolsCard },
   { gridArea: '💌', Component: StampsCard },
+  { gridArea: '📝', Component: NotesCard },
 ];
 
 const fetchSneakPeekCount = () =>
