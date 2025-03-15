@@ -5,16 +5,19 @@ import { cn } from '~/src/util';
 
 type Props = {
   asChild?: boolean;
+  variant?: 'filled' | 'dashed';
 };
 
-function Tag({ asChild, className, ...rest }: Props & ComponentProps<'div'>) {
+function Tag({ asChild, className, variant = 'filled', ...rest }: Props & ComponentProps<'div'>) {
   const Component = asChild ? Slot : ('div' as any);
 
   return (
     <Component
       {...rest}
       className={cn(
-        'ui-tag flex items-center justify-center whitespace-nowrap rounded-lg bg-main-theme-3 px-2 py-1 text-text-primary',
+        'ui-tag flex items-center justify-center whitespace-nowrap rounded-lg px-2 py-1 text-text-primary',
+        variant === 'filled' && 'bg-main-theme-3',
+        variant === 'dashed' && 'border border-dashed border-main-theme-3',
         className,
       )}
     />

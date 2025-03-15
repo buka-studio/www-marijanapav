@@ -8,10 +8,15 @@ export default function BukaCard() {
     <Card className="h-full">
       <div className="flex h-full flex-col justify-between gap-7">
         <div className="flex justify-between">
-          <span className="text-text-secondary">Latest side-project</span>
+          <Heading
+            as="h1"
+            className="border-main-theme-overlay font-sans text-base font-semibold text-text-secondary"
+          >
+            Latest side-project
+          </Heading>
         </div>
         <div className="flex items-center gap-4">
-          <BukaIcon className="[&_.ping]:animate-ping-slow [&_*]:origin-center [&_*]:[transform-box:fill-box]" />
+          <BukaIcon className="[&_*]:origin-center [&_*]:[transform-box:fill-box] [&_.ping]:animate-ping-slow" />
           <Heading className="text-3xl md:text-4xl">
             <a
               className="group flex items-center gap-3 rounded-lg"

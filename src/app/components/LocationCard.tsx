@@ -13,9 +13,12 @@ export default function LocationCard() {
   const croatiaTime = dayjs.tz(dayjs(), 'Europe/Zagreb').format('HH:mm');
 
   return (
-    <Card className="h-full">
+    <Card className="h-[200px]">
       <div className="flex h-full flex-col gap-4">
-        <Heading as="h1" className="text-primary text-3xl md:text-4xl">
+        <Heading
+          as="h2"
+          className=" flex items-center gap-2 font-sans font-semibold text-text-secondary"
+        >
           Working remotely, <br className="hidden md:block" />
           from Croatia
         </Heading>

@@ -1,3 +1,5 @@
+import { ArrowUpRight } from 'lucide-react';
+
 import Heading from '~/src/components/ui/Heading';
 import Tag from '~/src/components/ui/Tag';
 
@@ -44,10 +46,10 @@ const positions: Position[] = [
 export default function ExperienceCard() {
   return (
     <Card>
-      <div className="px-2">
+      <div className="flex h-[500px] flex-col justify-between px-2">
         <Heading
           as="h1"
-          className="mb-28 border-main-theme-overlay pb-6 font-sans text-base text-text-secondary"
+          className="mb-28 border-main-theme-overlay pb-6 font-sans text-base font-semibold text-text-secondary"
         >
           Work
         </Heading>
@@ -64,8 +66,14 @@ export default function ExperienceCard() {
                 {p.company ? (
                   <Tag asChild className="bg-transparent p-0">
                     {p.company.href ? (
-                      <a className="text-md" href={p.company.href} rel="noreferrer" target="_blank">
+                      <a
+                        className="text-md group inline-flex items-center text-text-secondary hover:text-text-primary"
+                        href={p.company.href}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
                         {p.company.name}
+                        <ArrowUpRight className="ml-0.5 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                       </a>
                     ) : (
                       <span className="text-xs">{p.company.name}</span>
@@ -73,7 +81,7 @@ export default function ExperienceCard() {
                   </Tag>
                 ) : null}
               </span>
-              <span className="text-text-secondary">
+              <span className="text-text-alt">
                 <span className="hidden xs:block">
                   {p.from}—{p.to ? p.to : 'ongoing'}
                 </span>

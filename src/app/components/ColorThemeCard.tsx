@@ -35,8 +35,8 @@ export default function ColorThemeCard() {
         <div className="relative h-full">
           <GridBackground className="absolute left-0 top-0 h-full w-full" />
           <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
-            <div className="rounded-full p-[1px] [background:var(--panel-border)]">
-              <div className="relative flex gap-5 rounded-full bg-panel-background px-3 py-2 shadow-card">
+            <div className="rounded-full p-[1px] [background:var(--main-theme-3)]">
+              <div className="relative flex gap-3 rounded-full bg-panel-background px-2 py-2 ">
                 {colorThemes.map((t, i) => {
                   const isActive = t === colorTheme;
                   return (
