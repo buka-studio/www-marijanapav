@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronDown, FolderClosed, FolderLock, FolderOpen } from 'lucide-react';
-import Link from 'next/link';
 import { useState } from 'react';
 
 import Heading from '~/src/components/ui/Heading';
@@ -86,60 +85,61 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
 
   return (
     <li className="select-none">
-      <button
-        onClick={toggleExpand}
-        className={cn(
-          'hover:bg-panel-overlay group flex w-full items-center rounded-md px-2 py-1 text-left text-text-secondary transition-colors hover:text-text-primary',
-          { 'text-text-alt': !hasChildren },
-        )}
-      >
-        {hasChildren ? (
-          <div className="mr-1 flex h-4 w-4 items-center justify-center">
-            <motion.div
-              initial={false}
-              animate={{ rotate: isExpanded ? 0 : -90 }}
-              transition={{
-                type: 'spring',
-                bounce: 0.5,
-                duration: 0.6,
-              }}
-            >
-              <ChevronDown className="h-4 w-4" />
-            </motion.div>
-          </div>
-        ) : (
-          <span className="mr-1 w-4" />
-        )}
-
-        <span className="mr-1.5">
+      <div className="hover:bg-panel-overlay group relative flex w-full items-center rounded-md ">
+        <button
+          onClick={toggleExpand}
+          className={cn(
+            'flex w-full items-center px-2 py-1 text-left text-text-secondary transition-colors hover:text-text-primary',
+            { 'text-text-alt': !hasChildren },
+          )}
+        >
           {hasChildren ? (
-            isExpanded ? (
-              <FolderOpen className="h-4 w-4" />
+            <div className="mr-1 flex h-4 w-4 items-center justify-center">
+              <motion.div
+                initial={false}
+                animate={{ rotate: isExpanded ? 0 : -90 }}
+                transition={{
+                  type: 'spring',
+                  bounce: 0.5,
+                  duration: 0.6,
+                }}
+              >
+                <ChevronDown className="h-4 w-4" />
+              </motion.div>
+            </div>
+          ) : (
+            <span className="mr-1 w-4" />
+          )}
+
+          <span className="mr-1.5">
+            {hasChildren ? (
+              isExpanded ? (
+                <FolderOpen className="h-4 w-4" />
+              ) : item.isLocked ? (
+                <FolderLock className="h-4 w-4" />
+              ) : (
+                <FolderClosed className="h-4 w-4" />
+              )
             ) : item.isLocked ? (
               <FolderLock className="h-4 w-4" />
             ) : (
               <FolderClosed className="h-4 w-4" />
-            )
-          ) : item.isLocked ? (
-            <FolderLock className="h-4 w-4" />
-          ) : (
-            <FolderClosed className="h-4 w-4" />
-          )}
-        </span>
+            )}
+          </span>
 
-        <span className="flex-1">{item.name}</span>
-
+          <span className="flex-1">{item.name}</span>
+        </button>
         {item.isLocked ? null : item.githubUrl ? (
-          <Link
+          <a
             href={item.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary opacity-0 transition-opacity group-hover:opacity-100"
+            className="hover:text-primary absolute right-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
           >
             <ArrowUpRight className="h-4 w-4" />
-          </Link>
+          </a>
         ) : null}
-      </button>
+      </div>
 
       {hasChildren && isExpanded && (
         <ul
