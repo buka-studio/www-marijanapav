@@ -35,7 +35,7 @@ export default function ColorThemeCard() {
         <div className="relative h-full">
           <GridBackground className="absolute left-0 top-0 h-full w-full" />
           <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
-            <div className="rounded-full p-[1px] [background:var(--main-theme-3)]">
+            <div className="bg-theme-3 rounded-full p-[1px]">
               <div className="relative flex gap-3 rounded-full bg-panel-background px-2 py-2 ">
                 {colorThemes.map((t, i) => {
                   const isActive = t === colorTheme;
@@ -49,14 +49,14 @@ export default function ColorThemeCard() {
                         className={cn(
                           'relative flex h-7 w-7 items-center justify-center rounded-full border-2 transition-all duration-200',
                           {
-                            'border-main-theme-1': isActive,
-                            'border-main-theme-2': !isActive,
+                            'border-theme-1': isActive,
+                            'border-theme-2': !isActive,
                           },
                         )}
                       >
                         {isActive ? (
                           <motion.span
-                            className="absolute h-3 w-3 rounded-full bg-main-theme-1"
+                            className="bg-theme-1 absolute h-3 w-3 rounded-full"
                             layoutId="color-theme-dot"
                           />
                         ) : (
@@ -88,7 +88,7 @@ export default function ColorThemeCard() {
                 disabled={!colorTheme}
               >
                 {colorTheme ? (
-                  <ArrowCounterClockwiseIcon className="h-5 w-5 text-text-secondary transition-all duration-200 group-hover:text-main-theme-1" />
+                  <ArrowCounterClockwiseIcon className="group-hover:text-theme-1 h-5 w-5 text-text-secondary transition-all duration-200" />
                 ) : (
                   <ArrowUpIcon className="h-5 w-5 text-text-secondary" />
                 )}

@@ -96,7 +96,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
             </motion.p>
           )}
         </AnimatePresence>
-        <div className="progress relative mb-4 rounded-full bg-main-theme-overlay pr-2 text-text-alt2">
+        <div className="progress bg-panel-overlay relative mb-4 rounded-full pr-2 text-text-alt2">
           <div
             className="progress-bar absolute h-full min-w-[130px] rounded-full bg-text-primary transition-all duration-300"
             style={

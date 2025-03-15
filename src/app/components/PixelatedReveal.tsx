@@ -1,12 +1,12 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
 import './cards.css';
 
 import useResizeRef from '~/src/hooks/useResizeRef';
-import { cn } from '~/src/util';
+import { cn, oklchToHex } from '~/src/util';
 
 import useColorTheme from './useColorTheme';
 
@@ -28,13 +28,13 @@ function getCurrColorsForSteps() {
   const alphas = [1, 1, 0.6, 0.4, 0.2, 0.1];
 
   const colors = [
-    styles.getPropertyValue('--main-theme-1'),
-    styles.getPropertyValue('--main-theme-2'),
-    styles.getPropertyValue('--main-theme-2'),
-    styles.getPropertyValue('--main-theme-3'),
-    styles.getPropertyValue('--main-theme-3'),
-    styles.getPropertyValue('--main-theme-3'),
-  ].map((c, i) => addAlphaToHex(c, alphas[i]));
+    styles.getPropertyValue('--theme-1'),
+    styles.getPropertyValue('--theme-2'),
+    styles.getPropertyValue('--theme-2'),
+    styles.getPropertyValue('--theme-3'),
+    styles.getPropertyValue('--theme-3'),
+    styles.getPropertyValue('--theme-3'),
+  ].map((c, i) => addAlphaToHex(oklchToHex(c), alphas[i]));
 
   return colors;
 }
@@ -268,7 +268,7 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
   return (
     <div className="relative h-full w-full" ref={ref}>
       <div
-        className={cn('absolute left-0 top-0 h-full w-full bg-main-theme-overlay', {
+        className={cn('bg-panel-overlay absolute left-0 top-0 h-full w-full', {
           'opacity-0': revealed,
         })}
       />

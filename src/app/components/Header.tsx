@@ -31,7 +31,7 @@ export default function Header({ children }: { children?: ReactNode }) {
       >
         <LogoIcon
           className={cn('transition-all duration-300', {
-            'text-main-theme-1': y > headerTriggerY,
+            'text-theme-1': y > headerTriggerY,
           })}
         />
         <span className="hidden pr-1 md:inline">Marijana Pavlinić</span>

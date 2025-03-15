@@ -42,7 +42,7 @@ function InkLevel({ percentageUsed }: { percentageUsed: number }) {
   return (
     <motion.div
       layout="size"
-      className="h-2 overflow-hidden rounded-full bg-main-theme-3"
+      className="bg-theme-3 h-2 overflow-hidden rounded-full"
       style={{
         width: INK_LEVEL_WIDTH,
         borderRadius: '9999px',
@@ -54,7 +54,7 @@ function InkLevel({ percentageUsed }: { percentageUsed: number }) {
     >
       <motion.div
         layout="size"
-        className="h-full rounded-full bg-main-theme-1"
+        className="bg-theme-1 h-full rounded-full"
         style={{
           width: `${remap(percentageUsed, 0, 1, INK_LEVEL_WIDTH, 0)}px`,
           borderRadius: '9999px',
@@ -253,7 +253,7 @@ export default function DrawingPad({
           ref.current = e;
         }}
         className={cn('relative isolate h-full w-full touch-none transition-opacity duration-200', {
-          'pointer-events-none cursor-not-allowed text-main-theme-1 opacity-80': svgTooBig,
+          'text-theme-1 pointer-events-none cursor-not-allowed opacity-80': svgTooBig,
         })}
       >
         {points && <path d={pathData} fill="currentColor" />}

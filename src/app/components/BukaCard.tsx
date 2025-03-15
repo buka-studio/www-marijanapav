@@ -10,7 +10,7 @@ export default function BukaCard() {
         <div className="flex justify-between">
           <Heading
             as="h1"
-            className="border-main-theme-overlay font-sans text-base font-semibold text-text-secondary"
+            className="border-panel-overlay font-sans text-base font-semibold text-text-secondary"
           >
             Latest side-project
           </Heading>
@@ -24,7 +24,7 @@ export default function BukaCard() {
               target="_blank"
             >
               EchoTab
-              <LinkIcon className="h-8 w-8 rounded-full p-1 transition-all duration-150 group-hover:bg-main-theme-3 md:h-12 md:w-12" />
+              <LinkIcon className="group-hover:bg-theme-3 h-8 w-8 rounded-full p-1 transition-all duration-150 md:h-12 md:w-12" />
             </a>
           </Heading>
         </div>

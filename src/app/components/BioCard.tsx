@@ -64,7 +64,7 @@ export default function BioCard() {
           sizes="(max-width: 768px) 100vw, 768px"
           priority
         />
-        <div className="absolute left-0 top-0 h-full w-full rounded-md bg-main-theme-overlay transition-colors duration-200" />
+        <div className="bg-panel-overlay absolute left-0 top-0 h-full w-full rounded-md transition-colors duration-200" />
       </div>
 
       <p className="panel leading-7 text-text-secondary">
@@ -86,7 +86,7 @@ export default function BioCard() {
               rel="noreferrer noopener"
               key={url}
               href={`${url}`}
-              className="hover cursor-pointer rounded-full transition-all duration-200 hoverable:text-main-theme-2 hoverable:hover:text-main-theme-1"
+              className="hover hoverable:text-theme-2 hoverable:hover:text-theme-1 cursor-pointer rounded-full transition-all duration-200"
               {...attrs}
             >
               <Icon />

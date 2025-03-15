@@ -23,7 +23,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
   return (
     <Component
       className={cn(
-        'ui-card relative rounded-lg bg-panel-border p-[1px] shadow-card [background:var(--panel-border)] md:rounded-2xl',
+        'ui-card relative rounded-lg bg-panel-border p-[1px] shadow-card md:rounded-2xl',
         containerClassName,
       )}
       ref={ref}

@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
 
-import { LettersIcon } from '~/src/components/icons';
-
 import FloatingNav from './FloatingNav';
 
 export default function Footer({ children }: { children?: ReactNode }) {
@@ -12,7 +10,7 @@ export default function Footer({ children }: { children?: ReactNode }) {
       </div>
       <footer className="z-10 flex justify-between px-5 pb-4 text-text-primary md:pb-8">
         <div className="flex items-center gap-2">
-          {/* <div className="rounded-full bg-main-theme-3 p-2">
+          {/* <div className="rounded-full bg-theme-3 p-2">
             <LettersIcon />
           </div> */}
           <span className="text-xs [&_a]:underline">

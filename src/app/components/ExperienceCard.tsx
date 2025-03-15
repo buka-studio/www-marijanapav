@@ -49,7 +49,7 @@ export default function ExperienceCard() {
       <div className="flex h-[500px] flex-col justify-between px-2">
         <Heading
           as="h1"
-          className="mb-28 border-main-theme-overlay pb-6 font-sans text-base font-semibold text-text-secondary"
+          className="border-panel-overlay mb-28 pb-6 font-sans text-base font-semibold text-text-secondary"
         >
           Work
         </Heading>
@@ -57,7 +57,7 @@ export default function ExperienceCard() {
           {positions.map((p, i) => (
             <li
               key={i}
-              className="flex flex-row items-center justify-between border-b border-main-theme-overlay pb-4 last-of-type:border-none"
+              className="border-panel-overlay flex flex-row items-center justify-between border-b pb-4 last-of-type:border-none"
             >
               <span className="flex flex-1 items-center gap-2">
                 <span className="text-text-secondary">

@@ -1,14 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import {
-  ArrowUpRight,
-  ChevronDown,
-  ChevronRight,
-  FolderClosed,
-  FolderLock,
-  FolderOpen,
-} from 'lucide-react';
+import { ArrowUpRight, ChevronDown, FolderClosed, FolderLock, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -96,7 +89,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
       <button
         onClick={toggleExpand}
         className={cn(
-          'group flex w-full items-center rounded-md px-2 py-1 text-left text-text-secondary transition-colors hover:bg-main-theme-overlay hover:text-text-primary',
+          'hover:bg-panel-overlay group flex w-full items-center rounded-md px-2 py-1 text-left text-text-secondary transition-colors hover:text-text-primary',
           { 'text-text-alt': !hasChildren },
         )}
       >
@@ -152,7 +145,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
         <ul
           className={cn(
             'mt-1',
-            'border-l border-main-theme-overlay',
+            'border-panel-overlay border-l',
             isDeepNested ? 'ml-2 pl-2' : 'ml-4 pl-4',
           )}
         >

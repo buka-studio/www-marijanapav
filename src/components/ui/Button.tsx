@@ -37,7 +37,7 @@ function Button({
             'px-4 py-[0.375rem] text-sm leading-6': size === 'default',
             'px-3 py-1 text-xs': size === 'sm',
             'px-1 py-1': !children,
-            'bg-main-theme-3 text-text-primary': variant === 'primary',
+            'bg-theme-3 text-text-primary': variant === 'primary',
             'bg-text-primary text-text-alt2': variant === 'secondary',
             'text-text-primary': variant === 'text',
           },
