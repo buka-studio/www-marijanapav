@@ -1,6 +1,5 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -9,12 +8,7 @@ import Heading from '~/src/components/ui/Heading';
 import Card from './Card';
 
 export default function NotesCard() {
-  const [expandedItem, setExpandedItem] = useState<number | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('');
-
-  const toggleItem = (index: number) => {
-    setExpandedItem((prev) => (prev === index ? null : index));
-  };
 
   useEffect(() => {
     const fetchLastUpdate = async () => {

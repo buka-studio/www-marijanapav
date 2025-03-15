@@ -9,23 +9,22 @@ import { cn } from '~/src/util';
 
 import Card from './Card';
 
-const directoryData = [
+const directoryData: DirectoryItem[] = [
   {
     name: 'buka-studio',
+    githubUrl: 'https://github.com/buka-studio',
     children: [
-      { name: 'echotab', githubUrl: 'https://github.com/user/buka-studio/echotab' },
+      { name: 'echotab', githubUrl: 'https://github.com/buka-studio/echotab' },
       {
         name: 'www-marijanapav',
-        githubUrl: 'https://github.com/user/buka-studio/www-marijanapav',
+        githubUrl: 'https://github.com/buka-studio/www-marijanapav',
         children: [
           {
             name: 'playground',
             isLocked: true,
-            githubUrl: 'https://github.com/user/buka-studio/www-marijanapav/playground',
           },
           {
             name: 'stamps',
-            githubUrl: 'https://github.com/user/buka-studio/www-marijanapav/stamps',
           },
         ],
       },
@@ -33,6 +32,7 @@ const directoryData = [
   },
   {
     name: 'livekit',
+    githubUrl: 'https://github.com/livekit',
     children: [
       { name: 'livekit-site', isLocked: true },
       { name: 'web', isLocked: true },
