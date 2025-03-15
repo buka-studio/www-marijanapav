@@ -88,8 +88,9 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
       <div className="hover:bg-panel-overlay group relative flex w-full items-center rounded-md ">
         <button
           onClick={toggleExpand}
+          disabled={item.isLocked || !hasChildren}
           className={cn(
-            'flex w-full items-center px-2 py-1 text-left text-text-secondary transition-colors hover:text-text-primary',
+            'flex w-full items-center rounded-md px-2 py-1 text-left text-text-secondary transition-colors hover:text-text-primary',
             { 'text-text-alt': !hasChildren },
           )}
         >
@@ -134,7 +135,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
             href={item.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary absolute right-2 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
+            className="hover:text-primary absolute right-2 rounded-md opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
           >
             <ArrowUpRight className="h-4 w-4" />
           </a>
