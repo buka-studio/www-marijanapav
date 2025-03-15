@@ -91,7 +91,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
           disabled={item.isLocked || !hasChildren}
           className={cn(
             'flex w-full items-center rounded-md px-2 py-1 text-left text-text-secondary transition-colors hover:text-text-primary',
-            { 'text-text-alt': !hasChildren },
+            { 'text-text-muted': !hasChildren },
           )}
         >
           {hasChildren ? (
