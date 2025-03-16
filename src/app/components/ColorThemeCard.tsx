@@ -77,7 +77,7 @@ export default function ColorThemeCard() {
               key={String(colorPicked)}
               {...slideRightProps}
             >
-              <p className="text-text-secondary">
+              <p className="text-text-primary">
                 {colorTheme ? 'Bring back grayscale' : 'Pick a color'}
               </p>
 
@@ -88,9 +88,9 @@ export default function ColorThemeCard() {
                 disabled={!colorTheme}
               >
                 {colorTheme ? (
-                  <ArrowCounterClockwiseIcon className="group-hover:text-theme-1 h-5 w-5 text-text-secondary transition-all duration-200" />
+                  <ArrowCounterClockwiseIcon className="group-hover:text-theme-1 h-5 w-5 text-text-primary transition-all duration-200" />
                 ) : (
-                  <ArrowUpIcon className="h-5 w-5 text-text-secondary" />
+                  <ArrowUpIcon className="h-5 w-5 text-text-primary" />
                 )}
               </button>
             </motion.div>

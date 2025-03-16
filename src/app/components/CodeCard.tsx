@@ -85,13 +85,13 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
 
   return (
     <li className="select-none">
-      <div className="hover:bg-panel-overlay group relative flex w-full items-center rounded-md ">
+      <div className="group relative flex w-full items-center rounded-md hover:bg-panel-border ">
         <button
           onClick={toggleExpand}
           disabled={item.isLocked || !hasChildren}
           className={cn(
-            'flex w-full items-center rounded-md px-2 py-1 text-left text-text-secondary transition-colors hover:text-text-primary',
-            { 'text-text-muted': !hasChildren },
+            'flex w-full items-center rounded-md px-2 py-1 text-left text-text-primary transition-colors hover:text-text-primary',
+            { 'text-text-secondary': !hasChildren },
           )}
         >
           {hasChildren ? (
@@ -164,7 +164,7 @@ export default function CodeCard() {
     <Card>
       <Heading
         as="h2"
-        className="mb-14 flex items-center gap-2 font-sans font-semibold text-text-secondary"
+        className="mb-14 flex items-center gap-2 font-sans font-semibold text-text-primary"
       >
         {' '}
         Currently exploring a bit of code

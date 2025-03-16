@@ -10,7 +10,7 @@ export default function BukaCard() {
         <div className="flex justify-between">
           <Heading
             as="h1"
-            className="border-panel-overlay font-sans text-base font-semibold text-text-secondary"
+            className="border-panel-border font-sans text-base font-semibold text-text-primary"
           >
             Latest side-project
           </Heading>
@@ -28,7 +28,7 @@ export default function BukaCard() {
             </a>
           </Heading>
         </div>
-        <p className="text-text-secondary">
+        <p className="text-text-primary">
           A clean and simple browser extension, that helps you manage thousands of tabs, with
           multi-select, smart tagging and Cmd+K command menu for quick browsing.
         </p>

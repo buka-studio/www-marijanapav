@@ -38,7 +38,7 @@ function Button({
             'px-3 py-1 text-xs': size === 'sm',
             'px-1 py-1': !children,
             'bg-theme-3 text-text-primary': variant === 'primary',
-            'bg-text-primary text-text-alt2': variant === 'secondary',
+            'text-text-contrast bg-text-primary': variant === 'secondary',
             'text-text-primary': variant === 'text',
           },
           buttonClassName,

@@ -67,7 +67,7 @@ export default function BioCard() {
         <div className="bg-panel-overlay absolute left-0 top-0 h-full w-full rounded-md transition-colors duration-200" />
       </div>
 
-      <p className="panel leading-7 text-text-secondary">
+      <p className="panel leading-7 text-text-primary">
         I&apos;m a designer interested in tech, co-running{' '}
         <TextLink href="https://www.buka.studio">Buka Studio</TextLink>. I have experience working
         in a variety of environments, from small design studios to a large agency, as well as
@@ -77,7 +77,7 @@ export default function BioCard() {
         office—because life&apos;s too short for long commutes, but I do have to deal with a cat
         trying to sit on my keyboard.
       </p>
-      <div className="mt-9 flex flex-col items-start justify-between text-text-secondary md:flex-row md:items-center">
+      <div className="mt-9 flex flex-col items-start justify-between text-text-primary md:flex-row md:items-center">
         <div>See what I&apos;ve been doing on:</div>
         <div className="mr-auto mt-3 flex gap-2 md:ml-5 md:mt-0">
           {social.map(({ url, Icon, attrs }) => (

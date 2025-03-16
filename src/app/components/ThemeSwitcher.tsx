@@ -33,7 +33,7 @@ export default function ThemeSwitcher() {
   const highlightOffset = `${activeIndex * 0.75 + activeIndex * (1.25 + 0.375 * 2) + 0.25}rem`;
 
   return (
-    <div className="border-panel-overlay relative flex items-center gap-3 rounded-full border bg-panel-background p-1 shadow-card">
+    <div className="relative flex items-center gap-3 rounded-full border border-panel-border bg-panel-background p-1 shadow-card">
       {/* note: motion.div layoutId loses position after page scrolls */}
       {didMount && (
         <div
@@ -49,7 +49,7 @@ export default function ThemeSwitcher() {
         return (
           <button
             className={cn('hover:text-theme-1 relative rounded-full p-[0.375rem]', {
-              'text-text-secondary': !isActive,
+              'text-text-primary': !isActive,
               'text-theme-1': isActive,
             })}
             key={value}

@@ -7,7 +7,7 @@ export default function SupabaseCard() {
   return (
     <Card>
       <div className="group relative flex h-full w-full flex-col justify-center p-3">
-        <p className="mb-10 flex w-full justify-between text-left text-text-alt">
+        <p className="text-text-muted mb-10 flex w-full justify-between text-left">
           Blog post
           <LinkIcon className="group-hover:bg-theme-3 ml-4 inline h-7 w-7 rounded-full p-1" />
         </p>
@@ -21,7 +21,7 @@ export default function SupabaseCard() {
             Designing with&nbsp;AI
           </a>
         </Heading>
-        <p className="mt-4 text-text-alt">
+        <p className="text-text-muted mt-4">
           Designing with AI: Generating unique artwork for every user
         </p>
       </div>

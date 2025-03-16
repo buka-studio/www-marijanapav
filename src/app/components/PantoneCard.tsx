@@ -77,14 +77,14 @@ export default function PantoneCard() {
           <div className="flex justify-between">
             <div className="flex-1 overflow-hidden">
               <AnimatePresence mode="wait" initial={false}>
-                <motion.p className="text-text-secondary" key={name} {...slideLeftProps}>
+                <motion.p className="text-text-primary" key={name} {...slideLeftProps}>
                   PANTONE <ClientRendered>{name}</ClientRendered>
                 </motion.p>
               </AnimatePresence>
             </div>
             <Tooltip>
               <TooltipTrigger>
-                <InfoIcon className="text-text-secondary" />
+                <InfoIcon className="text-text-primary" />
               </TooltipTrigger>
               <TooltipContent className="w-[200px] text-center">
                 Sorry, these Pantone color names are entirely fictional.

@@ -95,7 +95,7 @@ export default function PhotosCard() {
   return (
     <Card className="flex flex-col">
       <div className="mb-6 flex w-full justify-between gap-2 xl:mb-auto">
-        <Heading as="h1" className="text-primary font-sans font-semibold text-text-secondary">
+        <Heading as="h1" className="text-primary font-sans font-semibold text-text-primary">
           Camera roll
         </Heading>
       </div>

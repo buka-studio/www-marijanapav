@@ -17,12 +17,12 @@ export default function LocationCard() {
       <div className="flex h-full flex-col gap-4">
         <Heading
           as="h2"
-          className=" flex items-center gap-2 font-sans font-semibold text-text-secondary"
+          className=" flex items-center gap-2 font-sans font-semibold text-text-primary"
         >
           Working remotely, <br className="hidden md:block" />
           from Croatia
         </Heading>
-        <p className="mt-auto text-text-secondary">{croatiaTime} Time zone in Croatia (GMT+2)</p>
+        <p className="mt-auto text-text-primary">{croatiaTime} Time zone in Croatia (GMT+2)</p>
       </div>
     </Card>
   );

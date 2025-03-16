@@ -5,11 +5,12 @@
   --theme-4: 1 0 0;
 
   --main-background: 0.9791 0 0;
+  --main-accent: 0.235 0 0;
 
   --text-primary: 0.235 0 0;
   --text-secondary: 0.235 0 0;
-  --text-alt: 0.4091 0 0;
-  --text-alt2: 0.9638 0.0044 179.73;
+  --text-muted: 0.59 0 0;
+  --text-contrast: 0.9638 0.0044 179.73;
 
   --panel-background: 1 0 0;
   --panel-border: 0.9638 0.0044 179.73 / 0.5;
@@ -24,11 +25,12 @@
   --theme-4: 0.2002 0 0;
 
   --main-background: 0.1344 0 0;
+  --main-accent: 0.9321 0.0093 106.58;
 
   --text-primary: 0.9321 0.0093 106.58;
   --text-secondary: 0.9321 0.0093 106.58;
-  --text-alt: 0.5514 0.003 106.5;
-  --text-alt2: 0.2002 0 0;
+  --text-muted: 0.5514 0.003 106.5;
+  --text-contrast: 0.2002 0 0;
 
   --panel-background: 0.1822 0 0;
   --panel-border: 0.2809 0 0 / 0.5;
@@ -44,16 +46,17 @@
   --theme-4: 0.2663 0.0806 28.17;
 
   --main-background: 0.0807 0.0331 29.23;
+  --main-accent: 0.83 0.26 30.8;
 
   --text-primary: 0.6644 0.223 30.14;
-  --text-secondary: 0.6644 0.223 30.14;
-  --text-alt: 0.2187 0.0701 31.58;
-  --text-alt2: 0.2663 0.0806 28.17;
+  --text-secondary: 0.4900 0.163 30.14;
+  --text-muted: 0.43 0.14 31.58 ;
+  --text-contrast: 0.2663 0.0806 28.17;
 
-  --panel-background: 0.16 0.03 28.37;
-  --panel-border: 0.6644 0.223 30.14 / 0.15;
+  --panel-background: 0 0 0;
+  --panel-border: 0.6644 0.223 30.14 / 0.1;
   --panel-shadow: 0.4934 0.2025 29.23;
-  --panel-overlay: 0.6644 0.223 30.14 / 0.2;
+  --panel-overlay: 0.6644 0.223 30.14 / 0.15;
 }
 
 .theme-red-light {
@@ -62,11 +65,12 @@
   --theme-3: 0.9719 0.0153 48.56;
 
   --main-background: 1 0 0;
+  --main-accent: 0.55 0.2094 34.62;
 
   --text-primary: 0.6517 0.2094 35.01;
-  --text-secondary: 0.6517 0.2094 35.01;
-  --text-alt: 0.8469 0.0914 47.61;
-  --text-alt2: 0.9719 0.0153 48.56;
+  --text-secondary: 0.6517 0.2094 35.01 / 0.7;
+  --text-muted: 0.6517 0.2094 35.01 / 0.4;
+  --text-contrast: 0.9719 0.0153 48.56;
 
   --panel-background: 1 0 0;
   --panel-border: 0.6517 0.2094 35.01 / 0.15;
@@ -82,13 +86,14 @@
   --theme-4: 0.1214 0.0841 264.05;
 
   --main-background: 0.1061 0.0428 281.41;
+  --main-accent: 0.77 0.16 269.4;
 
   --text-primary: 0.6193 0.2045 267.08;
-  --text-secondary: 0.6193 0.2045 267.08;
-  --text-alt: 0.4104 0.2033 267.51;
-  --text-alt2: 0.1978 0.0618 271.4;
+  --text-secondary: 0.4900 0.1845 267.08;
+  --text-muted: 0.45 0.2 267.51;
+  --text-contrast: 0.22 0.11 266.32;
 
-  --panel-background: 0.16 0.02 270.93;
+  --panel-background: 0 0 0;
   --panel-border: 0.6193 0.2045 267.08 / 0.15;
   --panel-shadow: 0.4104 0.2033 267.51;
   --panel-overlay: 0.6193 0.2045 267.08 / 0.1;
@@ -100,11 +105,12 @@
   --theme-3: 0.9673 0.0153 269.99;
 
   --main-background: 0.9883 0.0045 214.33;
+  --main-accent: 0.3028 0.2059 264.18;
 
   --text-primary: 0.4628 0.3059 264.18;
-  --text-secondary: 0.4628 0.3059 264.18;
-  --text-alt: 0.8944 0.0509 267;
-  --text-alt2: 0.9673 0.0153 269.99;
+  --text-secondary: 0.4628 0.3059 264.18 / 0.6;
+  --text-muted: 0.4628 0.3059 264.18 / 0.4;
+  --text-contrast: 0.9673 0.0153 269.99;
 
   --panel-background: 1 0 0;
   --panel-border: 0.4628 0.3059 264.18 / 0.15;
@@ -120,13 +126,14 @@
   --theme-4: 0.2315 0.038 145.55;
 
   --main-background: 0.084 0.0286 142.5;
+  --main-accent: 0.9967 0.1283 144.82;
 
   --text-primary: 0.8167 0.0783 144.82;
-  --text-secondary: 0.8167 0.0783 144.82;
-  --text-alt: 0.3888 0.0671 144.15;
-  --text-alt2: 0.2315 0.038 145.55;
+  --text-secondary: 0.5967 0.0783 144.82;
+  --text-muted: 0.44 0.07 144.15;
+  --text-contrast: 0.2315 0.038 145.55;
 
-  --panel-background: 0.18 0.01 145.46;
+  --panel-background: 0 0 0;
   --panel-border: 0.8167 0.0783 144.82 / 0.15;
   --panel-shadow: 0.5615 0.0844 144.35;
   --panel-overlay: 0.8167 0.0783 144.82 / 0.1;
@@ -138,11 +145,12 @@
   --theme-3: 0.9499 0.0237 145.39;
 
   --main-background: 0.9777 0.0078 139.44;
+  --main-accent: 0.18 0.3861 144.43;
 
   --text-primary: 0.448 0.0861 144.43;
-  --text-secondary: 0.448 0.0861 144.43;
-  --text-alt: 0.8167 0.0783 144.82;
-  --text-alt2: 0.9499 0.0237 145.39;
+  --text-secondary: 0.448 0.0861 144.43 / 0.7;
+  --text-muted: 0.448 0.0861 144.43 / 0.4;
+  --text-contrast: 0.9499 0.0237 145.39;
 
   --panel-background: 1 0 0;
   --panel-border: 0.448 0.0861 144.43 / 0.15;

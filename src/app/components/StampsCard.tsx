@@ -31,20 +31,20 @@ export default function StampsCard() {
         <div className="mb-4 [&_>*]:inline [&_>*]:align-middle">
           <Heading
             as="h2"
-            className=" flex items-center gap-2 font-sans font-semibold text-text-secondary"
+            className=" flex items-center gap-2 font-sans font-semibold text-text-primary"
           >
             <a href="#" className="group rounded-md">
               Digital Stamp Collection&nbsp;
               <Tag
                 variant="dashed"
-                className="ml-1 inline align-middle font-sans text-xs text-text-alt"
+                className="text-text-muted ml-1 inline align-middle font-sans text-xs"
               >
                 Coming&nbsp;soon
               </Tag>
             </a>
           </Heading>
         </div>
-        <p className="leading-7 text-text-secondary">
+        <p className="leading-7 text-text-primary">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his
           stamps in a digital form, exploring the blend of art, history, and typography and bringing
           it online for a new audience to enjoy.

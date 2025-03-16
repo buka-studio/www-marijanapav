@@ -133,7 +133,7 @@ export default function SketchbookCard() {
             <Screenshot screenshotRef={screenshotRef} />
           </div>
           <div className="flex items-center justify-between gap-2">
-            <p className="font-semibold text-text-secondary">Sketchbook</p>
+            <p className="font-semibold text-text-primary">Sketchbook</p>
             <SketchbookButton
               hasDrawn={hasDrawn}
               state={state}

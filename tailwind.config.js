@@ -19,12 +19,13 @@ module.exports = {
         },
         main: {
           background: 'oklch(var(--main-background) / <alpha-value>)',
+          accent: 'oklch(var(--main-accent) / <alpha-value>)',
         },
         text: {
           primary: 'oklch(var(--text-primary) / <alpha-value>)',
-          secondary: 'oklch(var(--text-secondary) / <alpha-value>)',
-          alt: 'oklch(var(--text-alt) / <alpha-value>)',
-          alt2: 'oklch(var(--text-alt2) / <alpha-value>)',
+          secondary: 'oklch(var(--text-secondary))',
+          muted: 'oklch(var(--text-muted))',
+          contrast: 'oklch(var(--text-contrast) / <alpha-value>)',
         },
         panel: {
           background: 'oklch(var(--panel-background) / <alpha-value>)',
