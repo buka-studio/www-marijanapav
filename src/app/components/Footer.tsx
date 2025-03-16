@@ -8,11 +8,8 @@ export default function Footer({ children }: { children?: ReactNode }) {
       <div className="nav sticky bottom-5 z-[11] mx-auto mb-5 rounded-full md:fixed md:bottom-8 md:left-1/2 md:mb-0 md:-translate-x-1/2">
         <FloatingNav />
       </div>
-      <footer className="z-10 flex justify-between px-5 pb-4 text-text-primary md:pb-8">
+      <footer className="z-10 hidden justify-between px-5 pb-4 text-text-primary md:pb-8">
         <div className="flex items-center gap-2">
-          {/* <div className="rounded-full bg-theme-3 p-2">
-            <LettersIcon />
-          </div> */}
           <span className="text-xs [&_a]:underline">
             <a
               href="https://fonts.google.com/specimen/Archivo"

@@ -82,7 +82,7 @@ export default async function Home() {
       <MousePositionVarsSetter />
       <div className="glow pointer-events-none fixed h-[400px] w-[400px] rounded-full blur-3xl" />
       <div className="flex flex-col px-5 py-5 md:py-12">
-        <main className="pb-[100px]">
+        <main className="pb-12">
           <Heading className="mb-8" />
           <div className="mb-20 flex flex-col items-start gap-2 text-text-primary xxs:flex-row xxs:items-center xxs:gap-4">
             <div>What I do</div>
