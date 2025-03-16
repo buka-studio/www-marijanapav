@@ -26,10 +26,10 @@ const stickers = [
   Battery,
   Copyright,
   Buka,
+  v60,
   FigmaExport,
   Stamp2,
   LoremIpsum,
-  v60,
 ];
 
 function lerp(a: number, b: number, t: number) {
