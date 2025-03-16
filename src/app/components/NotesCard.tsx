@@ -39,7 +39,7 @@ export default function NotesCard() {
           Notes
         </Heading>
         <p className="text-sm leading-5 text-text-primary">
-          This site is constantly evolving—expect frequent nitpick commits. Last updated:{' '}
+          This site is constantly evolving, expect frequent nitpick commits. Last updated:{' '}
           <a
             href="https://github.com/buka-studio/www-marijanapav/commits"
             target="_blank"
