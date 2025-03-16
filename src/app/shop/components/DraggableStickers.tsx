@@ -12,6 +12,7 @@ import LoremIpsum from '~/public/stickers/Lorem-ipsum.svg';
 import OptionKey from '~/public/stickers/Option-key.svg';
 import Stamp1 from '~/public/stickers/Stamp1.svg';
 import Stamp2 from '~/public/stickers/Stamp2.svg';
+import v60 from '~/public/stickers/v60.svg';
 import Zet from '~/public/stickers/Zet.svg';
 import Button from '~/src/components/ui/Button';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
@@ -28,6 +29,7 @@ const stickers = [
   FigmaExport,
   Stamp2,
   LoremIpsum,
+  v60,
 ];
 
 function lerp(a: number, b: number, t: number) {
