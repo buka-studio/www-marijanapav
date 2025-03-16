@@ -16,7 +16,7 @@ export default function SubscribeForm({ className = '' }: { className?: string }
         placeholder="Enter email"
         containerClassName="w-full"
         className="w-full"
-        action={<Button buttonClassName="bg-main-theme-4">Subscribe</Button>}
+        action={<Button buttonClassName="bg-theme-4">Subscribe</Button>}
       />
     </form>
   );

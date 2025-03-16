@@ -67,7 +67,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
 
   return (
     <Card className="flex flex-col">
-      <div className="mb-2 font-semibold text-text-secondary">In Progress</div>
+      <div className="mb-2 font-semibold text-text-primary">In Progress</div>
       <div className="mb-20 flex items-start justify-between  xl:mb-[120px]">
         <Heading as="h1" className="text-primary text-3xl md:text-4xl">
           Sneak <br className="hidden md:block" />
@@ -78,7 +78,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
         <AnimatePresence>
           {revealed && (
             <motion.p
-              className="absolute bottom-[calc(100%+16px)] mt-2 text-sm text-text-secondary [text-wrap:pretty]"
+              className="absolute bottom-[calc(100%+16px)] mt-2 text-sm text-text-primary [text-wrap:pretty]"
               initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
@@ -96,7 +96,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
             </motion.p>
           )}
         </AnimatePresence>
-        <div className="progress relative mb-4 rounded-full bg-main-theme-overlay pr-2 text-text-alt2">
+        <div className="progress bg-panel-overlay text-text-contrast relative mb-4 rounded-full pr-2">
           <div
             className="progress-bar absolute h-full min-w-[130px] rounded-full bg-text-primary transition-all duration-300"
             style={
@@ -109,7 +109,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
             }
           />
           <button
-            className="relative flex w-[130px] items-center gap-2 rounded-full bg-text-primary px-2 py-[4px] text-sm text-text-alt2"
+            className="text-text-contrast relative flex w-[130px] items-center gap-2 rounded-full bg-text-primary px-2 py-[4px] text-sm"
             onClick={handleClick}
           >
             {revealed ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}

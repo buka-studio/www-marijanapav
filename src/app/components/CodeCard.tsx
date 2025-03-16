@@ -1,15 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import {
-  ArrowUpRight,
-  ChevronDown,
-  ChevronRight,
-  FolderClosed,
-  FolderLock,
-  FolderOpen,
-} from 'lucide-react';
-import Link from 'next/link';
+import { ArrowUpRight, ChevronDown, FolderClosed, FolderLock, FolderOpen } from 'lucide-react';
 import { useState } from 'react';
 
 import Heading from '~/src/components/ui/Heading';
@@ -17,23 +9,22 @@ import { cn } from '~/src/util';
 
 import Card from './Card';
 
-const directoryData = [
+const directoryData: DirectoryItem[] = [
   {
     name: 'buka-studio',
+    githubUrl: 'https://github.com/buka-studio',
     children: [
-      { name: 'echotab', githubUrl: 'https://github.com/user/buka-studio/echotab' },
+      { name: 'echotab', githubUrl: 'https://github.com/buka-studio/echotab' },
       {
         name: 'www-marijanapav',
-        githubUrl: 'https://github.com/user/buka-studio/www-marijanapav',
+        githubUrl: 'https://github.com/buka-studio/www-marijanapav',
         children: [
           {
             name: 'playground',
             isLocked: true,
-            githubUrl: 'https://github.com/user/buka-studio/www-marijanapav/playground',
           },
           {
             name: 'stamps',
-            githubUrl: 'https://github.com/user/buka-studio/www-marijanapav/stamps',
           },
         ],
       },
@@ -41,6 +32,7 @@ const directoryData = [
   },
   {
     name: 'livekit',
+    githubUrl: 'https://github.com/livekit',
     children: [
       { name: 'livekit-site', isLocked: true },
       { name: 'web', isLocked: true },
@@ -93,66 +85,68 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
 
   return (
     <li className="select-none">
-      <button
-        onClick={toggleExpand}
-        className={cn(
-          'group flex w-full items-center rounded-md px-2 py-1 text-left text-text-secondary transition-colors hover:bg-main-theme-overlay hover:text-text-primary',
-          { 'text-text-alt': !hasChildren },
-        )}
-      >
-        {hasChildren ? (
-          <div className="mr-1 flex h-4 w-4 items-center justify-center">
-            <motion.div
-              initial={false}
-              animate={{ rotate: isExpanded ? 0 : -90 }}
-              transition={{
-                type: 'spring',
-                bounce: 0.5,
-                duration: 0.6,
-              }}
-            >
-              <ChevronDown className="h-4 w-4" />
-            </motion.div>
-          </div>
-        ) : (
-          <span className="mr-1 w-4" />
-        )}
-
-        <span className="mr-1.5">
+      <div className="group relative flex w-full items-center rounded-md hover:bg-panel-border ">
+        <button
+          onClick={toggleExpand}
+          disabled={item.isLocked || !hasChildren}
+          className={cn(
+            'flex w-full items-center rounded-md px-2 py-1 text-left text-text-primary transition-colors hover:text-text-primary',
+            { 'text-text-secondary': !hasChildren },
+          )}
+        >
           {hasChildren ? (
-            isExpanded ? (
-              <FolderOpen className="h-4 w-4" />
+            <div className="mr-1 flex h-4 w-4 items-center justify-center">
+              <motion.div
+                initial={false}
+                animate={{ rotate: isExpanded ? 0 : -90 }}
+                transition={{
+                  type: 'spring',
+                  bounce: 0.5,
+                  duration: 0.6,
+                }}
+              >
+                <ChevronDown className="h-4 w-4" />
+              </motion.div>
+            </div>
+          ) : (
+            <span className="mr-1 w-4" />
+          )}
+
+          <span className="mr-1.5">
+            {hasChildren ? (
+              isExpanded ? (
+                <FolderOpen className="h-4 w-4" />
+              ) : item.isLocked ? (
+                <FolderLock className="h-4 w-4" />
+              ) : (
+                <FolderClosed className="h-4 w-4" />
+              )
             ) : item.isLocked ? (
               <FolderLock className="h-4 w-4" />
             ) : (
               <FolderClosed className="h-4 w-4" />
-            )
-          ) : item.isLocked ? (
-            <FolderLock className="h-4 w-4" />
-          ) : (
-            <FolderClosed className="h-4 w-4" />
-          )}
-        </span>
+            )}
+          </span>
 
-        <span className="flex-1">{item.name}</span>
-
+          <span className="flex-1">{item.name}</span>
+        </button>
         {item.isLocked ? null : item.githubUrl ? (
-          <Link
+          <a
             href={item.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary opacity-0 transition-opacity group-hover:opacity-100"
+            className="hover:text-primary absolute right-2 rounded-md opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
           >
             <ArrowUpRight className="h-4 w-4" />
-          </Link>
+          </a>
         ) : null}
-      </button>
+      </div>
 
       {hasChildren && isExpanded && (
         <ul
           className={cn(
             'mt-1',
-            'border-l border-main-theme-overlay',
+            'border-panel-overlay border-l',
             isDeepNested ? 'ml-2 pl-2' : 'ml-4 pl-4',
           )}
         >
@@ -170,7 +164,7 @@ export default function CodeCard() {
     <Card>
       <Heading
         as="h2"
-        className="mb-14 flex items-center gap-2 font-sans font-semibold text-text-secondary"
+        className="mb-14 flex items-center gap-2 font-sans font-semibold text-text-primary"
       >
         {' '}
         Currently exploring a bit of code

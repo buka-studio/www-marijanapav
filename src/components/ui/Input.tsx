@@ -14,13 +14,13 @@ const Input = forwardRef<HTMLInputElement, Props & ComponentProps<'input'>>(func
   return (
     <div
       className={cn(
-        'reounded-full inline-flex rounded-full border border-transparent bg-main-theme-3 p-1 [&:has(>_input:focus-visible)]:outline [&:has(>_input:focus-visible)]:outline-main-theme-1',
+        'reounded-full bg-theme-3 [&:has(>_input:focus-visible)]:outline-theme-1 inline-flex rounded-full border border-transparent p-1 [&:has(>_input:focus-visible)]:outline',
         containerClassName,
       )}
     >
       <input
         className={cn(
-          'input rounded-full bg-transparent px-4 text-text-primary placeholder:text-text-alt focus-visible:outline-none',
+          'input placeholder:text-text-muted rounded-full bg-transparent px-4 text-text-primary focus-visible:outline-none',
           className,
         )}
         ref={ref}

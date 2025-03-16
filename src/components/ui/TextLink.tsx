@@ -11,10 +11,7 @@ function TextLink({ asChild, className, ...rest }: Props & ComponentProps<'a'>) 
   const Component = asChild ? Slot : ('a' as any);
 
   return (
-    <Component
-      {...rest}
-      className={cn('text-text-primary opacity-80  hover:underline hover:opacity-100', className)}
-    />
+    <Component {...rest} className={cn('hover:text-main-accent text-text-primary ', className)} />
   );
 }
 

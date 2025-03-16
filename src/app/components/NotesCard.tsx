@@ -1,6 +1,5 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -9,12 +8,7 @@ import Heading from '~/src/components/ui/Heading';
 import Card from './Card';
 
 export default function NotesCard() {
-  const [expandedItem, setExpandedItem] = useState<number | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>('');
-
-  const toggleItem = (index: number) => {
-    setExpandedItem((prev) => (prev === index ? null : index));
-  };
 
   useEffect(() => {
     const fetchLastUpdate = async () => {
@@ -40,11 +34,11 @@ export default function NotesCard() {
       <div className="flex flex-col justify-between gap-5">
         <Heading
           as="h2"
-          className=" flex items-center gap-2 font-sans font-semibold text-text-secondary"
+          className=" flex items-center gap-2 font-sans font-semibold text-text-primary"
         >
           Notes
         </Heading>
-        <p className="text-sm leading-5 text-text-secondary">
+        <p className="text-sm leading-5 text-text-primary">
           This site is constantly evolving—expect frequent nitpick commits. Last updated:{' '}
           <a
             href="https://github.com/buka-studio/www-marijanapav/commits"

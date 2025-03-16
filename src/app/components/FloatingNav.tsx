@@ -35,7 +35,7 @@ export default function Navabar() {
       <nav className="relative z-[1] flex items-center gap-2 rounded-full bg-panel-background p-1 shadow-card">
         {/* note: motion.div layoutId loses position after page scrolls */}
         <div
-          className="absolute h-[90%] rounded-full bg-main-theme-3 transition-all duration-300 ease-out"
+          className="bg-theme-3 absolute h-[90%] rounded-full transition-all duration-300 ease-out"
           style={{
             width: `${links[pathSegment]?.width}rem`,
             left: highlightOffset,
@@ -62,7 +62,7 @@ export default function Navabar() {
           },
         )}
       >
-        <span className="relative z-[1] flex h-[2rem] w-[2rem] items-center justify-end rounded-full bg-main-theme-3 px-2">
+        <span className="bg-theme-3 relative z-[1] flex h-[2rem] w-[2rem] items-center justify-end rounded-full px-2">
           <ArrowRightIcon className="h-6 w-6 -rotate-90 text-text-primary" />
         </span>
       </button>

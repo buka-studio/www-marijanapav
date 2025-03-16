@@ -6,7 +6,6 @@ import { useState } from 'react';
 import FolderClosedIcon from '~/src/components/icons/folder-closed.svg';
 import FolderOpenedIcon from '~/src/components/icons/folder-opened.svg';
 import Heading from '~/src/components/ui/Heading';
-import Tag from '~/src/components/ui/Tag';
 
 import Card from './Card';
 
@@ -51,14 +50,14 @@ export default function CurrentCard() {
                   }}
                 >
                   {expandedItem === index ? (
-                    <FolderOpenedIcon className="h-5 w-5 transition-all duration-200 hoverable:text-main-theme-1 hoverable:hover:text-main-theme-2" />
+                    <FolderOpenedIcon className="hoverable:text-theme-1 hoverable:hover:text-theme-2 h-5 w-5 transition-all duration-200" />
                   ) : (
-                    <FolderClosedIcon className="h-5 w-5 transition-all duration-200 hoverable:text-main-theme-1 hoverable:hover:text-main-theme-2" />
+                    <FolderClosedIcon className="hoverable:text-theme-1 hoverable:hover:text-theme-2 h-5 w-5 transition-all duration-200" />
                   )}
                 </motion.div>
                 <p
                   className={`font-medium text-text-secondary transition-colors duration-200 ${
-                    expandedItem === index ? 'text-main-theme-1' : ''
+                    expandedItem === index ? 'text-theme-1' : ''
                   }`}
                 >
                   {item.path}

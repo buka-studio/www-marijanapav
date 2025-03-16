@@ -95,7 +95,7 @@ export default function PhotosCard() {
   return (
     <Card className="flex flex-col">
       <div className="mb-6 flex w-full justify-between gap-2 xl:mb-auto">
-        <Heading as="h1" className="text-primary font-sans font-semibold text-text-secondary">
+        <Heading as="h1" className="text-primary font-sans font-semibold text-text-primary">
           Camera roll
         </Heading>
       </div>
@@ -118,7 +118,7 @@ export default function PhotosCard() {
               sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 478px"
               className="rounded-md object-cover object-center"
             />
-            <div className="absolute left-0 top-0 h-full w-full rounded-md bg-main-theme-overlay transition-colors duration-200" />
+            <div className="bg-panel-overlay absolute left-0 top-0 h-full w-full rounded-md transition-colors duration-200" />
           </div>
         ))}
       </div>
@@ -135,8 +135,8 @@ export default function PhotosCard() {
             }}
             key={p.src}
             className={cn('h-[10px] rounded-full transition-all duration-150', {
-              'w-[10px] bg-main-theme-overlay': i !== photo,
-              'h-[6px] w-[50px] bg-main-theme-1': i === photo,
+              'bg-panel-overlay w-[10px]': i !== photo,
+              'bg-theme-1 h-[6px] w-[50px]': i === photo,
             })}
           />
         ))}
