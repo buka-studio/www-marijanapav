@@ -93,14 +93,9 @@ export default function PhotosCard() {
   }, [photo]);
 
   return (
-    <Card className="flex flex-col">
-      <div className="mb-6 flex w-full justify-between gap-2 xl:mb-auto">
-        <Heading as="h1" className="text-primary font-sans font-semibold text-text-primary">
-          Camera roll
-        </Heading>
-      </div>
+    <Card className="flex flex-col justify-between gap-5">
       <div
-        className="flex aspect-square w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-md scrollbar-none md:order-2 xl:order-none xl:mt-auto"
+        className="flex aspect-square w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-md scrollbar-none md:order-2 xl:order-none"
         ref={scrollAreaRef}
       >
         {photos.map((p, i) => (
@@ -122,24 +117,30 @@ export default function PhotosCard() {
           </div>
         ))}
       </div>
-      <div className="mt-5 flex items-center justify-center gap-[6px] pb-1 md:order-1 md:my-2 md:mt-auto xl:order-last xl:mb-0 xl:mt-5">
-        {photos.map((p, i) => (
-          <button
-            aria-label={`Go to photo ${i + 1}`}
-            onClick={() => {
-              setPhoto(i);
-              scrollAreaRef.current!.scroll({
-                left: scrollAreaRef.current!.clientWidth * i,
-                behavior: 'smooth',
-              });
-            }}
-            key={p.src}
-            className={cn('h-[10px] rounded-full transition-all duration-150', {
-              'bg-panel-overlay w-[10px]': i !== photo,
-              'bg-theme-1 h-[6px] w-[50px]': i === photo,
-            })}
-          />
-        ))}
+
+      <div className="flex flex-col items-start justify-between gap-2 pt-5 md:pt-0 xxs:flex-row xxs:items-center">
+        <Heading as="h1" className="text-primary font-sans font-semibold text-text-primary">
+          Camera roll
+        </Heading>
+        <div className=" flex items-center justify-center gap-[6px] md:order-1 md:mt-auto xl:order-last xl:mb-0 ">
+          {photos.map((p, i) => (
+            <button
+              aria-label={`Go to photo ${i + 1}`}
+              onClick={() => {
+                setPhoto(i);
+                scrollAreaRef.current!.scroll({
+                  left: scrollAreaRef.current!.clientWidth * i,
+                  behavior: 'smooth',
+                });
+              }}
+              key={p.src}
+              className={cn('h-[10px] rounded-full transition-all duration-150', {
+                'bg-panel-overlay w-[10px]': i !== photo,
+                'bg-theme-1 h-[6px] w-[30px]': i === photo,
+              })}
+            />
+          ))}
+        </div>
       </div>
     </Card>
   );

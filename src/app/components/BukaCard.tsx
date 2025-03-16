@@ -29,8 +29,8 @@ export default function BukaCard() {
           </Heading>
         </div>
         <p className="text-text-primary">
-          A clean and simple browser extension, that helps you manage thousands of tabs, with
-          multi-select, smart tagging and Cmd+K command menu for quick browsing.
+          A clean browser extension for managing browser tabs and bookmarks, with multi-select,
+          smart tagging and command menu for quick actions. Always updating.
         </p>
       </div>
     </Card>

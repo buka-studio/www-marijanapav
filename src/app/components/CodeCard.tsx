@@ -85,12 +85,13 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
 
   return (
     <li className="select-none">
-      <div className="group relative flex w-full items-center rounded-md hover:bg-panel-border ">
+      <div className="group relative flex w-full items-center rounded-md hover:bg-panel-border hover:text-text-primary">
         <button
           onClick={toggleExpand}
           disabled={item.isLocked || !hasChildren}
           className={cn(
-            'flex w-full items-center rounded-md px-2 py-1 text-left text-text-primary transition-colors hover:text-text-primary',
+            'flex w-full items-center rounded-md px-2 py-1 text-left text-text-primary transition-colors',
+            hasChildren ? 'hover:text-main-accent' : 'hover:text-text-primary',
             { 'text-text-secondary': !hasChildren },
           )}
         >

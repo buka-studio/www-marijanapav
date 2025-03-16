@@ -31,7 +31,7 @@ export default function ColorThemeCard() {
 
   return (
     <Card>
-      <div className="flex h-[268px] w-full flex-col content-center gap-3">
+      <div className="flex h-full min-h-[210px] w-full flex-col content-center gap-3">
         <div className="relative h-full">
           <GridBackground className="absolute left-0 top-0 h-full w-full" />
           <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
