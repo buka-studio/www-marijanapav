@@ -102,7 +102,7 @@ export default function Work({ params }: { params: { slug: string } }) {
                             src={e}
                             alt=""
                             sizes={genImageSizes(items.length)}
-                            className="m-auto max-h-full w-full object-cover focus-within:outline-main-theme-1"
+                            className="focus-within:outline-theme-1 m-auto max-h-full w-full object-cover"
                           />
                         </GalleryTrigger>
                       </div>

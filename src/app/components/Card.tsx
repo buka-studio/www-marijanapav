@@ -43,7 +43,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card(
       </div>
       <div
         className={cn(
-          'absolute left-0 top-0 h-full w-full rounded-[10px] bg-main-theme-1 opacity-30',
+          'bg-theme-1 absolute left-0 top-0 h-full w-full rounded-[10px] opacity-30',
           relativeMouseClassname,
         )}
         ref={borderRef}

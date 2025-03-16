@@ -13,7 +13,7 @@
 
 @keyframes target-highlight {
   0% {
-    background: var(--main-theme-1);
+    background: oklch(var(--theme-1));
   }
   100% {
     background: transparent;

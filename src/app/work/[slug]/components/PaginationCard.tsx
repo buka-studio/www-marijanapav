@@ -45,7 +45,7 @@ export default function PaginationCard({
       >
         {' '}
         <ArrowRightIcon
-          className={cn('h-8 w-8 rounded-full bg-main-theme-3 p-1 text-text-primary opacity-60', {
+          className={cn('bg-theme-3 h-8 w-8 rounded-full p-1 text-text-primary opacity-60', {
             'rotate-180 transform': direction === 'left',
           })}
         />

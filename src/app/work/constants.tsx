@@ -146,7 +146,7 @@ export const projects: Project[] = [
   {
     type: 'project',
     title: 'EchoTab Chrome Extension Landing page',
-    slug: 'echo-tab',
+    slug: 'echo-tab-landing',
     preview: EchoTabLandingPreview,
     images: [EchoTabLanding01, EchoTabLanding02],
     filters: ['digital', 'branding'],

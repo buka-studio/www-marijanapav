@@ -33,11 +33,11 @@ export default function ThemeSwitcher() {
   const highlightOffset = `${activeIndex * 0.75 + activeIndex * (1.25 + 0.375 * 2) + 0.25}rem`;
 
   return (
-    <div className="relative flex items-center gap-3 rounded-full border border-main-theme-overlay bg-panel-background p-1 shadow-card">
+    <div className="relative flex items-center gap-3 rounded-full border border-panel-border bg-panel-background p-1 shadow-card">
       {/* note: motion.div layoutId loses position after page scrolls */}
       {didMount && (
         <div
-          className="absolute left-0 top-[1.75] h-8 w-8 rounded-full bg-main-theme-3 !transition-[left] duration-300 ease-out"
+          className="bg-theme-3 absolute left-0 top-[1.75] h-8 w-8 rounded-full !transition-[left] duration-300 ease-out"
           style={{
             left: highlightOffset,
           }}
@@ -48,9 +48,9 @@ export default function ThemeSwitcher() {
         const isActive = didMount && theme === value;
         return (
           <button
-            className={cn('relative rounded-full p-[0.375rem] hover:text-main-theme-1', {
-              'text-text-secondary': !isActive,
-              'text-main-theme-1': isActive,
+            className={cn('hover:text-theme-1 relative rounded-full p-[0.375rem]', {
+              'text-text-primary': !isActive,
+              'text-theme-1': isActive,
             })}
             key={value}
             aria-label={`Switch to ${value} theme`}

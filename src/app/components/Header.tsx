@@ -20,10 +20,10 @@ export default function Header({ children }: { children?: ReactNode }) {
         'sticky top-0 z-10 flex flex-wrap justify-between rounded-bl-[32px] rounded-br-[32px] px-5 py-4 transition-all duration-300 ease-in-out',
         {
           'translate-y-[-128px]': y > headerTriggerY && directionY === 'down',
-          '[&] bg-transparent backdrop-blur-[6px]': y > headerTriggerY,
         },
       )}
     >
+      <div className="absolute inset-0 z-[-1] rounded-bl-[32px] rounded-br-[32px] backdrop-blur [mask-image:linear-gradient(to_top,transparent,black_65%)]" />
       <Link
         href="/"
         className="flex items-center gap-2 rounded-full text-text-primary"
@@ -31,7 +31,7 @@ export default function Header({ children }: { children?: ReactNode }) {
       >
         <LogoIcon
           className={cn('transition-all duration-300', {
-            'text-main-theme-1': y > headerTriggerY,
+            'text-theme-1': y > headerTriggerY,
           })}
         />
         <span className="hidden pr-1 md:inline">Marijana Pavlinić</span>

@@ -2,13 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './themes-oklab.css';
+
 ::selection {
-  background-color: var(--main-theme-1);
-  color: var(--main-theme-2);
+  background-color: oklch(var(--theme-1));
+  color: oklch(var(--theme-2));
 }
 
 :root {
-  background: var(--main-background);
+  background: oklch(var(--background));
   scroll-padding-top: 80px;
   scroll-behavior: smooth;
 }
@@ -18,7 +20,7 @@
 }
 
 .glow {
-  background: radial-gradient(var(--main-theme-1), transparent);
+  background: radial-gradient(oklch(var(--theme-1)), transparent);
   top: calc(var(--mouse-y) - 200px);
   left: calc(var(--mouse-x) - 200px);
   opacity: 0.1;
@@ -26,5 +28,5 @@
 
 button:focus-visible,
 a:focus-visible {
-  outline: 1px solid var(--main-theme-1);
+  outline: 1px solid oklch(var(--theme-1));
 }

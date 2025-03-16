@@ -2,7 +2,7 @@
   display: grid;
   grid-gap: 20px;
   grid-template-columns: 300px minmax(auto, 480px) auto;
-  grid-template-rows: auto 1fr auto auto auto auto auto;
+  grid-template-rows: auto 1fr auto auto auto auto auto auto;
   grid-template-areas:
     '👋 👋 👔'
     '👋 👋 📌'
@@ -10,7 +10,8 @@
     '🎨 🖼️ 👩‍💻'
     '🎨 🖼️ 💌'
     '👀 💯 💌'
-    '👀 🧪 💌';
+    '👀 🧪 💌'
+    '👀 🧪 📝';
 }
 
 .home-cards > *,
@@ -29,7 +30,8 @@
       '🖌️ 🖌️ 🎨 🎨'
       '👀 👀 🖼️ 🖼️'
       '💯 💯 🧪 🧪'
-      '👩‍💻 👩‍💻 💌 💌';
+      '👩‍💻 👩‍💻 💌 💌'
+      '👩‍💻 👩‍💻 📝 📝';
   }
 }
 
@@ -43,11 +45,12 @@
       '📌'
       '👀'
       '🖼️'
+      '👩‍💻'
       '🎨'
       '🖌️'
       '💯'
       '🧪'
-      '👩‍💻'
-      '💌';
+      '💌'
+      '📝';
   }
 }
