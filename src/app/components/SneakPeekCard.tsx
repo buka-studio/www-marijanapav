@@ -16,6 +16,7 @@ import './cards.css';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import TextLink from '~/src/components/ui/TextLink';
+import { remap } from '~/src/math';
 
 const PixelatedReveal = dynamic(() => import('./PixelatedReveal'), { ssr: false });
 
@@ -137,10 +138,18 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 284px"
           placeholder="blur"
-          className={cn('object-cover object-center transition-all duration-300', {
-            'blur-0 grayscale-0': revealed,
-            'blur-sm grayscale': !revealed,
-          })}
+          style={
+            {
+              filter: `grayscale(${remap(cycleClickCount, 0, maxClicks, 100, 0)}%) blur(${remap(
+                cycleClickCount,
+                0,
+                maxClicks,
+                5,
+                0,
+              )}px)`,
+            } as React.CSSProperties
+          }
+          className={cn('object-cover object-center transition-all duration-300')}
         />
 
         <PixelatedReveal step={cycleClickCount} maxSteps={maxClicks} />

@@ -7,9 +7,10 @@ import { getStroke } from 'perfect-freehand';
 import { ComponentProps, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/src/components/ui/Tooltip';
+import { remap } from '~/src/math';
 import { cn } from '~/src/util';
 
-import { getSketchStrokeColor, remap } from './util';
+import { getSketchStrokeColor } from './util';
 
 const INK_LEVEL_WIDTH = 185;
 

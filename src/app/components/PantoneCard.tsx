@@ -72,7 +72,7 @@ export default function PantoneCard() {
   return (
     <Card containerClassName="z-[3] pantone-card">
       <TooltipProvider>
-        <div className="flex h-[268px] w-full flex-col gap-3">
+        <div className="flex h-[210px] w-full flex-col gap-3">
           <div className="duration-250 bg-theme-2 flex-1 rounded-md transition-all"></div>
           <div className="flex justify-between">
             <div className="flex-1 overflow-hidden">

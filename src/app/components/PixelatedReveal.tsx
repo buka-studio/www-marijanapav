@@ -118,7 +118,7 @@ function drawPixels(
   pixels: Pixels,
   canvas: HTMLCanvasElement,
   getColor?: (r: number, c: number) => string,
-  shape: 'circle' | 'square' = 'circle',
+  shape: 'circle' | 'square' = 'square',
 ) {
   const rowOffset = Math.floor((canvas.clientWidth * factor) / pixelSize);
   const colOffset = Math.floor((canvas.clientHeight * factor) / pixelSize);
@@ -268,7 +268,7 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
   return (
     <div className="relative h-full w-full" ref={ref}>
       <div
-        className={cn('bg-panel-overlay absolute left-0 top-0 h-full w-full', {
+        className={cn('absolute left-0 top-0 h-full w-full bg-main-theme-overlay opacity-50', {
           'opacity-0': revealed,
         })}
       />

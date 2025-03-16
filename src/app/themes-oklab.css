@@ -5,15 +5,15 @@
   --theme-4: 1 0 0;
 
   --main-background: 0.9791 0 0;
-  --main-accent: 0.235 0 0;
+  --main-accent: 0 0 0;
 
-  --text-primary: 0.235 0 0;
-  --text-secondary: 0.235 0 0;
-  --text-muted: 0.59 0 0;
+  --text-primary: 0.400 0 0;
+  --text-secondary: 0.400 0 0 / 0.7;
+  --text-muted: 0.59 0 0 / 0.4;
   --text-contrast: 0.9638 0.0044 179.73;
 
   --panel-background: 1 0 0;
-  --panel-border: 0.9638 0.0044 179.73 / 0.5;
+  --panel-border: 0.9638 0.0044 179.73 / 0.9;
   --panel-shadow: 0.8972 0.0045 179.72;
   --panel-overlay: 0.235 0 0 / 0.1;
 }
@@ -25,11 +25,11 @@
   --theme-4: 0.2002 0 0;
 
   --main-background: 0.1344 0 0;
-  --main-accent: 0.9321 0.0093 106.58;
+  --main-accent: 0.9999 0.0093 106.58;
 
-  --text-primary: 0.9321 0.0093 106.58;
-  --text-secondary: 0.9321 0.0093 106.58;
-  --text-muted: 0.5514 0.003 106.5;
+  --text-primary: 0.8950 0.0093 106.58;
+  --text-secondary: 0.9321 0.0093 106.58 / 0.7;
+  --text-muted: 0.5514 0.003 106.5 / 0.4;
   --text-contrast: 0.2002 0 0;
 
   --panel-background: 0.1822 0 0;

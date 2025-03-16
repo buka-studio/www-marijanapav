@@ -12,6 +12,8 @@ WORKDIR /app
 # Set production environment
 ENV NODE_ENV=production
 
+# Generate and set a Unix timestamp dynamically
+RUN echo "NEXT_PUBLIC_BUILD_TIME=$(date +%s)" > /app/.env.local
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
