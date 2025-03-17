@@ -14,7 +14,7 @@ const directoryData: DirectoryItem[] = [
     name: 'buka-studio',
     githubUrl: 'https://github.com/buka-studio',
     children: [
-      { name: 'echotab', githubUrl: 'https://github.com/buka-studio/echotab' },
+      // { name: 'echotab' },
       {
         name: 'www-marijanapav',
         githubUrl: 'https://github.com/buka-studio/www-marijanapav',
@@ -25,6 +25,7 @@ const directoryData: DirectoryItem[] = [
           },
           {
             name: 'stamps',
+            isLocked: true,
           },
         ],
       },
@@ -147,7 +148,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
         <ul
           className={cn(
             'mt-1',
-            'border-panel-overlay border-l',
+            'border-l border-panel-overlay',
             isDeepNested ? 'ml-2 pl-2' : 'ml-4 pl-4',
           )}
         >
