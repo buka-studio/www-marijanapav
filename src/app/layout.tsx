@@ -6,6 +6,8 @@ import { ThemeProvider } from './components/ThemeProvider';
 
 import './globals.css';
 
+import Script from 'next/script';
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -37,6 +39,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ThemeProvider>
         <div className="top-layer pointer-events-none fixed left-0 top-0 z-50 h-screen w-screen" />
       </body>
+      {process.env.NODE_ENV === 'production' && (
+        <Script
+          src="https://cloud.umami.is/script.js"
+          data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+        />
+      )}
     </html>
   );
 }
