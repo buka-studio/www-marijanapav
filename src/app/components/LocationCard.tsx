@@ -16,14 +16,25 @@ export default function LocationCard() {
 
   return (
     <Card>
-      <div className="group relative h-[288px] w-full overflow-hidden rounded-md">
+      <div className="group relative h-[240px] w-full overflow-hidden rounded-md">
         <Image
           src="/home/workspace.png"
           alt="workspaces.xyz"
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="object-cover transition-all duration-300 group-hover:scale-105"
         />
         <div className="absolute left-0 top-0 h-full w-full bg-panel-overlay transition-colors duration-200" />
+
+        {/* Rule of Thirds Grid - Only visible on hover */}
+        <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          {/* Vertical lines */}
+          <div className="absolute bottom-0 left-1/3 top-0 w-px bg-text-primary/60"></div>
+          <div className="absolute bottom-0 left-2/3 top-0 w-px bg-text-primary/60"></div>
+
+          {/* Horizontal lines */}
+          <div className="absolute left-0 right-0 top-1/3 h-px bg-text-primary/60"></div>
+          <div className="absolute left-0 right-0 top-2/3 h-px bg-text-primary/60"></div>
+        </div>
       </div>
       <div className="mt-4">
         <a
