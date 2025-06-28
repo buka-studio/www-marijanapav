@@ -74,7 +74,7 @@ export default function ColorThemeCard() {
         <div className="h-6 flex-shrink-0 overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
-              className="flex justify-between"
+              className="flex h-full items-center justify-between"
               key={String(colorPicked)}
               {...slideRightProps}
             >
@@ -89,9 +89,9 @@ export default function ColorThemeCard() {
                 disabled={!colorTheme}
               >
                 {colorTheme ? (
-                  <ArrowCounterClockwiseIcon className="h-5 w-5 text-text-primary transition-all duration-200 group-hover:text-theme-1" />
+                  <ArrowCounterClockwiseIcon className="h-4 w-4 text-text-primary transition-all duration-200 group-hover:text-theme-1" />
                 ) : (
-                  <ArrowUpIcon className="h-5 w-5 text-text-primary" />
+                  <ArrowUpIcon className="h-4 w-4 text-text-primary" />
                 )}
               </button>
             </motion.div>
