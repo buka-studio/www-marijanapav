@@ -93,7 +93,7 @@ export default function PhotosCard() {
   }, [photo]);
 
   return (
-    <Card className="flex flex-col gap-5 pb-0">
+    <Card className="flex flex-col gap-5 ">
       <div className="flex flex-col items-start justify-between gap-2 xxs:flex-row xxs:items-center">
         <CardTitle variant="mono">Camera roll</CardTitle>
         <div className="flex items-center justify-center gap-[6px]">
