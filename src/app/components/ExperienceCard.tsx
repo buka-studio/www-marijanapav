@@ -46,10 +46,10 @@ const positions: Position[] = [
 export default function ExperienceCard() {
   return (
     <Card>
-      <div className="flex flex-col justify-between px-2 xl:h-[440px]">
+      <div className="flex flex-col justify-between px-2 xl:h-[360px]">
         <Heading
           as="h1"
-          className="mb-5 border-panel-border pb-6 font-sans text-base font-semibold text-text-primary xl:mb-28"
+          className="mb-5 border-panel-border pb-6 font-sans text-base font-semibold text-text-primary xl:mb-20"
         >
           Work
         </Heading>
