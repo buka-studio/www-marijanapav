@@ -43,13 +43,13 @@ const social = [
 
 export default function BioCard() {
   return (
-    <Card className="flex flex-1 flex-col gap-4 bg-panel-background p-4">
+    <Card className="flex flex-1 flex-col gap-4 bg-panel-background">
       <div className="relative">
         <Image
           alt="A wild Marijana caught drawing"
           src={PortraitSrc}
           placeholder="blur"
-          className="max-h-[455px] w-full rounded-md object-cover object-top"
+          className="h-full w-full rounded-md object-cover object-top"
           loading="eager"
           sizes="(max-width: 768px) 100vw, 768px"
           priority
@@ -58,10 +58,10 @@ export default function BioCard() {
       </div>
 
       <p className="panel text-sm leading-6 text-text-primary">
-        I’m a designer interested in tech, exploring brand, web, illustration, and code. I co-run{' '}
-        <TextLink href="https://www.buka.studio">Buka Studio</TextLink> where I help teams craft
-        cohesive experiences across product, marketing, and everything in between. These days, my
-        focus is on designing brand and web for devtools—which led me to try frontend myself,
+        I&apos;m a designer interested in tech, exploring brand, web, illustration, and code. I
+        co-run <TextLink href="https://www.buka.studio">Buka Studio</TextLink> where I help teams
+        craft cohesive experiences across product, marketing, and everything in between. These days,
+        my focus is on designing brand and web for devtools—which led me to try frontend myself,
         curious about how implementation can push design further when you follow it all the way from
         Figma to prod. I&apos;m based in Croatia, working alongside my partner and a cat who rarely
         skips a stand-up.

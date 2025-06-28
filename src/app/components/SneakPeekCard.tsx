@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
+import CardTitle from '~/src/components/ui/CardTitle';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 import { cn } from '~/src/util';
@@ -68,7 +69,9 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
 
   return (
     <Card className="flex flex-col">
-      <div className="mb-2 font-semibold text-text-primary">In Progress</div>
+      <CardTitle variant="mono" className="mb-2">
+        In Progress
+      </CardTitle>
       <div className="mb-20 flex items-start justify-between  xl:mb-[120px]">
         <Heading as="h1" className="text-primary text-3xl md:text-4xl">
           Sneak <br className="hidden md:block" />
@@ -97,7 +100,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
             </motion.p>
           )}
         </AnimatePresence>
-        <div className="progress bg-panel-overlay text-text-contrast relative mb-4 rounded-full pr-2">
+        <div className="progress relative mb-4 rounded-full bg-panel-overlay pr-2 text-text-contrast">
           <div
             className="progress-bar absolute h-full min-w-[130px] rounded-full bg-text-primary transition-all duration-300"
             style={
@@ -110,7 +113,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
             }
           />
           <button
-            className="text-text-contrast relative flex w-[130px] items-center gap-2 rounded-full bg-text-primary px-2 py-[4px] text-sm"
+            className="relative flex w-[130px] items-center gap-2 rounded-full bg-text-primary px-2 py-[4px] text-sm text-text-contrast"
             onClick={handleClick}
           >
             {revealed ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}

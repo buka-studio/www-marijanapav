@@ -13,7 +13,7 @@ import photo7 from '~/public/home/photos/photo_7.jpg';
 import photo8 from '~/public/home/photos/photo_8.jpg';
 import photo9 from '~/public/home/photos/photo_9.jpg';
 import photo10 from '~/public/home/photos/photo_10.jpg';
-import Heading from '~/src/components/ui/Heading';
+import CardTitle from '~/src/components/ui/CardTitle';
 import Image from '~/src/components/ui/Image';
 import { cn } from '~/src/util';
 
@@ -93,9 +93,32 @@ export default function PhotosCard() {
   }, [photo]);
 
   return (
-    <Card className="flex flex-col justify-between gap-5">
+    <Card className="flex flex-col gap-5 pb-0">
+      <div className="flex flex-col items-start justify-between gap-2 xxs:flex-row xxs:items-center">
+        <CardTitle variant="mono">Camera roll</CardTitle>
+        <div className="flex items-center justify-center gap-[6px]">
+          {photos.map((p, i) => (
+            <button
+              aria-label={`Go to photo ${i + 1}`}
+              onClick={() => {
+                setPhoto(i);
+                scrollAreaRef.current!.scroll({
+                  left: scrollAreaRef.current!.clientWidth * i,
+                  behavior: 'smooth',
+                });
+              }}
+              key={p.src}
+              className={cn('h-[10px] rounded-full transition-all duration-150', {
+                'w-[10px] bg-panel-overlay': i !== photo,
+                'h-[6px] w-[30px] bg-theme-1': i === photo,
+              })}
+            />
+          ))}
+        </div>
+      </div>
+
       <div
-        className="flex aspect-square w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-md scrollbar-none md:order-2 xl:order-none"
+        className="flex aspect-square w-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-md scrollbar-none"
         ref={scrollAreaRef}
       >
         {photos.map((p, i) => (
@@ -111,36 +134,11 @@ export default function PhotosCard() {
               alt=""
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1280px): 50vw, 478px"
-              className="rounded-md object-cover object-center"
+              className="rounded-sm object-cover object-center"
             />
-            <div className="bg-panel-overlay absolute left-0 top-0 h-full w-full rounded-md transition-colors duration-200" />
+            <div className="absolute left-0 top-0 h-full w-full rounded-sm bg-panel-overlay transition-colors duration-200" />
           </div>
         ))}
-      </div>
-
-      <div className="flex flex-col items-start justify-between gap-2 pt-5 md:pt-0 xxs:flex-row xxs:items-center">
-        <Heading as="h1" className="text-primary font-sans font-semibold text-text-primary">
-          Camera roll
-        </Heading>
-        <div className=" flex items-center justify-center gap-[6px] md:order-1 md:mt-auto xl:order-last xl:mb-0 ">
-          {photos.map((p, i) => (
-            <button
-              aria-label={`Go to photo ${i + 1}`}
-              onClick={() => {
-                setPhoto(i);
-                scrollAreaRef.current!.scroll({
-                  left: scrollAreaRef.current!.clientWidth * i,
-                  behavior: 'smooth',
-                });
-              }}
-              key={p.src}
-              className={cn('h-[10px] rounded-full transition-all duration-150', {
-                'bg-panel-overlay w-[10px]': i !== photo,
-                'bg-theme-1 h-[6px] w-[30px]': i === photo,
-              })}
-            />
-          ))}
-        </div>
       </div>
     </Card>
   );

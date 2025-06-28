@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 
 import GridBackground from '~/src/components/GridBackground';
 import Button from '~/src/components/ui/Button';
+import CardTitle from '~/src/components/ui/CardTitle';
 import {
   Tooltip,
   TooltipContent,
@@ -133,7 +134,7 @@ export default function SketchbookCard() {
             <Screenshot screenshotRef={screenshotRef} />
           </div>
           <div className="flex items-center justify-between gap-2">
-            <p className="font-semibold text-text-primary">Sketchbook</p>
+            <CardTitle variant="mono">Sketchbook</CardTitle>
             <SketchbookButton
               hasDrawn={hasDrawn}
               state={state}

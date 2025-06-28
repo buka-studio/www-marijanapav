@@ -3,7 +3,7 @@
 import dayjs from 'dayjs';
 import { ArrowUpRight } from 'lucide-react';
 
-import Heading from '~/src/components/ui/Heading';
+import CardTitle from '~/src/components/ui/CardTitle';
 
 import Card from './Card';
 
@@ -18,12 +18,7 @@ export default function NotesCard() {
   return (
     <Card className="">
       <div className="flex flex-col justify-between gap-5">
-        <Heading
-          as="h2"
-          className=" flex items-center gap-2 font-sans font-semibold text-text-primary"
-        >
-          Notes
-        </Heading>
+        <CardTitle variant="mono">Notes</CardTitle>
         <p className="text-sm leading-5 text-text-primary">
           This site is constantly evolving, expect frequent nitpick commits. Last updated:{' '}
           <a

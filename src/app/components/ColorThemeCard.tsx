@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ComponentProps } from 'react';
 
 import GridBackground from '~/src/components/GridBackground';
+import CardTitle from '~/src/components/ui/CardTitle';
 import { cn } from '~/src/util';
 
 import Card from './Card';
@@ -77,9 +78,9 @@ export default function ColorThemeCard() {
               key={String(colorPicked)}
               {...slideRightProps}
             >
-              <p className="font-semibold text-text-primary">
+              <CardTitle variant="mono">
                 {colorTheme ? 'Bring back grayscale' : 'Pick a color'}
-              </p>
+              </CardTitle>
 
               <button
                 aria-label="Reset color theme"

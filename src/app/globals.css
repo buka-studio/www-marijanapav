@@ -19,6 +19,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
+
 .glow {
   background: radial-gradient(oklch(var(--theme-1)), transparent);
   top: calc(var(--mouse-y) - 200px);

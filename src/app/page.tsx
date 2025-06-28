@@ -9,8 +9,8 @@ import {
   BukaCard,
   CodeCard,
   ColorThemeCard,
+  CurrentCard,
   ExperienceCard,
-  LocationCard,
   NotesCard,
   PantoneCard,
   PhotosCard,
@@ -18,6 +18,7 @@ import {
   SneakPeekCard,
   StampsCard,
   ToolsCard,
+  WorkspaceCard,
 } from './components';
 import Header from './components/Header';
 import Heading from './components/Heading';
@@ -37,7 +38,7 @@ const projectLinks: Array<{ label: string; href: FilterHref }> = [
 const getCards = ({ sketchbookCard }: { sketchbookCard: boolean }) => [
   { gridArea: '👋', Component: BioCard },
   { gridArea: '👔', Component: ExperienceCard },
-  { gridArea: '📌', Component: LocationCard },
+  { gridArea: '📌', Component: WorkspaceCard },
   { gridArea: '🖌️', Component: PantoneCard },
   { gridArea: '🎨', Component: ColorThemeCard },
   { gridArea: '👀', Component: SneakPeekCard },

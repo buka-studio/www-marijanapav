@@ -1,6 +1,6 @@
 'use client';
 
-import Heading from '~/src/components/ui/Heading';
+import CardTitle from '~/src/components/ui/CardTitle';
 import Tag from '~/src/components/ui/Tag';
 
 import Gibraltar1 from '../../../public/home/gibraltar_1.svg';
@@ -29,22 +29,19 @@ export default function StampsCard() {
           </div>
         </div>
         <div className="mb-4 [&_>*]:inline [&_>*]:align-middle">
-          <Heading
-            as="h2"
-            className=" flex items-center gap-2 font-sans font-semibold text-text-primary"
-          >
+          <CardTitle variant="mono" className="flex items-center gap-2">
             <a href="#" className="group rounded-md">
               Digital Stamp Collection&nbsp;
               <Tag
                 variant="dashed"
-                className="text-text-muted ml-1 inline align-middle font-sans text-xs"
+                className="ml-1 inline align-middle font-mono text-xs text-text-muted"
               >
                 Coming&nbsp;soon
               </Tag>
             </a>
-          </Heading>
+          </CardTitle>
         </div>
-        <p className="leading-7 text-text-primary">
+        <p className="text-sm  text-text-primary">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his
           stamps in a digital form, exploring the blend of art, history, and typography and bringing
           it online for a new audience to enjoy.
