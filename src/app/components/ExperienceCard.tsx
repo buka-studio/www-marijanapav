@@ -46,20 +46,28 @@ const positions: Position[] = [
 export default function ExperienceCard() {
   return (
     <Card>
-      <div className="flex flex-col justify-between px-2 xl:h-[500px]">
+      <div className="flex flex-col justify-between px-2 xl:h-[440px]">
         <Heading
           as="h1"
           className="mb-5 border-panel-border pb-6 font-sans text-base font-semibold text-text-primary xl:mb-28"
         >
           Work
         </Heading>
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-2">
           {positions.map((p, i) => (
             <li
               key={i}
-              className="flex flex-row items-center justify-between border-b border-panel-border pb-4 last-of-type:border-none"
+              className={`flex flex-row items-center justify-between border-b border-panel-border text-sm last-of-type:border-none ${
+                i === positions.length - 1 ? 'pb-2' : 'pb-4'
+              }`}
             >
               <span className="flex flex-1 flex-wrap items-center gap-2 whitespace-nowrap">
+                {!p.to && (
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-main-accent opacity-75"></span>
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-main-accent"></span>
+                  </span>
+                )}
                 <span className="text-text-primary">
                   {p.title} {p.company && 'at'}{' '}
                 </span>
@@ -67,7 +75,7 @@ export default function ExperienceCard() {
                   <Tag asChild className="bg-transparent p-0">
                     {p.company.href ? (
                       <a
-                        className="text-md hover:text-main-accent group inline-flex items-center text-text-primary"
+                        className="text-md group inline-flex items-center text-text-primary hover:text-main-accent"
                         href={p.company.href}
                         rel="noreferrer"
                         target="_blank"
@@ -85,12 +93,6 @@ export default function ExperienceCard() {
                 <span className="hidden xs:block">
                   {p.from}—{p.to ? p.to : 'ongoing'}
                 </span>
-                {!p.to && (
-                  <span className="relative flex h-3 w-3 xs:hidden">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
-                    <span className="relative inline-flex h-3 w-3 rounded-full"></span>
-                  </span>
-                )}
               </span>
             </li>
           ))}
