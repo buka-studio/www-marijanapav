@@ -89,7 +89,7 @@ export default function PantoneCard() {
               </AnimatePresence>
             </div>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger className="rounded-full">
                 <InfoIcon className="text-text-primary" />
               </TooltipTrigger>
               <TooltipContent className="w-[200px] text-center">

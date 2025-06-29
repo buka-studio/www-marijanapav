@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import CardTitle from '~/src/components/ui/CardTitle';
-import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 import { cn } from '~/src/util';
 
@@ -73,10 +72,10 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
         In Progress
       </CardTitle>
       <div className="mb-20 flex items-start justify-between  xl:mb-[120px]">
-        <Heading as="h1" className="text-primary text-3xl md:text-4xl">
+        <div className="font-archivo text-3xl md:text-4xl">
           Sneak <br className="hidden md:block" />
           peek
-        </Heading>
+        </div>
       </div>
       <div className="relative flex flex-col gap-4">
         <AnimatePresence>

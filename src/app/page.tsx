@@ -9,7 +9,6 @@ import {
   BukaCard,
   CodeCard,
   ColorThemeCard,
-  CurrentCard,
   ExperienceCard,
   NotesCard,
   PantoneCard,
