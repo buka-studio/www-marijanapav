@@ -78,14 +78,14 @@ export default function PantoneCard() {
           <div className="flex justify-between">
             <div className="flex-1 overflow-hidden">
               <AnimatePresence mode="wait" initial={false}>
-                <motion.p className=" text-text-primary" key={name} {...slideLeftProps}>
+                <motion.div className=" text-text-primary" key={name} {...slideLeftProps}>
                   <CardTitle variant="mono" className="inline">
                     PANTONE
                   </CardTitle>{' '}
                   <span className="text-sm">
                     <ClientRendered>{name}</ClientRendered>
                   </span>
-                </motion.p>
+                </motion.div>
               </AnimatePresence>
             </div>
             <Tooltip>
