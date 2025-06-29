@@ -12,7 +12,7 @@ const CardTitle = forwardRef<HTMLDivElement, Props & ComponentProps<'div'>>(func
   ref,
 ) {
   return (
-    <div
+    <h2
       className={cn(
         'text-base font-semibold text-text-primary',
         // Style variants
@@ -24,7 +24,7 @@ const CardTitle = forwardRef<HTMLDivElement, Props & ComponentProps<'div'>>(func
       {...rest}
     >
       {children}
-    </div>
+    </h2>
   );
 });
 
