@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, ChevronDown, FolderClosed, FolderLock, FolderOpen } from 'lucide-react';
 import { useState } from 'react';
 
-import Heading from '~/src/components/ui/Heading';
+import CardTitle from '~/src/components/ui/CardTitle';
 import { cn } from '~/src/util';
 
 import Card from './Card';
@@ -34,10 +34,7 @@ const directoryData: DirectoryItem[] = [
   {
     name: 'livekit',
     githubUrl: 'https://github.com/livekit',
-    children: [
-      { name: 'livekit-site', isLocked: true },
-      { name: 'web', isLocked: true },
-    ],
+    children: [{ name: 'web', isLocked: true }],
   },
 ];
 
@@ -164,14 +161,10 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
 export default function CodeCard() {
   return (
     <Card>
-      <Heading
-        as="h2"
-        className="mb-14 flex items-center gap-2 font-sans font-semibold text-text-primary"
-      >
-        {' '}
-        Currently exploring a bit of code
-      </Heading>
-      <TreeView data={directoryData} />
+      <div className="flex h-full flex-col justify-between">
+        <CardTitle variant="mono">Exploring code</CardTitle>
+        <TreeView data={directoryData} />
+      </div>
     </Card>
   );
 }

@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 import FolderClosedIcon from '~/src/components/icons/folder-closed.svg';
 import FolderOpenedIcon from '~/src/components/icons/folder-opened.svg';
-import Heading from '~/src/components/ui/Heading';
 
 import Card from './Card';
 
@@ -30,9 +29,9 @@ export default function CurrentCard() {
   return (
     <Card className="">
       <div className="flex h-[280px]  flex-col justify-between">
-        <Heading as="h2" className="mb-14 flex items-center gap-2 font-sans text-text-secondary">
+        <div className="mb-14 flex items-center gap-2 font-sans text-text-secondary">
           Currently exploring frontend
-        </Heading>
+        </div>
 
         <div className="flex flex-col  gap-2">
           {folderItems.map((item, index) => (
@@ -50,9 +49,9 @@ export default function CurrentCard() {
                   }}
                 >
                   {expandedItem === index ? (
-                    <FolderOpenedIcon className="hoverable:text-theme-1 hoverable:hover:text-theme-2 h-5 w-5 transition-all duration-200" />
+                    <FolderOpenedIcon className="h-5 w-5 transition-all duration-200 hoverable:text-theme-1 hoverable:hover:text-theme-2" />
                   ) : (
-                    <FolderClosedIcon className="hoverable:text-theme-1 hoverable:hover:text-theme-2 h-5 w-5 transition-all duration-200" />
+                    <FolderClosedIcon className="h-5 w-5 transition-all duration-200 hoverable:text-theme-1 hoverable:hover:text-theme-2" />
                   )}
                 </motion.div>
                 <p

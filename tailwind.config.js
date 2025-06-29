@@ -9,6 +9,7 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-inter)', ...fontFamily.sans],
         archivo: ['var(--font-archivo)'],
+        mono: ['var(--font-ibm-plex-mono)', 'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'monospace'],
       },
       colors: {
         theme: {

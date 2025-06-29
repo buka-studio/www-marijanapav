@@ -9,21 +9,18 @@ const links = [
     label: 'Twitter',
     href: 'https://twitter.com/marijanapav',
   },
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/marijana-pavlinic/',
-  },
-  {
-    label: 'Instagram',
-    href: 'https://www.instagram.com/marijanapavlinic/',
-  },
-  {
-    label: 'ReadCV',
-    href: 'https://read.cv/marijanapav',
-  },
+
   {
     label: 'GitHub',
     href: 'https://www.github.com/marijanapav',
+  },
+  {
+    label: 'Bluesky',
+    href: 'https://bsky.app/profile/marijanapav.com',
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/marijana-pavlinic/',
   },
 ];
 

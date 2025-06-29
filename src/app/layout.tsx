@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Archivo, Inter } from 'next/font/google';
+import { Archivo, IBM_Plex_Mono, Inter, JetBrains_Mono } from 'next/font/google';
 
 import Footer from './components/Footer';
 import { ThemeProvider } from './components/ThemeProvider';
@@ -19,6 +19,17 @@ const archivo = Archivo({
   variable: '--font-archivo',
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--font-ibm-plex-mono',
+});
+
 export const metadata: Metadata = {
   title: "Marijana Pavlinić's Personal Website",
   metadataBase:
@@ -28,7 +39,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="">
-      <body className={`${inter.variable} ${archivo.variable} font-sans`}>
+      <body
+        className={`${inter.variable} ${archivo.variable} ${jetbrainsMono.variable} ${ibmPlexMono.variable} font-sans`}
+      >
         <ThemeProvider>
           <div className="main bg-main-background">
             <div className="m-auto flex min-h-screen max-w-screen-2xl flex-col">
