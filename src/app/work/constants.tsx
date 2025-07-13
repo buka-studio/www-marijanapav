@@ -55,6 +55,11 @@ import InfinumPosters02 from '~/public/work/infinum-posters/infinum-posters_02.p
 import InfinumPosters03 from '~/public/work/infinum-posters/infinum-posters_03.png';
 import InfinumPostersPreview from '~/public/work/infinum-posters/preview.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
+import LiveKit01 from '~/public/work/livekit/livekit_1.png';
+import LiveKit02 from '~/public/work/livekit/livekit_2.png';
+import LiveKit03 from '~/public/work/livekit/livekit_3.png';
+import LiveKit04 from '~/public/work/livekit/livekit_4.png';
+import LiveKitPreview from '~/public/work/livekit/livekit_preview.png';
 import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.png';
 import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
 import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.png';
@@ -72,6 +77,11 @@ import SignOff02 from '~/public/work/program-end/sign-off02.png';
 import SignOff03 from '~/public/work/program-end/sign-off03.png';
 import SignOff04 from '~/public/work/program-end/sign-off04.png';
 import rpavlini from '~/public/work/rpavlini/rpavlini.png';
+import Sketchbook01 from '~/public/work/sketchbook/sketchbook_1.png';
+import Sketchbook02 from '~/public/work/sketchbook/sketchbook_2.png';
+import Sketchbook02a from '~/public/work/sketchbook/sketchbook_2a.png';
+import Sketchbook03 from '~/public/work/sketchbook/sketchbook_3.png';
+import SketchbookPreview from '~/public/work/sketchbook/sketchbook_preview.png';
 import StampsPreview from '~/public/work/stamps/preview.png';
 import Stamps00 from '~/public/work/stamps/stamps_00.png';
 import Stamps01 from '~/public/work/stamps/stamps_01.png';
@@ -145,6 +155,19 @@ export type Project = (StaticProject | ComponentProject) & {
 export const projects: Project[] = [
   {
     type: 'project',
+    title: 'An overview of how LiveKit works',
+    slug: 'how-livekit-works',
+    preview: LiveKitPreview,
+    images: [LiveKit01, LiveKit02, LiveKit03, LiveKit04],
+    filters: ['digital', 'branding', 'illustration'],
+    description:
+      '“How it works” component from the LiveKit site aims to make the invisible infrastructure feel tangible. It illustrates the end-to-end flow of a voice agent interaction, breaking it into four clear steps that show 5 layers and their constant interaction. ',
+    link: 'https://livekit.io/',
+    tags: ['Figma', '© 2024'],
+    aspect: 0.9,
+  },
+  {
+    type: 'project',
     title: 'EchoTab Chrome Extension Landing page',
     slug: 'echo-tab-landing',
     preview: EchoTabLandingPreview,
@@ -179,6 +202,18 @@ export const projects: Project[] = [
       'After three decades, DORS/CLUC (Dani otvorenih računalnih sustava / Croatian Linux Users’ Conference) still reigns as Europe’s open-source hub. As the oldest, largest event on free software, open standards, and Linux, it hosts top FOSS names in Croatia and the wider region. For its 30th edition, I designed a dark-mode, CLI inspired merch that is deeply connected with the audience. Come grab the merch in May where 500+ attendees connect and shape the future of tech. ',
     tags: ['Figma', '© 2025', 'In Progress'],
     aspect: 1,
+  },
+  {
+    type: 'project',
+    title: 'Digital Sketchbook',
+    slug: 'sketchbook',
+    preview: SketchbookPreview,
+    images: [Sketchbook01, Sketchbook02, Sketchbook02a, Sketchbook03],
+    filters: ['illustration'],
+    description:
+      'A personal collection of sketches made in Procreate—just for fun. I’m planning on adding a lot more sketches and turning them into a showcase site, presented inside a lifelike 3D sketchbook (WIP). ',
+    tags: ['Procreate', 'In Progress'],
+    aspect: 1.4,
   },
   {
     type: 'project',
