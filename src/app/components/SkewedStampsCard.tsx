@@ -24,20 +24,7 @@ import Gibraltar1 from '../../../public/home/gibraltar_1.svg';
 import Gibraltar2 from '../../../public/home/gibraltar_2.svg';
 import Card from './Card';
 
-export function SkewedCard({
-  index,
-  children,
-  count,
-  width = 200,
-  height = 200,
-  activeIndex,
-  className,
-  style,
-  spacing = 1,
-  containerWidth,
-  containerHeight,
-  onActivate,
-}: {
+interface SkewedCardProps {
   index: number;
   children: React.ReactNode;
   count: number;
@@ -50,13 +37,27 @@ export function SkewedCard({
   containerWidth: number;
   containerHeight: number;
   onActivate?: (index: number | null) => void;
-}) {
+}
+
+export function SkewedCard({
+  index,
+  children,
+  count,
+  width = 200,
+  height = 200,
+  activeIndex,
+  className,
+  style,
+  containerWidth,
+  containerHeight,
+  onActivate,
+}: SkewedCardProps) {
   const scrollProgress = useMotionValue(0);
   const animationControls = useAnimationControls();
 
   const isTouch = useMatchMedia('(pointer: coarse)');
 
-  const cardOffset = (index / count) * spacing;
+  const cardOffset = index / count;
   const initialProgress = cardOffset % 1;
   const initialZIndex = Math.floor(initialProgress * count);
   const [relativeZIndex, setRelativeZIndex] = useState(initialZIndex);
@@ -69,7 +70,7 @@ export function SkewedCard({
   });
 
   const loopedProgress = useTransform(scrollProgress, (p) => {
-    const cardOffset = (index / count) * spacing;
+    const cardOffset = index / count;
 
     return (p + cardOffset) % 1;
   });
@@ -165,7 +166,7 @@ export function SkewedCard({
 
 export function Stamps({ width, height }: { width: number; height: number }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const numCards = 8;
+  const numCards = 10;
 
   return (
     <div className="relative h-full w-full">
@@ -195,7 +196,11 @@ export function Stamps({ width, height }: { width: number; height: number }) {
                 onActivate={setActiveIndex}
                 className="flex items-center justify-center"
               >
-                {i % 2 === 0 ? <Gibraltar1 className="" /> : <Gibraltar2 className="" />}
+                {i % 2 === 0 ? (
+                  <Gibraltar1 className="drop-shadow" />
+                ) : (
+                  <Gibraltar2 className="drop-shadow" />
+                )}
               </SkewedCard>
             );
           })}
