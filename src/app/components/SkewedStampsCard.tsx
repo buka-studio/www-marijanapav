@@ -20,8 +20,11 @@ import useResizeRef from '~/src/hooks/useResizeRef';
 import { remap } from '~/src/math';
 import { cn } from '~/src/util';
 
-import Gibraltar1 from '../../../public/home/gibraltar_1.svg';
-import Gibraltar2 from '../../../public/home/gibraltar_2.svg';
+import Stamp1 from '../../../public/home/stamps/stamp_1.svg';
+import Stamp2 from '../../../public/home/stamps/stamp_2.svg';
+import Stamp3 from '../../../public/home/stamps/stamp_3.svg';
+import Stamp4 from '../../../public/home/stamps/stamp_4.svg';
+import Stamp5 from '../../../public/home/stamps/stamp_5.svg';
 import Card from './Card';
 
 interface SkewedCardProps {
@@ -99,31 +102,11 @@ export function SkewedCard({
     }
   });
 
-  useEffect(() => {
-    if (scrolling.current) {
-      return;
-    }
-
-    if (activeIndex === index) {
-      // scale.set(1.2);
-      // animationControls.start({
-      //   scale: 1.2,
-      //   zIndex: count + 1,
-      // });
-    } else {
-      // scale.set(1);
-      // animationControls.start({
-      //   scale: 1,
-      //   zIndex: relativeZIndex,
-      // });
-    }
-  }, [activeIndex, relativeZIndex, index]);
-
   const transform = useMotionTemplate`translate(${x}px, ${y}px) skewY(10deg) scale(${springScale})`;
 
   useEffect(() => {
     if (containerHeight > 0) {
-      lenis.scrollTo(200, {
+      lenis?.scrollTo(200, {
         duration: 5,
       });
 
@@ -132,11 +115,11 @@ export function SkewedCard({
         filter: 'blur(0px)',
         transition: {
           delay: 0.05 * index,
-          duration: 0.25,
+          duration: 0.05 * index,
         },
       });
     }
-  }, [containerWidth, containerHeight, index]);
+  }, [containerWidth, containerHeight, index, animationControls, lenis]);
 
   return (
     <motion.div
@@ -168,6 +151,8 @@ export function Stamps({ width, height }: { width: number; height: number }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const numCards = 10;
 
+  const stamps = [Stamp1, Stamp2, Stamp3, Stamp4, Stamp5];
+
   return (
     <div className="relative h-full w-full">
       <ReactLenis
@@ -183,6 +168,7 @@ export function Stamps({ width, height }: { width: number; height: number }) {
         <div className="h-[1000px] w-full" />
         <div className="absolute right-0 top-0 mx-auto flex h-full w-full flex-col items-center overflow-hidden rounded-lg border border-panel-border">
           {Array.from({ length: numCards }).map((_, i) => {
+            const Stamp = stamps[i % stamps.length];
             return (
               <SkewedCard
                 activeIndex={activeIndex}
@@ -196,11 +182,13 @@ export function Stamps({ width, height }: { width: number; height: number }) {
                 onActivate={setActiveIndex}
                 className="flex items-center justify-center"
               >
-                {i % 2 === 0 ? (
-                  <Gibraltar1 className="drop-shadow" />
-                ) : (
-                  <Gibraltar2 className="drop-shadow" />
-                )}
+                <Stamp
+                  className={cn(
+                    '[--background:oklch(var(--theme-3))] [--foreground-muted:oklch(var(--text-primary))]',
+                    '[.theme-dark_&]:[--background:oklch(var(--theme-1))] [.theme-dark_&]:[--foreground-muted:oklch(var(--theme-3))] [.theme-dark_&]:[--foreground:oklch(var(--theme-3))] [.theme-dark_&]:[--outline:oklch(var(--theme-2))]',
+                    'h-auto w-[150px] drop-shadow-sm',
+                  )}
+                />
               </SkewedCard>
             );
           })}
@@ -226,10 +214,10 @@ export default function SkewedStampsCard() {
         <div className="mb-4 [&_>*]:inline [&_>*]:align-middle">
           <CardTitle variant="mono" className="flex items-center gap-2">
             <a href="#" className="group rounded-md">
-              Digital Stamp Collection&nbsp;
+              <span className="mr-1 inline-block">Digital Stamp Collection&nbsp;</span>
               <Tag
                 variant="dashed"
-                className="ml-1 inline align-middle font-mono text-xs text-text-muted"
+                className="mb-[1px] inline-block py-[0.1rem] align-middle font-mono text-xs text-text-muted"
               >
                 Coming&nbsp;soon
               </Tag>
