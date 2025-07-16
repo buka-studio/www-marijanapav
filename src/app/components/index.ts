@@ -8,24 +8,24 @@ import { default as NotesCard } from './NotesCard';
 import { default as PantoneCard } from './PantoneCard';
 import { default as PhotosCard } from './PhotosCard';
 import { default as SketchbookCard } from './SketchbookCard';
+import { default as StampsCard } from './SkewedStampsCard';
 import { default as SneakPeekCard } from './SneakPeekCard';
-import { default as StampsCard } from './StampsCard';
 import { default as ToolsCard } from './ToolsCard';
 import { default as WorkspaceCard } from './WorkspaceCard';
 
 export {
   BioCard,
   BukaCard,
+  CodeCard,
   ColorThemeCard,
   CurrentCard,
-  CodeCard,
   ExperienceCard,
-  WorkspaceCard,
+  NotesCard,
   PantoneCard,
   PhotosCard,
   SketchbookCard,
   SneakPeekCard,
   StampsCard,
   ToolsCard,
-  NotesCard,
+  WorkspaceCard,
 };

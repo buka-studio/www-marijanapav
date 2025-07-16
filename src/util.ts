@@ -1,8 +1,8 @@
-import clsx from 'clsx';
+import { ClassValue, clsx } from 'clsx';
 import { formatHex, oklch } from 'culori';
 import { twMerge } from 'tailwind-merge';
 
-export function cn(...classes: clsx.ClassValue[]) {
+export function cn(...classes: ClassValue[]) {
   return twMerge(clsx(classes));
 }
 
