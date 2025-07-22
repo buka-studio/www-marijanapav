@@ -1,6 +1,12 @@
 'use client';
 
-import { AnimationControls, clamp, motion, useAnimation, usePresence } from 'framer-motion';
+import {
+  clamp,
+  LegacyAnimationControls,
+  motion,
+  useAnimationControls,
+  usePresence,
+} from 'framer-motion';
 import {
   ComponentProps,
   forwardRef,
@@ -19,18 +25,18 @@ const Sketchbook = ({ className, line }: { className?: string; line?: boolean })
 );
 
 export interface AnimationRef {
-  controls: AnimationControls;
+  controls: LegacyAnimationControls;
 }
 
 export interface Props {
   children: React.ReactNode;
   className?: string;
-  animationRef: React.RefObject<AnimationRef> | ((e: AnimationRef) => void);
+  animationRef: React.Ref<AnimationRef>;
 }
 
 const SketchbookContainer = forwardRef<HTMLDivElement, Props & ComponentProps<typeof motion.div>>(
   function SketchbookContainer({ children, animationRef, className, ...props }, ref) {
-    const controls = useAnimation();
+    const controls = useAnimationControls();
 
     const innerRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,7 +79,7 @@ export default function Sketchbooks({
   className?: string;
 }) {
   const animationRefs = useRef(
-    new Map<number, { animationRef: { controls: AnimationControls } }>(),
+    new Map<number, { animationRef: { controls: LegacyAnimationControls } }>(),
   );
   const sketchbookRefs = useRef(
     new Map<number, { e: HTMLElement; z: number; dragging: boolean }>(),
@@ -146,19 +152,22 @@ export default function Sketchbooks({
       {Array.from({ length: count }).map((_, index) => (
         <SketchbookContainer
           key={index}
-          ref={(e) =>
+          ref={(e) => {
             sketchbookRefs.current.set(index, {
               z: 1,
               e: e!,
               dragging: false,
-            })
-          }
+            });
+          }}
           animationRef={(e) => {
+            if (!e) {
+              return;
+            }
             animationRefs.current.set(index, { animationRef: e });
           }}
         >
           <Sketchbook
-            className="text-theme-2 absolute bg-panel-background"
+            className="absolute bg-panel-background text-theme-2"
             line={index === count - 1}
           />
         </SketchbookContainer>

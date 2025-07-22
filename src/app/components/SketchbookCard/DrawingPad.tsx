@@ -129,7 +129,7 @@ export interface Props {
   onClear?: () => void;
   onCancel?: () => void;
   onUndo?: () => void;
-  drawingPadRef: React.RefObject<DrawingPadRef> | ((e: DrawingPadRef) => void);
+  drawingPadRef: React.Ref<DrawingPadRef>;
   maxSizeKB?: number;
 }
 

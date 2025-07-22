@@ -38,7 +38,7 @@ function DialogContent({
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-  ref?: React.Ref<React.ElementRef<typeof DialogPrimitive.Content>>;
+  ref?: React.Ref<React.ComponentRef<typeof DialogPrimitive.Content>>;
 }) {
   return (
     <DialogPortal>
@@ -80,7 +80,7 @@ function DialogTitle({
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title> & {
-  ref?: React.Ref<React.ElementRef<typeof DialogPrimitive.Title>>;
+  ref?: React.Ref<React.ComponentRef<typeof DialogPrimitive.Title>>;
 }) {
   return (
     <DialogPrimitive.Title
@@ -96,7 +96,7 @@ function DialogDescription({
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description> & {
-  ref?: React.Ref<React.ElementRef<typeof DialogPrimitive.Description>>;
+  ref?: React.Ref<React.ComponentRef<typeof DialogPrimitive.Description>>;
 }) {
   return (
     <DialogPrimitive.Description

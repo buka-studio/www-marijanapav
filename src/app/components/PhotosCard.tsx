@@ -39,8 +39,8 @@ export default function PhotosCard() {
   const [photo, setPhoto] = useState(0);
   const photoRefs = useRef(new Map<Element, { e: Element; i: number }>());
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
-  const intervalRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,7 +58,7 @@ export default function PhotosCard() {
           return;
         }
 
-        clearTimeout(timeoutRef.current);
+        timeoutRef.current && clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
           if (nextI !== undefined) {
             setPhoto(nextI);
@@ -79,7 +79,7 @@ export default function PhotosCard() {
   }, []);
 
   useEffect(() => {
-    clearInterval(intervalRef.current);
+    intervalRef.current && clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setPhoto((p) => (p + 1) % photos.length);
 

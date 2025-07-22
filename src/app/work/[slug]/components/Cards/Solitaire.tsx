@@ -50,12 +50,11 @@ export default function Solitaire({ cardSrc }: { cardSrc: string }) {
   const theme = useTheme();
 
   const canvas = useRef<HTMLCanvasElement>(null);
-  const ctx: React.MutableRefObject<CanvasRenderingContext2D | null> =
-    useRef<CanvasRenderingContext2D>(null);
+  const ctx: React.Ref<CanvasRenderingContext2D | null> = useRef<CanvasRenderingContext2D>(null);
 
-  const state = useRef<{ card: Vec2; velocity: Vec2 }>();
+  const state = useRef<{ card: Vec2; velocity: Vec2 } | null>(null);
 
-  const img = useRef<HTMLImageElement>();
+  const img = useRef<HTMLImageElement | null>(null);
   const tickDiff = useRef(0);
 
   const narrow = useMatchMedia('(max-width: 640px)');
