@@ -24,6 +24,8 @@ import Heading from './components/Heading';
 
 import './page.css';
 
+import { Metadata } from 'next';
+
 import { Filter } from './work/constants';
 
 type FilterHref = `/work?f=${Filter}`;
@@ -66,7 +68,7 @@ const fetchSneakPeekCount = () =>
       return 0;
     });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'About | Marijana Pavlinić',
   description:
     'Designer and Illustrator working remotely from Croatia, deep diving into all things digital, crafting websites and brands.',
@@ -97,7 +99,7 @@ export default async function Home() {
           <div className="home-cards">
             {getCards({ sketchbookCard: true }).map(({ gridArea, Component }, i) => (
               <div key={i} style={{ gridArea }}>
-                <Component currentCount={currentCount} />
+                <Component currentCount={currentCount || 0} />
               </div>
             ))}
           </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import * as Dialog from '@radix-ui/react-dialog';
+import { Dialog } from 'radix-ui';
 
 import { ExitIcon } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';

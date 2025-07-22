@@ -1,8 +1,8 @@
+@import './themes-oklab.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import './themes-oklab.css';
 
 ::selection {
   background-color: oklch(var(--theme-1));
@@ -18,7 +18,6 @@
 * {
   -webkit-font-smoothing: antialiased;
 }
-
 
 .glow {
   background: radial-gradient(oklch(var(--theme-1)), transparent);

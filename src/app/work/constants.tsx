@@ -182,7 +182,7 @@ export const projects: Project[] = [
   {
     type: 'project',
     title: 'Branding for Croatian Open Source Conference',
-    slug: 'dorscluc',
+    slug: 'dorscluc-branding',
     preview: DorsclucPreview,
     images: [DorsclucPreview1, DorsclucPreview2],
     filters: ['digital', 'branding'],
@@ -194,7 +194,7 @@ export const projects: Project[] = [
   {
     type: 'project',
     title: 'Merch for Croatian Open Source Conference',
-    slug: 'dorscluc',
+    slug: 'dorscluc-merch',
     preview: DorsclucMerchPreview,
     images: [DorsclucMerch01],
     filters: ['merch', 'branding'],

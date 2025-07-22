@@ -1,14 +1,8 @@
-import { createClient } from '@supabase/supabase-js';
 import dompurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 import { NextResponse } from 'next/server';
 
-const supabaseClient = () =>
-  createClient(process.env.DB_URL!, process.env.DB_TOKEN!, {
-    auth: {
-      persistSession: false,
-    },
-  });
+import { createClient } from '~/src/supabase/server';
 
 const MAX_SIZE = 500 * 1024; // 500KB
 
@@ -35,8 +29,10 @@ export async function POST(req: Request) {
     const cleanSvgString = purify.sanitize(svgString);
     const cleanSvgBlob = new Blob([cleanSvgString], { type: 'image/svg+xml' });
 
-    const { data, error } = await supabaseClient()
-      .storage.from('sketches')
+    const supabase = await createClient();
+
+    const { data, error } = await supabase.storage
+      .from('sketches')
       .upload(`uploads/sketch_${Date.now()}.svg`, cleanSvgBlob, {
         contentType: 'image/svg+xml',
         upsert: false,

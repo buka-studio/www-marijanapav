@@ -1,25 +1,28 @@
+import { Metadata } from 'next';
+
 import ProjectsGrid from '~/src/app/work/components/ProjectsGrid';
 import ViewLogger from '~/src/components/ViewCounter';
 
 import { Filter, projects } from './constants';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Work | Marijana Pavlinić',
   description:
     'Explore a curated selection of work projects and a few passion projects ranging from print to digital.',
 };
 
-export default function Work({ searchParams }: { searchParams: { f?: Filter } }) {
+export default async function Work({ searchParams }: { searchParams: Promise<{ f?: Filter }> }) {
+  const params = await searchParams;
   const filteredProjects = projects.filter((p) => {
     if (p.hidden) {
       return false;
     }
 
-    if (!searchParams?.f || searchParams?.f === 'all') {
+    if (!params?.f || params?.f === 'all') {
       return true;
     }
 
-    return p?.filters.includes(searchParams?.f);
+    return p?.filters.includes(params?.f);
   });
 
   return (

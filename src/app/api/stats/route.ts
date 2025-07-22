@@ -1,12 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-const supabaseClient = () => createClient(process.env.DB_URL!, process.env.DB_TOKEN!, {
-  auth: {
-    persistSession: false
-  }
-});
+import { createClient } from '~/src/supabase/server';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -19,10 +14,9 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: 'Pathname is required.' }, { status: 400 });
     }
 
-    const { data, error } = await supabaseClient()
-      .from('stats')
-      .select('count')
-      .match({ pathname, type });
+    const supabase = await createClient();
+
+    const { data, error } = await supabase.from('stats').select('count').match({ pathname, type });
 
     if (error) {
       throw error;
@@ -38,7 +32,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   if (cookieStore.get('notrack')) {
     return NextResponse.json({ message: 'Not tracking.', count: 0 }, { status: 200 });
   }
@@ -64,7 +58,9 @@ export async function POST(req: Request) {
       // pass
     }
 
-    const { data, error } = await supabaseClient().rpc('incr_stat', {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase.rpc('incr_stat', {
       pathname,
       type,
       amount,

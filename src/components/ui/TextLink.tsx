@@ -1,4 +1,4 @@
-import { Slot } from '@radix-ui/react-slot';
+import { Slot } from 'radix-ui';
 import { ComponentProps } from 'react';
 
 import { cn } from '~/src/util';
@@ -8,10 +8,10 @@ type Props = {
 };
 
 function TextLink({ asChild, className, ...rest }: Props & ComponentProps<'a'>) {
-  const Component = asChild ? Slot : ('a' as any);
+  const Component = asChild ? Slot.Root : ('a' as any);
 
   return (
-    <Component {...rest} className={cn('hover:text-main-accent text-text-primary ', className)} />
+    <Component {...rest} className={cn('text-text-primary hover:text-main-accent ', className)} />
   );
 }
 

@@ -1,4 +1,4 @@
-import { Slot } from '@radix-ui/react-slot';
+import { Slot } from 'radix-ui';
 import { ComponentProps, forwardRef, ReactNode } from 'react';
 
 import { cn } from '../../util';
@@ -12,7 +12,7 @@ const LinkBox = forwardRef<HTMLElement, Props>(function LinkBox(
   { asChild, children, className = '', ...props },
   ref,
 ) {
-  const Component = asChild ? Slot : ('div' as any);
+  const Component = asChild ? Slot.Root : ('div' as any);
   return (
     <Component
       ref={ref}

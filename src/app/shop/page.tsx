@@ -1,16 +1,15 @@
-import dynamic from 'next/dynamic';
+import { Metadata } from 'next';
 
 import { ArrowRightIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
 import ViewLogger from '~/src/components/ViewCounter';
 
 import Header from '../components/Header';
+import DraggableStickers from './DraggableStickers';
 
 import './page.css';
 
-const DraggableStickers = dynamic(() => import('./components/DraggableStickers'), { ssr: false });
-
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Shop | Marijana Pavlinić',
 };
 
