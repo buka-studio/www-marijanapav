@@ -1,9 +1,9 @@
 import {
-  CheckCircle as CheckCircleIcon,
-  PaperPlaneTilt as PaperPlaneTiltIcon,
-  PencilLine as PencilLineIcon,
-  SmileyMelting as SmileyMeltingIcon,
-  SpinnerGap as SpinnerGapIcon,
+  CheckCircleIcon,
+  PaperPlaneTiltIcon,
+  PencilLineIcon,
+  SmileyMeltingIcon,
+  SpinnerGapIcon,
 } from '@phosphor-icons/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ReactNode, useState } from 'react';
