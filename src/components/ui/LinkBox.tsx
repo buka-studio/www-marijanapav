@@ -1,5 +1,5 @@
 import { Slot } from 'radix-ui';
-import { ComponentProps, forwardRef, ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 
 import { cn } from '../../util';
 
@@ -8,10 +8,13 @@ interface Props extends ComponentProps<'div'> {
   asChild?: boolean;
 }
 
-const LinkBox = forwardRef<HTMLElement, Props>(function LinkBox(
-  { asChild, children, className = '', ...props },
+function LinkBox({
+  asChild,
+  children,
+  className = '',
   ref,
-) {
+  ...props
+}: Props & { ref?: React.Ref<HTMLElement> }) {
   const Component = asChild ? Slot.Root : ('div' as any);
   return (
     <Component
@@ -25,12 +28,14 @@ const LinkBox = forwardRef<HTMLElement, Props>(function LinkBox(
       {children}
     </Component>
   );
-});
+}
 
-export const LinkBoxLink = forwardRef<HTMLAnchorElement, ComponentProps<'a'>>(function LinkBoxLink(
-  { children, className = '', ...props },
+export function LinkBoxLink({
+  children,
+  className = '',
   ref,
-) {
+  ...props
+}: ComponentProps<'a'> & { ref?: React.Ref<HTMLAnchorElement> }) {
   return (
     <a
       className={cn(
@@ -43,6 +48,6 @@ export const LinkBoxLink = forwardRef<HTMLAnchorElement, ComponentProps<'a'>>(fu
       {children}
     </a>
   );
-});
+}
 
 export default LinkBox;
