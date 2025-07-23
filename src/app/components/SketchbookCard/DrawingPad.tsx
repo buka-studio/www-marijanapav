@@ -1,7 +1,4 @@
-import {
-  ArrowCounterClockwise as ArrowCounterClockwiseIcon,
-  X as XIcon,
-} from '@phosphor-icons/react';
+import { ArrowCounterClockwiseIcon, XIcon } from '@phosphor-icons/react';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { getStroke } from 'perfect-freehand';
 import { ComponentProps, useEffect, useImperativeHandle, useRef, useState } from 'react';
@@ -43,7 +40,7 @@ function InkLevel({ percentageUsed }: { percentageUsed: number }) {
   return (
     <motion.div
       layout="size"
-      className="bg-theme-3 h-2 overflow-hidden rounded-full"
+      className="h-2 overflow-hidden rounded-full bg-theme-3"
       style={{
         width: INK_LEVEL_WIDTH,
         borderRadius: '9999px',
@@ -55,7 +52,7 @@ function InkLevel({ percentageUsed }: { percentageUsed: number }) {
     >
       <motion.div
         layout="size"
-        className="bg-theme-1 h-full rounded-full"
+        className="h-full rounded-full bg-theme-1"
         style={{
           width: `${remap(percentageUsed, 0, 1, INK_LEVEL_WIDTH, 0)}px`,
           borderRadius: '9999px',
@@ -72,7 +69,7 @@ function Toolbar({ children }: { children: React.ReactNode }) {
       style={{
         borderRadius: '9999px',
       }}
-      className="bg-panel-background/10 flex items-center gap-2 px-2 py-1 backdrop-blur"
+      className="flex items-center gap-2 bg-panel-background/10 px-2 py-1 backdrop-blur"
       transition={{ duration: 0.2 }}
     >
       {children}
@@ -132,7 +129,7 @@ export interface Props {
   onClear?: () => void;
   onCancel?: () => void;
   onUndo?: () => void;
-  drawingPadRef: React.RefObject<DrawingPadRef> | ((e: DrawingPadRef) => void);
+  drawingPadRef: React.Ref<DrawingPadRef>;
   maxSizeKB?: number;
 }
 
@@ -254,7 +251,7 @@ export default function DrawingPad({
           ref.current = e;
         }}
         className={cn('relative isolate h-full w-full touch-none transition-opacity duration-200', {
-          'text-theme-1 pointer-events-none cursor-not-allowed opacity-80': svgTooBig,
+          'pointer-events-none cursor-not-allowed text-theme-1 opacity-80': svgTooBig,
         })}
       >
         {points && <path d={pathData} fill="currentColor" />}

@@ -1,3 +1,5 @@
+import { Metadata } from 'next';
+
 import CopyToClipboard from '~/src/components/CopyToClipboard';
 import Button from '~/src/components/ui/Button';
 import ViewLogger from '~/src/components/ViewCounter';
@@ -26,7 +28,7 @@ const links = [
 
 const email = 'marijana@buka.studio';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Contact | Marijana Pavlinić',
   description: 'Reach out to say hi, talk future projects or talk about my cat.',
 };

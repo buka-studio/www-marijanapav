@@ -1,14 +1,15 @@
 'use client';
 
 import NextImage from 'next/image';
-import { ComponentProps, forwardRef, useState } from 'react';
+import { ComponentProps, useState } from 'react';
 
 import { cn } from '~/src/util';
 
-const Image = forwardRef<HTMLImageElement, ComponentProps<typeof NextImage>>(function Image(
-  { className, ...props },
+function Image({
+  className,
   ref,
-) {
+  ...props
+}: ComponentProps<typeof NextImage> & { ref?: React.Ref<HTMLImageElement> }) {
   const [loaded, setLoaded] = useState(false);
   return (
     <NextImage
@@ -28,6 +29,6 @@ const Image = forwardRef<HTMLImageElement, ComponentProps<typeof NextImage>>(fun
       )}
     />
   );
-});
+}
 
 export default Image;

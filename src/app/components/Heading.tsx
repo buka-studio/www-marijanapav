@@ -34,7 +34,9 @@ export default function Hheading({ className, ...props }: ComponentProps<'h1'>) 
         <HighlightedText
           aria-hidden
           className="font-archivo text-4xl lg:text-8xl"
-          ref={(e) => textRefs.current.set(i, e!)}
+          ref={(e) => {
+            textRefs.current.set(i, e!);
+          }}
           key={l}
         >
           {l}

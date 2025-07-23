@@ -30,11 +30,13 @@ function genImageSizes(length: number): string {
   return `(max-width: 1360px) ${Math.round(100 / length)}vw, ${Math.round(1360 / length)}px`;
 }
 
-export default function Work({ params }: { params: { slug: string } }) {
+export default async function Work({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+
   const project = projects
     .filter((p) => p.type === 'project')
     .filter((p) => process.env.NODE_ENV === 'development' || !p.hidden)
-    .find((p) => 'slug' in p && p.slug === params?.slug) as StaticProject;
+    .find((p) => 'slug' in p && p.slug === slug) as StaticProject;
 
   const associatedProjects = projects.filter(
     (p) => p.type === 'project' && !p.hidden && intersection(p.tags, project.tags).length > 0,
@@ -102,7 +104,7 @@ export default function Work({ params }: { params: { slug: string } }) {
                             src={e}
                             alt=""
                             sizes={genImageSizes(items.length)}
-                            className="focus-within:outline-theme-1 m-auto max-h-full w-full object-cover"
+                            className="m-auto max-h-full w-full object-cover focus-within:outline-theme-1"
                           />
                         </GalleryTrigger>
                       </div>

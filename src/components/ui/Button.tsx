@@ -1,4 +1,4 @@
-import { Slot, Slottable } from '@radix-ui/react-slot';
+import { Slot } from 'radix-ui';
 import { ComponentProps, ReactNode } from 'react';
 
 import { cn } from '~/src/util';
@@ -25,7 +25,7 @@ function Button({
   variant = 'primary',
   ...rest
 }: Props & ComponentProps<'button'>) {
-  const Component = asChild ? Slot : ('button' as any);
+  const Component = asChild ? Slot.Root : ('button' as any);
 
   return (
     <div className={cn('overflow-hidden rounded-full', className)}>
@@ -38,14 +38,14 @@ function Button({
             'px-3 py-1 text-xs': size === 'sm',
             'px-1 py-1': !children,
             'bg-theme-3 text-text-primary': variant === 'primary',
-            'text-text-contrast bg-text-primary': variant === 'secondary',
+            'bg-text-primary text-text-contrast': variant === 'secondary',
             'text-text-primary': variant === 'text',
           },
           buttonClassName,
         )}
       >
         {iconLeft && iconLeft}
-        {children && <Slottable>{children}</Slottable>}
+        {children && <Slot.Slottable>{children}</Slot.Slottable>}
         {iconRight && iconRight}
         <div
           className={cn(

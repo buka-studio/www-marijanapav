@@ -1,6 +1,5 @@
 'use client';
 
-import { DialogDescription } from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { ComponentType, useEffect, useRef, useState } from 'react';
@@ -13,6 +12,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from '~/src/components/ui/Dialog';
@@ -45,6 +45,7 @@ export default function ProjectsGrid({ projects }: Props) {
   const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   const mobile = useMatchMedia('(max-width: 768px)', false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   function setTitleHeight(i: number) {
     cardRefs.current
@@ -65,7 +66,7 @@ export default function ProjectsGrid({ projects }: Props) {
   useViewLogger(openProject);
 
   return (
-    <div className="flex-1 px-5 py-10">
+    <div className="flex-1 px-5 py-10" ref={containerRef}>
       <DynamicVHVarsSetter />
       <ResponsiveMasonry columnsCountBreakPoints={{ 750: 2, 900: 3 }}>
         <Masonry gutter={mobile ? '0.5rem' : '1rem'}>
@@ -140,7 +141,7 @@ export default function ProjectsGrid({ projects }: Props) {
                       </div>
                     </div>
                     {project.description && (
-                      <DialogDescription className="border-t-theme-2 mt-4 overflow-auto border-t pt-4 leading-7 text-text-secondary md:max-h-[200px]">
+                      <DialogDescription className="mt-4 overflow-auto border-t border-t-theme-2 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
                         {project.description}
                       </DialogDescription>
                     )}
@@ -158,7 +159,7 @@ export default function ProjectsGrid({ projects }: Props) {
                       delay: i * 0.1,
                     }}
                     onAnimationComplete={() => setTitleHeight(i)}
-                    className={cn('relative flex rounded-lg text-left md:rounded-2xl', {
+                    className={cn('relative flex w-full rounded-lg text-left md:rounded-2xl', {
                       group: !project.hidden,
                       'group/hidden cursor-default': project.hidden,
                     })}

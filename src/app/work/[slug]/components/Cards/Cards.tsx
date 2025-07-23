@@ -164,7 +164,7 @@ const itemVariants = (i: number) => ({
     y: 0,
     transition: {
       duration: 0.35,
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 50,
       delay: 0.1 * i,
     },
@@ -174,7 +174,7 @@ const itemVariants = (i: number) => ({
     y: 100,
     transition: {
       duration: 0.35,
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 50,
       delay: 0.1 * i,
     },

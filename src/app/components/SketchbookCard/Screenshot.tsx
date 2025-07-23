@@ -21,7 +21,7 @@ export interface ScreenshotRef {
 
 interface ScreenshotProps {
   className?: string;
-  screenshotRef: React.RefObject<ScreenshotRef> | ((e: ScreenshotRef) => void);
+  screenshotRef: React.Ref<ScreenshotRef>;
 }
 
 export default function Screenshot({ screenshotRef, className }: ScreenshotProps) {

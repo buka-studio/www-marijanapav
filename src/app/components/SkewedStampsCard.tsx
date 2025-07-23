@@ -161,7 +161,6 @@ export function Stamps({ width, height }: { width: number; height: number }) {
           infinite: true,
           syncTouch: true,
           syncTouchLerp: 0.2,
-          touchInertiaMultiplier: 50,
           duration: 2,
         }}
       >

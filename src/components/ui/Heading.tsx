@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef, ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 
 import { cn } from '~/src/util';
 
@@ -8,12 +8,17 @@ type Props = {
   children?: ReactNode;
   as?: H;
   variant?: 'default' | 'mono';
+  ref?: React.Ref<HTMLHeadingElement>;
 };
 
-const Heading = forwardRef<HTMLHeadingElement, Props & ComponentProps<'h1'>>(function Heading(
-  { children, className = '', as = 'h1', variant = 'default', ...rest },
+function Heading({
+  children,
+  className = '',
+  as = 'h1',
+  variant = 'default',
   ref,
-) {
+  ...rest
+}: Props & ComponentProps<'h1'>) {
   const Component = as;
 
   return (
@@ -30,6 +35,6 @@ const Heading = forwardRef<HTMLHeadingElement, Props & ComponentProps<'h1'>>(fun
       {children}
     </Component>
   );
-});
+}
 
 export default Heading;

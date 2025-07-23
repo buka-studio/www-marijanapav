@@ -1,7 +1,7 @@
 'use client';
 
-import * as Dialog from '@radix-ui/react-dialog';
 import { StaticImageData } from 'next/image';
+import { Dialog } from 'radix-ui';
 import React, { ComponentProps, useCallback, useContext, useState } from 'react';
 
 import { cn } from '~/src/util';

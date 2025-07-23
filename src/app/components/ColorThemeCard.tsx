@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  ArrowCounterClockwise as ArrowCounterClockwiseIcon,
-  ArrowUp as ArrowUpIcon,
-} from '@phosphor-icons/react';
+import { ArrowCounterClockwiseIcon, ArrowUpIcon } from '@phosphor-icons/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ComponentProps } from 'react';
 

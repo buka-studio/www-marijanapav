@@ -174,7 +174,7 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
     pixelsRef.current = pixels;
   }
 
-  const currRaf = useRef<ReturnType<typeof requestAnimationFrame>>();
+  const currRaf = useRef<ReturnType<typeof requestAnimationFrame> | null>(null);
   const rafNTimes = useCallback((callback: (currN: number) => void, n: number, fps: number) => {
     let currN = 0;
     let lastFrameTime = 0;
@@ -268,7 +268,7 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
   return (
     <div className="relative h-full w-full" ref={ref}>
       <div
-        className={cn('absolute left-0 top-0 h-full w-full bg-main-theme-overlay opacity-50', {
+        className={cn('bg-main-theme-overlay absolute left-0 top-0 h-full w-full opacity-50', {
           'opacity-0': revealed,
         })}
       />
