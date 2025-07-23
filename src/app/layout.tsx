@@ -50,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </ThemeProvider>
+
         <div className="top-layer pointer-events-none fixed left-0 top-0 z-50 h-screen w-screen" />
       </body>
       {process.env.NODE_ENV === 'production' && (

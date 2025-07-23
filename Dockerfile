@@ -18,6 +18,10 @@ RUN echo "NEXT_PUBLIC_BUILD_TIME=$(date +%s)" > /app/.env.local
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
+ARG NEXT_PUBLIC_UMAMI_WEBSITE_ID
+ARG NEXT_PUBLIC_POSTHOG_KEY
+ARG NEXT_PUBLIC_POSTHOG_HOST
+
 # Install packages needed to build node modules
 # RUN apt-get update -qq && \
 #     apt-get install -y python-is-python3 pkg-config build-essential 
