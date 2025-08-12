@@ -16,6 +16,7 @@ import {
   SketchbookCard,
   SneakPeekCard,
   StampsCard,
+  StatusCard,
   ToolsCard,
   WorkspaceCard,
 } from './components';
@@ -26,6 +27,8 @@ import './page.css';
 
 import { Metadata } from 'next';
 
+import SystemMetricsCollector from '../lib/SystemMetricsCollector';
+import { withTimeout } from '../util';
 import { Filter } from './work/constants';
 
 type FilterHref = `/work?f=${Filter}`;
@@ -39,6 +42,7 @@ const projectLinks: Array<{ label: string; href: FilterHref }> = [
 const getCards = ({ sketchbookCard }: { sketchbookCard: boolean }) => [
   { gridArea: '👋', Component: BioCard },
   { gridArea: '👔', Component: ExperienceCard },
+  { gridArea: '💬', Component: StatusCard },
   { gridArea: '📌', Component: WorkspaceCard },
   { gridArea: '🖌️', Component: PantoneCard },
   { gridArea: '🎨', Component: ColorThemeCard },
@@ -51,8 +55,8 @@ const getCards = ({ sketchbookCard }: { sketchbookCard: boolean }) => [
   { gridArea: '📝', Component: NotesCard },
 ];
 
-const fetchSneakPeekCount = () =>
-  fetch(
+const fetchSneakPeekCount = ({ timeout = 1000 }) => {
+  const responsePromise = fetch(
     process.env.NEXT_PUBLIC_HOST +
       '/api/stats?' +
       new URLSearchParams([
@@ -68,6 +72,22 @@ const fetchSneakPeekCount = () =>
       return 0;
     });
 
+  return withTimeout(responsePromise, 0, timeout);
+};
+
+const fetchSystemMetrics = ({ timeout = 1000 }) => {
+  const responsePromise = SystemMetricsCollector.collect().catch((e) => {
+    console.error(e);
+    return SystemMetricsCollector.default({ reason: e?.message ?? 'collector error' });
+  });
+
+  return withTimeout(
+    responsePromise,
+    SystemMetricsCollector.default({ reason: `timeout ${timeout}ms` }),
+    timeout,
+  );
+};
+
 export const metadata: Metadata = {
   title: 'About | Marijana Pavlinić',
   description:
@@ -75,7 +95,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const currentCount = await fetchSneakPeekCount();
+  const [currentCount, metrics] = await Promise.all([
+    fetchSneakPeekCount({ timeout: 1000 }),
+    fetchSystemMetrics({ timeout: 1000 }),
+  ]);
 
   return (
     <div>
@@ -99,7 +122,7 @@ export default async function Home() {
           <div className="home-cards">
             {getCards({ sketchbookCard: true }).map(({ gridArea, Component }, i) => (
               <div key={i} style={{ gridArea }}>
-                <Component currentCount={currentCount || 0} />
+                <Component currentCount={currentCount || 0} metrics={metrics} />
               </div>
             ))}
           </div>

@@ -98,7 +98,7 @@ export default function useColorTheme() {
     const mainEl = getMainEl();
     if (colorTheme) {
       withDisabledTransitions(() => {
-        mainEl?.classList.add(`theme-${colorTheme}-${resolvedTheme}`);
+        mainEl?.classList.add(`theme-${colorTheme}`, `theme-${colorTheme}-${resolvedTheme}`);
       });
     }
 

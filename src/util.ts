@@ -12,3 +12,21 @@ export function oklchToHex(oklchString: string) {
 
   return formatHex(color);
 }
+
+export async function withTimeout<T>(
+  promise: Promise<T>,
+  fallback: T,
+  timeoutMs = 1000,
+): Promise<T> {
+  let timer: NodeJS.Timeout;
+
+  const timeoutPromise = new Promise<T>((resolve) => {
+    timer = setTimeout(() => resolve(fallback), timeoutMs);
+  });
+
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    clearTimeout(timer!);
+  }
+}

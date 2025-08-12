@@ -15,6 +15,7 @@
     "@react-three/fiber": "~9.2.0",
     "@supabase/ssr": "~0.6.1",
     "@supabase/supabase-js": "~2.52.0",
+    "@umami/api-client": "~0.80.0",
     "clsx": "~2.1.1",
     "culori": "~4.0.2",
     "dayjs": "~1.11.13",
@@ -40,6 +41,7 @@
     "tailwind-merge": "~2.0.0",
     "three": "~0.178.0",
     "typescript": "5.8.3",
+    "zod": "~4.0.17",
     "zustand": "~5.0.6"
   },
   "devDependencies": {

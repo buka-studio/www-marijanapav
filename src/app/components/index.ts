@@ -10,6 +10,7 @@ import { default as PhotosCard } from './PhotosCard';
 import { default as SketchbookCard } from './SketchbookCard';
 import { default as StampsCard } from './SkewedStampsCard';
 import { default as SneakPeekCard } from './SneakPeekCard';
+import { default as StatusCard } from './StatusCard';
 import { default as ToolsCard } from './ToolsCard';
 import { default as WorkspaceCard } from './WorkspaceCard';
 
@@ -26,6 +27,7 @@ export {
   SketchbookCard,
   SneakPeekCard,
   StampsCard,
+  StatusCard,
   ToolsCard,
   WorkspaceCard,
 };
