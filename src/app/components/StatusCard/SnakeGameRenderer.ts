@@ -258,6 +258,7 @@ export default class SnakeGameRenderer extends BaseRenderer {
     ctx.fill();
   }
 
+  // todo(rpavlini): draw to offscreen canvas
   private renderBackground({ ctx, cols, rows, cellSize }: MatrixFrameContext) {
     const { palette } = this.options;
     if (palette.background) {

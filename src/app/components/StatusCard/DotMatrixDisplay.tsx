@@ -52,12 +52,12 @@ const DotMatrixDisplay = ({
     const heightCss = rows * cellSize;
 
     return {
-      rows: rows,
+      rows,
       cols: calculatedCols,
-      widthCss: widthCss,
-      heightCss: heightCss,
+      widthCss,
+      heightCss,
     };
-  }, []);
+  }, [cellSize, rows]);
 
   useImperativeHandle(ref, () => ({
     getFrameContext: () => {
