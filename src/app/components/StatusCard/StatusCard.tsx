@@ -16,7 +16,7 @@ import KonamiCode from './KonamiCode';
 import { MatrixFrameContext, MatrixRenderer } from './models';
 import ScoreCounter from './ScoreCounter';
 import SnakeGameRenderer, { Direction } from './SnakeGameRenderer';
-import TextRenderer from './text/TextRenderer';
+import TextRenderer from './TextRenderer';
 import TransitionRenderer from './TransitionRenderer';
 import { getPalette } from './util';
 
@@ -88,11 +88,11 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
         setScore(score);
       },
       onGameOver: (score) => {
-        if ((window as any).umami) {
-          (window as any).umami.track('snake_game_over', {
-            score,
-          });
-        }
+        // if ((window as any).umami) {
+        //   (window as any).umami.track('snake_game_over', {
+        //     score,
+        //   });
+        // }
 
         const ctx = dotMatrixDisplayRef.current?.getFrameContext();
 

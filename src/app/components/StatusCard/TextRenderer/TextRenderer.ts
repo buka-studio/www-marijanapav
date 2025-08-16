@@ -1,14 +1,8 @@
-import type { MatrixFrameContext } from '../models';
+import type { MatrixFrameContext, Palette } from '../models';
 import { BaseRenderer } from '../models';
 import defaultFontData from './bitmapFont.json';
 import { BitmapFont } from './models';
 import { decodeBitmapFont } from './util';
-
-type Palette = {
-  active?: string;
-  inactive?: string;
-  background?: string;
-};
 
 type Options = {
   text: string;

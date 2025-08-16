@@ -3,18 +3,7 @@ import { useEffect, useImperativeHandle, useLayoutEffect, useRef } from 'react';
 
 import { cn } from '~/src/util';
 
-export interface MatrixFrameContext {
-  ctx: CanvasRenderingContext2D;
-  cols: number;
-  rows: number;
-  cellSize: number;
-  timeSec: number;
-  dtSec: number;
-  frame: number;
-  dpr: number;
-  width: number;
-  height: number;
-}
+import { MatrixFrameContext } from './models';
 
 interface Props {
   className?: string;
