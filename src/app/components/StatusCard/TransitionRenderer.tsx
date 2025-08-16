@@ -177,7 +177,6 @@ export default class TransitionRenderer extends BaseRenderer {
 
     ctx.beginPath();
 
-    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
     if (cellShape === 'circle') {
       ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
     } else {

@@ -1,5 +1,5 @@
-export class CircularBuffer {
-  private buffer: string[];
+export class CircularBuffer<T> {
+  private buffer: T[];
   private _capacity: number;
 
   constructor(capacity: number) {
@@ -7,7 +7,7 @@ export class CircularBuffer {
     this.buffer = [];
   }
 
-  add(item: string): void {
+  add(item: T): void {
     this.buffer.push(item);
     if (this.buffer.length > this.capacity) {
       this.buffer.shift();
@@ -18,7 +18,7 @@ export class CircularBuffer {
     return this._capacity;
   }
 
-  getContents(): string[] {
+  getContents(): T[] {
     return [...this.buffer];
   }
 
@@ -26,8 +26,8 @@ export class CircularBuffer {
     this.buffer = [];
   }
 
-  static from(source: string[], capacity?: number): CircularBuffer {
-    const buffer = new CircularBuffer(capacity ?? source.length);
+  static from<T>(source: T[], capacity?: number): CircularBuffer<T> {
+    const buffer = new CircularBuffer<T>(capacity ?? source.length);
     for (const item of source) {
       buffer.add(item);
     }

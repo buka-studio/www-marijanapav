@@ -35,7 +35,7 @@ const konamiCodeMap = {
 };
 
 export default function KonamiCode({ onComplete }: { onComplete: () => void }) {
-  const userInputRef = useRef(new CircularBuffer(konamiCode.length));
+  const userInputRef = useRef(new CircularBuffer<string>(konamiCode.length));
   const [match, setMatch] = useState<string[]>([]);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function KonamiCode({ onComplete }: { onComplete: () => void }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [onComplete]);
 
   return (
     <div

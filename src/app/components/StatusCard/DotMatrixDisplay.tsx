@@ -1,5 +1,5 @@
 import { useAnimationFrame } from 'framer-motion';
-import { useEffect, useImperativeHandle, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef } from 'react';
 
 import { cn } from '~/src/util';
 
@@ -39,7 +39,7 @@ const DotMatrixDisplay = ({
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const dprRef = useRef<number>(1);
 
-  const getCanvasDimensions = () => {
+  const getCanvasDimensions = useCallback(() => {
     const container = containerRef.current;
     if (!container) {
       return { rows, cols: 0, widthCss: 0, heightCss: 0 };
@@ -57,7 +57,7 @@ const DotMatrixDisplay = ({
       widthCss: widthCss,
       heightCss: heightCss,
     };
-  };
+  }, []);
 
   useImperativeHandle(ref, () => ({
     getFrameContext: () => {
@@ -102,7 +102,7 @@ const DotMatrixDisplay = ({
       resizeObserver.disconnect();
       ctxRef.current = null;
     };
-  }, [cellSize, rows]);
+  }, [cellSize, rows, getCanvasDimensions]);
 
   const initRef = useRef(false);
 
