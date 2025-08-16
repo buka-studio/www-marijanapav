@@ -212,6 +212,7 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
               </motion.div>
             ) : (
               <motion.div
+                className="hidden md:block"
                 key="konami"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}

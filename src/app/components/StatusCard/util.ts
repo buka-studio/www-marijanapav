@@ -78,7 +78,7 @@ const themeColors = {
   },
   green: {
     active: '#a4d1a4',
-    inactive: '#2d4e2d',
+    inactive: '#203820',
     background: '#000300',
   },
   default: {
