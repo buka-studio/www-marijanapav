@@ -10,7 +10,23 @@ export default function WorkspaceCard() {
   return (
     <Card>
       <LinkBox className="group flex flex-col justify-between ">
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md">
+        <div className="mb-4 flex items-center justify-between text-text-primary transition-colors group-hover:text-main-accent">
+          <div className="flex items-center gap-2">
+            <CardTitle variant="mono">
+              <LinkBoxLink
+                href="https://www.workspaces.xyz/p/489-marijana-pavlinic"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded"
+              >
+                Workspace{' '}
+              </LinkBoxLink>
+            </CardTitle>
+            <span className="text-sm">at workspaces.xyz</span>
+          </div>
+          <ArrowUpRight className="h-4 w-4 transition-opacity group-hover:opacity-100" />
+        </div>
+        <div className="relative aspect-[4/2] w-full overflow-hidden rounded-md">
           <Image
             src="/home/workspace.png"
             alt="workspaces.xyz"
@@ -27,22 +43,6 @@ export default function WorkspaceCard() {
             <div className="absolute left-0 right-0 top-1/3 h-px bg-text-primary/60"></div>
             <div className="absolute left-0 right-0 top-2/3 h-px bg-text-primary/60"></div>
           </div>
-        </div>
-        <div className="mt-4 flex items-center justify-between text-text-primary transition-colors group-hover:text-main-accent">
-          <div className="flex items-center gap-2">
-            <CardTitle variant="mono">
-              <LinkBoxLink
-                href="https://www.workspaces.xyz/p/489-marijana-pavlinic"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded"
-              >
-                Workspace{' '}
-              </LinkBoxLink>
-            </CardTitle>
-            <span className="text-sm">at workspaces.xyz</span>
-          </div>
-          <ArrowUpRight className="h-4 w-4 transition-opacity group-hover:opacity-100" />
         </div>
       </LinkBox>
     </Card>
