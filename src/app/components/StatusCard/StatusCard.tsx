@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import CardTitle from '~/src/components/ui/CardTitle';
 import { SystemMetrics } from '~/src/lib/models';
 import { remap } from '~/src/math';
+import { track } from '~/src/umami/event';
 import { cn } from '~/src/util';
 
 import Card from '../Card';
@@ -20,6 +21,12 @@ import TextRenderer from './TextRenderer';
 import TransitionRenderer from './TransitionRenderer';
 import { getPalette } from './util';
 
+const getMetricsText = (metrics: SystemMetrics) => {
+  const memoryMB = Math.round(metrics.memory.usedBytes / 1024 / 1024);
+  const memoryText = metrics.memory.usedPct === 0 ? `${memoryMB}MB` : `${metrics.memory.usedPct}%`;
+  return ` CPU:${metrics.cpu.percent}% • MEMORY:${memoryText} • STATUS:${metrics.status.toUpperCase()} •`;
+};
+
 export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
   const { colorTheme } = useColorTheme();
   const { resolvedTheme } = useTheme();
@@ -28,7 +35,7 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
   const [score, setScore] = useState(0);
 
   // const statsText = ` VISITORS:${visitors} • PAGEVIEWS:${pageviews} • STATUS:${visitors ? 'ONLINE' : 'OFFLINE'} •`;
-  const metricsText = ` CPU:${metrics.cpu.percent}% • MEMORY:${metrics.memory.usedPct}% • STATUS:${metrics.status.toUpperCase()} •`;
+  const metricsText = getMetricsText(metrics);
 
   const displayText = metricsText;
 
@@ -88,11 +95,9 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
         setScore(score);
       },
       onGameOver: (score) => {
-        // if ((window as any).umami) {
-        //   (window as any).umami.track('snake_game_over', {
-        //     score,
-        //   });
-        // }
+        track('snake_game_over', {
+          score,
+        });
 
         const ctx = dotMatrixDisplayRef.current?.getFrameContext();
 

@@ -35,20 +35,55 @@ export default class SystemMetricsCollector {
 
   private static async readMemLimitBytes(): Promise<number | null> {
     const v2 = await this.readFirstExisting('/sys/fs/cgroup/memory.max');
-    if (v2) return v2 === 'max' ? null : Number(v2);
+    if (v2) {
+      if (v2 === 'max') {
+        return null;
+      }
+      const val = Number(v2);
+      if (!Number.isFinite(val)) {
+        return null;
+      }
+      if (val <= 0 || val >= 1e15) {
+        return null;
+      }
+      return val;
+    }
+
     const v1 = await this.readFirstExisting('/sys/fs/cgroup/memory/memory.limit_in_bytes');
-    return v1 ? Number(v1) : null;
+    if (v1) {
+      const val = Number(v1);
+      if (!Number.isFinite(val)) {
+        return null;
+      }
+      if (val <= 0 || val >= 1e15) {
+        return null;
+      }
+      return val;
+    }
+
+    return null;
   }
 
   private static async readMemCurrentBytes(): Promise<number | null> {
     const v2 = await this.readFirstExisting('/sys/fs/cgroup/memory.current');
-    if (v2) return Number(v2);
+    if (v2) {
+      const val = Number(v2);
+      return Number.isFinite(val) ? val : null;
+    }
+
     const v1 = await this.readFirstExisting('/sys/fs/cgroup/memory/memory.usage_in_bytes');
-    return v1 ? Number(v1) : null;
+    if (v1) {
+      const val = Number(v1);
+      return Number.isFinite(val) ? val : null;
+    }
+
+    return null;
   }
 
   private static coresFromCpuLimit(lim: CpuLimit, hostCores: number) {
-    if (!lim || lim.quota === 'max' || !lim.period) return hostCores;
+    if (!lim || lim.quota === 'max' || !lim.period) {
+      return hostCores;
+    }
     return Math.max(0.1, lim.quota / lim.period);
   }
 
@@ -91,7 +126,7 @@ export default class SystemMetricsCollector {
 
       const memTotal = memLimit ?? os.totalmem();
       const memUsed = memCurrent ?? memTotal - os.freemem();
-      const memUsedPct = Math.round((memUsed / memTotal) * 100);
+      const memUsedPct = memTotal > 0 ? Math.round((memUsed / memTotal) * 100) : 0;
 
       return {
         status: 'ok',
