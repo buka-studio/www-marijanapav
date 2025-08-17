@@ -165,7 +165,7 @@ export function Stamps({ width, height }: { width: number; height: number }) {
         }}
       >
         <div className="h-[1000px] w-full" />
-        <div className="absolute right-0 top-0 mx-auto flex h-full w-full flex-col items-center overflow-hidden rounded-lg border border-panel-border">
+        <div className="absolute right-0 top-0 mx-auto flex h-full w-full flex-col items-center overflow-hidden rounded-lg">
           {Array.from({ length: numCards }).map((_, i) => {
             const Stamp = stamps[i % stamps.length];
             return (

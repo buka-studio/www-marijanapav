@@ -11,7 +11,7 @@ export default function GridBackground({
   return (
     <div
       className={cn(
-        'border-text-contrast text-text-contrast overflow-hidden rounded-md border-[1px]',
+        'overflow-hidden rounded-md border border-panel-border text-text-contrast',
         className,
       )}
     >

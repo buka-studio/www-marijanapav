@@ -32,7 +32,7 @@ export default function ColorThemeCard() {
       <div className="flex h-full min-h-[210px] w-full flex-col content-center gap-3">
         <div className="relative h-full">
           <GridBackground className="absolute left-0 top-0 h-full w-full" />
-          <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
+          <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-lg">
             <div className="rounded-full bg-theme-3 p-[1px]">
               <div className="relative flex gap-3 rounded-full bg-panel-background px-2 py-2 ">
                 {colorThemes.map((t, i) => {
