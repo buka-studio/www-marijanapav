@@ -1,0 +1,18 @@
+/* https://dev.to/afif/a-multi-line-css-only-typewriter-effect-3op3 */
+.typewriter {
+  color: #0000;
+  background:
+    linear-gradient(-90deg, transparent 1px, #0000 0) 10px 0,
+    linear-gradient(var(--color) 0 0) 0 0;
+  background-size: calc(var(--n) * 1ch) 200%;
+  -webkit-background-clip: padding-box, text;
+  background-clip: padding-box, text;
+  background-repeat: no-repeat;
+  animation: typewriter calc(var(--n) * 0.025s) calc(var(--i, 0) * 0.025s) steps(var(--n)) forwards;
+}
+
+@keyframes typewriter {
+  from {
+    background-size: 0 200%;
+  }
+}
