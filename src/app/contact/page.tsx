@@ -1,36 +1,24 @@
 import { Metadata } from 'next';
+import React from 'react';
 
-import CopyToClipboard from '~/src/components/CopyToClipboard';
-import Button from '~/src/components/ui/Button';
-import ViewLogger from '~/src/components/ViewCounter';
-
+import CopyToClipboard from '../../components/CopyToClipboard';
+import Button from '../../components/ui/Button';
+import ViewLogger from '../../components/ViewCounter';
 import Header from '../components/Header';
 
 const links = [
-  {
-    label: 'Twitter',
-    href: 'https://twitter.com/marijanapav',
-  },
+  { label: 'Twitter', href: 'https://twitter.com/marijanapav' },
 
-  {
-    label: 'GitHub',
-    href: 'https://www.github.com/marijanapav',
-  },
-  {
-    label: 'Bluesky',
-    href: 'https://bsky.app/profile/marijanapav.com',
-  },
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/marijana-pavlinic/',
-  },
+  { label: 'GitHub', href: 'https://www.github.com/marijanapav' },
+  { label: 'Bluesky', href: 'https://bsky.app/profile/marijanapav.com' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/marijana-pavlinic/' },
 ];
 
 const email = 'marijana@buka.studio';
 
 export const metadata: Metadata = {
   title: 'Contact | Marijana Pavlinić',
-  description: 'Reach out to say hi, talk future projects or talk about my cat.',
+  description: 'Reach out to say hi or talk future projects.',
 };
 
 export default function Contact() {
@@ -48,10 +36,10 @@ export default function Contact() {
             >
               marijana@buka.studio
             </a>
-            <CopyToClipboard content={email} />
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap justify-center gap-1">
+            <CopyToClipboard content={email} label="Copy email" />
             {links.map(({ label, ...rest }) => {
               const linkProps = { ...rest, target: '_blank', rel: 'noopener noreferrer' };
               return (
