@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-import { ContentCopyIcon } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
 
 export default function CopyToClipboard({ content }: { content: string }) {
@@ -10,14 +9,13 @@ export default function CopyToClipboard({ content }: { content: string }) {
 
   return (
     <Button
-      iconLeft={<ContentCopyIcon />}
       onClick={() => {
         navigator.clipboard.writeText(content).then(() => {
           setCopied(true);
         });
       }}
     >
-      {copied ? 'Copied!' : 'Copy'}
+      {copied ? 'Copied!' : 'Copy email'}
     </Button>
   );
 }
