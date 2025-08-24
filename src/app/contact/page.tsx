@@ -39,7 +39,7 @@ export default function Contact() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-1">
-            <CopyToClipboard content={email} />
+            <CopyToClipboard content={email} label="Copy email" />
             {links.map(({ label, ...rest }) => {
               const linkProps = { ...rest, target: '_blank', rel: 'noopener noreferrer' };
               return (
