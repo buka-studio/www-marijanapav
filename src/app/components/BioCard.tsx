@@ -58,17 +58,18 @@ export default function BioCard() {
       </div>
 
       <p className="panel text-sm leading-6 text-text-primary">
-        I&apos;m a designer interested in tech, exploring brand, web, illustration, and code. I
-        co-run <TextLink href="https://www.buka.studio">Buka Studio</TextLink> where I help teams
-        craft cohesive experiences across product, marketing, and everything in between. These days,
-        my focus is on designing brand and web for devtools—which led me to try frontend myself,
-        curious about how implementation can push design further when you follow it all the way from
-        Figma to prod. I&apos;m based in Croatia, working alongside my partner and a cat who rarely
-        skips a stand-up.
+        I&apos;m a designer interested in tech, exploring brand, web, illustration, and code. Lately
+        my focus has been shaping brands and websites for devtools, which pushed me to explore
+        frontend, curious how implementation can push design further when you follow it all the way
+        from Figma to prod. I&apos;m based in Croatia where I co-run{' '}
+        <TextLink className=" font-semibold hover:text-theme-1" href="https://www.buka.studio">
+          Buka Studio
+        </TextLink>{' '}
+        alongside my partner (and a cat who rarely skips a meeting).
       </p>
       <div className="mt-4 flex flex-col items-start justify-between text-text-primary md:flex-row md:items-center">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-base">See what I&apos;ve been doing on</span>
+          <span className="text-sm">See what I&apos;ve been doing on</span>
           <div className="flex gap-2">
             {social.map(({ url, Icon, attrs }) => (
               <a

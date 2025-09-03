@@ -18,11 +18,6 @@ const positions: Position[] = [
     from: '2024',
   },
   {
-    title: 'Co-founder',
-    company: { name: 'Buka Studio', href: 'https://buka.studio/' },
-    from: '2023',
-  },
-  {
     title: 'Brand Designer',
     company: { name: 'Supabase', href: 'https://supabase.com/' },
     from: '2022',
