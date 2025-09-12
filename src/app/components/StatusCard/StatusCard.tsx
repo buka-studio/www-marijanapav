@@ -15,6 +15,7 @@ import useColorTheme from '../useColorTheme';
 import DotMatrixDisplay from './DotMatrixDisplay';
 import KonamiCode from './KonamiCode';
 import { MatrixFrameContext, MatrixRenderer } from './models';
+import PongGameRenderer, { Player, PongDirection } from './PongGameRenderer';
 import ScoreCounter from './ScoreCounter';
 import SnakeGameRenderer, { Direction } from './SnakeGameRenderer';
 import TextRenderer from './TextRenderer';
@@ -32,7 +33,13 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
   const { resolvedTheme } = useTheme();
 
   const [scoreVisible, setScoreVisible] = useState(false);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState<{
+    player1: number;
+    player2?: number;
+  }>({
+    player1: 0,
+    player2: 0,
+  });
 
   // const statsText = ` VISITORS:${visitors} • PAGEVIEWS:${pageviews} • STATUS:${visitors ? 'ONLINE' : 'OFFLINE'} •`;
   const metricsText = getMetricsText(metrics);
@@ -46,11 +53,13 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
   const renderers = useRef<{
     text: TextRenderer | null;
     snake: SnakeGameRenderer | null;
+    pong: PongGameRenderer | null;
     transition: TransitionRenderer | null;
     active: MatrixRenderer | null;
   }>({
     text: null,
     snake: null,
+    pong: null,
     active: null,
     transition: null,
   });
@@ -92,10 +101,54 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
       fps: snakeFps,
       palette,
       onScoreChange: (score) => {
-        setScore(score);
+        setScore({
+          player1: score,
+        });
       },
       onGameOver: (score) => {
         track('snake_game_over', {
+          score,
+        });
+
+        const ctx = dotMatrixDisplayRef.current?.getFrameContext();
+
+        if (!ctx) {
+          return;
+        }
+
+        renderers.current.active?.pause();
+
+        renderers.current.transition
+          ?.renderTransition(ctx, {
+            durationSeconds: 0.7,
+          })
+          .then(() => {
+            containerRef.current?.blur();
+
+            renderers.current.active = renderers.current.text;
+
+            renderers.current.active?.resume();
+
+            setScoreVisible(false);
+          });
+      },
+    });
+
+    renderers.current.pong = new PongGameRenderer({
+      palette,
+      maxScore: 5,
+      snapBallToGrid: true,
+      cellShape: 'circle',
+      computerOpponent: true,
+      glow: true,
+      onScoreChange: (score) => {
+        setScore({
+          player1: score.left,
+          player2: score.right,
+        });
+      },
+      onGameOver: (score) => {
+        track('pong_game_over', {
           score,
         });
 
@@ -151,6 +204,18 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
           snake.enqueueDirection(Direction.Right);
         }
       }
+
+      if (renderers.current.active === renderers.current.pong && e.key !== 'Escape' && focused) {
+        if (e.key === 'w' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          renderers.current.pong?.setKeyPress(Player.Left, PongDirection.Up);
+        }
+
+        if (e.key === 's' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          renderers.current.pong?.setKeyPress(Player.Left, PongDirection.Down);
+        }
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -188,13 +253,23 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
       .then(() => {
         containerRef.current?.focus();
 
-        renderers.current.active = renderers.current.snake;
+        renderers.current.active = renderers.current.pong;
 
-        renderers.current.snake?.restart();
+        renderers.current.pong?.restart();
         renderers.current.active?.resume();
 
+        const score =
+          renderers.current.active === renderers.current.pong
+            ? {
+                player1: 0,
+                player2: 0,
+              }
+            : {
+                player1: 0,
+              };
+
         setScoreVisible(true);
-        setScore(0);
+        setScore(score);
       });
   }, []);
 
@@ -213,7 +288,7 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
               >
-                <ScoreCounter score={score} />
+                <ScoreCounter player1Score={score.player1} player2Score={score.player2} />
               </motion.div>
             ) : (
               <motion.div
