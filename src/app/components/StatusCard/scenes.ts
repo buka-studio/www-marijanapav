@@ -33,7 +33,7 @@ export abstract class Scene {
   public cleanupControls(): void {}
 }
 
-export class TextScene extends Scene {
+export class StatusScene extends Scene {
   constructor(context: SceneContext) {
     const memoryMB = Math.round(context.metrics.memory.usedBytes / 1024 / 1024);
     const memoryText =
@@ -59,7 +59,7 @@ export class MenuScene extends Scene {
 
   constructor(context: SceneContext) {
     const renderer = new TextRenderer({
-      text: '1: SNAKE   2: PONG  ',
+      text: '1:SNAKE   2:PONG  ',
       speed: -1,
       charSpacing: 1,
       glow: true,
@@ -203,7 +203,7 @@ export class PongScene extends Scene {
 }
 
 export const scenes = {
-  status: TextScene,
+  status: StatusScene,
   menu: MenuScene,
   snake: SnakeScene,
   pong: PongScene,

@@ -212,7 +212,7 @@ export default class SnakeGameRenderer extends BaseRenderer {
     }
   }
 
-  public setPalette(palette: { active: string; inactive: string }) {
+  public setPalette(palette: Palette) {
     this.options.palette = {
       ...this.options.palette,
       ...palette,

@@ -46,10 +46,12 @@ export abstract class BaseRenderer implements MatrixRenderer {
       this.initialized = true;
     }
 
-    if (!this.paused) {
-      this.virtualTimeSec += ctx.dtSec;
-      this.virtualFrame += 1;
+    if (this.paused) {
+      return;
     }
+
+    this.virtualTimeSec += ctx.dtSec;
+    this.virtualFrame += 1;
 
     const effective: MatrixFrameContext = {
       ...ctx,

@@ -47,7 +47,7 @@ export default class TransitionRenderer extends BaseRenderer {
     this.inactiveRgb = parseHex(this.options.palette.inactive);
   }
 
-  public setPalette(palette: { active: string; inactive: string }): void {
+  public setPalette(palette: Palette): void {
     this.options.palette = palette;
     this.activeRgb = parseHex(palette.active);
     this.inactiveRgb = parseHex(palette.inactive);

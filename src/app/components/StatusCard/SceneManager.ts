@@ -12,7 +12,7 @@ import {
   SceneContext,
   SceneName,
   SnakeScene,
-  TextScene,
+  StatusScene,
 } from './scenes';
 import TransitionRenderer from './TransitionRenderer';
 import { getPalette } from './util';
@@ -41,7 +41,7 @@ export class SceneManager {
 
   public init() {
     this.scenes = {
-      status: new TextScene(this.context),
+      status: new StatusScene(this.context),
       menu: new MenuScene(this.context),
       snake: new SnakeScene(this.context),
       pong: new PongScene(this.context),

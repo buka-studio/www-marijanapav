@@ -65,9 +65,16 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
 
     container.addEventListener('focus', handleFocus);
     container.addEventListener('blur', handleBlur);
+
     return () => {
       container.removeEventListener('focus', handleFocus);
       container.removeEventListener('blur', handleBlur);
+    };
+  }, [sceneManager]);
+
+  useEffect(() => {
+    return () => {
+      sceneManager?.cleanupActiveControls();
     };
   }, [sceneManager]);
 
