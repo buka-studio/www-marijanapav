@@ -1,6 +1,6 @@
 import { parseHex, Rgb } from 'culori';
 
-import { BaseRenderer, MatrixFrameContext, Palette } from './models';
+import { BaseRenderer, MatrixFrameContext, Palette } from './MatrixRenderer';
 
 interface Options {
   lightUpDurationMs?: number;

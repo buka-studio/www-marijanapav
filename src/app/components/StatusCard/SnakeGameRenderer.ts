@@ -1,5 +1,5 @@
-import type { MatrixFrameContext, Palette } from './models';
-import { BaseRenderer } from './models';
+import type { MatrixFrameContext, Palette } from './MatrixRenderer';
+import { BaseRenderer } from './MatrixRenderer';
 
 type CellShape = 'circle' | 'square';
 

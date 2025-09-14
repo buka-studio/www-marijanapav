@@ -1,7 +1,7 @@
 import { SystemMetrics } from '~/src/lib/models';
 import { remap } from '~/src/math';
 
-import { MatrixFrameContext, MatrixRenderer, Palette } from './models';
+import { MatrixFrameContext, MatrixRenderer, Palette } from './MatrixRenderer';
 import PongGameRenderer, { Player, PongDirection } from './PongGameRenderer';
 import SnakeGameRenderer, { Direction } from './SnakeGameRenderer';
 import TextRenderer from './TextRenderer';
@@ -11,8 +11,8 @@ export type SceneMap = {
 };
 
 export interface SceneContext {
-  dotMatrixDisplayRef: React.RefObject<{ getFrameContext: () => MatrixFrameContext }>;
-  containerRef: React.RefObject<HTMLDivElement>;
+  dotMatrixDisplayRef: React.RefObject<{ getFrameContext: () => MatrixFrameContext } | null>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   palette: Palette;
   metrics: SystemMetrics;
   onScoreChange: (score: { player1: number; player2?: number }) => void;

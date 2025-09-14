@@ -11,7 +11,7 @@ import { cn } from '~/src/util';
 import Card from '../Card';
 import DotMatrixDisplay from './DotMatrixDisplay';
 import KonamiCode from './KonamiCode';
-import { MatrixFrameContext } from './models';
+import { MatrixFrameContext } from './MatrixRenderer';
 import { SceneManager, useSceneManager } from './SceneManager';
 import ScoreCounter from './ScoreCounter';
 

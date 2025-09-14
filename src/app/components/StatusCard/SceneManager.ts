@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SystemMetrics } from '~/src/lib/models';
 
 import useColorTheme from '../useColorTheme';
-import { MatrixFrameContext, MatrixRenderer, Palette } from './models';
+import { MatrixFrameContext, MatrixRenderer, Palette } from './MatrixRenderer';
 import {
   MenuScene,
   PongScene,
@@ -117,8 +117,8 @@ export class SceneManager {
 
 interface UseSceneManagerParams {
   metrics: SystemMetrics;
-  dotMatrixDisplayRef: React.RefObject<{ getFrameContext: () => MatrixFrameContext }>;
-  containerRef: React.RefObject<HTMLDivElement>;
+  dotMatrixDisplayRef: React.RefObject<{ getFrameContext: () => MatrixFrameContext } | null>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   onScoreChange: (score: { player1: number; player2?: number }) => void;
   onGameEnd: () => void;
   onGameSelect: (manager: SceneManager, game: 'snake' | 'pong') => void;
