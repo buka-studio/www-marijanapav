@@ -68,7 +68,7 @@ class PongGame {
     this.ballY = this.height / 2;
 
     const speed = this.width * 0.5;
-    const angle = (Math.random() * Math.PI) / 2 - Math.PI / 4;
+    const angle = Math.random() * (Math.PI / 3) - Math.PI / 6;
 
     this.ballVX = speed * Math.cos(angle) * (servingPlayer === Player.Left ? -1 : 1);
     this.ballVY = speed * Math.sin(angle);
@@ -174,7 +174,8 @@ class PongGame {
     ) {
       const relativeIntersectY = leftPaddleRect.top + this.paddleHeight / 2 - this.ballY;
       const normalizedIntersect = relativeIntersectY / (this.paddleHeight / 2);
-      const bounceAngle = normalizedIntersect * (Math.PI / 4);
+      const clamped = Math.max(-1, Math.min(1, normalizedIntersect));
+      const bounceAngle = clamped * (Math.PI / 6);
       const speed = Math.hypot(this.ballVX, this.ballVY) * 1.2;
       this.ballVX = speed * Math.cos(bounceAngle);
       this.ballVY = speed * -Math.sin(bounceAngle);
@@ -196,7 +197,8 @@ class PongGame {
     ) {
       const relativeIntersectY = rightPaddleRect.top + this.paddleHeight / 2 - this.ballY;
       const normalizedIntersect = relativeIntersectY / (this.paddleHeight / 2);
-      const bounceAngle = normalizedIntersect * (Math.PI / 4);
+      const clamped = Math.max(-1, Math.min(1, normalizedIntersect));
+      const bounceAngle = clamped * (Math.PI / 6);
       const speed = Math.hypot(this.ballVX, this.ballVY) * 1.2;
       this.ballVX = speed * -Math.cos(bounceAngle);
       this.ballVY = speed * -Math.sin(bounceAngle);
@@ -431,8 +433,8 @@ export default class PongGameRenderer extends BaseRenderer {
         this.game.movePaddle(Player.Right, this.keyPresses[Player.Right], dtSec);
       }
     }
-    this.game.tick(dtSec);
 
+    this.game.tick(dtSec);
     if (this.game.getIsGameOver()) {
       return;
     }
