@@ -22,6 +22,8 @@ type TransitionCell = {
 
 type CellShape = 'circle' | 'square';
 
+export type TransitionDirection = 'up' | 'down' | 'left' | 'right';
+
 export default class TransitionRenderer extends BaseRenderer {
   private options: Required<Options>;
   private activeRgb?: Rgb;
@@ -57,14 +59,14 @@ export default class TransitionRenderer extends BaseRenderer {
 
   public renderTransition(
     context: MatrixFrameContext,
-    params: { durationSeconds?: number; columnBased?: boolean } = {},
+    params: { durationSeconds?: number; direction?: TransitionDirection } = {},
   ): Promise<void> {
     return new Promise((resolve) => {
       const { cols, rows } = context;
-      const durationMs = (params.durationSeconds || 2) * 1000;
-      const columnBased = params.columnBased || false;
+      const durationMs = (params.durationSeconds ?? 2) * 1000;
+      const direction = params.direction ?? 'up';
 
-      const cells = this.initTransitionCells(rows, cols, durationMs, columnBased);
+      const cells = this.initTransitionCells(rows, cols, durationMs, direction);
       const totalDuration = durationMs + this.options.fadeDurationMs;
 
       let animationFrameId: number;
@@ -80,7 +82,6 @@ export default class TransitionRenderer extends BaseRenderer {
 
         if (elapsedTime > totalDuration) {
           cancelAnimationFrame(animationFrameId);
-
           resolve();
         } else {
           animationFrameId = requestAnimationFrame(animationLoop);
@@ -95,19 +96,36 @@ export default class TransitionRenderer extends BaseRenderer {
     numRows: number,
     numCols: number,
     totalAnimationDuration: number,
-    columnBasedAnimation: boolean,
+    direction: TransitionDirection,
   ): TransitionCell[] {
     const cellsArray: TransitionCell[] = [];
     const { fadeDurationMs, lightUpDurationMs, maxRandomDelayMs } = this.options;
 
     const maxStaggerDelay = totalAnimationDuration - fadeDurationMs;
-    const totalStaggerSteps = numRows * numCols - 1;
+    const totalStaggerSteps =
+      direction === 'up' || direction === 'down' ? numRows - 1 : numCols - 1;
     const baseStaggerPerCell = totalStaggerSteps > 0 ? maxStaggerDelay / totalStaggerSteps : 0;
 
     for (let r = 0; r < numRows; r++) {
       for (let c = 0; c < numCols; c++) {
-        const index = columnBasedAnimation ? c * numRows + r : r * numCols + c;
-        const baseDelay = index * baseStaggerPerCell;
+        let step;
+        switch (direction) {
+          case 'up':
+            step = numRows - 1 - r;
+            break;
+          case 'down':
+            step = r;
+            break;
+          case 'left':
+            step = numCols - 1 - c;
+            break;
+          case 'right':
+          default:
+            step = c;
+            break;
+        }
+
+        const baseDelay = step * baseStaggerPerCell;
         const randomDelay = Math.random() * maxRandomDelayMs;
         const startTime = baseDelay + randomDelay;
 
@@ -139,7 +157,7 @@ export default class TransitionRenderer extends BaseRenderer {
 
     for (const cell of cells) {
       let currentOpacity = 0;
-      const { fadeDurationMs, lightUpDurationMs } = this.options;
+      const { fadeDurationMs } = this.options;
 
       if (elapsedTime >= cell.startTime && elapsedTime < cell.fadeCompleteTime) {
         if (elapsedTime < cell.lightUpCompleteTime) {
@@ -161,20 +179,20 @@ export default class TransitionRenderer extends BaseRenderer {
     cellSize: number,
     opacity: number,
   ): void {
-    const { cellRadius, cellPadding, cellShape, palette } = this.options;
+    const { cellPadding, cellShape, palette } = this.options;
 
     const centerX = col * cellSize + cellSize / 2;
     const centerY = row * cellSize + cellSize / 2;
     const radius = cellSize / 2 - (cellPadding ?? 0);
 
     let finalFillColor = palette.inactive;
-    finalFillColor = `rgba(${this.activeRgb!.r * 255},${this.activeRgb!.g * 255},${this.activeRgb!.b * 255},${opacity})`;
-    if (opacity === 0) {
-      finalFillColor = palette.inactive;
+    if (this.activeRgb && opacity > 0) {
+      finalFillColor = `rgba(${this.activeRgb.r * 255},${this.activeRgb.g * 255},${
+        this.activeRgb.b * 255
+      },${opacity})`;
     }
 
     ctx.fillStyle = finalFillColor;
-
     ctx.beginPath();
 
     if (cellShape === 'circle') {

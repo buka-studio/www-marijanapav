@@ -21,6 +21,7 @@ export interface MatrixRenderer {
   render(ctx: MatrixFrameContext): void;
   pause(): void;
   resume(): void;
+  restart?(): void;
   setPalette(palette: Palette): void;
 }
 
