@@ -5,7 +5,7 @@ interface PlayerScoreCounterProps {
   padding?: number;
 }
 
-function PlayerScoreCounter({ score, padding = 3 }: PlayerScoreCounterProps) {
+function PlayerScoreCounter({ score, padding = 4 }: PlayerScoreCounterProps) {
   const maxScore = Math.pow(10, padding) - 1;
 
   if (score > maxScore) {
@@ -41,7 +41,7 @@ interface Props {
   padding?: number;
 }
 
-export default function ScoreCounter({ player1Score, player2Score, padding = 3 }: Props) {
+export default function ScoreCounter({ player1Score, player2Score, padding = 4 }: Props) {
   if (typeof player2Score !== 'undefined') {
     return (
       <div className="flex items-center gap-1 font-mono text-xs text-text-primary">

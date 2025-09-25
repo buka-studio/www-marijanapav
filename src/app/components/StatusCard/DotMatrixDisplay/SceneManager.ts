@@ -3,11 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 
 import { SystemMetrics } from '~/src/lib/models';
 
-import useColorTheme from '../useColorTheme';
+import useColorTheme from '../../useColorTheme';
 import { MatrixFrameContext, MatrixRenderer, Palette } from './MatrixRenderer';
 import {
+  ImpactGameScene,
   MenuScene,
-  PongScene,
+  PongGameScene,
   Scene,
   SceneContext,
   SceneName,
@@ -44,7 +45,8 @@ export class SceneManager {
       status: new StatusScene(this.context),
       menu: new MenuScene(this.context),
       snake: new SnakeScene(this.context),
-      pong: new PongScene(this.context),
+      pong: new PongGameScene(this.context),
+      impact: new ImpactGameScene(this.context),
     };
 
     this.activeSceneName = 'status';
@@ -68,7 +70,8 @@ export class SceneManager {
     const nextScene = this.scenes[name];
 
     currentScene.renderer.pause();
-    currentScene.cleanupControls();
+
+    const prevScene = currentScene;
 
     const transitionDirection = nextScene instanceof MenuScene ? 'up' : 'down';
 
@@ -78,6 +81,8 @@ export class SceneManager {
       .then(() => {
         nextScene.renderer?.restart?.();
         nextScene.renderer.resume();
+
+        prevScene.cleanupControls();
 
         // only set up controls if the container has focus
         if (document.activeElement === this.context.containerRef.current) {
@@ -121,7 +126,7 @@ interface UseSceneManagerParams {
   containerRef: React.RefObject<HTMLDivElement | null>;
   onScoreChange: (score: { player1: number; player2?: number }) => void;
   onGameEnd: () => void;
-  onGameSelect: (manager: SceneManager, game: 'snake' | 'pong') => void;
+  onGameSelect: (manager: SceneManager, game: 'snake' | 'pong' | 'impact') => void;
   analytics: {
     track: (event: string, data?: any) => void;
   };

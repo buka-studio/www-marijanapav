@@ -9,10 +9,12 @@ import { track } from '~/src/umami/event';
 import { cn } from '~/src/util';
 
 import Card from '../Card';
-import DotMatrixDisplay from './DotMatrixDisplay';
+import DotMatrixDisplay, {
+  MatrixFrameContext,
+  SceneManager,
+  useSceneManager,
+} from './DotMatrixDisplay';
 import KonamiCode from './KonamiCode';
-import { MatrixFrameContext } from './MatrixRenderer';
-import { SceneManager, useSceneManager } from './SceneManager';
 import ScoreCounter from './ScoreCounter';
 
 const infoSlideProps = {
@@ -38,11 +40,14 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
     setScoreVisible(false);
   }, []);
 
-  const handleGameSelect = useCallback((manager: SceneManager, game: 'snake' | 'pong') => {
-    setScoreVisible(true);
-    const initialScore = game === 'pong' ? { player1: 0, player2: 0 } : { player1: 0 };
-    setScore(initialScore);
-  }, []);
+  const handleGameSelect = useCallback(
+    (manager: SceneManager, game: 'snake' | 'pong' | 'impact') => {
+      setScoreVisible(true);
+      const initialScore = game === 'pong' ? { player1: 0, player2: 0 } : { player1: 0 };
+      setScore(initialScore);
+    },
+    [],
+  );
 
   const { sceneManager, activeRenderer } = useSceneManager({
     metrics,

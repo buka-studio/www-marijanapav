@@ -1,5 +1,5 @@
+import { BaseRenderer } from './BaseRenderer';
 import type { MatrixFrameContext, Palette } from './MatrixRenderer';
-import { BaseRenderer } from './MatrixRenderer';
 
 export enum PongDirection {
   Up = 'Up',

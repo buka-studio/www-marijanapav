@@ -1,5 +1,5 @@
+import { BaseRenderer } from '../BaseRenderer';
 import type { MatrixFrameContext, Palette } from '../MatrixRenderer';
-import { BaseRenderer } from '../MatrixRenderer';
 import defaultFontData from './bitmapFont.json';
 import { BitmapFont } from './models';
 import { decodeBitmapFont } from './util';

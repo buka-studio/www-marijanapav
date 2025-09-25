@@ -1,8 +1,9 @@
 import { SystemMetrics } from '~/src/lib/models';
 import { remap } from '~/src/math';
 
+import ImpactGameRenderer, { PlayerAction } from './ImpactGameRenderer';
 import { MatrixFrameContext, MatrixRenderer, Palette } from './MatrixRenderer';
-import PongGameRenderer, { Player, PongDirection } from './PongGameRenderer';
+import PongGameSceneRenderer, { Player, PongDirection } from './PongGameRenderer';
 import SnakeGameRenderer, { Direction } from './SnakeGameRenderer';
 import TextRenderer from './TextRenderer';
 
@@ -17,7 +18,7 @@ export interface SceneContext {
   metrics: SystemMetrics;
   onScoreChange: (score: { player1: number; player2?: number }) => void;
   onGameEnd: () => void;
-  onGameSelect: (game: 'snake' | 'pong') => void;
+  onGameSelect: (game: 'snake' | 'pong' | 'impact') => void;
   analytics: {
     track: (event: string, data?: any) => void;
   };
@@ -59,7 +60,7 @@ export class MenuScene extends Scene {
 
   constructor(context: SceneContext) {
     const renderer = new TextRenderer({
-      text: '1:SNAKE   2:PONG  ',
+      text: '1:SNAKE   2:PONG   3:IMPACT  ',
       speed: -1,
       charSpacing: 1,
       glow: true,
@@ -73,6 +74,7 @@ export class MenuScene extends Scene {
     const menuGameMap = {
       '1': 'snake',
       '2': 'pong',
+      '3': 'impact',
     } as const;
 
     this.handleKeyDown = (e: KeyboardEvent) => {
@@ -144,12 +146,12 @@ export class SnakeScene extends Scene {
   }
 }
 
-export class PongScene extends Scene {
+export class PongGameScene extends Scene {
   private handleKeyDown: (e: KeyboardEvent) => void;
   private handleKeyUp: (e: KeyboardEvent) => void;
 
   constructor(context: SceneContext) {
-    const renderer = new PongGameRenderer({
+    const renderer = new PongGameSceneRenderer({
       palette: context.palette,
       maxScore: 5,
       snapBallToGrid: true,
@@ -170,7 +172,7 @@ export class PongScene extends Scene {
     } as const;
 
     this.handleKeyDown = (e: KeyboardEvent) => {
-      const pongRenderer = this.renderer as PongGameRenderer;
+      const pongRenderer = this.renderer as PongGameSceneRenderer;
       if (e.key in directionMap) {
         e.preventDefault();
         pongRenderer.setKeyPress(Player.Left, directionMap[e.key as keyof typeof directionMap]);
@@ -178,7 +180,7 @@ export class PongScene extends Scene {
     };
 
     this.handleKeyUp = (e: KeyboardEvent) => {
-      const pongRenderer = this.renderer as PongGameRenderer;
+      const pongRenderer = this.renderer as PongGameSceneRenderer;
       if (e.key in directionMap) {
         e.preventDefault();
         pongRenderer.setKeyPress(Player.Left, null);
@@ -202,11 +204,94 @@ export class PongScene extends Scene {
   }
 }
 
+export class ImpactGameScene extends Scene {
+  private handleKeyDown: (e: KeyboardEvent) => void;
+  private handleKeyUp: (e: KeyboardEvent) => void;
+
+  constructor(context: SceneContext) {
+    const renderer = new ImpactGameRenderer({
+      palette: context.palette,
+      glow: true,
+      onScoreChange: (score) => context.onScoreChange({ player1: score }),
+      onGameOver: (score) => this.handleGameOver(score),
+    });
+    super(renderer, context);
+
+    const keyMap: Record<string, PlayerAction> = {
+      w: PlayerAction.Up,
+      W: PlayerAction.Up,
+      ArrowUp: PlayerAction.Up,
+      s: PlayerAction.Down,
+      S: PlayerAction.Down,
+      ArrowDown: PlayerAction.Down,
+      a: PlayerAction.Left,
+      A: PlayerAction.Left,
+      ArrowLeft: PlayerAction.Left,
+      d: PlayerAction.Right,
+      D: PlayerAction.Right,
+      ArrowRight: PlayerAction.Right,
+      ' ': PlayerAction.Shoot,
+      Space: PlayerAction.Shoot,
+      Spacebar: PlayerAction.Shoot,
+    };
+
+    const keyToAction = (event: KeyboardEvent): PlayerAction | null => {
+      if (event.key in keyMap) {
+        return keyMap[event.key as keyof typeof keyMap];
+      }
+      if (event.code === 'Space') {
+        return PlayerAction.Shoot;
+      }
+      return null;
+    };
+
+    this.handleKeyDown = (e: KeyboardEvent) => {
+      const impactRenderer = this.renderer as ImpactGameRenderer;
+      const action = keyToAction(e);
+      if (action) {
+        if (action === PlayerAction.Shoot && e.repeat) {
+          e.preventDefault();
+          return;
+        }
+        e.preventDefault();
+        impactRenderer.setActionState(action, true);
+      }
+    };
+
+    this.handleKeyUp = (e: KeyboardEvent) => {
+      const impactRenderer = this.renderer as ImpactGameRenderer;
+      const action = keyToAction(e);
+      if (action) {
+        e.preventDefault();
+        impactRenderer.setActionState(action, false);
+      }
+    };
+  }
+
+  private handleGameOver(score: number) {
+    this.context.analytics.track('impact_game_over', { score });
+    this.context.onGameEnd();
+  }
+
+  override setupControls() {
+    const container = this.context.containerRef.current;
+    container?.addEventListener('keydown', this.handleKeyDown);
+    container?.addEventListener('keyup', this.handleKeyUp);
+  }
+
+  override cleanupControls() {
+    const container = this.context.containerRef.current;
+    container?.removeEventListener('keydown', this.handleKeyDown);
+    container?.removeEventListener('keyup', this.handleKeyUp);
+  }
+}
+
 export const scenes = {
   status: StatusScene,
   menu: MenuScene,
   snake: SnakeScene,
-  pong: PongScene,
+  pong: PongGameScene,
+  impact: ImpactGameScene,
 };
 
 export type SceneName = keyof typeof scenes;
