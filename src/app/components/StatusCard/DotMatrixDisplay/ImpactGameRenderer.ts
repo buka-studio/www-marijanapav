@@ -102,19 +102,12 @@ const normalizeCells = (cells: AsteroidCell[]) => {
   };
 };
 
-const rotateCellsClockwise = (cells: AsteroidCell[]): AsteroidCell[] => {
-  const { cells: normalized, height } = normalizeCells(cells);
-  return normalized.map(({ dx, dy }) => ({ dx: height - 1 - dy, dy: dx }));
-};
-
 const ASTEROID_BLUEPRINTS: AsteroidBlueprint[] = [
-  { data: ['1'], baseSpeed: 0.52 },
-  { data: ['11', '11'], baseSpeed: 0.48 },
-  { data: ['010', '111', '010'], baseSpeed: 0.44 },
-  { data: ['0110', '1111', '1111', '0110'], baseSpeed: 0.38 },
-  { data: ['00100', '01110', '11111', '01110', '00100'], baseSpeed: 0.34 },
+  { data: ['01', '11'], baseSpeed: 0.54 },
+  { data: ['011', '111', '110'], baseSpeed: 0.5 },
+  { data: ['00110', '01111', '11111', '01111', '00111'], baseSpeed: 0.42 },
   {
-    data: ['001100', '011110', '111111', '011110', '001100'],
+    data: ['0001100', '0011110', '0111111', '1111111', '0111110', '0011100'],
     baseSpeed: 0.32,
   },
 ];
@@ -356,7 +349,7 @@ class SpaceImpactGame {
           bulletsToRemove.add(bulletIdx);
           if (asteroid.hp <= 0) {
             const size = asteroid.cells.length;
-            this.score += size * 5;
+            this.score += size * 2;
             this.onScoreChange?.(this.score);
           }
           break;
@@ -411,29 +404,35 @@ class SpaceImpactGame {
     }
 
     this.spawnAsteroid();
-    const baseCooldown = 8;
-    const minCooldown = 3;
+    const baseCooldown = 10;
+    const minCooldown = 5;
     const cooldown = Math.max(minCooldown, Math.round(baseCooldown - this.score * 0.1));
     this.spawnCooldownSteps = cooldown;
   }
 
   private spawnAsteroid() {
     const variant = this.pickAsteroidVariant();
-    const maxStartRow = Math.max(0, this.height - variant.height);
+
+    const normalized = normalizeCells(variant.cells.map((cell) => ({ ...cell })));
+
+    const width = normalized.width;
+    const height = normalized.height;
+
+    const maxStartRow = Math.max(0, this.height - height);
     const row = Math.floor(Math.random() * (maxStartRow + 1));
-    const col = this.width + variant.width;
+    const col = this.width + width;
 
     const baseSpeed = variant.baseSpeed;
     const speed = Math.max(0.25, baseSpeed + Math.random() * 0.15);
-    const hp = Math.max(1, Math.ceil(variant.cells.length / 2));
+    const hp = Math.max(1, Math.ceil(normalized.cells.length / 2));
 
     this.asteroids.push({
       id: this.nextAsteroidId++,
       col,
       row,
-      width: variant.width,
-      height: variant.height,
-      cells: variant.cells,
+      width,
+      height,
+      cells: normalized.cells,
       hp,
       speed,
       progress: 0,
@@ -444,14 +443,7 @@ class SpaceImpactGame {
     const attempts = 8;
     for (let i = 0; i < attempts; i++) {
       const blueprint = ASTEROID_BLUEPRINTS[Math.floor(Math.random() * ASTEROID_BLUEPRINTS.length)];
-      let variant: AsteroidCell[] = cellsFromData(blueprint.data);
-
-      const rotations = Math.floor(Math.random() * 4);
-      for (let r = 0; r < rotations; r++) {
-        variant = rotateCellsClockwise(variant);
-      }
-
-      const normalized = normalizeCells(variant);
+      const normalized = normalizeCells(cellsFromData(blueprint.data));
       if (normalized.height <= this.height) {
         return { ...normalized, baseSpeed: blueprint.baseSpeed };
       }
@@ -662,15 +654,22 @@ export default class ImpactGameRenderer extends BaseRenderer {
       if (asteroid.hp <= 0) {
         continue;
       }
+      const halfWidth = asteroid.width / 2;
+      const halfHeight = asteroid.height / 2;
+      const maxDistance = Math.max(0.5, Math.hypot(halfWidth, halfHeight));
       for (const cell of asteroid.cells) {
         const col = asteroid.col + cell.dx;
         const row = asteroid.row + cell.dy;
         if (col < 0 || col >= context.cols || row < 0 || row >= context.rows) {
           continue;
         }
+        const localX = cell.dx + 0.5 - halfWidth;
+        const localY = cell.dy + 0.5 - halfHeight;
+        const distance = Math.hypot(localX, localY);
+        const depth = 1 - Math.min(1, distance / maxDistance);
         const x = col * cellSize + cellSize / 2;
         const y = row * cellSize + cellSize / 2;
-        this.drawCell(ctx, x, y, cellSize, color, true);
+        this.renderAsteroidCell(ctx, x, y, cellSize, color, depth, localX, localY, maxDistance);
       }
     }
   }
@@ -720,5 +719,56 @@ export default class ImpactGameRenderer extends BaseRenderer {
     }
     ctx.fill();
     ctx.restore();
+  }
+
+  private renderAsteroidCell(
+    ctx: CanvasRenderingContext2D,
+    cx: number,
+    cy: number,
+    cellSize: number,
+    color: string,
+    depth: number,
+    localX: number,
+    localY: number,
+    maxDistance: number,
+  ) {
+    const { cellShape, cellPadding } = this.options;
+    const paddingRatio = cellPadding ?? 0.25;
+
+    const shadowRadius = (cellSize / 2) * (1 - Math.max(0, paddingRatio - 0.05));
+    const rimStrength = 1 - depth;
+    const shadowAlpha = 0.55 + rimStrength * 0.45;
+    ctx.save();
+    ctx.fillStyle = `rgba(0, 0, 0, ${shadowAlpha})`;
+    ctx.beginPath();
+    if (cellShape === 'circle') {
+      ctx.arc(cx, cy, shadowRadius, 0, Math.PI * 2);
+    } else {
+      ctx.rect(cx - shadowRadius, cy - shadowRadius, shadowRadius * 2, shadowRadius * 2);
+    }
+    ctx.fill();
+    ctx.restore();
+
+    const oldAlpha = ctx.globalAlpha;
+    const bodyAlpha = 0.4 + depth * 0.55;
+    ctx.globalAlpha = bodyAlpha;
+    this.drawCell(ctx, cx, cy, cellSize * 0.8, color, true);
+    ctx.globalAlpha = oldAlpha;
+
+    const lightDirX = -0.6;
+    const lightDirY = -0.8;
+    const norm = Math.hypot(lightDirX, lightDirY) || 1;
+    const lightFactor = (localX * lightDirX + localY * lightDirY) / (maxDistance * norm);
+    const highlight = Math.max(0, lightFactor);
+
+    if (highlight > 0.02) {
+      ctx.save();
+      ctx.fillStyle = `rgba(255, 255, 255, ${0.35 + highlight * 0.4})`;
+      ctx.beginPath();
+      const highlightRadius = cellSize * (0.2 + depth * 0.15);
+      ctx.arc(cx - cellSize * 0.18, cy - cellSize * 0.2, highlightRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
   }
 }
