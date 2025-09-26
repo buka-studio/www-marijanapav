@@ -151,7 +151,7 @@ export const useSceneManager = ({
     const context: SceneContext = {
       dotMatrixDisplayRef,
       containerRef,
-      palette: getPalette({ resolvedTheme, colorTheme }),
+      palette: getPalette({ resolvedTheme }),
       metrics,
       onScoreChange,
       onGameEnd: () => {
@@ -171,6 +171,7 @@ export const useSceneManager = ({
 
     instance.init();
     sceneManagerRef.current = instance;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     onScoreChange,
     onGameEnd,
@@ -179,8 +180,6 @@ export const useSceneManager = ({
     dotMatrixDisplayRef,
     containerRef,
     analytics,
-    colorTheme,
-    resolvedTheme,
   ]);
 
   useEffect(() => {
