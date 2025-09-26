@@ -53,11 +53,15 @@ export class SceneManager {
     this.onSceneRendererChange(this.scenes.status.renderer);
   }
 
-  public getActiveSceneRenderer(): MatrixRenderer | null {
+  public getActiveScene(): Scene | null {
     if (!this.activeSceneName || !this.scenes) {
       return null;
     }
-    return this.scenes[this.activeSceneName].renderer;
+    return this.scenes[this.activeSceneName];
+  }
+
+  public getActiveSceneRenderer(): MatrixRenderer | null {
+    return this.getActiveScene()?.renderer || null;
   }
 
   public switchTo(name: SceneName) {
@@ -171,6 +175,29 @@ export const useSceneManager = ({
 
     instance.init();
     sceneManagerRef.current = instance;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        const scene = sceneManagerRef.current?.getActiveScene();
+        if (scene instanceof StatusScene) {
+          return;
+        }
+        if (scene instanceof MenuScene) {
+          sceneManagerRef.current?.switchTo('status');
+        } else {
+          sceneManagerRef.current?.switchTo('menu');
+          onGameEnd();
+        }
+      }
+    };
+
+    const container = containerRef.current;
+
+    container?.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      container?.removeEventListener('keydown', handleKeyDown);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     onScoreChange,
