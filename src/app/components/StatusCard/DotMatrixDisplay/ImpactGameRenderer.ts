@@ -65,6 +65,13 @@ interface SpaceImpactGameOptions {
   onGameOver?: (score: number) => void;
 }
 
+const shuffleInPlace = <T>(array: T[]): void => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
+
 type AsteroidBlueprint = {
   data: string[];
   baseSpeed: number;
@@ -151,6 +158,11 @@ class SpaceImpactGame {
   private spawnCooldownSteps = 0;
   private elapsedTimeSec = 0;
   private shootQueued = false;
+  private asteroidPool: Array<{
+    blueprint: AsteroidBlueprint;
+    normalized: ReturnType<typeof normalizeCells>;
+  }> = [];
+  private asteroidPoolIndex = 0;
 
   private player: PlayerState = {
     col: 1,
@@ -201,6 +213,7 @@ class SpaceImpactGame {
     this.elapsedTimeSec = 0;
     this.shootQueued = false;
     this.controls = { up: false, down: false, left: false, right: false };
+    this.buildAsteroidPool();
 
     this.onScoreChange?.(this.score);
   }
@@ -316,7 +329,7 @@ class SpaceImpactGame {
   }
 
   private updateAsteroids() {
-    const speedMultiplier = 1 + Math.min(0.6, this.elapsedTimeSec * 0.01);
+    const speedMultiplier = 1 + Math.min(1, this.elapsedTimeSec * 0.02);
     for (const asteroid of this.asteroids) {
       asteroid.progress += asteroid.speed * speedMultiplier;
       while (asteroid.progress >= 1) {
@@ -404,14 +417,14 @@ class SpaceImpactGame {
     }
 
     this.spawnAsteroid();
-    const baseCooldown = 10;
+    const baseCooldown = 15;
     const minCooldown = 5;
-    const cooldown = Math.max(minCooldown, Math.round(baseCooldown - this.score * 0.1));
+    const cooldown = Math.max(minCooldown, Math.round(baseCooldown - this.score * 0.04));
     this.spawnCooldownSteps = cooldown;
   }
 
   private spawnAsteroid() {
-    const variant = this.pickAsteroidVariant();
+    const variant = this.nextAsteroidBlueprint();
 
     const normalized = normalizeCells(variant.cells.map((cell) => ({ ...cell })));
 
@@ -423,7 +436,7 @@ class SpaceImpactGame {
     const col = this.width + width;
 
     const baseSpeed = variant.baseSpeed;
-    const speed = Math.max(0.25, baseSpeed + Math.random() * 0.15);
+    const speed = Math.max(0.35, baseSpeed + Math.random() * 0.18);
     const hp = Math.max(1, Math.ceil(normalized.cells.length / 2));
 
     this.asteroids.push({
@@ -439,19 +452,32 @@ class SpaceImpactGame {
     });
   }
 
-  private pickAsteroidVariant() {
-    const attempts = 8;
-    for (let i = 0; i < attempts; i++) {
-      const blueprint = ASTEROID_BLUEPRINTS[Math.floor(Math.random() * ASTEROID_BLUEPRINTS.length)];
-      const normalized = normalizeCells(cellsFromData(blueprint.data));
-      if (normalized.height <= this.height) {
-        return { ...normalized, baseSpeed: blueprint.baseSpeed };
-      }
+  private buildAsteroidPool() {
+    this.asteroidPool = ASTEROID_BLUEPRINTS.map((blueprint) => ({
+      blueprint,
+      normalized: normalizeCells(cellsFromData(blueprint.data)),
+    })).filter(({ normalized }) => normalized.height <= this.height);
+
+    if (this.asteroidPool.length === 0) {
+      const fallback = normalizeCells([{ dx: 0, dy: 0 }]);
+      this.asteroidPool = [{ blueprint: { data: ['1'], baseSpeed: 0.4 }, normalized: fallback }];
     }
 
-    const fallbackCells: AsteroidCell[] = [{ dx: 0, dy: 0 }];
-    const normalizedFallback = normalizeCells(fallbackCells);
-    return { ...normalizedFallback, baseSpeed: 0.5 };
+    shuffleInPlace(this.asteroidPool);
+    this.asteroidPoolIndex = 0;
+  }
+
+  private nextAsteroidBlueprint() {
+    if (this.asteroidPool.length === 0) {
+      this.buildAsteroidPool();
+    }
+
+    const entry = this.asteroidPool[this.asteroidPoolIndex++];
+    if (this.asteroidPoolIndex >= this.asteroidPool.length) {
+      this.buildAsteroidPool();
+    }
+
+    return { ...entry.normalized, baseSpeed: entry.blueprint.baseSpeed };
   }
 
   private createStarField(): Star[] {
