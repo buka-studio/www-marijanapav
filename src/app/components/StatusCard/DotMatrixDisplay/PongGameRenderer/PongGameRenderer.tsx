@@ -1,15 +1,7 @@
-import { BaseRenderer } from './BaseRenderer';
-import type { MatrixFrameContext, Palette } from './MatrixRenderer';
-
-export enum PongDirection {
-  Up = 'Up',
-  Down = 'Down',
-}
-
-export enum Player {
-  Left = 'left',
-  Right = 'right',
-}
+import { BaseRenderer } from '../BaseRenderer';
+import type { MatrixFrameContext, Palette } from '../MatrixRenderer';
+import { Player, PongDirection } from './models';
+import { BallSpawnTransition, GoalFlashTransition, RoundTransition } from './transitions';
 
 class PongGame {
   private width: number;
@@ -259,6 +251,11 @@ export default class PongGameRenderer extends BaseRenderer {
     [Player.Right]: null,
   };
 
+  private roundTransitions: RoundTransition[] = [];
+
+  private lastScore: { left: number; right: number } = { left: 0, right: 0 };
+  private boardSize = { cols: 0, rows: 0 };
+
   constructor(options: Options) {
     super();
     this.options = {
@@ -276,7 +273,10 @@ export default class PongGameRenderer extends BaseRenderer {
 
   public restart() {
     this.game?.reset();
+    this.lastScore = { left: 0, right: 0 };
+    this.roundTransitions = [this.makeBallSpawnTransition()];
   }
+
   public setKeyPress(player: Player, direction: PongDirection | null) {
     this.keyPresses[player] = direction;
   }
@@ -289,13 +289,79 @@ export default class PongGameRenderer extends BaseRenderer {
       this.game = new PongGame({
         width: cols,
         height: rows,
-        onScoreChange: this.options.onScoreChange,
+        onScoreChange: (score) => this.handleScoreChange(score),
         onGameOver: this.options.onGameOver,
         paddleWidth: this.options.paddleWidth,
         paddleOffset: this.options.paddleOffset,
         maxScore: this.options.maxScore,
       });
+      this.lastScore = { left: 0, right: 0 };
+      this.boardSize = { cols, rows };
+      this.roundTransitions = [this.makeBallSpawnTransition()];
     }
+  }
+
+  private getScorer(score: { left: number; right: number }): Player | null {
+    if (score.left > this.lastScore.left) {
+      return Player.Left;
+    } else if (score.right > this.lastScore.right) {
+      return Player.Right;
+    }
+    return null;
+  }
+
+  private handleScoreChange(score: { left: number; right: number }) {
+    this.options.onScoreChange?.(score);
+
+    const scorer = this.getScorer(score);
+    const receiver =
+      scorer === Player.Left ? Player.Right : scorer === Player.Right ? Player.Left : null;
+
+    this.lastScore = { ...score };
+
+    if (receiver) {
+      this.roundTransitions.push(this.makeGoalFlashTransition(receiver));
+    }
+
+    this.roundTransitions.push(this.makeBallSpawnTransition());
+  }
+
+  private makeGoalFlashTransition(receivingSide: Player): RoundTransition {
+    const interval = 0.08;
+    const flashCount = 3;
+    const color = this.options.palette.active;
+
+    return new GoalFlashTransition(receivingSide, interval, flashCount, color, (...args) =>
+      this.renderActiveCell.call(this, ...args),
+    );
+  }
+
+  private makeBallSpawnTransition() {
+    const duration = 0.55;
+
+    const position = { x: this.boardSize.cols / 2, y: this.boardSize.rows / 2 };
+    const color = this.options.palette.active;
+
+    return new BallSpawnTransition(duration, color, position, (...args) =>
+      this.renderActiveCell.call(this, ...args),
+    );
+  }
+
+  private renderRoundTransitions(context: MatrixFrameContext) {
+    for (const transition of this.roundTransitions) {
+      transition.render(context);
+    }
+  }
+
+  private updateRoundTransitions(dt: number) {
+    if (this.roundTransitions.length === 0) {
+      return false;
+    }
+
+    this.roundTransitions.forEach((transition) => transition.tick(dt));
+    this.roundTransitions = this.roundTransitions.filter((transition) => !transition.finished);
+
+    return this.roundTransitions.length > 0;
   }
 
   private drawCell(
@@ -434,14 +500,21 @@ export default class PongGameRenderer extends BaseRenderer {
       }
     }
 
-    this.game.tick(dtSec);
-    if (this.game.getIsGameOver()) {
-      return;
+    const transitionsActive = this.updateRoundTransitions(dtSec);
+
+    if (!transitionsActive) {
+      this.game.tick(dtSec);
+      if (this.game.getIsGameOver()) {
+        return;
+      }
     }
 
     this.renderBackground(context);
+    this.renderRoundTransitions(context);
     this.renderPaddle(context, Player.Left, this.game.paddleLeftY);
     this.renderPaddle(context, Player.Right, this.game.paddleRightY);
-    this.renderBall(context);
+    if (!transitionsActive) {
+      this.renderBall(context);
+    }
   }
 }

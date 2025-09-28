@@ -109,13 +109,13 @@ const normalizeCells = (cells: AsteroidCell[]) => {
   };
 };
 
-const ASTEROID_BLUEPRINTS: AsteroidBlueprint[] = [
-  { data: ['01', '11'], baseSpeed: 0.54 },
-  { data: ['011', '111', '110'], baseSpeed: 0.5 },
-  { data: ['00110', '01111', '11111', '01111', '00111'], baseSpeed: 0.42 },
+const asteroidData: AsteroidBlueprint[] = [
+  { data: ['01', '11'], baseSpeed: 0.5 },
+  { data: ['011', '111', '110'], baseSpeed: 0.4 },
+  { data: ['00110', '01111', '11111', '01111', '00111'], baseSpeed: 0.3 },
   {
     data: ['0001100', '0011110', '0111111', '1111111', '0111110', '0011100'],
-    baseSpeed: 0.32,
+    baseSpeed: 0.2,
   },
 ];
 
@@ -453,10 +453,12 @@ class SpaceImpactGame {
   }
 
   private buildAsteroidPool() {
-    this.asteroidPool = ASTEROID_BLUEPRINTS.map((blueprint) => ({
-      blueprint,
-      normalized: normalizeCells(cellsFromData(blueprint.data)),
-    })).filter(({ normalized }) => normalized.height <= this.height);
+    this.asteroidPool = asteroidData
+      .map((blueprint) => ({
+        blueprint,
+        normalized: normalizeCells(cellsFromData(blueprint.data)),
+      }))
+      .filter(({ normalized }) => normalized.height <= this.height);
 
     if (this.asteroidPool.length === 0) {
       const fallback = normalizeCells([{ dx: 0, dy: 0 }]);
