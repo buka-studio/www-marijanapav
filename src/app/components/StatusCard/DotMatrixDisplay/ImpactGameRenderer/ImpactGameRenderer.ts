@@ -1,43 +1,15 @@
-import { BaseRenderer } from './BaseRenderer';
-import type { MatrixFrameContext, Palette } from './MatrixRenderer';
+import { BaseRenderer } from '../BaseRenderer';
+import type { MatrixFrameContext, Palette } from '../MatrixRenderer';
+import Asteroid from './Asteroid';
+import { ControlState, PlayerAction } from './models';
+import Player from './Player';
+import { shuffleInPlace } from './util';
 
 type CellShape = 'circle' | 'square';
-
-type ControlState = {
-  up: boolean;
-  down: boolean;
-  left: boolean;
-  right: boolean;
-};
-
-export enum PlayerAction {
-  Up = 'up',
-  Down = 'down',
-  Left = 'left',
-  Right = 'right',
-  Shoot = 'shoot',
-}
 
 interface Bullet {
   col: number;
   row: number;
-  speed: number;
-  progress: number;
-}
-
-type AsteroidCell = {
-  dx: number;
-  dy: number;
-};
-
-interface Asteroid {
-  id: number;
-  col: number;
-  row: number;
-  width: number;
-  height: number;
-  cells: AsteroidCell[];
-  hp: number;
   speed: number;
   progress: number;
 }
@@ -50,14 +22,6 @@ interface Star {
   phase: number;
 }
 
-interface PlayerState {
-  col: number;
-  row: number;
-  width: number;
-  height: number;
-  cells: AsteroidCell[];
-}
-
 interface SpaceImpactGameOptions {
   width: number;
   height: number;
@@ -65,48 +29,9 @@ interface SpaceImpactGameOptions {
   onGameOver?: (score: number) => void;
 }
 
-const shuffleInPlace = <T>(array: T[]): void => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
-
 type AsteroidBlueprint = {
   data: string[];
   baseSpeed: number;
-};
-
-const cellsFromData = (data: string[]): AsteroidCell[] => {
-  const cells: AsteroidCell[] = [];
-  data.forEach((row, rowIdx) => {
-    for (let colIdx = 0; colIdx < row.length; colIdx++) {
-      if (row[colIdx] === '1') {
-        cells.push({ dx: colIdx, dy: rowIdx });
-      }
-    }
-  });
-  return cells;
-};
-
-const normalizeCells = (cells: AsteroidCell[]) => {
-  let minX = Infinity;
-  let minY = Infinity;
-  let maxX = -Infinity;
-  let maxY = -Infinity;
-
-  for (const cell of cells) {
-    minX = Math.min(minX, cell.dx);
-    minY = Math.min(minY, cell.dy);
-    maxX = Math.max(maxX, cell.dx);
-    maxY = Math.max(maxY, cell.dy);
-  }
-  const normalized = cells.map(({ dx, dy }) => ({ dx: dx - minX, dy: dy - minY }));
-  return {
-    cells: normalized,
-    width: maxX - minX + 1,
-    height: maxY - minY + 1,
-  };
 };
 
 const asteroidData: AsteroidBlueprint[] = [
@@ -118,31 +43,6 @@ const asteroidData: AsteroidBlueprint[] = [
     baseSpeed: 0.2,
   },
 ];
-
-const PLAYER_TEMPLATE = normalizeCells(cellsFromData(['0110', '0111', '0110']));
-
-const PLAYER_SHAPE = PLAYER_TEMPLATE.cells;
-const PLAYER_WIDTH = PLAYER_TEMPLATE.width;
-const PLAYER_HEIGHT = PLAYER_TEMPLATE.height;
-const PLAYER_CENTRE_ROW = Math.floor(PLAYER_HEIGHT / 2);
-const PLAYER_NOSE = PLAYER_SHAPE.reduce((best, cell) => {
-  if (!best) {
-    return cell;
-  }
-  if (cell.dx > best.dx) {
-    return cell;
-  }
-  if (cell.dx === best.dx) {
-    const bestDist = Math.abs(best.dy - PLAYER_CENTRE_ROW);
-    const cellDist = Math.abs(cell.dy - PLAYER_CENTRE_ROW);
-    if (cellDist < bestDist) {
-      return cell;
-    }
-  }
-  return best;
-}, PLAYER_SHAPE[0]);
-const PLAYER_BULLET_COL_OFFSET = PLAYER_NOSE.dx + 1;
-const PLAYER_BULLET_ROW_OFFSET = PLAYER_NOSE.dy;
 
 class SpaceImpactGame {
   private width: number;
@@ -158,19 +58,10 @@ class SpaceImpactGame {
   private spawnCooldownSteps = 0;
   private elapsedTimeSec = 0;
   private shootQueued = false;
-  private asteroidPool: Array<{
-    blueprint: AsteroidBlueprint;
-    normalized: ReturnType<typeof normalizeCells>;
-  }> = [];
+  private asteroidPool: Asteroid[] = [];
   private asteroidPoolIndex = 0;
 
-  private player: PlayerState = {
-    col: 1,
-    row: 0,
-    width: PLAYER_WIDTH,
-    height: PLAYER_HEIGHT,
-    cells: PLAYER_SHAPE,
-  };
+  private player!: Player;
   private controls: ControlState = { up: false, down: false, left: false, right: false };
 
   private bullets: Bullet[] = [];
@@ -192,13 +83,7 @@ class SpaceImpactGame {
     this.width = width;
     this.height = height;
 
-    this.player = {
-      col: 1,
-      row: Math.max(0, Math.floor((height - PLAYER_HEIGHT) / 2)),
-      width: PLAYER_WIDTH,
-      height: PLAYER_HEIGHT,
-      cells: PLAYER_SHAPE,
-    };
+    this.player = new Player(['0110', '0111', '0110']);
 
     this.bullets = [];
     this.asteroids = [];
@@ -262,6 +147,7 @@ class SpaceImpactGame {
     }
 
     this.elapsedTimeSec += this.tickIntervalSec;
+
     this.updatePlayerPosition();
     this.processShotQueue();
     this.updateBullets();
@@ -275,19 +161,7 @@ class SpaceImpactGame {
     const verticalDelta = (this.controls.up ? -1 : 0) + (this.controls.down ? 1 : 0);
     const horizontalDelta = (this.controls.left ? -1 : 0) + (this.controls.right ? 1 : 0);
 
-    if (verticalDelta !== 0) {
-      const minRow = -Math.floor(this.player.height / 2);
-      const maxRow = this.height - Math.ceil(this.player.height / 2);
-      const nextRow = Math.max(minRow, Math.min(maxRow, this.player.row + verticalDelta));
-      this.player.row = nextRow;
-    }
-
-    if (horizontalDelta !== 0) {
-      const minCol = 0;
-      const maxCol = Math.max(0, this.width - PLAYER_BULLET_COL_OFFSET - 1);
-      const nextCol = Math.max(minCol, Math.min(maxCol, this.player.col + horizontalDelta));
-      this.player.col = nextCol;
-    }
+    this.player.updatePosition(horizontalDelta, verticalDelta, this.width, this.height);
   }
 
   private processShotQueue() {
@@ -299,13 +173,13 @@ class SpaceImpactGame {
       return;
     }
 
-    const bulletCol = this.player.col + PLAYER_BULLET_COL_OFFSET;
+    const bulletCol = this.player.state.col + this.player.bulletOffset.dx;
     if (bulletCol < 0 || bulletCol >= this.width) {
       this.shootQueued = false;
       return;
     }
 
-    const unclampedRow = this.player.row + PLAYER_BULLET_ROW_OFFSET;
+    const unclampedRow = this.player.state.row + this.player.bulletOffset.dy;
     const bulletRow = Math.max(0, Math.min(this.height - 1, unclampedRow));
 
     this.bullets.push({
@@ -331,10 +205,10 @@ class SpaceImpactGame {
   private updateAsteroids() {
     const speedMultiplier = 1 + Math.min(1, this.elapsedTimeSec * 0.02);
     for (const asteroid of this.asteroids) {
-      asteroid.progress += asteroid.speed * speedMultiplier;
-      while (asteroid.progress >= 1) {
-        asteroid.col -= 1;
-        asteroid.progress -= 1;
+      asteroid.state.progress += asteroid.state.speed * speedMultiplier;
+      while (asteroid.state.progress >= 1) {
+        asteroid.state.col -= 1;
+        asteroid.state.progress -= 1;
       }
     }
   }
@@ -345,22 +219,22 @@ class SpaceImpactGame {
     for (let bulletIdx = 0; bulletIdx < this.bullets.length; bulletIdx++) {
       const bullet = this.bullets[bulletIdx];
       for (const asteroid of this.asteroids) {
-        if (asteroid.hp <= 0) {
+        if (asteroid.state.hp <= 0) {
           continue;
         }
         let hit = false;
         for (const cell of asteroid.cells) {
-          const cellCol = asteroid.col + cell.dx;
-          const cellRow = asteroid.row + cell.dy;
+          const cellCol = asteroid.state.col + cell.dx;
+          const cellRow = asteroid.state.row + cell.dy;
           if (bullet.col === cellCol && bullet.row === cellRow) {
             hit = true;
             break;
           }
         }
         if (hit) {
-          asteroid.hp -= 1;
+          asteroid.state.hp -= 1;
           bulletsToRemove.add(bulletIdx);
-          if (asteroid.hp <= 0) {
+          if (asteroid.state.hp <= 0) {
             const size = asteroid.cells.length;
             this.score += size * 2;
             this.onScoreChange?.(this.score);
@@ -377,15 +251,15 @@ class SpaceImpactGame {
     const playerCells = this.player.cells;
 
     for (const asteroid of this.asteroids) {
-      if (asteroid.hp <= 0) {
+      if (asteroid.state.hp <= 0) {
         continue;
       }
       for (const cell of asteroid.cells) {
-        const cellCol = asteroid.col + cell.dx;
-        const cellRow = asteroid.row + cell.dy;
+        const cellCol = asteroid.state.col + cell.dx;
+        const cellRow = asteroid.state.row + cell.dy;
         for (const playerCell of playerCells) {
-          const playerCol = this.player.col + playerCell.dx;
-          const playerRow = this.player.row + playerCell.dy;
+          const playerCol = this.player.state.col + playerCell.dx;
+          const playerRow = this.player.state.row + playerCell.dy;
           if (
             playerCol < 0 ||
             playerCol >= this.width ||
@@ -406,7 +280,7 @@ class SpaceImpactGame {
   private pruneEntities() {
     this.bullets = this.bullets.filter((bullet) => bullet.col < this.width + 1);
     this.asteroids = this.asteroids.filter(
-      (asteroid) => asteroid.hp > 0 || asteroid.col + asteroid.width > 0,
+      (asteroid) => asteroid.state.hp > 0 || asteroid.state.col + asteroid.width > 0,
     );
   }
 
@@ -417,6 +291,7 @@ class SpaceImpactGame {
     }
 
     this.spawnAsteroid();
+
     const baseCooldown = 15;
     const minCooldown = 5;
     const cooldown = Math.max(minCooldown, Math.round(baseCooldown - this.score * 0.04));
@@ -424,52 +299,6 @@ class SpaceImpactGame {
   }
 
   private spawnAsteroid() {
-    const variant = this.nextAsteroidBlueprint();
-
-    const normalized = normalizeCells(variant.cells.map((cell) => ({ ...cell })));
-
-    const width = normalized.width;
-    const height = normalized.height;
-
-    const maxStartRow = Math.max(0, this.height - height);
-    const row = Math.floor(Math.random() * (maxStartRow + 1));
-    const col = this.width + width;
-
-    const baseSpeed = variant.baseSpeed;
-    const speed = Math.max(0.35, baseSpeed + Math.random() * 0.18);
-    const hp = Math.max(1, Math.ceil(normalized.cells.length / 2));
-
-    this.asteroids.push({
-      id: this.nextAsteroidId++,
-      col,
-      row,
-      width,
-      height,
-      cells: normalized.cells,
-      hp,
-      speed,
-      progress: 0,
-    });
-  }
-
-  private buildAsteroidPool() {
-    this.asteroidPool = asteroidData
-      .map((blueprint) => ({
-        blueprint,
-        normalized: normalizeCells(cellsFromData(blueprint.data)),
-      }))
-      .filter(({ normalized }) => normalized.height <= this.height);
-
-    if (this.asteroidPool.length === 0) {
-      const fallback = normalizeCells([{ dx: 0, dy: 0 }]);
-      this.asteroidPool = [{ blueprint: { data: ['1'], baseSpeed: 0.4 }, normalized: fallback }];
-    }
-
-    shuffleInPlace(this.asteroidPool);
-    this.asteroidPoolIndex = 0;
-  }
-
-  private nextAsteroidBlueprint() {
     if (this.asteroidPool.length === 0) {
       this.buildAsteroidPool();
     }
@@ -479,7 +308,25 @@ class SpaceImpactGame {
       this.buildAsteroidPool();
     }
 
-    return { ...entry.normalized, baseSpeed: entry.blueprint.baseSpeed };
+    this.asteroids.push(entry);
+
+    return entry;
+  }
+
+  private buildAsteroidPool() {
+    const maxCol = this.width;
+    const maxRow = this.height;
+
+    this.asteroidPool = asteroidData
+      .map(
+        (d) =>
+          new Asteroid(d.data, this.nextAsteroidId++, d.baseSpeed, { col: maxCol, row: maxRow }),
+      )
+      .filter((a) => a.height <= this.height);
+
+    shuffleInPlace(this.asteroidPool);
+
+    this.asteroidPoolIndex = 0;
   }
 
   private createStarField(): Star[] {
@@ -641,14 +488,14 @@ export default class ImpactGameRenderer extends BaseRenderer {
     ctx.restore();
   }
 
-  private renderPlayer(context: MatrixFrameContext, player: PlayerState, gameOver: boolean) {
+  private renderPlayer(context: MatrixFrameContext, player: Player, gameOver: boolean) {
     const { ctx, cellSize } = context;
     const color = this.options.palette.active;
     ctx.save();
 
     for (const cell of player.cells) {
-      const col = player.col + cell.dx;
-      const row = player.row + cell.dy;
+      const col = player.state.col + cell.dx;
+      const row = player.state.row + cell.dy;
       if (col < 0 || col >= context.cols || row < 0 || row >= context.rows) {
         continue;
       }
@@ -657,8 +504,8 @@ export default class ImpactGameRenderer extends BaseRenderer {
       this.drawCell(ctx, x, y, cellSize, color, true);
     }
 
-    const noseCol = player.col + PLAYER_NOSE.dx;
-    const noseRow = player.row + PLAYER_NOSE.dy;
+    const noseCol = player.state.col + player.nose.dx;
+    const noseRow = player.state.row + player.nose.dy;
     if (noseCol >= 0 && noseCol < context.cols && noseRow >= 0 && noseRow < context.rows) {
       const noseX = noseCol * cellSize + cellSize / 2;
       const noseY = noseRow * cellSize + cellSize / 2;
@@ -678,16 +525,18 @@ export default class ImpactGameRenderer extends BaseRenderer {
   private renderAsteroids(context: MatrixFrameContext, asteroids: Asteroid[]) {
     const { ctx, cellSize } = context;
     const color = this.options.palette.active;
+
     for (const asteroid of asteroids) {
-      if (asteroid.hp <= 0) {
+      if (asteroid.state.hp <= 0) {
         continue;
       }
       const halfWidth = asteroid.width / 2;
       const halfHeight = asteroid.height / 2;
       const maxDistance = Math.max(0.5, Math.hypot(halfWidth, halfHeight));
+
       for (const cell of asteroid.cells) {
-        const col = asteroid.col + cell.dx;
-        const row = asteroid.row + cell.dy;
+        const col = asteroid.state.col + cell.dx;
+        const row = asteroid.state.row + cell.dy;
         if (col < 0 || col >= context.cols || row < 0 || row >= context.rows) {
           continue;
         }
