@@ -3,7 +3,7 @@ import { useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef } 
 
 import { cn } from '~/src/util';
 
-import { MatrixFrameContext } from './models';
+import { MatrixFrameContext } from './MatrixRenderer';
 
 interface Props {
   className?: string;

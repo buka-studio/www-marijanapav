@@ -1,5 +1,5 @@
-import type { MatrixFrameContext, Palette } from './models';
-import { BaseRenderer } from './models';
+import { BaseRenderer } from './BaseRenderer';
+import type { MatrixFrameContext, Palette } from './MatrixRenderer';
 
 type CellShape = 'circle' | 'square';
 
@@ -212,7 +212,7 @@ export default class SnakeGameRenderer extends BaseRenderer {
     }
   }
 
-  public setPalette(palette: { active: string; inactive: string }) {
+  public setPalette(palette: Palette) {
     this.options.palette = {
       ...this.options.palette,
       ...palette,

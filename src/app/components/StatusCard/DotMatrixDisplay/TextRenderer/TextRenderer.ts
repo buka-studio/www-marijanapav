@@ -1,5 +1,5 @@
-import type { MatrixFrameContext, Palette } from '../models';
-import { BaseRenderer } from '../models';
+import { BaseRenderer } from '../BaseRenderer';
+import type { MatrixFrameContext, Palette } from '../MatrixRenderer';
 import defaultFontData from './bitmapFont.json';
 import { BitmapFont } from './models';
 import { decodeBitmapFont } from './util';
@@ -53,11 +53,17 @@ export default class TextRenderer extends BaseRenderer {
     this.bitmapWidth = this.chars.reduce((acc, c) => acc + c.width + charSpacing, 0);
   }
 
-  public setPalette(palette: { active: string; inactive: string }) {
+  public setPalette(palette: Palette) {
     this.options.palette = {
       ...this.options.palette,
       ...palette,
     };
+  }
+
+  public setText(text: string) {
+    this.options.text = text;
+    this.initFont(this.options.font!);
+    this.cursorOffset = 0;
   }
 
   private drawCell({

@@ -19,7 +19,7 @@ const _konamiCode = [
   'a',
 ];
 
-const konamiCode = ['ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 's', 'n', 'a', 'k', 'e'];
+const konamiCode = ['ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'g', 'a', 'm', 'e'];
 
 const konamiCodeMap = {
   ArrowUp: '↑',
@@ -32,6 +32,8 @@ const konamiCodeMap = {
   n: 'N',
   k: 'K',
   e: 'E',
+  g: 'G',
+  m: 'M',
 };
 
 export default function KonamiCode({ onComplete }: { onComplete: () => void }) {

@@ -1,28 +1,4 @@
-export type MatrixFrameContext = {
-  ctx: CanvasRenderingContext2D;
-  cols: number;
-  rows: number;
-  cellSize: number;
-  timeSec: number;
-  dtSec: number;
-  frame: number;
-  dpr: number;
-  width: number;
-  height: number;
-};
-
-export type Palette = {
-  active: string;
-  inactive: string;
-  background?: string;
-};
-
-export interface MatrixRenderer {
-  render(ctx: MatrixFrameContext): void;
-  pause(): void;
-  resume(): void;
-  setPalette(palette: Palette): void;
-}
+import { MatrixFrameContext, MatrixRenderer } from './MatrixRenderer';
 
 export abstract class BaseRenderer implements MatrixRenderer {
   private paused = false;
@@ -45,10 +21,12 @@ export abstract class BaseRenderer implements MatrixRenderer {
       this.initialized = true;
     }
 
-    if (!this.paused) {
-      this.virtualTimeSec += ctx.dtSec;
-      this.virtualFrame += 1;
+    if (this.paused) {
+      return;
     }
+
+    this.virtualTimeSec += ctx.dtSec;
+    this.virtualFrame += 1;
 
     const effective: MatrixFrameContext = {
       ...ctx,
