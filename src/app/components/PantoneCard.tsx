@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
-import { ComponentProps, useEffect, useState } from 'react';
+import { ComponentProps } from 'react';
 
 import { Theme } from '~/src/app/constants';
 import ClientRendered from '~/src/components/ClientRendered';
@@ -18,6 +18,8 @@ import { InfoIcon } from '../../components/icons';
 import Card from './Card';
 
 import './PantoneCard.css';
+
+import useColorTheme from './useColorTheme';
 
 type Pantone = {
   name: string;
@@ -46,29 +48,12 @@ const slideLeftProps: Partial<ComponentProps<typeof motion.div>> = {
 };
 
 export default function PantoneCard() {
-  const [pantone, setPantone] = useState<Pantone | undefined>();
   const { resolvedTheme } = useTheme();
+  const { colorTheme } = useColorTheme();
 
-  useEffect(() => {
-    const el = document.querySelector('.main');
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          const [theme] = Array.from(el?.classList.values()! || []).filter((c) =>
-            c.startsWith('theme-'),
-          );
+  const themeName = [colorTheme, resolvedTheme].filter(Boolean).join('-');
 
-          setPantone(theme ? pantoneByTheme[theme.slice(6) as Theme] : undefined);
-        }
-      });
-    });
-
-    observer.observe(el!, {
-      attributes: true,
-    });
-  }, []);
-
-  const name = (pantone || pantoneByTheme[resolvedTheme as Theme])?.name;
+  const name = pantoneByTheme[themeName as Theme]?.name;
 
   return (
     <Card containerClassName="z-[3] pantone-card">
