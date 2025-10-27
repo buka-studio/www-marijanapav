@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Archivo, IBM_Plex_Mono, Inter, JetBrains_Mono } from 'next/font/google';
+import { Archivo, IBM_Plex_Mono, Inter, JetBrains_Mono, Libertinus_Serif } from 'next/font/google';
 
 import Footer from './components/Footer';
 import { ThemeProvider } from './components/ThemeProvider';
@@ -30,6 +30,12 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: '--font-ibm-plex-mono',
 });
 
+const libertinusSerif = Libertinus_Serif({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-libertinus-serif',
+});
+
 export const metadata: Metadata = {
   title: "Marijana Pavlinić's Personal Website",
   metadataBase:
@@ -40,18 +46,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className="">
       <body
-        className={`${inter.variable} ${archivo.variable} ${jetbrainsMono.variable} ${ibmPlexMono.variable} font-sans`}
+        className={`${inter.variable} ${archivo.variable} ${jetbrainsMono.variable} ${ibmPlexMono.variable} ${libertinusSerif.variable} font-sans`}
       >
         <ThemeProvider>
           <div className="main bg-main-background">
-            <div className="m-auto flex min-h-screen max-w-screen-2xl flex-col">
+            <div className="layout-container m-auto flex min-h-screen max-w-screen-2xl flex-col">
               {children}
               <Footer />
             </div>
           </div>
         </ThemeProvider>
-
-        <div className="top-layer pointer-events-none fixed left-0 top-0 z-50 h-screen w-screen" />
       </body>
       {process.env.NODE_ENV === 'production' && (
         <Script

@@ -6,12 +6,7 @@ import { useRef, useState } from 'react';
 import GridBackground from '~/src/components/GridBackground';
 import Button from '~/src/components/ui/Button';
 import CardTitle from '~/src/components/ui/CardTitle';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '~/src/components/ui/Tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/src/components/ui/Tooltip';
 
 import Card from '../Card';
 import DrawingPad, { DrawingPadRef } from './DrawingPad';
@@ -99,58 +94,56 @@ export default function SketchbookCard() {
 
   return (
     <Card id="sketchbook">
-      <TooltipProvider>
-        <div className="flex h-full w-full flex-col gap-3 overflow-hidden">
-          <div className="relative h-full min-h-[300px] w-full overflow-hidden" ref={containerRef}>
-            <GridBackground className="absolute left-0 top-0 h-full w-full" n={300} />
-            <AnimatePresence mode="wait">
-              {state === 'initial' ? (
-                <Sketchbooks count={10} className="group" key="sketchbooks">
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 focus-within:opacity-100 group-hover:opacity-100">
-                    <Tooltip>
-                      <Button buttonClassName="gap-2" asChild>
-                        <TooltipTrigger onClick={() => setState('drawing')}>
-                          Coming soon
-                        </TooltipTrigger>
-                      </Button>
-                      <TooltipContent className="w-[200px] text-center">
-                        In the meantime, you can draw something here!
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                </Sketchbooks>
-              ) : (
-                <DrawingPad
-                  key="drawing-pad"
-                  drawingPadRef={drawingPadRef}
-                  onDraw={setHasDrawn}
-                  onClear={() => setHasDrawn(false)}
-                  onCancel={() => {
-                    setState('initial');
-                  }}
-                />
-              )}
-            </AnimatePresence>
-            <Screenshot screenshotRef={screenshotRef} />
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            <CardTitle variant="mono">Sketchbook</CardTitle>
-            <SketchbookButton
-              hasDrawn={hasDrawn}
-              state={state}
-              onClick={() => {
-                if (state === 'initial') {
-                  setState('drawing');
-                }
-                if (state === 'drawing') {
-                  setState('sending');
-                  handleSend();
-                }
-              }}
-            />
-          </div>
+      <div className="flex h-full w-full flex-col gap-3 overflow-hidden">
+        <div className="relative h-full min-h-[300px] w-full overflow-hidden" ref={containerRef}>
+          <GridBackground className="absolute left-0 top-0 h-full w-full" n={300} />
+          <AnimatePresence mode="wait">
+            {state === 'initial' ? (
+              <Sketchbooks count={10} className="group" key="sketchbooks">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 focus-within:opacity-100 group-hover:opacity-100">
+                  <Tooltip>
+                    <Button buttonClassName="gap-2" asChild>
+                      <TooltipTrigger onClick={() => setState('drawing')}>
+                        Coming soon
+                      </TooltipTrigger>
+                    </Button>
+                    <TooltipContent className="w-[200px] text-center">
+                      In the meantime, you can draw something here!
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </Sketchbooks>
+            ) : (
+              <DrawingPad
+                key="drawing-pad"
+                drawingPadRef={drawingPadRef}
+                onDraw={setHasDrawn}
+                onClear={() => setHasDrawn(false)}
+                onCancel={() => {
+                  setState('initial');
+                }}
+              />
+            )}
+          </AnimatePresence>
+          <Screenshot screenshotRef={screenshotRef} />
         </div>
-      </TooltipProvider>
+        <div className="flex items-center justify-between gap-2">
+          <CardTitle variant="mono">Sketchbook</CardTitle>
+          <SketchbookButton
+            hasDrawn={hasDrawn}
+            state={state}
+            onClick={() => {
+              if (state === 'initial') {
+                setState('drawing');
+              }
+              if (state === 'drawing') {
+                setState('sending');
+                handleSend();
+              }
+            }}
+          />
+        </div>
+      </div>
     </Card>
   );
 }

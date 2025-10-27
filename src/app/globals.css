@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 ::selection {
   background-color: oklch(var(--theme-1));
   color: oklch(var(--theme-2));

@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import CardTitle from '~/src/components/ui/CardTitle';
 import Tag from '~/src/components/ui/Tag';
 
@@ -30,7 +32,7 @@ export default function StampsCard() {
         </div>
         <div className="mb-4 [&_>*]:inline [&_>*]:align-middle">
           <CardTitle variant="mono" className="flex items-center gap-2">
-            <a href="#" className="group rounded-md">
+            <Link href="/stamps" className="group rounded-md">
               Digital Stamp Collection&nbsp;
               <Tag
                 variant="dashed"
@@ -38,7 +40,7 @@ export default function StampsCard() {
               >
                 Coming&nbsp;soon
               </Tag>
-            </a>
+            </Link>
           </CardTitle>
         </div>
         <p className="text-sm  text-text-primary">
