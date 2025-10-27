@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+// todo: use syncExternalStore
 export default function useMatchMedia(query: string, defaultState?: boolean) {
   const [state, setState] = useState(() => {
     if (defaultState !== undefined) {
