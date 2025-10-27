@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 
+import Gibraltar1 from '~/public/home/gibraltar_1.svg';
+import Gibraltar2 from '~/public/home/gibraltar_2.svg';
 import CardTitle from '~/src/components/ui/CardTitle';
 import Tag from '~/src/components/ui/Tag';
 
-import Gibraltar1 from '../../../public/home/gibraltar_1.svg';
-import Gibraltar2 from '../../../public/home/gibraltar_2.svg';
 import Card from './Card';
 
 const Stamps = () => (

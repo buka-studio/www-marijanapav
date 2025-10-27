@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
-import React from 'react';
 
-import CopyToClipboard from '../../components/CopyToClipboard';
-import Button from '../../components/ui/Button';
-import ViewLogger from '../../components/ViewCounter';
+import CopyToClipboard from '~/src/components/CopyToClipboard';
+import Button from '~/src/components/ui/Button';
+import ViewLogger from '~/src/components/ViewCounter';
+
 import Header from '../components/Header';
 
 const links = [

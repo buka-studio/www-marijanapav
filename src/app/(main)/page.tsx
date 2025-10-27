@@ -27,8 +27,9 @@ import './page.css';
 
 import { Metadata } from 'next';
 
-import SystemMetricsCollector from '../lib/SystemMetricsCollector';
-import { withTimeout } from '../util';
+import SystemMetricsCollector from '~/src/lib/SystemMetricsCollector';
+import { withTimeout } from '~/src/util';
+
 import { Filter } from './work/constants';
 
 type FilterHref = `/work?f=${Filter}`;

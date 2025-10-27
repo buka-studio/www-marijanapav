@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
-import ProjectsGrid from '~/src/app/work/components/ProjectsGrid';
 import ViewLogger from '~/src/components/ViewCounter';
 
+import ProjectsGrid from './components/ProjectsGrid';
 import { Filter, projects } from './constants';
 
 export const metadata: Metadata = {

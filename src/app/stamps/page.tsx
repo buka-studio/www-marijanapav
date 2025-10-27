@@ -39,11 +39,11 @@ export default function Page() {
         'grain grid min-h-[100svh] grid-cols-1 grid-rows-[auto_auto] gap-10 overflow-clip bg-stone-100 lg:h-screen lg:max-h-screen lg:grid-cols-[minmax(auto,675px)_1fr] lg:grid-rows-1 lg:pl-10',
       )}
     >
-      <style
+      {/* <style
         dangerouslySetInnerHTML={{
           __html: `.layout-container{max-width:none !important} .nav{display:none !important};root{background-color:#f5f5f4!important};`,
         }}
-      />
+      /> */}
 
       <Description className="px-4 pt-4 lg:max-w-lg lg:pt-5" />
       <ClientRendered>

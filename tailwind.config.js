@@ -12,7 +12,6 @@ module.exports = {
         mono: [
           'var(--font-ibm-plex-mono)',
           'IBM Plex Mono',
-          'JetBrains Mono',
           'Fira Code',
           'Consolas',
           'Monaco',

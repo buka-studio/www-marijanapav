@@ -1,19 +1,17 @@
 import Link from 'next/link';
 
+import PortraitSrc from '~/public/home/me.jpg';
 import {
   ArrowRightIcon,
   BlueskyIcon,
   GithubIcon,
-  InstagramIcon,
   LinkedinIcon,
-  ReadCVIcon,
   TwitterIcon,
 } from '~/src/components/icons';
 import Button from '~/src/components/ui/Button';
 import Image from '~/src/components/ui/Image';
 import TextLink from '~/src/components/ui/TextLink';
 
-import PortraitSrc from '../../../public/home/me.jpg';
 import Card from './Card';
 
 import './cards.css';

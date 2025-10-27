@@ -1,12 +1,11 @@
 import { Metadata } from 'next';
-import { Archivo, IBM_Plex_Mono, Inter, JetBrains_Mono, Libertinus_Serif } from 'next/font/google';
-
-import Footer from './components/Footer';
-import { ThemeProvider } from './components/ThemeProvider';
+import { Archivo, IBM_Plex_Mono, Inter, Libertinus_Serif } from 'next/font/google';
 
 import './globals.css';
 
 import Script from 'next/script';
+
+import { ThemeProvider } from './(main)/components/ThemeProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,11 +16,6 @@ const archivo = Archivo({
   subsets: ['latin'],
   weight: ['300'],
   variable: '--font-archivo',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -46,16 +40,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className="">
       <body
-        className={`${inter.variable} ${archivo.variable} ${jetbrainsMono.variable} ${ibmPlexMono.variable} ${libertinusSerif.variable} font-sans`}
+        className={`${inter.variable} ${archivo.variable} ${ibmPlexMono.variable} ${libertinusSerif.variable} font-sans`}
       >
-        <ThemeProvider>
-          <div className="main bg-main-background">
-            <div className="layout-container m-auto flex min-h-screen max-w-screen-2xl flex-col">
-              {children}
-              <Footer />
-            </div>
-          </div>
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
       {process.env.NODE_ENV === 'production' && (
         <Script

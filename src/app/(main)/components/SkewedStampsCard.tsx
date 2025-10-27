@@ -12,6 +12,11 @@ import {
 import { ReactLenis, useLenis } from 'lenis/react';
 import { useEffect, useRef, useState } from 'react';
 
+import Stamp1 from '~/public/home/stamps/stamp_1.svg';
+import Stamp2 from '~/public/home/stamps/stamp_2.svg';
+import Stamp3 from '~/public/home/stamps/stamp_3.svg';
+import Stamp4 from '~/public/home/stamps/stamp_4.svg';
+import Stamp5 from '~/public/home/stamps/stamp_5.svg';
 import GridBackground from '~/src/components/GridBackground';
 import CardTitle from '~/src/components/ui/CardTitle';
 import Tag from '~/src/components/ui/Tag';
@@ -20,11 +25,6 @@ import useResizeRef from '~/src/hooks/useResizeRef';
 import { remap } from '~/src/math';
 import { cn } from '~/src/util';
 
-import Stamp1 from '../../../public/home/stamps/stamp_1.svg';
-import Stamp2 from '../../../public/home/stamps/stamp_2.svg';
-import Stamp3 from '../../../public/home/stamps/stamp_3.svg';
-import Stamp4 from '../../../public/home/stamps/stamp_4.svg';
-import Stamp5 from '../../../public/home/stamps/stamp_5.svg';
 import Card from './Card';
 
 interface SkewedCardProps {

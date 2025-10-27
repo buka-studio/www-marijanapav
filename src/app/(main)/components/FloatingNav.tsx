@@ -3,13 +3,12 @@
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
-import useScroll from '../../hooks/useScroll';
+import useScroll from '~/src/hooks/useScroll';
 
 import './FloatingNav.css';
 
+import { ArrowRightIcon } from '~/src/components/icons';
 import { cn } from '~/src/util';
-
-import { ArrowRightIcon } from '../../components/icons';
 
 const links = {
   '/work': { label: 'Work', width: 4.1 },

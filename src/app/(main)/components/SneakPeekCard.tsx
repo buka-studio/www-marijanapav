@@ -3,12 +3,12 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 
+import SneakPeekPhoto from '~/public/home/sneak_peek-3.png';
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import CardTitle from '~/src/components/ui/CardTitle';
 import Image from '~/src/components/ui/Image';
 import { cn } from '~/src/util';
 
-import SneakPeekPhoto from '../../../public/home/sneak_peek-3.png';
 import Card from './Card';
 
 import './cards.css';

@@ -6,10 +6,10 @@ import { ComponentProps } from 'react';
 
 import { Theme } from '~/src/app/constants';
 import ClientRendered from '~/src/components/ClientRendered';
+import { InfoIcon } from '~/src/components/icons';
 import CardTitle from '~/src/components/ui/CardTitle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/src/components/ui/Tooltip';
 
-import { InfoIcon } from '../../components/icons';
 import Card from './Card';
 
 import './PantoneCard.css';
