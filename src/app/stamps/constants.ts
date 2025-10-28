@@ -106,7 +106,7 @@ export const baseCollections = {
         category: 'Definitive',
         country: 'Uruguay',
         src: '/stamps/typographic/stamp_07.png',
-        srcLg: '/stamps/typographic/stamp_07.png',
+        srcLg: '/stamps/typographic/lg.png',
         catalogCodes: ['Michel UY 1170', 'Yvert UY 1098', 'SG UY 1029'],
         designer: 'L. Fernández',
         meta: {
@@ -139,7 +139,53 @@ export const baseCollections = {
     colors: { bg: '#E5D2DD', fg: '#A45684', mutedBg: '#F8F3F6', mutedFg: '#CC9EB9' },
   },
   monoline: {
-    stamps: [],
+    stamps: [
+      {
+        // year: '1995',
+        // category: 'Commemorative',
+        country: 'Canada',
+        src: '/stamps/monoline/canada.png',
+        srcLg: '/stamps/monoline/lg/canada.png',
+        catalogCodes: ['Michel DZ 1234', 'Yvert DZ 1100', 'SG DZ 980'],
+        designer: 'A. Benkhelifa',
+        meta: {
+          faceValue: '5.00 DZD',
+          perforation: '13',
+          printMethod: 'Offset',
+          condition: 'Used',
+        },
+      },
+      {
+        // year: '1995',
+        // category: 'Commemorative',
+        country: 'Jugoslavija',
+        src: '/stamps/monoline/jugoslavija.png',
+        srcLg: '/stamps/monoline/lg/jugoslavija.png',
+        catalogCodes: ['Michel DZ 1234', 'Yvert DZ 1100', 'SG DZ 980'],
+        designer: 'A. Benkhelifa',
+        meta: {
+          faceValue: '5.00 DZD',
+          perforation: '13',
+          printMethod: 'Offset',
+          condition: 'Used',
+        },
+      },
+      {
+        // year: '1995',
+        // category: 'Commemorative',
+        country: 'Vatican',
+        src: '/stamps/monoline/vatican.png',
+        srcLg: '/stamps/monoline/lg/vatican.png',
+        catalogCodes: ['Michel DZ 1234', 'Yvert DZ 1100', 'SG DZ 980'],
+        designer: 'A. Benkhelifa',
+        meta: {
+          faceValue: '5.00 DZD',
+          perforation: '13',
+          printMethod: 'Offset',
+          condition: 'Used',
+        },
+      },
+    ],
     colors: { bg: '#D3EEC9', fg: '#4D7C37', mutedBg: '#F2FAEF', mutedFg: '#99C883' },
   },
 
@@ -219,7 +265,7 @@ export const collections = Object.fromEntries(
     key,
     {
       ...value,
-      stamps: value.stamps.map((stamp, index) => ({
+      stamps: value.stamps.map((stamp: any, index) => ({
         ...stamp,
         id: stamp.id || `${key}-${index}`,
       })),
