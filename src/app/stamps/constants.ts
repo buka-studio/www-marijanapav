@@ -17,7 +17,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'unknown',
-          faceValue: '38 Uruguayan centésimo',
+          faceValue: '38 Uruguayan centésimos',
           printRun: '500,000',
         },
       },
@@ -36,7 +36,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'unknown',
-          faceValue: '38 Uruguayan centésimo',
+          faceValue: '38 Uruguayan centésimos',
           printRun: '500,000',
         },
       },
@@ -55,7 +55,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'unknown',
-          faceValue: '38 Uruguayan centésimo',
+          faceValue: '38 Uruguayan centésimos',
           printRun: '500,000',
         },
       },
@@ -74,7 +74,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'unknown',
-          faceValue: '38 Uruguayan centésimo',
+          faceValue: '38 Uruguayan centésimos',
           printRun: '500,000',
         },
       },
@@ -93,7 +93,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'unknown',
-          faceValue: '4 Gibraltar penny',
+          faceValue: '4 Gibraltar pence',
           printRun: '500,000',
         },
       },
@@ -113,7 +113,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'unknown',
-          faceValue: '4 Gibraltar penny',
+          faceValue: '4 Gibraltar pence',
           printRun: '500,000',
         },
       },
@@ -133,7 +133,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'unknown',
-          faceValue: '4 Gibraltar penny',
+          faceValue: '4 Gibraltar pence',
           printRun: '500,000',
         },
       },
@@ -153,7 +153,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'unknown',
-          faceValue: '4 Gibraltar penny',
+          faceValue: '4 Gibraltar pence',
           printRun: '500,000',
         },
       },
@@ -197,13 +197,15 @@ export const baseCollections = {
         meta: {
           category: 'Charity / Christmas semi-postal',
           designer: 'Isolde Monson-Baumgart',
-          faceValue: '30+15 Pfennig',
+          faceValue: '30+15 pfennigs',
           printRun: '8,797,000',
         },
       },
       {
         year: '1991-08-26',
         country: 'Falkland Islands',
+        width: 130,
+        height: 190,
         src: '/stamps/textured/falkland-islands.png',
         srcLg: '/stamps/textured/falkland-islandspng',
         srcOriginal: '/stamps/reference/falkland-islands.png',
@@ -216,7 +218,7 @@ export const baseCollections = {
         meta: {
           category: 'Animals (Fauna) ',
           designer: 'Ian John Strange',
-          faceValue: '20 Falkland Islands penny',
+          faceValue: '20 Falkland Islands pence',
           printRun: '155,000',
         },
       },
@@ -235,7 +237,7 @@ export const baseCollections = {
         meta: {
           category: 'Animals (Fauna)',
           designer: 'Horacio Romulo Alvarez Boero',
-          faceValue: '50+20 Argentine centavo',
+          faceValue: '50+20 Argentine centavos',
           printRun: '500,000',
         },
       },
@@ -274,7 +276,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: 'Dino Tofani',
-          faceValue: '5+2 Italian lira',
+          faceValue: '5+2 Italian lire',
           printRun: '12,000',
         },
       },
@@ -295,7 +297,7 @@ export const baseCollections = {
         meta: {
           category: 'Minerals / Gemstones',
           designer: 'unknown',
-          faceValue: '8 Mozambican metical',
+          faceValue: '8 Mozambican meticais',
           printRun: 'unknown',
         },
       },
@@ -319,7 +321,7 @@ export const baseCollections = {
         meta: {
           category: 'Mushrooms & Fungi',
           designer: 'Ernst Roch',
-          faceValue: '38 Canadian cent',
+          faceValue: '38 Canadian cents',
           printRun: '3,610,200',
         },
       },
@@ -338,7 +340,7 @@ export const baseCollections = {
         meta: {
           category: 'Sea life',
           designer: ['Pierre Béquet', 'Pierrette Lambert'],
-          faceValue: '0.12 Monegasque franc',
+          faceValue: '0.12 Monegasque francs',
           printRun: '2,697,320',
         },
       },
@@ -358,7 +360,7 @@ export const baseCollections = {
         meta: {
           category: 'Anniversaries and Jubilees',
           designer: ['Andrew Bucci', 'J. Creamer'],
-          faceValue: '5 United States cent',
+          faceValue: '5 United States cents',
           printRun: '113,000,000',
         },
       },
@@ -377,7 +379,7 @@ export const baseCollections = {
         meta: {
           category: 'Buildings',
           designer: ['Jaroslav Lukavský', 'Miloš Ondráček'],
-          faceValue: '9 Czechoslovakian koruna',
+          faceValue: '9 Czechoslovak korunas',
           printRun: '34,645,000',
         },
       },
@@ -396,7 +398,7 @@ export const baseCollections = {
         meta: {
           category: 'Christmas',
           designer: 'Dolli Tingle Brackett',
-          faceValue: '13 United States cent',
+          faceValue: '13 United States cents',
           printRun: '922,000,000',
         },
       },
@@ -453,7 +455,7 @@ export const baseCollections = {
         meta: {
           category: 'Religion',
           designer: ['Egidio Vangelli', 'Tullio Mele'],
-          faceValue: '1,000 Vatican lira',
+          faceValue: '1,000 Vatican lire',
           printRun: '13,250,000',
         },
       },
