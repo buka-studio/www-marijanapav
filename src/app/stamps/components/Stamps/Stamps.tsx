@@ -283,6 +283,10 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           continue;
         }
 
+        if (draggable.id === selectedStampIdRef.current) {
+          continue;
+        }
+
         await new Promise((resolve) => setTimeout(resolve, i * stagger));
         draggable.spreadOut({ container: stampsDragContainerRef.current!, dist: 350, rotate: 35 });
 

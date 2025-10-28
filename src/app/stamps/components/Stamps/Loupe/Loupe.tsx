@@ -77,6 +77,7 @@ function Loupe({
 
   const draggingMagnifier = useRef(false);
   const draggingMagnifierRefOffset = useRef<{ x: number; y: number } | null>({ x: 0, y: 0 });
+  const triggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!dragConstraints?.current) {
@@ -185,6 +186,7 @@ function Loupe({
     (event: React.PointerEvent<HTMLDivElement>) => {
       draggingMagnifier.current = true;
       dialDragControls.start(event);
+      triggerRef.current?.setAttribute('data-dragging', 'true');
 
       // fixes shift from clicks away from the center of the lens
       const draggableCoords = getPointerOffsetFromElementCenter(
@@ -238,7 +240,14 @@ function Loupe({
 
   const handlePointerUp = useCallback(() => {
     draggingMagnifier.current = false;
+    triggerRef.current?.removeAttribute('data-dragging');
   }, [draggingMagnifier]);
+
+  const handlePointerLeave = useCallback(() => {
+    draggingMagnifier.current = false;
+    dialDragControls.cancel();
+    triggerRef.current?.removeAttribute('data-dragging');
+  }, [draggingMagnifier, dialDragControls]);
 
   const style = useMemo(
     () =>
@@ -268,8 +277,9 @@ function Loupe({
       )}
     >
       <div
+        ref={triggerRef}
         className={cn(
-          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-[100] aspect-square w-[var(--lens-size)] -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] [&[data-zoomed="false"]]:pointer-events-none',
+          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-[100] aspect-square w-[var(--lens-size)] -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] [&[data-dragging="true"]]:cursor-grabbing [&[data-zoomed="false"]]:pointer-events-none',
           {
             'pointer-events-none': !store.zoomed,
           },
@@ -277,6 +287,7 @@ function Loupe({
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
+        onPointerLeave={handlePointerLeave}
       />
       <MemoizedLens
         image={canvasData?.canvas}
