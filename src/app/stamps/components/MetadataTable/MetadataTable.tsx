@@ -96,7 +96,7 @@ export default function MetadataTable({ className }: { className?: string }) {
       <div className="mb-5 font-libertinus text-stone-700">
         {stamp.srcOriginal ? (
           <>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               This stamp was inspired by an{' '}
               <HoverCard openDelay={0}>
                 <HoverCardTrigger
@@ -112,7 +112,8 @@ export default function MetadataTable({ className }: { className?: string }) {
                   <Image src={stamp.srcOriginal} alt="Original stamp" width={200} height={200} />
                 </HoverCardContent>
               </HoverCard>
-              <span className="lg:hidden">existing stamp</span>
+              <span className="lg:hidden">existing stamp.</span>
+          
             </div>
             <div className="mt-2 flex h-[200px] w-full items-center justify-center rounded-md border border-stone-300 bg-stone-50 p-2 lg:hidden">
               <Image
