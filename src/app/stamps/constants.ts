@@ -73,7 +73,7 @@ export const baseCollections = {
         ],
         meta: {
           category: 'Anniversaries and Jubilees',
-           designer: 'unknown',
+          designer: 'unknown',
           faceValue: '38 Uruguayan centésimo',
           printRun: '500,000',
         },
@@ -92,7 +92,7 @@ export const baseCollections = {
         ],
         meta: {
           category: 'Anniversaries and Jubilees',
-           designer: 'unknown',
+          designer: 'unknown',
           faceValue: '4 Gibraltar penny',
           printRun: '500,000',
         },
@@ -112,7 +112,9 @@ export const baseCollections = {
         ],
         meta: {
           category: 'Anniversaries and Jubilees',
+          designer: 'unknown',
           faceValue: '4 Gibraltar penny',
+          printRun: '500,000',
         },
       },
       {
@@ -427,7 +429,7 @@ export const baseCollections = {
     colors: { bg: '#D3EEC9', fg: '#4D7C37', mutedBg: '#F2FAEF', mutedFg: '#99C883' },
   },
 
-  other: {
+  hieroglyphs: {
     colors: { bg: '#C3DEEE', fg: '#457AA1', mutedBg: '#EDF5FA', mutedFg: '#82ACCA' },
     stamps: [],
   },
