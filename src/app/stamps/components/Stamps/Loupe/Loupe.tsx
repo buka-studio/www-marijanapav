@@ -269,7 +269,7 @@ function Loupe({
     >
       <div
         className={cn(
-          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-[100] aspect-square w-[var(--lens-size)] -translate-x-1/2 -translate-y-1/2 touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] [&[data-zoomed="false"]]:pointer-events-none',
+          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-[100] aspect-square w-[var(--lens-size)] -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] [&[data-zoomed="false"]]:pointer-events-none',
           {
             'pointer-events-none': !store.zoomed,
           },

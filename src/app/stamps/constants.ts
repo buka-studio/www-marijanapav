@@ -6,8 +6,8 @@ export const baseCollections = {
         year: '1959-03-06',
         country: 'Uruguay',
         src: '/stamps/typographic/uruguay1.svg',
-        srcLg: '/stamps/typographic/lg/uruguay1.png',
-        srcOriginal: '/stamps/reference/uruguay.png',
+        srcLg: '/stamps/typographic/lg/uruguay1.webp',
+        srcOriginal: '/stamps/reference/uruguay.webp',
         catalogCodes: [
           'Michel UY 842',
           'Stamp Number UY C196',
@@ -25,8 +25,8 @@ export const baseCollections = {
         year: '1959-03-06',
         country: 'Uruguay',
         src: '/stamps/typographic/uruguay2.svg',
-        srcLg: '/stamps/typographic/lg/uruguay2.png',
-        srcOriginal: '/stamps/reference/uruguay.png',
+        srcLg: '/stamps/typographic/lg/uruguay2.webp',
+        srcOriginal: '/stamps/reference/uruguay.webp',
         catalogCodes: [
           'Michel UY 842',
           'Stamp Number UY C196',
@@ -44,8 +44,8 @@ export const baseCollections = {
         year: '1959-03-06',
         country: 'Uruguay',
         src: '/stamps/typographic/uruguay3.svg',
-        srcLg: '/stamps/typographic/lg/uruguay3.png',
-        srcOriginal: '/stamps/reference/uruguay.png',
+        srcLg: '/stamps/typographic/lg/uruguay3.webp',
+        srcOriginal: '/stamps/reference/uruguay.webp',
         catalogCodes: [
           'Michel UY 842',
           'Stamp Number UY C196',
@@ -63,8 +63,8 @@ export const baseCollections = {
         year: '1959-03-06',
         country: 'Uruguay',
         src: '/stamps/typographic/uruguay4.svg',
-        srcLg: '/stamps/typographic/lg/uruguay4.png',
-        srcOriginal: '/stamps/reference/uruguay.png',
+        srcLg: '/stamps/typographic/lg/uruguay4.webp',
+        srcOriginal: '/stamps/reference/uruguay.webp',
         catalogCodes: [
           'Michel UY 842',
           'Stamp Number UY C196',
@@ -82,8 +82,8 @@ export const baseCollections = {
         year: '1959-03-06',
         country: 'Gibraltar',
         src: '/stamps/typographic/gibraltar1.svg',
-        srcLg: '/stamps/typographic/lg/gibraltar1.png',
-        srcOriginal: '/stamps/reference/gibraltar.png',
+        srcLg: '/stamps/typographic/lg/gibraltar1.webp',
+        srcOriginal: '/stamps/reference/gibraltar.webp',
         catalogCodes: [
           'Michel GI 565',
           'Stamp Number GI 545',
@@ -101,8 +101,8 @@ export const baseCollections = {
         year: '1959-03-06',
         country: 'Gibraltar',
         src: '/stamps/typographic/gibraltar2.svg',
-        srcLg: '/stamps/typographic/lg/gibraltar2.png',
-        srcOriginal: '/stamps/reference/gibraltar.png',
+        srcLg: '/stamps/typographic/lg/gibraltar2.webp',
+        srcOriginal: '/stamps/reference/gibraltar.webp',
 
         catalogCodes: [
           'Michel GI 565',
@@ -121,8 +121,8 @@ export const baseCollections = {
         year: '1959-03-06',
         country: 'Gibraltar',
         src: '/stamps/typographic/gibraltar3.svg',
-        srcLg: '/stamps/typographic/lg/gibraltar3.png',
-        srcOriginal: '/stamps/reference/gibraltar.png',
+        srcLg: '/stamps/typographic/lg/gibraltar3.webp',
+        srcOriginal: '/stamps/reference/gibraltar.webp',
 
         catalogCodes: [
           'Michel GI 565',
@@ -141,8 +141,8 @@ export const baseCollections = {
         year: '1959-03-06',
         country: 'Gibraltar',
         src: '/stamps/typographic/gibraltar4.svg',
-        srcLg: '/stamps/typographic/lg/gibraltar4.png',
-        srcOriginal: '/stamps/reference/gibraltar.png',
+        srcLg: '/stamps/typographic/lg/gibraltar4.webp',
+        srcOriginal: '/stamps/reference/gibraltar.webp',
 
         catalogCodes: [
           'Michel GI 565',
@@ -164,9 +164,9 @@ export const baseCollections = {
       {
         year: '1974',
         country: 'Algeria',
-        src: '/stamps/textured/algerie.png',
-        srcLg: '/stamps/textured/algerie.png',
-        srcOriginal: '/stamps/reference/algerie.png',
+        src: '/stamps/textured/algerie.webp',
+        srcLg: '/stamps/textured/lg/algerie.webp',
+        srcOriginal: '/stamps/reference/algerie.webp',
 
         catalogCodes: [
           'Michel GI 638',
@@ -184,9 +184,9 @@ export const baseCollections = {
       {
         year: '1973-11-09',
         country: 'Germany',
-        src: '/stamps/textured/germany.png',
-        srcLg: '/stamps/textured/germany.png',
-        srcOriginal: '/stamps/reference/germany.png',
+        src: '/stamps/textured/germany.webp',
+        srcLg: '/stamps/textured/lg/germany.webp',
+        srcOriginal: '/stamps/reference/germany.webp',
 
         catalogCodes: [
           'Michel DE 790',
@@ -206,9 +206,9 @@ export const baseCollections = {
         country: 'Falkland Islands',
         width: 130,
         height: 190,
-        src: '/stamps/textured/falkland-islands.png',
-        srcLg: '/stamps/textured/falkland-islandspng',
-        srcOriginal: '/stamps/reference/falkland-islands.png',
+        src: '/stamps/textured/falkland-islands.webp',
+        srcLg: '/stamps/textured/lg/falkland-islands.webp',
+        srcOriginal: '/stamps/reference/falkland-islands.webp',
         catalogCodes: [
           'Michel FK 541',
           'Stamp Number FK 538',
@@ -225,9 +225,9 @@ export const baseCollections = {
       {
         year: '1960-02-06',
         country: 'Argentina',
-        src: '/stamps/textured/argentina.png',
-        srcLg: '/stamps/textured/argentina.png',
-        srcOriginal: '/stamps/reference/argentina.png',
+        src: '/stamps/textured/argentina.webp',
+        srcLg: '/stamps/textured/lg/argentina.webp',
+        srcOriginal: '/stamps/reference/argentina.webp',
         catalogCodes: [
           'Michel AR 716',
           'Stamp Number AR B23',
@@ -245,9 +245,9 @@ export const baseCollections = {
       {
         year: '1937-05-01',
         country: 'Great Britain',
-        src: '/stamps/textured/great-britain.png',
-        srcLg: '/stamps/textured/great-britain.png',
-        srcOriginal: '/stamps/reference/great-britain.png',
+        src: '/stamps/textured/great-britain.webp',
+        srcLg: '/stamps/textured/lg/great-britain.webp',
+        srcOriginal: '/stamps/reference/great-britain.webp',
         catalogCodes: [
           'Michel GB —',
           'Stamp Number GB —',
@@ -264,9 +264,9 @@ export const baseCollections = {
       {
         year: '1930-10-20',
         country: 'Italy',
-        src: '/stamps/textured/italy.png',
-        srcLg: '/stamps/textured/italy.png',
-        srcOriginal: '/stamps/reference/italy.png',
+        src: '/stamps/textured/italy.webp',
+        srcLg: '/stamps/textured/lg/italy.webp',
+        srcOriginal: '/stamps/reference/italy.webp',
         catalogCodes: [
           'Michel IT 340',
           'Stamp Number IT 276/80',
@@ -285,9 +285,9 @@ export const baseCollections = {
         country: 'Mozambique',
         width: 265,
         height: 176,
-        src: '/stamps/textured/mocambique.png',
-        srcLg: '/stamps/textured/mocambique.png',
-        srcOriginal: '/stamps/reference/mocambique.png',
+        src: '/stamps/textured/mocambique.webp',
+        srcLg: '/stamps/textured/lg/mocambique.webp',
+        srcOriginal: '/stamps/reference/mocambique.webp',
         catalogCodes: [
           'Michel MZ 1397',
           'Stamp Number MZ 1304',
@@ -310,8 +310,8 @@ export const baseCollections = {
         year: '1989-08-04',
         country: 'Canada',
         src: '/stamps/monoline/canada.svg',
-        srcLg: '/stamps/monoline/lg/canada.png',
-        srcOriginal: '/stamps/reference/canada.png',
+        srcLg: '/stamps/monoline/lg/canada.webp',
+        srcOriginal: '/stamps/reference/canada.webp',
         catalogCodes: [
           'Michel CA 1142',
           'Stamp Number CA 1247',
@@ -329,8 +329,8 @@ export const baseCollections = {
         year: '1964-05-19',
         country: 'Monaco',
         src: '/stamps/monoline/monaco.svg',
-        srcLg: '/stamps/monoline/lg/monaco.png',
-        srcOriginal: '/stamps/reference/monaco.png',
+        srcLg: '/stamps/monoline/lg/monaco.webp',
+        srcOriginal: '/stamps/reference/monaco.webp',
         catalogCodes: [
           'Michel MC 775',
           'Stamp Number MC 583',
@@ -349,8 +349,8 @@ export const baseCollections = {
         year: '1967-12-11',
         country: 'United States of America',
         src: '/stamps/monoline/USA-mississippi.svg',
-        srcLg: '/stamps/monoline/lg/USA-mississippi.png',
-        srcOriginal: '/stamps/reference/USA-mississippi.png',
+        srcLg: '/stamps/monoline/lg/USA-mississippi.webp',
+        srcOriginal: '/stamps/reference/USA-mississippi.webp',
         catalogCodes: [
           'Michel US 938',
           'Stamp Number US 1337',
@@ -368,8 +368,8 @@ export const baseCollections = {
         year: '1971-03-25',
         country: 'Czechoslovakia',
         src: '/stamps/monoline/ceskoslovensko.svg',
-        srcLg: '/stamps/monoline/lg/ceskoslovensko.png',
-        srcOriginal: '/stamps/reference/ceskoslovensko.png',
+        srcLg: '/stamps/monoline/lg/ceskoslovensko.webp',
+        srcOriginal: '/stamps/reference/ceskoslovensko.webp',
         catalogCodes: [
           'Michel CS 1991x',
           'Stamp Number CS 1740',
@@ -387,8 +387,8 @@ export const baseCollections = {
         year: '1977-10-21',
         country: 'United States of America',
         src: '/stamps/monoline/USA-christmas.svg',
-        srcLg: '/stamps/monoline/lg/USA-christmas.png',
-        srcOriginal: '/stamps/reference/USA-christmas.png',
+        srcLg: '/stamps/monoline/lg/USA-christmas.webp',
+        srcOriginal: '/stamps/reference/USA-christmas.webp',
         catalogCodes: [
           'Michel US 1318',
           'Stamp Number US 1730',
@@ -406,8 +406,8 @@ export const baseCollections = {
         year: '1969-03-12',
         country: 'Nicaragua',
         src: '/stamps/monoline/nicaragua.svg',
-        srcLg: '/stamps/monoline/lg/nicaragua.png',
-        srcOriginal: '/stamps/reference/germany.png',
+        srcLg: '/stamps/monoline/lg/nicaragua.webp',
+        srcOriginal: '/stamps/reference/germany.webp',
         catalogCodes: [
           'Michel NI 2835',
           'Stamp Number NI C667-76',
@@ -425,8 +425,8 @@ export const baseCollections = {
         year: '1977-07-28',
         country: 'Yugoslavia',
         src: '/stamps/monoline/jugoslavija.svg',
-        srcLg: '/stamps/monoline/lg/jugoslavija.png',
-        srcOriginal: '/stamps/reference/jugoslavija.png',
+        srcLg: '/stamps/monoline/lg/jugoslavija.webp',
+        srcOriginal: '/stamps/reference/jugoslavija.webp',
         catalogCodes: [
           'Michel YU 1695',
           'Stamp Number YU 1153',
@@ -444,8 +444,8 @@ export const baseCollections = {
         year: '1968-03-12',
         country: 'Vatican City',
         src: '/stamps/monoline/vatican.svg',
-        srcLg: '/stamps/monoline/lg/vatican.png',
-        srcOriginal: '/stamps/reference/germany.png',
+        srcLg: '/stamps/monoline/lg/vatican.webp',
+        srcOriginal: '/stamps/reference/germany.webp',
         catalogCodes: [
           'Michel VA 536',
           'Stamp Number VA C53',
