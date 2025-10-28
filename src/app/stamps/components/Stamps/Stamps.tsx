@@ -149,7 +149,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       return e ? { width: e.clientWidth, height: e.clientHeight } : [];
     });
 
-    const paddingPx = 24;
+    const paddingPx = 50;
     const gapPx = 24;
 
     const positions = computeGridArrangement({
