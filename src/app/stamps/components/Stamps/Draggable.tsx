@@ -21,10 +21,12 @@ export interface DraggableController {
     container,
     dist,
     rotate,
+    padding,
   }: {
     container: HTMLElement;
     dist: number;
-    rotate: number;
+    rotate?: number;
+    padding?: number;
   }) => void;
   unfocus: () => void;
   controls: ReturnType<typeof useAnimation>;
@@ -102,7 +104,17 @@ function Draggable({
         };
       });
     },
-    spreadOut: ({ container, dist }: { container: HTMLElement; dist: number; rotate: number }) => {
+    spreadOut: ({
+      container,
+      dist,
+      rotate,
+      padding = 0,
+    }: {
+      container: HTMLElement;
+      dist: number;
+      rotate?: number;
+      padding?: number;
+    }) => {
       const containerRect = container.getBoundingClientRect();
       const elRect = innerRef.current?.getBoundingClientRect();
 
@@ -124,9 +136,13 @@ function Draggable({
             const y = (current.y as number) || 0;
 
             return {
-              rotate: randInt(-35, 35),
-              x: clamp(0, containerRect.width - elWidth, x + randInt(-dist, dist)),
-              y: clamp(0, containerRect.height - elHeight, y + randInt(-dist, dist)),
+              rotate: rotate ?? randInt(-35, 35),
+              x: clamp(padding, containerRect.width - elWidth - padding, x + randInt(-dist, dist)),
+              y: clamp(
+                padding,
+                containerRect.height - elHeight - padding,
+                y + randInt(-dist, dist),
+              ),
               z: 1,
               opacity: 1,
             };
