@@ -1,3 +1,16 @@
+.stamps-page {
+  --tw-color-stone-100: theme('colors.stone.100');
+  --tw-color-stone-200: theme('colors.stone.200');
+  --tw-color-stone-300: theme('colors.stone.300');
+  --tw-color-stone-400: theme('colors.stone.400');
+  --tw-color-stone-500: theme('colors.stone.500');
+  --tw-color-stone-600: theme('colors.stone.600');
+  --tw-color-stone-700: theme('colors.stone.700');
+  --tw-color-stone-800: theme('colors.stone.800');
+  --tw-color-stone-900: theme('colors.stone.900');
+  --tw-color-stone-950: theme('colors.stone.950');
+}
+
 .grain::before {
   position: absolute;
   right: 0;
@@ -9,4 +22,17 @@
   opacity: 20%;
   filter: url(#paperFilter);
   pointer-events: none;
+}
+
+
+.stamps-layout ::selection {
+  background: theme('colors.stone.300');
+  color: theme('colors.stone.600');
+}
+
+
+
+.stamps-layout ::-moz-selection {
+  background: #f6deb6;
+  color: #2d1c00;
 }

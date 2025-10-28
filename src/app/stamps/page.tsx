@@ -36,7 +36,7 @@ export default function Page() {
   return (
     <div
       className={cn(
-        'grain grid min-h-[100svh] grid-cols-1 grid-rows-[auto_auto] gap-10 overflow-clip bg-stone-100 lg:h-screen lg:max-h-screen lg:grid-cols-[minmax(auto,675px)_1fr] lg:grid-rows-1 lg:pl-10',
+        'stamps-page grain grid min-h-[100svh] grid-cols-1 grid-rows-[auto_auto] gap-10 overflow-clip bg-stone-100 lg:h-screen lg:max-h-screen lg:grid-cols-[minmax(auto,675px)_1fr] lg:grid-rows-1 lg:pl-10',
       )}
     >
       <Description className="max-w-xl px-4 pt-4 lg:pt-5" />

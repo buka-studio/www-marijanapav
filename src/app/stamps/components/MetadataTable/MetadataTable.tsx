@@ -93,9 +93,9 @@ export default function MetadataTable({ className }: { className?: string }) {
           <>
             <div className="flex items-center gap-2">
               This stamp was inspired by an{' '}
-              <HoverCard>
-                <HoverCardTrigger className="hidden lg:block" aria-label="View original stamp">
-                  <ExistingStamp className="w-[120px] cursor-pointer " />
+              <HoverCard openDelay={0}>
+                <HoverCardTrigger className="hidden lg:block group/hovercard" aria-label="View original stamp">
+                  <ExistingStamp className="w-[120px] transition-colors duration-150 cursor-pointer group-data-[state=open]/hovercard:[--bg:var(--tw-color-stone-400)] group-data-[state=open]/hovercard:[--fg:var(--tw-color-stone-800)]" />
                 </HoverCardTrigger>
                 <HoverCardContent
                   side="top"
