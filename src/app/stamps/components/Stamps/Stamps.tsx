@@ -574,7 +574,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           })}
         </div>
         <div className="absolute left-1/2 top-8 z-[99999] flex -translate-x-1/2 items-center gap-5">
-          <AnimatePresence mode={isMobile ? 'wait' : 'popLayout'} initial={false}>
+          <AnimatePresence mode={isMobile ? 'wait' : 'popLayout'}>
             {showStampActions && (
               <motion.div {...fadeInProps} key="stamp-actions" className="flex items-center gap-5">
                 <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
@@ -606,7 +606,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                           <DrawerTitle>{selectedStamp?.title || 'Stamp Info'}</DrawerTitle>
                           <DrawerDescription>{selectedStamp?.country || ''}</DrawerDescription>
                         </DrawerHeader>
-                        <PunchPattern className="sticky top-0 flex flex-row bg-stone-100 px-4 py-4" />
+                        <PunchPattern className="sticky top-0 z-[1] flex flex-row bg-stone-100 px-4 py-4" />
                         <div className="w-full border-b border-dashed border-stone-300"></div>
                         <div className="max-w-[100vw] p-5">
                           {selectedStamp && <MetadataTable />}
