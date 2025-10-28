@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    qualities: [80, 90, 100],
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
@@ -23,6 +26,11 @@ const nextConfig = {
           },
         },
       ],
+    });
+
+    config.module.rules.push({
+      test: /\.frag|vert$/,
+      type: 'asset/source',
     });
 
     return config;
