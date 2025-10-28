@@ -63,7 +63,7 @@ export default function Page() {
           </Drawer>
         ) : (
           <Stamps
-            className="z-[2] col-[1] row-[3] hidden border-l border-stone-400 pr-2 lg:col-[2] lg:row-[1/3] lg:grid lg:min-w-[680px] lg:pr-8"
+            className="z-[2] col-[1] row-[3] hidden border-l border-stone-300 pr-2 lg:col-[2] lg:row-[1/3] lg:grid lg:min-w-[680px] lg:pr-8"
             {...desktopStampsProps}
           />
         )}

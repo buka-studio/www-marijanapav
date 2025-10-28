@@ -128,22 +128,24 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     }
   }, [selectedStamp?.srcLg]);
 
-  const dragContainerRefs = useRef(new Map<string, DragContainerRef>());
+  const draggableContainerRefs = useRef(new Map<string, DragContainerRef>());
   const draggableControllerRefs = useRef(new Map<string, DraggableController>());
 
   const selectedStampIdRef = useRef<string | null>(null);
   const selectedStampContainerRef = useRef<HTMLElement | null>(null);
+  const stampsContainerRef = useRef<HTMLDivElement>(null);
+  const stampsDragContainerRef = useRef<HTMLDivElement>(null);
 
   const { ref: containerRef, dimensions } = useResizeRef<HTMLDivElement>();
 
   const handleOrganize = useCallback(() => {
-    const container = containerRef.current;
+    const container = stampsDragContainerRef.current;
     if (!container) {
       return;
     }
 
     const children = stamps.flatMap((stamp) => {
-      const e = dragContainerRefs.current.get(stamp.id)?.e;
+      const e = draggableContainerRefs.current.get(stamp.id)?.e;
       return e ? { width: e.clientWidth, height: e.clientHeight } : [];
     });
 
@@ -193,23 +195,23 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         });
       }
     }
-  }, [dragContainerRefs, draggableControllerRefs, containerRef, stamps]);
+  }, [draggableContainerRefs, draggableControllerRefs, stampsDragContainerRef, stamps]);
 
   const placeOnTop = useCallback(
     (id: string) => {
-      const target = dragContainerRefs.current.get(id);
+      const target = draggableContainerRefs.current.get(id);
       if (!target?.e) {
         return;
       }
 
       const newMaxI =
-        Math.max(...Array.from(dragContainerRefs.current.values()).map(({ z }) => z)) + 1;
+        Math.max(...Array.from(draggableContainerRefs.current.values()).map(({ z }) => z)) + 1;
 
       target.e.style.setProperty('--z', newMaxI.toString());
 
       return newMaxI;
     },
-    [dragContainerRefs],
+    [draggableContainerRefs],
   );
 
   const handleDragStart = useCallback(
@@ -219,14 +221,14 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         return;
       }
 
-      const target = dragContainerRefs.current.get(id);
+      const target = draggableContainerRefs.current.get(id);
       if (!target) {
         return;
       }
 
       const newMaxI = placeOnTop(id);
 
-      dragContainerRefs.current.set(id, {
+      draggableContainerRefs.current.set(id, {
         ...target,
         z: newMaxI || 1,
         dragging: true,
@@ -242,23 +244,23 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         return;
       }
 
-      const target = dragContainerRefs.current.get(id);
+      const target = draggableContainerRefs.current.get(id);
       if (!target) {
         return;
       }
 
-      dragContainerRefs.current.set(id, {
+      draggableContainerRefs.current.set(id, {
         ...target,
         dragging: false,
       });
     },
-    [dragContainerRefs],
+    [draggableContainerRefs],
   );
 
   const handleDragTransitionEnd = useCallback(() => {
-    for (const [index, target] of dragContainerRefs.current.entries()) {
+    for (const [index, target] of draggableContainerRefs.current.entries()) {
       if (target.dragging) {
-        dragContainerRefs.current.set(index, {
+        draggableContainerRefs.current.set(index, {
           ...target,
           dragging: false,
         });
@@ -282,12 +284,12 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         }
 
         await new Promise((resolve) => setTimeout(resolve, i * stagger));
-        draggable.spreadOut({ container: containerRef.current!, dist: 350, rotate: 35 });
+        draggable.spreadOut({ container: stampsDragContainerRef.current!, dist: 350, rotate: 35 });
 
         i++;
       }
     },
-    [draggableControllerRefs, containerRef, stamps],
+    [draggableControllerRefs, stampsDragContainerRef, stamps],
   );
 
   useEffect(() => {
@@ -300,7 +302,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
   const handleSelectStamp = useCallback(
     (id: string) => {
-      const target = dragContainerRefs.current.get(id);
+      const target = draggableContainerRefs.current.get(id);
       if (target?.dragging) {
         return;
       }
@@ -321,7 +323,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       }
     },
     [
-      dragContainerRefs,
+      draggableContainerRefs,
       draggableControllerRefs,
       containerRef,
       setZoomEnabled,
@@ -388,13 +390,13 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         return;
       }
 
-      dragContainerRefs.current.set(id, {
+      draggableContainerRefs.current.set(id, {
         z: 1,
         e: e!,
         dragging: false,
       });
     },
-    [dragContainerRefs],
+    [draggableContainerRefs],
   );
 
   const handleDraggableControllerRef = useCallback(
@@ -444,8 +446,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     },
     [handleDeselectStamp],
   );
-
-  const stampsContainerRef = useRef<HTMLDivElement>(null);
 
   const gridCellSize = isMobile ? 16 : 32;
 
@@ -501,9 +501,14 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         </div>
         {/* todo: inset top and right */}
         <div
-          className="pointer-events-none absolute inset-0 transform-gpu"
+          className="pointer-events-none absolute inset-0 transform-gpu  border"
           ref={stampsContainerRef}
         >
+          <div
+            className="stamp-drag-container pointer-events-none absolute bottom-0 left-0 right-[20px] top-[70px]"
+            ref={stampsDragContainerRef}
+          />
+
           {stamps.map((stamp, index) => {
             return (
               <MemoizedDraggable
@@ -522,7 +527,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                 onDragEnd={handleDragEnd}
                 onDragTransitionEnd={handleDragTransitionEnd}
                 dragTransition={stampDragTransition}
-                dragConstraints={stampsContainerRef}
+                dragConstraints={stampsDragContainerRef}
                 onClick={handleStampClick}
                 data-slot="stamp-container"
                 className={cn(
@@ -640,8 +645,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             )}
           </AnimatePresence>
         </div>
-
-        {/* todo: add inset props */}
         {selectedStamp && (
           <Loupe
             gridCellSize={gridCellSize}
