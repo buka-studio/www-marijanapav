@@ -12,22 +12,46 @@ import ExistingStamp from './ExistingStamp.svg';
 
 import './MetadataTable.css';
 
-const cellKeys = [
-  'country',
-  'year',
-  'designer',
-  'catalogCodes',
-  // 'meta',
-  'faceValue',
-] as const satisfies readonly (keyof Stamp)[];
+const cellKeys = ['country', 'year', "catalogCodes", 'meta'] as const satisfies readonly (keyof Stamp)[];
 
 type CellKey = (typeof cellKeys)[number];
 
-const cellKeyLabels: Partial<Record<CellKey, string>> = {
+const cellKeyLabels: Partial<Record<CellKey | string, string>> = {
   year: 'Issued On',
+  category: 'Category',
+  designer: 'Designer',
   catalogCodes: 'Catalog Codes',
   faceValue: 'Face Value',
+  printRun: 'Print Run',
 };
+
+type RowValue = string | string[] | undefined;
+
+function toRowValue(value: unknown): RowValue {
+  if (value == null) return undefined;
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === 'string');
+  }
+  return String(value);
+}
+
+function getRows(stamp: Stamp): Record<string, RowValue> {
+  const labelFor = (key: string) => cellKeyLabels[key as CellKey] ?? key;
+  const rows: Record<string, RowValue> = {};
+
+  cellKeys.forEach((key) => {
+    if (key === 'meta') {
+      Object.entries(stamp.meta ?? {}).forEach(([metaKey, metaValue]) => {
+        rows[labelFor(metaKey)] = toRowValue(metaValue);
+      });
+      return;
+    }
+
+    rows[labelFor(key)] = toRowValue(stamp[key]);
+  });
+
+  return rows;
+}
 
 function KeyCell({ children, className, ...props }: ComponentProps<'div'>) {
   return (
@@ -59,6 +83,8 @@ export default function MetadataTable({ className }: { className?: string }) {
   if (!stamp) {
     return null;
   }
+
+  const rows = getRows(stamp);
 
   return (
     <div>
@@ -92,21 +118,19 @@ export default function MetadataTable({ className }: { className?: string }) {
         className={cn('grid grid-cols-[2fr_3fr] font-mono text-sm font-bold', className)}
         key={stamp?.id}
       >
-        {cellKeys.map((key, i) => {
-          const value = stamp[key];
-
+        {Object.entries(rows).map(([label, value], i) => {
           const isArray = Array.isArray(value);
 
           const defaultValue = '--';
 
           return (
-            <Fragment key={key}>
+            <Fragment key={label}>
               <KeyCell
                 className={cn('pr-4', {
                   'border-t': i === 0,
                 })}
               >
-                {cellKeyLabels[key] || key}
+                {label}
               </KeyCell>
               <ValueCell
                 className={cn({
