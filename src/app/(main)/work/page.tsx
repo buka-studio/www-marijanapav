@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 
+import ClientRendered from '~/src/components/ClientRendered';
 import ViewLogger from '~/src/components/ViewCounter';
 
 import ProjectsGrid from './components/ProjectsGrid';
@@ -29,7 +30,10 @@ export default async function Work({ searchParams }: { searchParams: Promise<{ f
     <div className="flex flex-1 flex-col">
       <ViewLogger pathname="/work" />
       <main className="flex-1">
-        <ProjectsGrid projects={filteredProjects} />
+        {/* todo: hotfix, remove client rendered */}
+        <ClientRendered>
+          <ProjectsGrid projects={filteredProjects} />
+        </ClientRendered>
       </main>
     </div>
   );
