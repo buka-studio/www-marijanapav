@@ -12,7 +12,12 @@ import ExistingStamp from './ExistingStamp.svg';
 
 import './MetadataTable.css';
 
-const cellKeys = ['country', 'year', "catalogCodes", 'meta'] as const satisfies readonly (keyof Stamp)[];
+const cellKeys = [
+  'country',
+  'year',
+  'catalogCodes',
+  'meta',
+] as const satisfies readonly (keyof Stamp)[];
 
 type CellKey = (typeof cellKeys)[number];
 
@@ -94,8 +99,11 @@ export default function MetadataTable({ className }: { className?: string }) {
             <div className="flex items-center gap-2">
               This stamp was inspired by an{' '}
               <HoverCard openDelay={0}>
-                <HoverCardTrigger className="hidden lg:block group/hovercard" aria-label="View original stamp">
-                  <ExistingStamp className="w-[120px] transition-colors duration-150 cursor-pointer group-data-[state=open]/hovercard:[--bg:var(--tw-color-stone-400)] group-data-[state=open]/hovercard:[--fg:var(--tw-color-stone-800)]" />
+                <HoverCardTrigger
+                  className="group/hovercard hidden lg:block"
+                  aria-label="View original stamp"
+                >
+                  <ExistingStamp className="w-[120px] cursor-pointer transition-colors duration-150 group-data-[state=open]/hovercard:[--bg:var(--tw-color-stone-400)] group-data-[state=open]/hovercard:[--fg:var(--tw-color-stone-800)]" />
                 </HoverCardTrigger>
                 <HoverCardContent
                   side="top"
@@ -106,8 +114,14 @@ export default function MetadataTable({ className }: { className?: string }) {
               </HoverCard>
               <span className="lg:hidden">existing stamp</span>
             </div>
-            <div className="mt-2 flex h-[200px] w-full items-center justify-center rounded-md border border-stone-300 bg-stone-50 lg:hidden">
-              <Image src={stamp.srcOriginal} alt="Original stamp" width={200} height={200} />
+            <div className="mt-2 flex h-[200px] w-full items-center justify-center rounded-md border border-stone-300 bg-stone-50 p-2 lg:hidden">
+              <Image
+                src={stamp.srcOriginal}
+                alt="Original stamp"
+                width={200}
+                height={200}
+                className="h-full w-full object-contain object-center"
+              />
             </div>
           </>
         ) : (
