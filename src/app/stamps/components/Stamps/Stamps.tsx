@@ -4,6 +4,7 @@ import { AnimatePresence, motion, MotionProps, PanInfo, Transition } from 'frame
 import Image from 'next/image';
 import React, {
   ComponentProps,
+  CSSProperties,
   memo,
   useCallback,
   useEffect,
@@ -75,8 +76,6 @@ const fadeInProps: MotionProps = {
   },
 };
 
-const centerScale = 1.5;
-
 const MemoizedDraggable = memo(Draggable);
 
 const stampTransition: Transition = { type: 'spring', stiffness: 500, damping: 80 };
@@ -112,6 +111,9 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   const setZoomEnabled = useStampStore((s) => s.setZoomEnabled);
   const setSelectedStampId = useStampStore((s) => s.setSelectedStampId);
   const isMobile = useMatchMedia('(max-width: 1024px)', false);
+  const isMobileSmall = useMatchMedia('(max-width: 640px)', false);
+
+  const centerScale = isMobile ? 2 : 1.5;
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -280,7 +282,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         }
 
         await new Promise((resolve) => setTimeout(resolve, i * stagger));
-        draggable.spreadOut({ container: containerRef.current!, dist: 500, rotate: 35 });
+        draggable.spreadOut({ container: containerRef.current!, dist: 350, rotate: 35 });
 
         i++;
       }
@@ -318,7 +320,14 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         selectedStampContainerRef.current = target?.e ?? null;
       }
     },
-    [dragContainerRefs, draggableControllerRefs, containerRef, setZoomEnabled, setSelectedStampId],
+    [
+      dragContainerRefs,
+      draggableControllerRefs,
+      containerRef,
+      setZoomEnabled,
+      setSelectedStampId,
+      centerScale,
+    ],
   );
 
   const containerMeasured = dimensions.width > 0 && dimensions.height > 0;
@@ -490,6 +499,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             )}
           />
         </div>
+        {/* todo: inset top and right */}
         <div
           className="pointer-events-none absolute inset-0 transform-gpu"
           ref={stampsContainerRef}
@@ -514,8 +524,9 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                 dragTransition={stampDragTransition}
                 dragConstraints={stampsContainerRef}
                 onClick={handleStampClick}
+                data-slot="stamp-container"
                 className={cn(
-                  'group pointer-events-auto absolute z-[--z] flex transition-[filter] duration-200 will-change-transform focus-visible:outline-none',
+                  'group pointer-events-auto absolute z-[--z] flex items-center justify-center transition-[filter] duration-200 will-change-transform focus-visible:outline-none',
                   {
                     'blur-lg': store.selectedStampId && store.selectedStampId !== stamp.id,
                     'z-50': store.selectedStampId === stamp.id,
@@ -526,11 +537,19 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                 <Image
                   src={stamp.src}
                   alt={stamp.country || ''}
-                  width={180}
-                  height={240}
+                  width={stamp.width || 180}
+                  height={stamp.height || 240}
                   priority
+                  style={
+                    {
+                      '--width': stamp.width || 180,
+                      '--height': stamp.height || 240,
+                      '--size-scale': isMobileSmall ? 0.6 : isMobile ? 0.8 : 1,
+                    } as CSSProperties
+                  }
+                  data-slot="stamp-image"
                   className={cn(
-                    'pointer-events-none h-auto w-[120px] drop-shadow transition-all duration-200 lg:w-[140px] xl:w-[180px]',
+                    'pointer-events-none h-auto w-[calc(var(--size-scale)*var(--width)*1px)] drop-shadow transition-all duration-200 xl:w-full',
                     {
                       'group-focus-within:drop-shadow-xl': store.selectedStampId !== stamp.id,
                     },
@@ -622,6 +641,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           </AnimatePresence>
         </div>
 
+        {/* todo: add inset props */}
         {selectedStamp && (
           <Loupe
             gridCellSize={gridCellSize}

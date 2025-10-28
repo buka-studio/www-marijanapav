@@ -154,7 +154,20 @@ export default function Description({ className }: { className?: string }) {
         </motion.p>
 
         <motion.div
-          className="grid"
+          className="lg:hidden"
+          variants={slideInVariants}
+          onAnimationComplete={() => setAnimate(true)}
+        >
+          <EmptyState
+            className="mx-auto max-w-xl"
+            animate={animate}
+            shouldAnimate={!animated}
+            onAnimationComplete={() => setAnimated(true)}
+          />
+        </motion.div>
+
+        <motion.div
+          className="hidden lg:grid"
           variants={slideInVariants}
           onAnimationComplete={() => setAnimate(true)}
         >

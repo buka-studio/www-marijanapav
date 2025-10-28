@@ -139,7 +139,8 @@ function Loupe({
     }
 
     const stampRect = (
-      activeStampContainerRef.current || document.querySelector(`[data-id="${selectedStamp.id}"]`)
+      activeStampContainerRef.current?.querySelector(`[data-slot="stamp-image"]`) ||
+      document.querySelector(`[data-id="${selectedStamp.id}"] [data-slot="stamp-image"]`)
     )?.getBoundingClientRect();
     if (!stampRect) {
       return;
