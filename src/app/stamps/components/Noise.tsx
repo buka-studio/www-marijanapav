@@ -40,26 +40,6 @@ export default function Noise({ className }: { className?: string }) {
         />
         <feBlend in="distort" in2="noise" mode="multiply" />
       </filter>
-
-
-      <filter id="distortFilter" x="0%" y="0%" width="100%" height="100%">
-              {/* Generate the fractal noise */}
-              <feTurbulence 
-                type="fractalNoise"
-                baseFrequency="0.03" // Low frequency for large, wobbly distortions
-                numOctaves="4"
-                seed="1" // A fixed seed for consistent look
-                result="noise"
-              />
-              {/* Apply the noise to displace the graphics (SourceGraphic) */}
-              <feDisplacementMap 
-                in="SourceGraphic"
-                in2="noise"
-                scale="30" // Intensity of the distortion (Higher = more wobbly)
-                xChannelSelector="R" // Use the Red channel of the noise for X displacement
-                yChannelSelector="R" // Use the Red channel of the noise for Y displacement
-              />
-            </filter>
     </svg>
   );
 }
