@@ -10,6 +10,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import { ReactLenis, useLenis } from 'lenis/react';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 import Stamp1 from '~/public/home/stamps/stamp_1.svg';
@@ -19,7 +20,6 @@ import Stamp4 from '~/public/home/stamps/stamp_4.svg';
 import Stamp5 from '~/public/home/stamps/stamp_5.svg';
 import GridBackground from '~/src/components/GridBackground';
 import CardTitle from '~/src/components/ui/CardTitle';
-import Tag from '~/src/components/ui/Tag';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 import useResizeRef from '~/src/hooks/useResizeRef';
 import { remap } from '~/src/math';
@@ -212,15 +212,9 @@ export default function SkewedStampsCard() {
         </div>
         <div className="mb-4 [&_>*]:inline [&_>*]:align-middle">
           <CardTitle variant="mono" className="flex items-center gap-2">
-            <a href="#" className="group rounded-md">
+            <Link href="/stamps" className="group rounded-md">
               <span className="mr-1 inline-block">Digital Stamp Collection&nbsp;</span>
-              <Tag
-                variant="dashed"
-                className="mb-[1px] inline-block py-[0.1rem] align-middle font-mono text-xs text-text-muted"
-              >
-                Coming&nbsp;soon
-              </Tag>
-            </a>
+            </Link>
           </CardTitle>
         </div>
         <p className="text-sm  text-text-primary">
