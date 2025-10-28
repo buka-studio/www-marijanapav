@@ -29,7 +29,7 @@ import { cn } from '~/src/util';
 import { collections, CollectionType } from '../../constants';
 import { Stamp } from '../../models';
 import { useStampStore } from '../../store';
-import GridCanvas from '../CanvasGrid';
+import CanvasGrid from '../CanvasGrid';
 import CollectionsList from '../CollectionsList';
 import MetadataTable from '../MetadataTable';
 import { DrawnActionButton } from './ActionButton';
@@ -41,7 +41,7 @@ import Draggable, { DraggableController } from './Draggable';
 import { Footer } from './Footer';
 import Loupe from './Loupe';
 import { PunchPattern } from './PunchPattern';
-import { computeGridArrangement } from './util';
+import { computeGridArrangement, preloadImage } from './util';
 
 interface DragContainerRef {
   e: HTMLElement;
@@ -119,6 +119,12 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     () => stamps.find((stamp) => stamp.id === selectedStampId) as Stamp,
     [stamps, selectedStampId],
   );
+
+  useEffect(() => {
+    if (selectedStamp?.srcLg) {
+      preloadImage(selectedStamp.srcLg);
+    }
+  }, [selectedStamp?.srcLg]);
 
   const dragContainerRefs = useRef(new Map<string, DragContainerRef>());
   const draggableControllerRefs = useRef(new Map<string, DraggableController>());
@@ -471,7 +477,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             },
           )}
         >
-          <GridCanvas
+          <CanvasGrid
             width={dimensions.width}
             height={dimensions.height}
             background={colors.stone[100]}
@@ -522,8 +528,9 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   alt={stamp.country || ''}
                   width={180}
                   height={240}
+                  priority
                   className={cn(
-                    'pointer-events-none w-[120px] drop-shadow transition-all duration-200 lg:w-auto',
+                    'pointer-events-none h-auto w-[120px] drop-shadow transition-all duration-200 lg:w-[140px] xl:w-[180px]',
                     {
                       'group-focus-within:drop-shadow-xl': store.selectedStampId !== stamp.id,
                     },

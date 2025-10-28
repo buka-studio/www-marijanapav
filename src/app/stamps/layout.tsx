@@ -6,6 +6,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: 'Marijana Pavlinić | Stamp Collection',
+  description: "Marijana Pavlinić's stamp collection",
 };
 
 export default function StampsLayout({ children }: { children: React.ReactNode }) {

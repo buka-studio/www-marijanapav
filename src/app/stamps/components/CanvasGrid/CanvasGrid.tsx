@@ -2,7 +2,7 @@ import { ComponentProps, useLayoutEffect, useRef } from 'react';
 
 import { drawGrid, setupHiDPICtx, type NoiseOpts } from './util';
 
-export type GridCanvasProps = {
+export type CanvasGridProps = {
   width: number;
   height: number;
   cellWidth: number;
@@ -13,7 +13,7 @@ export type GridCanvasProps = {
   align?: 'center' | 'top';
 };
 
-export default function GridCanvas({
+export default function CanvasGrid({
   width,
   height,
   cellWidth,
@@ -22,7 +22,7 @@ export default function GridCanvas({
   foreground = '#d6d3d1',
   align = 'center',
   ...props
-}: GridCanvasProps & ComponentProps<'canvas'>) {
+}: CanvasGridProps & ComponentProps<'canvas'>) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useLayoutEffect(() => {

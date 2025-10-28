@@ -16,7 +16,6 @@ export function computeGridArrangement(opts: {
     return results;
   }
 
-  // Build rows greedily by width
   type Row = { indices: number[]; rowWidth: number; rowHeight: number };
   const rows: Row[] = [];
   let cur: Row = { indices: [], rowWidth: 0, rowHeight: 0 };
@@ -25,7 +24,6 @@ export function computeGridArrangement(opts: {
     const { width, height } = child;
     const nextW = cur.indices.length === 0 ? width : cur.rowWidth + gap + width;
     if (nextW <= usableW) {
-      // fits current row
       cur.indices.push(i);
       cur.rowWidth = nextW;
       cur.rowHeight = Math.max(cur.rowHeight, height);
@@ -56,13 +54,11 @@ export function computeGridArrangement(opts: {
   const contentH = accHeight;
   const originY = padding + (usableH - contentH) / 2;
 
-  // Assign positions row by row
   let yCursor = originY;
   for (let r = 0; r < rows.length; r++) {
     const row = rows[r];
     const fitsVertically = r < usedRows;
 
-    // Center the row horizontally
     const rowContentW = row.rowWidth;
     let xCursor = padding + (usableW - rowContentW) / 2;
 
@@ -77,15 +73,25 @@ export function computeGridArrangement(opts: {
         fit: fitsVertically,
       };
 
-      // advance within row
       xCursor += width + (j < row.indices.length - 1 ? gap : 0);
     });
 
-    // advance to next row (if we will place it)
     if (r < usedRows) {
       yCursor += row.rowHeight + (r < usedRows - 1 ? gap : 0);
     }
   }
 
   return results;
+}
+
+const preloadedImages = new Map<string, HTMLImageElement>();
+
+export function preloadImage(url: string) {
+  if (preloadedImages.has(url)) {
+    return;
+  }
+
+  const img = new Image();
+  img.src = url;
+  preloadedImages.set(url, img);
 }

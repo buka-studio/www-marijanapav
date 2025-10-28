@@ -17,7 +17,7 @@ export default function EmptyState({
 }) {
   return (
     <div className={cn('relative', className)}>
-      <Background className="text-stone-300" />
+      <Background className="text-stone-300 [mask-image:linear-gradient(90deg,transparent_0%,black_5%,black_95%,transparent_100%)]" />
       <Signature
         className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-stone-600"
         animate={animate}

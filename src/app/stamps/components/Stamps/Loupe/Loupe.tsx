@@ -157,7 +157,7 @@ function Loupe({
     });
 
     const img = new Image();
-    img.src = selectedStamp.src; // todo: use srcLg or alt image
+    img.src = selectedStamp.srcLg || selectedStamp.src;
     img.onload = () => {
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;

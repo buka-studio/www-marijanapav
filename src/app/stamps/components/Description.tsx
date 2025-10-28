@@ -108,7 +108,7 @@ export default function Description({ className }: { className?: string }) {
   }, [selectedStampId]);
 
   return (
-    <div className={cn('flex flex-col gap-9 font-libertinus text-stone-700', className)}>
+    <div className={cn('flex flex-col gap-5 font-libertinus text-stone-700 lg:gap-9', className)}>
       <motion.div
         {...fadeInProps}
         transition={{ duration: 0.35, delay: 1.5 }}
@@ -138,7 +138,7 @@ export default function Description({ className }: { className?: string }) {
         }}
         initial="hidden"
         animate="show"
-        className="flex flex-col gap-9"
+        className="flex flex-col gap-5 lg:gap-9"
       >
         <motion.p variants={slideInVariants} className="text-pretty">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his
@@ -154,7 +154,7 @@ export default function Description({ className }: { className?: string }) {
         </motion.p>
 
         <motion.div
-          className="hidden lg:grid"
+          className="grid"
           variants={slideInVariants}
           onAnimationComplete={() => setAnimate(true)}
         >
@@ -166,6 +166,7 @@ export default function Description({ className }: { className?: string }) {
             ) : (
               <motion.div key="empty-state" {...fadeInProps}>
                 <EmptyState
+                  className="mx-auto max-w-xl"
                   animate={animate}
                   shouldAnimate={!animated}
                   onAnimationComplete={() => setAnimated(true)}

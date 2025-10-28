@@ -1,7 +1,14 @@
 import { cn } from '~/src/util';
 
 export function Hole({ className }: { className?: string }) {
-  return <div className={cn('h-3 w-5 rounded-full bg-stone-300 lg:h-5 lg:w-3 shadow-inner shadow-black/10', className)} />;
+  return (
+    <div
+      className={cn(
+        'h-3 w-5 rounded-full bg-stone-300 shadow-inner shadow-black/20 lg:h-5 lg:w-3',
+        className,
+      )}
+    />
+  );
 }
 
 export function PunchPattern({ className }: { className?: string }) {

@@ -1,1 +1,1 @@
-export { default, type GridCanvasProps } from './CanvasGrid';
+export { default, type CanvasGridProps } from './CanvasGrid';

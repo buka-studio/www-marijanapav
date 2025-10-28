@@ -111,7 +111,6 @@ function Draggable({
 
       controls
         .start({
-          rotate: randInt(-35, 35),
           x: containerRect.width / 2 - elWidth,
           y: containerRect.height / 2 - elHeight,
           z: 1,
@@ -125,6 +124,7 @@ function Draggable({
             const y = (current.y as number) || 0;
 
             return {
+              rotate: randInt(-35, 35),
               x: clamp(0, containerRect.width - elWidth, x + randInt(-dist, dist)),
               y: clamp(0, containerRect.height - elHeight, y + randInt(-dist, dist)),
               z: 1,
