@@ -291,7 +291,7 @@ function Loupe({
       <Dial
         key={isMobile ? 'mobile' : 'desktop'}
         className="loupe-dial pointer-events-none absolute inset-0 z-50"
-        inscription="1x - 3x Professional Loupe"
+        inscription="PEAK 1983  ⎟  10× Measuring Loupe  ⎟  Digital Stamp Collection · @marijanapav"
         size={dialSize}
         tickCount={isMobile ? 120 : 180}
         tickLength={isMobile ? 4 : 8}
