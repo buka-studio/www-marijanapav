@@ -288,7 +288,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         }
 
         await new Promise((resolve) => setTimeout(resolve, i * stagger));
-        draggable.spreadOut({ container: stampsDragContainerRef.current!, dist: 350, rotate: 35 });
+        draggable.spreadOut({ container: stampsDragContainerRef.current!, dist: 250, rotate: 35 });
 
         i++;
       }
