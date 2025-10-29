@@ -149,18 +149,20 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       return e ? { width: e.clientWidth, height: e.clientHeight } : [];
     });
 
-    const paddingPx = 50;
+    const paddingXPx = 15;
+    const paddingYPx = 30;
     const gapPx = 24;
 
     const positions = computeGridArrangement({
       container,
       children,
-      padding: paddingPx,
+      paddingY: paddingYPx,
+      paddingX: paddingXPx,
       gap: gapPx,
     });
 
-    const stackX = container.clientWidth - paddingPx;
-    const stackY = container.clientHeight - paddingPx;
+    const stackX = container.clientWidth - paddingXPx;
+    const stackY = container.clientHeight - paddingYPx;
 
     for (const [i, pos] of positions.entries()) {
       const draggable = draggableControllerRefs.current.get(stamps[i].id);
@@ -291,7 +293,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         draggable.spreadOut({
           container: stampsDragContainerRef.current!,
           dist: 500,
-          rotate: 35,
           padding: 50,
         });
 
@@ -458,8 +459,8 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
   const gridCellSize = isMobile ? 16 : 32;
 
-  const showStampActions = Boolean(!isMobile || selectedStamp);
-  const showCollectionActions = Boolean(!isMobile || !selectedStamp);
+  const showStampActions = Boolean(!isMobile || selectedStampId);
+  const showCollectionActions = Boolean(!isMobile || !selectedStampId);
 
   return (
     <motion.div

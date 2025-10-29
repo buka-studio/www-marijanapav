@@ -3,13 +3,14 @@ type NodeResult = { x: number; y: number; fit: boolean };
 export function computeGridArrangement(opts: {
   container: HTMLElement;
   children: Array<{ width: number; height: number }>;
-  padding: number;
+  paddingX: number;
+  paddingY: number;
   gap: number;
 }): NodeResult[] {
-  const { container, children, padding, gap } = opts;
+  const { container, children, paddingX, paddingY, gap } = opts;
 
-  const usableW = Math.max(0, container.clientWidth - 2 * padding);
-  const usableH = Math.max(0, container.clientHeight - 2 * padding);
+  const usableW = Math.max(0, container.clientWidth - 2 * paddingX);
+  const usableH = Math.max(0, container.clientHeight - 2 * paddingY);
 
   const results: NodeResult[] = children.map(() => ({ x: 0, y: 0, fit: false }));
   if (usableW <= 0 || usableH <= 0 || children.length === 0) {
@@ -52,7 +53,7 @@ export function computeGridArrangement(opts: {
   }
 
   const contentH = accHeight;
-  const originY = padding + (usableH - contentH) / 2;
+  const originY = paddingY + (usableH - contentH) / 2;
 
   let yCursor = originY;
   for (let r = 0; r < rows.length; r++) {
@@ -60,7 +61,7 @@ export function computeGridArrangement(opts: {
     const fitsVertically = r < usedRows;
 
     const rowContentW = row.rowWidth;
-    let xCursor = padding + (usableW - rowContentW) / 2;
+    let xCursor = paddingX + (usableW - rowContentW) / 2;
 
     row.indices.forEach((idx, j) => {
       const { width, height } = children[idx];
