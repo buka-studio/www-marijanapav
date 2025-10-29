@@ -14,6 +14,7 @@ import React, {
 } from 'react';
 import colors from 'tailwindcss/colors';
 
+import ClientRendered from '~/src/components/ClientRendered';
 import {
   Drawer,
   DrawerContent,
@@ -511,7 +512,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         </div>
         {/* todo: inset top and right */}
         <div
-          className="pointer-events-none absolute inset-0 transform-gpu  border"
+          className="pointer-events-none absolute inset-0 transform-gpu border"
           ref={stampsContainerRef}
         >
           <div
@@ -575,85 +576,91 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           })}
         </div>
         <div className="absolute left-1/2 top-8 z-[99999] flex -translate-x-1/2 items-center gap-5">
-          <AnimatePresence mode={isMobile ? 'wait' : 'popLayout'}>
-            {showStampActions && (
-              <motion.div {...fadeInProps} key="stamp-actions" className="flex items-center gap-5">
-                <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
-                  <Drawer
-                    shouldScaleBackground={false}
-                    onOpenChange={(open) => {
-                      setDrawerOpen(open);
-                      if (open) {
-                        store.setZoomed(false);
-                      }
-                    }}
-                    open={drawerOpen}
-                  >
-                    <AnimatePresence>
-                      <DrawerTrigger asChild>
-                        <DrawnActionButton disabled={!selectedStamp}>
-                          <DrawnInfo className="w-[55px]" aria-label="Stamp Info" />
-                        </DrawnActionButton>
-                      </DrawerTrigger>
-                    </AnimatePresence>
-
-                    <DrawerContent
-                      className="max-w-[100vw] !rounded-none !border-none bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)]"
-                      handle={false}
-                      overlayClassName="!opacity-0"
+          <ClientRendered>
+            <AnimatePresence mode={isMobile ? 'wait' : 'popLayout'}>
+              {showStampActions && (
+                <motion.div
+                  {...fadeInProps}
+                  key="stamp-actions"
+                  className="flex items-center gap-5"
+                >
+                  <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
+                    <Drawer
+                      shouldScaleBackground={false}
+                      onOpenChange={(open) => {
+                        setDrawerOpen(open);
+                        if (open) {
+                          store.setZoomed(false);
+                        }
+                      }}
+                      open={drawerOpen}
                     >
-                      <div className="flex-1 overflow-y-auto pb-10 font-libertinus">
-                        <DrawerHeader className="sr-only">
-                          <DrawerTitle>{selectedStamp?.title || 'Stamp Info'}</DrawerTitle>
-                          <DrawerDescription>{selectedStamp?.country || ''}</DrawerDescription>
-                        </DrawerHeader>
-                        <PunchPattern className="sticky top-0 z-[1] flex flex-row bg-stone-100 px-4 py-4" />
-                        <div className="w-full border-b border-dashed border-stone-300"></div>
-                        <div className="max-w-[100vw] p-5">
-                          {selectedStamp && <MetadataTable />}
-                        </div>
-                      </div>
-                    </DrawerContent>
-                  </Drawer>
-                </motion.div>
-                <DrawnActionButton
-                  disabled={!store.zoomEnabled}
-                  onClick={store.toggleZoomed}
-                  {...fadeInProps}
-                  key="toggle-zoom-button"
-                  custom={1}
-                >
-                  <DrawnZoom className="w-[75px]" aria-label="Toggle Zoom" />
-                </DrawnActionButton>
-              </motion.div>
-            )}
-            {showCollectionActions && (
-              <motion.div
-                {...fadeInProps}
-                key="collection-actions"
-                className="flex items-center gap-5"
-              >
-                <DrawnActionButton
-                  onClick={handleOrganize}
-                  disabled={Boolean(store.selectedStampId)}
-                  {...fadeInProps}
-                  key="organize-button"
-                >
-                  <DrawnOrganize className="w-[95px]" aria-label="Organize Stamps" />
-                </DrawnActionButton>
+                      <AnimatePresence>
+                        <DrawerTrigger asChild>
+                          <DrawnActionButton disabled={!selectedStamp}>
+                            <DrawnInfo className="w-[55px]" aria-label="Stamp Info" />
+                          </DrawnActionButton>
+                        </DrawerTrigger>
+                      </AnimatePresence>
 
-                <DrawnActionButton
-                  onClick={() => handleSpreadOut({ stagger: 5 })}
-                  disabled={Boolean(store.selectedStampId)}
-                  custom={1}
+                      <DrawerContent
+                        className="max-w-[100vw] !rounded-none !border-none bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)]"
+                        handle={false}
+                        overlayClassName="!opacity-0"
+                      >
+                        <div className="flex-1 overflow-y-auto pb-10 font-libertinus">
+                          <DrawerHeader className="sr-only">
+                            <DrawerTitle>{selectedStamp?.title || 'Stamp Info'}</DrawerTitle>
+                            <DrawerDescription>{selectedStamp?.country || ''}</DrawerDescription>
+                          </DrawerHeader>
+                          <PunchPattern className="sticky top-0 z-[1] flex flex-row bg-stone-100 px-4 py-4" />
+                          <div className="w-full border-b border-dashed border-stone-300"></div>
+                          <div className="max-w-[100vw] p-5">
+                            {selectedStamp && <MetadataTable />}
+                          </div>
+                        </div>
+                      </DrawerContent>
+                    </Drawer>
+                  </motion.div>
+                  <DrawnActionButton
+                    disabled={!store.zoomEnabled}
+                    onClick={store.toggleZoomed}
+                    {...fadeInProps}
+                    key="toggle-zoom-button"
+                    custom={1}
+                  >
+                    <DrawnZoom className="w-[75px]" aria-label="Toggle Zoom" />
+                  </DrawnActionButton>
+                </motion.div>
+              )}
+              {showCollectionActions && (
+                <motion.div
                   {...fadeInProps}
-                  key="shuffle-button"
+                  key="collection-actions"
+                  className="flex items-center gap-5"
                 >
-                  <DrawnShuffle className="w-[90px]" aria-label="Shuffle Stamps" />
-                </DrawnActionButton>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  <DrawnActionButton
+                    onClick={handleOrganize}
+                    disabled={Boolean(store.selectedStampId)}
+                    {...fadeInProps}
+                    key="organize-button"
+                  >
+                    <DrawnOrganize className="w-[95px]" aria-label="Organize Stamps" />
+                  </DrawnActionButton>
+
+                  <DrawnActionButton
+                    onClick={() => handleSpreadOut({ stagger: 5 })}
+                    disabled={Boolean(store.selectedStampId)}
+                    custom={1}
+                    {...fadeInProps}
+                    key="shuffle-button"
+                  >
+                    <DrawnShuffle className="w-[90px]" aria-label="Shuffle Stamps" />
+                  </DrawnActionButton>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </ClientRendered>
         </div>
         {selectedStamp && (
           <Loupe

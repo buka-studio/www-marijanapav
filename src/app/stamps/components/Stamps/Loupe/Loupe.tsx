@@ -43,6 +43,29 @@ function getPointerOffsetFromElementCenter(point: Point, element?: HTMLElement |
   return { x: offsetX, y: offsetY };
 }
 
+function loadImage(src: string) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      resolve(img);
+    };
+    img.onerror = () => {
+      reject(new Error('Failed to load image'));
+    };
+  });
+}
+
+async function loadFirstImage(srcs: string[]) {
+  for (const src of srcs) {
+    const img = await loadImage(src);
+    if (img) {
+      return img;
+    }
+  }
+  return null;
+}
+
 const initial = {
   opacity: 0,
 };
@@ -158,28 +181,33 @@ function Loupe({
       lineWidth: 1,
     });
 
-    const img = new Image();
-    img.src = selectedStamp.srcLg || selectedStamp.src;
-    img.onload = () => {
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
-      ctx.shadowColor = 'rgba(0,0,0,0.25)';
-      ctx.shadowBlur = 20;
+    loadFirstImage([selectedStamp.srcLg, selectedStamp.src])
+      .then((img) => {
+        if (!img) {
+          return;
+        }
 
-      const imgWidth = stampRect.width * baseScale;
-      const imgHeight = stampRect.height * baseScale;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowColor = 'rgba(0,0,0,0.25)';
+        ctx.shadowBlur = 20;
 
-      const centerX = container.offsetWidth / 2;
-      const centerY = container.offsetHeight / 2;
+        const imgWidth = stampRect.width * baseScale;
+        const imgHeight = stampRect.height * baseScale;
 
-      ctx.drawImage(img, centerX - imgWidth / 2, centerY - imgHeight / 2, imgWidth, imgHeight);
+        const centerX = container.offsetWidth / 2;
+        const centerY = container.offsetHeight / 2;
 
-      setCanvasData({
-        canvas,
-        cssWidth: container.offsetWidth,
-        cssHeight: container.offsetHeight,
+        ctx.drawImage(img, centerX - imgWidth / 2, centerY - imgHeight / 2, imgWidth, imgHeight);
+      })
+      .finally(() => {
+        // todo: error handling
+        setCanvasData({
+          canvas,
+          cssWidth: container.offsetWidth,
+          cssHeight: container.offsetHeight,
+        });
       });
-    };
   }, [lensSize, selectedStamp, dragConstraints, baseScale, gridCellSize, activeStampContainerRef]);
 
   const handlePointerDown = useCallback(
