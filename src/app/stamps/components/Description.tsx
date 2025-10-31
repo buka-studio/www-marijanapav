@@ -155,7 +155,7 @@ export default function Description({ className }: { className?: string }) {
         }}
         initial="hidden"
         animate="show"
-        className="flex flex-col gap-5 lg:gap-9"
+        className="flex flex-col gap-5 lg:gap-5"
       >
         <motion.p variants={slideInVariants} className="text-pretty">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his
