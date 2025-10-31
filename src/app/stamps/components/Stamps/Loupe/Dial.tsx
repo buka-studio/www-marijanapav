@@ -250,7 +250,7 @@ export default function Dial({
         ref={dialRef}
         width={requestedSize}
         height={requestedSize}
-        className="pointer-events-none"
+        className="pointer-events-none select-none"
         viewBox={`0 0 ${requestedSize} ${requestedSize}`}
       >
         <motion.g style={{ rotate: rotationSpring }}>{ticks}</motion.g>
@@ -320,7 +320,7 @@ export default function Dial({
       a ${textRadius},${textRadius} 0 1,0 ${textRadius * -2},0
     `}
         />
-        <text className="pointer-events-none select-none" style={{ fontSize }}>
+        <text style={{ fontSize }}>
           <textPath href="#path" startOffset={0} fill="rgba(255,255,255,0.75)">
             {inscription}
           </textPath>

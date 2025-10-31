@@ -1,5 +1,6 @@
 import { ClassValue, clsx } from 'clsx';
 import { formatHex, oklch } from 'culori';
+import ReactDOM from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...classes: ClassValue[]) {
@@ -29,4 +30,8 @@ export async function withTimeout<T>(
   } finally {
     clearTimeout(timer!);
   }
+}
+
+export function preloadImage(url: string) {
+  return ReactDOM.preload(url, { as: 'image' });
 }

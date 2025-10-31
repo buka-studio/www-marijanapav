@@ -1,10 +1,22 @@
 import { SmileyIcon } from '@phosphor-icons/react';
-import { useCallback } from 'react';
+import { ComponentProps, useCallback } from 'react';
 
 import { cn } from '~/src/util';
 
 import { collectionTypes } from '../../constants';
 import { useStampStore } from '../../store';
+
+function CollectionButton({ className, ...props }: ComponentProps<'button'>) {
+  return (
+    <button
+      className={cn(
+        'text-stone-400 hover:text-stone-600 focus:outline-none focus-visible:text-stone-600 focus-visible:outline-none',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
 
 export function Footer({ className }: { className?: string }) {
   const store = useStampStore();
@@ -33,7 +45,7 @@ export function Footer({ className }: { className?: string }) {
       )}
     >
       <div className="mr-auto flex items-center gap-2 font-mono">
-        Leuchtturm <SmileyIcon className="hidden h-4 w-4 lg:block" weight='bold' />{' '}
+        Leuchtturm <SmileyIcon className="hidden h-4 w-4 lg:block" weight="bold" />{' '}
         <span className="hidden lg:block">G-System</span>
       </div>
       <div className="hidden lg:block">2020-{new Date().getFullYear()}</div>
@@ -42,12 +54,12 @@ export function Footer({ className }: { className?: string }) {
         <div>{indexLabel} </div>
 
         <div className="flex items-center gap-2 text-[0.5rem]">
-          <button aria-label="Previous collection" onClick={handlePreviousCollection}>
+          <CollectionButton aria-label="Previous collection" onClick={handlePreviousCollection}>
             ◄
-          </button>
-          <button aria-label="Next collection" onClick={handleNextCollection}>
+          </CollectionButton>
+          <CollectionButton aria-label="Next collection" onClick={handleNextCollection}>
             ►
-          </button>
+          </CollectionButton>
         </div>
       </div>
     </div>

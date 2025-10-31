@@ -7,9 +7,13 @@ export default function CollectionsList({
   collection,
   onCollectionClick,
   className,
+  onCollectionMouseOver,
+  onCollectionFocus,
 }: {
   collection: CollectionType;
   onCollectionClick: (collection: CollectionType) => void;
+  onCollectionMouseOver: (collection: CollectionType) => void;
+  onCollectionFocus: (collection: CollectionType) => void;
   className?: string;
 }) {
   const maxZ = collectionTypes.length + 1;
@@ -46,11 +50,13 @@ export default function CollectionsList({
           >
             <button
               onClick={() => onCollectionClick(c)}
+              onMouseOver={() => onCollectionMouseOver(c)}
+              onFocus={() => onCollectionFocus(c)}
               className={cn(
-                'font-commitmono h-full w-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-0 focus:outline-none focus-visible:text-stone-500 focus-visible:outline-none ',
+                'font-commitmono h-full w-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-0 focus:outline-none focus-visible:bg-[--bg] focus-visible:text-[--fg] focus-visible:outline-none',
 
-                ' bg-[var(--muted-bg)] text-[var(--muted-fg)] hover:border-solid hover:bg-[var(--bg)] hover:text-[var(--fg)]',
-                { 'bg-[var(--bg)] text-[var(--fg)]': isSelected },
+                ' bg-[--muted-bg] text-[--muted-fg] hover:border-solid hover:bg-[--bg] hover:text-[--fg]',
+                { 'bg-[--bg] text-[--fg]': isSelected },
               )}
             >
               {c}

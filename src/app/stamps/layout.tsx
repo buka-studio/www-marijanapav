@@ -11,5 +11,4 @@ export const metadata: Metadata = {
 
 export default function StampsLayout({ children }: { children: React.ReactNode }) {
   return <div className="stamps-layout">{children}</div>;
-
 }

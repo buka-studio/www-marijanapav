@@ -84,15 +84,3 @@ export function computeGridArrangement(opts: {
 
   return results;
 }
-
-const preloadedImages = new Map<string, HTMLImageElement>();
-
-export function preloadImage(url: string) {
-  if (preloadedImages.has(url)) {
-    return;
-  }
-
-  const img = new Image();
-  img.src = url;
-  preloadedImages.set(url, img);
-}

@@ -283,8 +283,8 @@ export const baseCollections = {
       {
         year: '1987-01-02',
         country: 'Mozambique',
-        width: 265,
-        height: 176,
+        width: 225,
+        height: 150,
         src: '/stamps/textured/mocambique.webp',
         srcLg: '/stamps/textured/lg/mocambique.webp',
         srcOriginal: '/stamps/reference/mocambique.webp',
