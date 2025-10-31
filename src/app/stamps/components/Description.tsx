@@ -109,15 +109,32 @@ export default function Description({ className }: { className?: string }) {
 
   return (
     <div className={cn('flex flex-col gap-5 font-libertinus text-stone-700 lg:gap-9', className)}>
-      <motion.div
+      <motion.nav
         {...fadeInProps}
         transition={{ duration: 0.35, delay: 1.5 }}
-        className={cn('relative flex items-center justify-between gap-5')}
+        className={cn('relative')}
+        aria-label="Breadcrumb"
       >
-        <Link href="/" className="flex items-baseline gap-2 text-stone-800">
-          <span className="text-xs">◄</span> Back to Home
-        </Link>
-      </motion.div>
+        <ul className="flex items-center gap-1 text-s tracking-tight text-stone-600">
+          <li>
+            <Link href="/" className="flex items-baseline gap-1 hover:text-stone-800">
+              <span>marijanapav</span>
+            </Link>
+          </li>
+          <li aria-hidden="true" className="text-stone-600">
+            /
+          </li>
+          <li>
+            <Link
+              href="/stamps"
+              aria-current="page"
+              className="flex items-baseline  hover:text-stone-800 gap-1 text-stone-600"
+            >
+              <span>digital stamp collection</span>
+            </Link>
+          </li>
+        </ul>
+      </motion.nav>
       <h1>
         <AnimatedText
           text="The weight of paper"
