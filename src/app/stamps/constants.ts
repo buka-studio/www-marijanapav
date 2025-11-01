@@ -413,7 +413,7 @@ export const baseCollections = {
         country: 'Nicaragua',
         src: '/stamps/monoline/nicaragua.svg',
         srcLg: '/stamps/monoline/lg/nicaragua.webp',
-        srcOriginal: '/stamps/reference/germany.webp',
+        srcOriginal: '/stamps/reference/nicaragua.webp',
         catalogCodes: [
           'Michel NI 2835',
           'Stamp Number NI C667-76',
@@ -453,7 +453,7 @@ export const baseCollections = {
         country: 'Vatican City',
         src: '/stamps/monoline/vatican.svg',
         srcLg: '/stamps/monoline/lg/vatican.webp',
-        srcOriginal: '/stamps/reference/germany.webp',
+        srcOriginal: '/stamps/reference/vatican.webp',
         catalogCodes: [
           'Michel VA 536',
           'Stamp Number VA C53',

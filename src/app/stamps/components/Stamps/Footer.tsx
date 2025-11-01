@@ -52,9 +52,6 @@ export function Footer({ className }: { className?: string }) {
     <div
       className={cn(
         'grid grid-cols-2 items-center justify-center justify-items-center gap-2 py-2 font-mono text-xs font-bold uppercase text-stone-400 lg:grid-cols-3',
-        {
-          'blur-sm': store.selectedStampId,
-        },
         className,
       )}
     >
