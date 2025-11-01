@@ -154,16 +154,41 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
   const { ref: containerRef, dimensions } = useResizeRef<HTMLDivElement>();
 
+  const getMaxZ = useCallback(() => {
+    return Math.max(...Array.from(draggableContainerRefs.current.values()).map(({ z }) => z)) + 1;
+  }, [draggableContainerRefs]);
+
+  const placeOnTop = useCallback(
+    (id: string, forceZ?: number) => {
+      const target = draggableContainerRefs.current.get(id);
+      if (!target?.e) {
+        return;
+      }
+
+      const newZ = forceZ ?? getMaxZ();
+
+      target.e.style.setProperty('--z', newZ.toString());
+      target.z = newZ;
+
+      return newZ;
+    },
+    [draggableContainerRefs, getMaxZ],
+  );
+
   const handleOrganize = useCallback(() => {
     const container = stampsDragContainerRef.current;
     if (!container) {
       return;
     }
 
-    const children = stamps.flatMap((stamp) => {
-      const e = draggableContainerRefs.current.get(stamp.id)?.e;
-      return e ? { width: e.clientWidth, height: e.clientHeight } : [];
-    });
+    const childrenById = Object.fromEntries(
+      stamps.flatMap((stamp) => {
+        const e = draggableContainerRefs.current.get(stamp.id)?.e;
+        return e
+          ? [[stamp.id, { width: e.clientWidth, height: e.clientHeight, id: stamp.id }]]
+          : [];
+      }),
+    );
 
     const paddingX = 12;
     const paddingY = 12;
@@ -171,47 +196,44 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
     const positions = computeGridArrangement({
       container,
-      children,
+      children: Object.values(childrenById),
       paddingX,
       paddingY,
       gap,
     });
 
-    for (const [i, pos] of positions.entries()) {
-      const draggable = draggableControllerRefs.current.get(stamps[i].id);
-      if (!draggable) {
-        return;
+    let i = 0;
+    const maxZ = getMaxZ();
+
+    for (const pos of positions.values()) {
+      const draggable = draggableControllerRefs.current.get(pos.id);
+      const container = draggableContainerRefs.current.get(pos.id);
+      if (!draggable || !container) {
+        continue;
       }
 
-      const { width, height } = children[i];
+      const { width, height } = childrenById[pos.id]!;
       const left = pos.x - width / 2;
       const top = pos.y - height / 2;
+
+      placeOnTop(pos.id, maxZ + i);
+      i++;
 
       draggable.controls.start({
         x: left,
         y: top + dragContainerPadding.top,
-        rotate: randInt(-5, 5),
+        rotate: pos.fit ? randInt(-5, 5) : randInt(-35, 35),
         transition: { type: 'spring', stiffness: 500, damping: 80 },
       });
     }
-  }, [draggableContainerRefs, draggableControllerRefs, stampsDragContainerRef, stamps]);
-
-  const placeOnTop = useCallback(
-    (id: string) => {
-      const target = draggableContainerRefs.current.get(id);
-      if (!target?.e) {
-        return;
-      }
-
-      const newMaxI =
-        Math.max(...Array.from(draggableContainerRefs.current.values()).map(({ z }) => z)) + 1;
-
-      target.e.style.setProperty('--z', newMaxI.toString());
-
-      return newMaxI;
-    },
-    [draggableContainerRefs],
-  );
+  }, [
+    draggableContainerRefs,
+    draggableControllerRefs,
+    stampsDragContainerRef,
+    stamps,
+    getMaxZ,
+    placeOnTop,
+  ]);
 
   const handleDragStart = useCallback(
     (e: MouseEvent | PointerEvent | TouchEvent, info: PanInfo) => {
@@ -314,6 +336,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         draggableControllerRefs.current.get(focusedId!)?.unfocus();
       }
 
+      placeOnTop(id);
       draggableControllerRefs.current.get(id)?.center(containerRef.current!, centerScale);
 
       if (!target?.dragging) {
@@ -333,6 +356,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       setZoomEnabled,
       setSelectedStampId,
       centerScale,
+      placeOnTop,
     ],
   );
 
@@ -553,7 +577,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   'focus-dashed group pointer-events-auto absolute z-[--z] flex items-center justify-center outline-offset-4 transition-[filter] duration-200 will-change-transform',
                   {
                     'opacity-40 blur-lg': selectedStampId && selectedStampId !== stamp.id,
-                    'z-50': selectedStampId === stamp.id,
                     'pointer-events-none': selectedStampId,
                   },
                 )}
@@ -610,12 +633,17 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                       </motion.div>
                       <DrawnActionButton
                         disabled={!store.zoomEnabled}
-                        onClick={store.toggleZoomed}
+                        onClick={() => store.toggleZoomed()}
                         {...fadeInProps}
                         key="toggle-zoom-button"
                         custom={{ i: 1 }}
                       >
-                        <DrawnZoom className="w-[75px]" aria-label="Toggle Zoom" />
+                        <DrawnZoom
+                          className={cn('w-[75px]', {
+                            '[&_.plus-vertical]:hidden': store.isZoomed,
+                          })}
+                          aria-label="Toggle Zoom"
+                        />
                       </DrawnActionButton>
                     </motion.div>
                   )}
