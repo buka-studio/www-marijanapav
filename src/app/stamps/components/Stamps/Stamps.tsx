@@ -364,6 +364,10 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
   const handleDeselectStamp = useCallback(
     (e?: React.MouseEvent<HTMLDivElement>) => {
+      if (!selectedStampIdRef.current) {
+        return;
+      }
+
       store.reset();
 
       const focused = selectedStampIdRef?.current;
@@ -497,6 +501,8 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   }, []);
 
   const gridCellSize = isMobile ? 16 : 32;
+
+  const showCollectionActions = Boolean(!selectedStampId);
 
   return (
     <motion.div
@@ -674,36 +680,35 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         <div
           className={cn(
             'absolute left-1/2 top-8 z-[99999] flex -translate-x-1/2 items-center gap-5',
-            {
-              'blur-sm': selectedStampId,
-            },
           )}
         >
-          <AnimatePresence mode={isMobile ? 'wait' : 'popLayout'}>
-            <motion.div
-              {...fadeInProps}
-              key="collection-actions"
-              className="flex items-center gap-5"
-            >
-              <DrawnActionButton
-                onClick={handleOrganize}
-                disabled={Boolean(selectedStampId)}
+          <AnimatePresence mode="wait">
+            {showCollectionActions && (
+              <motion.div
                 {...fadeInProps}
-                key="organize-button"
+                key="collection-actions"
+                className="flex items-center gap-5"
               >
-                <DrawnOrganize className="w-[95px]" aria-label="Organize Stamps" />
-              </DrawnActionButton>
+                <DrawnActionButton
+                  onClick={handleOrganize}
+                  disabled={Boolean(selectedStampId)}
+                  {...fadeInProps}
+                  key="organize-button"
+                >
+                  <DrawnOrganize className="w-[95px]" aria-label="Organize Stamps" />
+                </DrawnActionButton>
 
-              <DrawnActionButton
-                onClick={() => handleSpreadOut({ stagger: 5 })}
-                disabled={Boolean(selectedStampId)}
-                custom={{ i: 1 }}
-                {...fadeInProps}
-                key="shuffle-button"
-              >
-                <DrawnShuffle className="w-[90px]" aria-label="Shuffle Stamps" />
-              </DrawnActionButton>
-            </motion.div>
+                <DrawnActionButton
+                  onClick={() => handleSpreadOut({ stagger: 5 })}
+                  disabled={Boolean(selectedStampId)}
+                  custom={{ i: 1 }}
+                  {...fadeInProps}
+                  key="shuffle-button"
+                >
+                  <DrawnShuffle className="w-[90px]" aria-label="Shuffle Stamps" />
+                </DrawnActionButton>
+              </motion.div>
+            )}
           </AnimatePresence>
         </div>
         {selectedStamp && (
@@ -725,9 +730,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         <CollectionsList
           className={cn(
             'absolute origin-bottom-left -translate-x-px -translate-y-8 rotate-90 lg:-translate-y-10',
-            {
-              'blur-sm': selectedStampId,
-            },
           )}
           collection={store.collection}
           onCollectionClick={(c) => {

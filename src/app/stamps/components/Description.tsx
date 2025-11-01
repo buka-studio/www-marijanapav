@@ -187,7 +187,7 @@ export default function Description({ className }: { className?: string }) {
         </motion.div>
 
         <motion.div
-          className="hidden lg:grid"
+          className="mt-5 hidden lg:grid"
           variants={slideInVariants}
           onAnimationComplete={() => setAnimate(true)}
         >

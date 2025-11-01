@@ -1,5 +1,6 @@
 'use client';
 
+import { ArrowRightIcon } from '@phosphor-icons/react';
 import {
   motion,
   useAnimationControls,
@@ -10,6 +11,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import { ReactLenis, useLenis } from 'lenis/react';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 import Stamp1 from '~/public/home/stamps/stamp_1.svg';
@@ -19,7 +21,6 @@ import Stamp4 from '~/public/home/stamps/stamp_4.svg';
 import Stamp5 from '~/public/home/stamps/stamp_5.svg';
 import GridBackground from '~/src/components/GridBackground';
 import CardTitle from '~/src/components/ui/CardTitle';
-import Tag from '~/src/components/ui/Tag';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 import useResizeRef from '~/src/hooks/useResizeRef';
 import { remap } from '~/src/math';
@@ -202,26 +203,22 @@ export default function SkewedStampsCard() {
 
   return (
     <Card id="stamps">
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
+        <CardTitle variant="mono">
+          <Link
+            href="/stamps"
+            className="group flex w-full items-center justify-between gap-2 rounded-md"
+          >
+            <span>Digital Stamp Collection</span>
+            <ArrowRightIcon className="inline h-4 w-4" />
+          </Link>
+        </CardTitle>
         <div
-          className="relative mb-5 h-full min-h-[240px] w-full overflow-auto rounded-md xl:min-h-[420px]"
+          className="relative h-full min-h-[240px] w-full overflow-auto rounded-md xl:min-h-[420px]"
           ref={ref}
         >
           <GridBackground className="absolute left-0 top-0 h-full w-full" n={300} />
           <Stamps width={dimensions.width} height={dimensions.height} />
-        </div>
-        <div className="mb-4 [&_>*]:inline [&_>*]:align-middle">
-          <CardTitle variant="mono" className="flex items-center gap-2">
-            <a href="#" className="group rounded-md">
-              <span className="mr-1 inline-block">Digital Stamp Collection&nbsp;</span>
-              <Tag
-                variant="dashed"
-                className="mb-[1px] inline-block py-[0.1rem] align-middle font-mono text-xs text-text-muted"
-              >
-                Coming&nbsp;soon
-              </Tag>
-            </a>
-          </CardTitle>
         </div>
         <p className="text-sm  text-text-primary">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his

@@ -93,8 +93,6 @@ function Draggable({
         return;
       }
 
-      isFocused.current = true;
-
       controls.start((_, current) => {
         beforeFocus.current = {
           scale: current.scale ?? 1,
@@ -103,6 +101,8 @@ function Draggable({
           rotate: current.rotate ?? 0,
           z: current.z ?? 1,
         };
+
+        isFocused.current = true;
 
         return {
           scale: scale,
@@ -166,6 +166,10 @@ function Draggable({
         });
     },
     unfocus: () => {
+      if (!isFocused.current) {
+        return;
+      }
+
       controls.start(beforeFocus.current);
       isFocused.current = false;
     },

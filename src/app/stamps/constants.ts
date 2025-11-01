@@ -331,6 +331,8 @@ export const baseCollections = {
         src: '/stamps/monoline/monaco.svg',
         srcLg: '/stamps/monoline/lg/monaco.webp',
         srcOriginal: '/stamps/reference/monaco.webp',
+        width: 180,
+        height: 176,
         catalogCodes: [
           'Michel MC 775',
           'Stamp Number MC 583',
@@ -351,6 +353,8 @@ export const baseCollections = {
         src: '/stamps/monoline/USA-mississippi.svg',
         srcLg: '/stamps/monoline/lg/USA-mississippi.webp',
         srcOriginal: '/stamps/reference/USA-mississippi.webp',
+        width: 200,
+        height: 134,
         catalogCodes: [
           'Michel US 938',
           'Stamp Number US 1337',
@@ -370,6 +374,8 @@ export const baseCollections = {
         src: '/stamps/monoline/ceskoslovensko.svg',
         srcLg: '/stamps/monoline/lg/ceskoslovensko.webp',
         srcOriginal: '/stamps/reference/ceskoslovensko.webp',
+        width: 200,
+        height: 170,
         catalogCodes: [
           'Michel CS 1991x',
           'Stamp Number CS 1740',
@@ -427,6 +433,8 @@ export const baseCollections = {
         src: '/stamps/monoline/jugoslavija.svg',
         srcLg: '/stamps/monoline/lg/jugoslavija.webp',
         srcOriginal: '/stamps/reference/jugoslavija.webp',
+        width: 130,
+        height: 168,
         catalogCodes: [
           'Michel YU 1695',
           'Stamp Number YU 1153',

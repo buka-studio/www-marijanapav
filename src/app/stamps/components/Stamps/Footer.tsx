@@ -3,19 +3,27 @@ import { ComponentProps, useCallback } from 'react';
 
 import { cn } from '~/src/util';
 
-import { collectionTypes } from '../../constants';
+import { collections, collectionTypes } from '../../constants';
 import { useStampStore } from '../../store';
 
 function CollectionButton({ className, ...props }: ComponentProps<'button'>) {
   return (
     <button
       className={cn(
-        'text-stone-400 hover:text-stone-600 focus:outline-none focus-visible:text-stone-600 focus-visible:outline-none',
+        'text-stone-400 hover:text-stone-600  focus:outline-none focus-visible:text-stone-600 focus-visible:outline-none disabled:opacity-50',
         className,
       )}
       {...props}
     />
   );
+}
+
+function getPreviousCollectionIndex(collectionIndex: number) {
+  return (collectionIndex - 1 + collectionTypes.length) % collectionTypes.length;
+}
+
+function getNextCollectionIndex(collectionIndex: number) {
+  return (collectionIndex + 1) % collectionTypes.length;
 }
 
 export function Footer({ className }: { className?: string }) {
@@ -25,14 +33,20 @@ export function Footer({ className }: { className?: string }) {
   const indexLabel = String(collectionIndex + 1).padStart(2, '0');
 
   const handlePreviousCollection = useCallback(() => {
-    const prevIndex = (collectionIndex - 1 + collectionTypes.length) % collectionTypes.length;
+    const prevIndex = getPreviousCollectionIndex(collectionIndex);
     store.setCollection(collectionTypes[prevIndex]);
   }, [collectionIndex, store]);
 
   const handleNextCollection = useCallback(() => {
-    const nextIndex = (collectionIndex + 1) % collectionTypes.length;
+    const nextIndex = getNextCollectionIndex(collectionIndex);
     store.setCollection(collectionTypes[nextIndex]);
   }, [collectionIndex, store]);
+
+  const prevCollection = collectionTypes[getPreviousCollectionIndex(collectionIndex)];
+  const nextCollection = collectionTypes[getNextCollectionIndex(collectionIndex)];
+
+  const nextDisabled = collections[nextCollection].stamps.length === 0;
+  const prevDisabled = collections[prevCollection].stamps.length === 0;
 
   return (
     <div
@@ -54,10 +68,18 @@ export function Footer({ className }: { className?: string }) {
         <div>{indexLabel} </div>
 
         <div className="flex items-center gap-2 text-[0.5rem]">
-          <CollectionButton aria-label="Previous collection" onClick={handlePreviousCollection}>
+          <CollectionButton
+            aria-label="Previous collection"
+            onClick={handlePreviousCollection}
+            disabled={prevDisabled}
+          >
             ◄
           </CollectionButton>
-          <CollectionButton aria-label="Next collection" onClick={handleNextCollection}>
+          <CollectionButton
+            aria-label="Next collection"
+            onClick={handleNextCollection}
+            disabled={nextDisabled}
+          >
             ►
           </CollectionButton>
         </div>
