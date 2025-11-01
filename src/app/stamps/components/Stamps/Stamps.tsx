@@ -645,7 +645,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                         custom={{ i: 1 }}
                       >
                         <DrawnZoom
-                          className={cn('w-[75px]', {
+                          className={cn('w-[60px]', {
                             '[&_.plus-vertical]:hidden': store.isZoomed,
                           })}
                           aria-label="Toggle Zoom"
