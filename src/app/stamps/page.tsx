@@ -23,7 +23,7 @@ export default function Page() {
       )}
     >
       <div className="overflow-auto scrollbar-thin scrollbar-track-stone-100 scrollbar-thumb-stone-300">
-        <Description className="max-w-xl px-4 pt-4 lg:pb-10 lg:pt-5" />
+        <Description className="mx-auto max-w-xl px-4 pt-4 lg:pb-10 lg:pt-5" />
       </div>
       <Stamps />
 

@@ -24,15 +24,16 @@
   pointer-events: none;
 }
 
-
 .stamps-layout ::selection {
   background: theme('colors.stone.300');
   color: theme('colors.stone.600');
 }
 
-
-
 .stamps-layout ::-moz-selection {
   background: #f6deb6;
   color: #2d1c00;
+}
+
+.stamps-layout .focus-dashed {
+  @apply rounded-[2px] focus-visible:outline-dashed focus-visible:outline-stone-500;
 }

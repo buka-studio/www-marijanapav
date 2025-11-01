@@ -550,7 +550,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                 onClick={handleStampClick}
                 data-slot="stamp-container"
                 className={cn(
-                  'group pointer-events-auto absolute z-[--z] flex items-center justify-center transition-[filter] duration-200 will-change-transform focus-visible:outline-none',
+                  'focus-dashed group pointer-events-auto absolute z-[--z] flex items-center justify-center outline-offset-4 transition-[filter] duration-200 will-change-transform',
                   {
                     'opacity-40 blur-lg': selectedStampId && selectedStampId !== stamp.id,
                     'z-50': selectedStampId === stamp.id,
@@ -566,7 +566,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                       custom={{
                         scale: invertScale(centerScale),
                       }}
-                      className="pointer-events-auto absolute top-full flex items-center gap-5"
+                      className="pointer-events-auto absolute top-[calc(100%+8px)] flex items-center gap-5"
                     >
                       <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
                         <Drawer
@@ -637,9 +637,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   data-slot="stamp-image"
                   className={cn(
                     'pointer-events-none h-auto w-[calc(var(--size-scale)*var(--width)*1px)] drop-shadow transition-all duration-200',
-                    {
-                      'group-focus-within:drop-shadow-xl': selectedStampId !== stamp.id,
-                    },
                   )}
                 />
               </MemoizedDraggable>

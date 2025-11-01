@@ -24,7 +24,7 @@ export default function EmptyState({
         shouldAnimate={shouldAnimate}
         groupProps={{ onAnimationComplete }}
       />
-      <Sun className="absolute right-[50px] top-5 w-14 text-stone-400 xl:right-[150px] xl:top-10" />
+      <Sun className="absolute right-[50px] top-5 w-10 text-stone-400 xl:right-[150px] xl:top-10 xl:w-14" />
     </div>
   );
 }

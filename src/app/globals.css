@@ -13,3 +13,7 @@
 * {
   -webkit-font-smoothing: antialiased;
 }
+
+.text-pretty {
+  text-wrap: pretty;
+}
