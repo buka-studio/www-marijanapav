@@ -5,7 +5,7 @@ import { CollectionType } from './constants';
 interface StampStore {
   selectedStampId: string;
   collection: CollectionType;
-  zoomed: boolean;
+  isZoomed: boolean;
   zoomEnabled: boolean;
   toggleZoomed: () => void;
   setZoomed: (zoomed: boolean) => void;
@@ -18,14 +18,16 @@ interface StampStore {
 export const useStampStore = create<StampStore>((set) => ({
   selectedStampId: '',
   collection: 'typographic' as CollectionType,
-  zoomed: false,
+  isZoomed: false,
   zoomEnabled: false,
-  toggleZoomed: () => set((state) => ({ zoomed: !state.zoomed })),
-  setZoomed: (zoomed: boolean) => set({ zoomed }),
+  toggleZoomed: (force?: boolean) => {
+    set((state) => ({ isZoomed: force !== undefined ? force : !state.isZoomed }));
+  },
+  setZoomed: (zoomed: boolean) => set({ isZoomed: zoomed }),
   setSelectedStampId: (selectedStampId: string) => set({ selectedStampId }),
   setZoomEnabled: (zoomEnabled: boolean) => set({ zoomEnabled }),
   setCollection: (collection: CollectionType) => {
     set({ collection, selectedStampId: '' });
   },
-  reset: () => set({ zoomed: false, zoomEnabled: false }),
+  reset: () => set({ isZoomed: false, zoomEnabled: false, selectedStampId: '' }),
 }));

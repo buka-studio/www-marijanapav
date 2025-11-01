@@ -1,6 +1,6 @@
 import { cn } from '~/src/util';
 
-export default function Noise({ className }: { className?: string }) {
+export default function SVGFilters({ className }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" className={cn(className)}>
       <filter id="noiseFilter">
@@ -39,6 +39,11 @@ export default function Noise({ className }: { className?: string }) {
           result="distort"
         />
         <feBlend in="distort" in2="noise" mode="multiply" />
+      </filter>
+
+      <filter id="squiggle">
+        <feTurbulence baseFrequency="0.01" numOctaves="4" seed="1"></feTurbulence>
+        <feDisplacementMap in="SourceGraphic" scale="10"></feDisplacementMap>
       </filter>
     </svg>
   );

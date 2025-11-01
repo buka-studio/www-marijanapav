@@ -1,84 +1,67 @@
-type NodeResult = { x: number; y: number; fit: boolean };
+type NodeResult = { x: number; y: number; fit: boolean; id: string };
+
+export function calcArea({ width, height }: { width: number; height: number }) {
+  return width * height;
+}
 
 export function computeGridArrangement(opts: {
   container: HTMLElement;
-  children: Array<{ width: number; height: number }>;
+  children: Array<{ width: number; height: number; id: string }>;
   paddingX: number;
   paddingY: number;
   gap: number;
 }): NodeResult[] {
-  const { container, children, paddingX, paddingY, gap } = opts;
+  const { container, children: originalChildren, paddingX, paddingY, gap } = opts;
 
-  const usableW = Math.max(0, container.clientWidth - 2 * paddingX);
-  const usableH = Math.max(0, container.clientHeight - 2 * paddingY);
+  const children = [...originalChildren].sort((a, b) => calcArea(b) - calcArea(a));
 
-  const results: NodeResult[] = children.map(() => ({ x: 0, y: 0, fit: false }));
-  if (usableW <= 0 || usableH <= 0 || children.length === 0) {
+  const results: NodeResult[] = children.map((c) => ({ x: 0, y: 0, fit: false, id: c.id }));
+  if (!container || children.length === 0) {
     return results;
   }
 
-  type Row = { indices: number[]; rowWidth: number; rowHeight: number };
-  const rows: Row[] = [];
-  let cur: Row = { indices: [], rowWidth: 0, rowHeight: 0 };
-
-  children.forEach((child, i) => {
-    const { width, height } = child;
-    const nextW = cur.indices.length === 0 ? width : cur.rowWidth + gap + width;
-    if (nextW <= usableW) {
-      cur.indices.push(i);
-      cur.rowWidth = nextW;
-      cur.rowHeight = Math.max(cur.rowHeight, height);
-    } else {
-      if (cur.indices.length > 0) {
-        rows.push(cur);
-      }
-      cur = { indices: [i], rowWidth: width, rowHeight: height };
-    }
-  });
-  if (cur.indices.length > 0) {
-    rows.push(cur);
+  const usableW = Math.max(0, container.clientWidth - 2 * paddingX);
+  const usableH = Math.max(0, container.clientHeight - 2 * paddingY);
+  if (usableW <= 0 || usableH <= 0) {
+    return results;
   }
 
-  const rowHeights = rows.map((r) => r.rowHeight);
-  let usedRows = 0;
-  let accHeight = 0;
-  for (let r = 0; r < rows.length; r++) {
-    const extraGap = r === 0 ? 0 : gap;
-    if (accHeight + extraGap + rowHeights[r] <= usableH) {
-      accHeight += extraGap + rowHeights[r];
-      usedRows++;
-    } else {
-      break;
-    }
-  }
+  const cellW = Math.max(...children.map((c) => c.width));
+  const cellH = Math.max(...children.map((c) => c.height));
 
-  const contentH = accHeight;
+  const cols = Math.max(1, Math.floor((usableW + gap) / (cellW + gap)));
+  const rowsFit = Math.max(1, Math.floor((usableH + gap) / (cellH + gap)));
+
+  const capacity = cols * rowsFit;
+  const overflowCount = Math.max(0, children.length - capacity);
+
+  const rowsUsed = Math.min(rowsFit, Math.ceil(Math.min(children.length, capacity) / cols));
+  const contentH = rowsUsed * cellH + (rowsUsed - 1) * gap;
   const originY = paddingY + (usableH - contentH) / 2;
 
-  let yCursor = originY;
-  for (let r = 0; r < rows.length; r++) {
-    const row = rows[r];
-    const fitsVertically = r < usedRows;
+  const placed = Math.min(children.length, capacity);
+  for (let r = 0; r < rowsUsed; r++) {
+    const baseIdx = r * cols;
+    const remaining = placed - baseIdx;
+    const nInRow = Math.max(0, Math.min(cols, remaining));
+    if (nInRow <= 0) break;
 
-    const rowContentW = row.rowWidth;
-    let xCursor = paddingX + (usableW - rowContentW) / 2;
+    const rowContentW = nInRow * cellW + (nInRow - 1) * gap;
+    const originX = paddingX + (usableW - rowContentW) / 2;
+    const yCenter = originY + r * (cellH + gap) + cellH / 2;
 
-    row.indices.forEach((idx, j) => {
-      const { width, height } = children[idx];
-      const xCenter = xCursor + width / 2;
-      const yCenter = yCursor + row.rowHeight / 2;
+    for (let j = 0; j < nInRow; j++) {
+      const idx = baseIdx + j;
+      const xCenter = originX + j * (cellW + gap) + cellW / 2;
+      results[idx] = { x: xCenter, y: yCenter, fit: true, id: children[idx].id };
+    }
+  }
 
-      results[idx] = {
-        x: fitsVertically ? xCenter : 0,
-        y: fitsVertically ? yCenter : 0,
-        fit: fitsVertically,
-      };
-
-      xCursor += width + (j < row.indices.length - 1 ? gap : 0);
-    });
-
-    if (r < usedRows) {
-      yCursor += row.rowHeight + (r < usedRows - 1 ? gap : 0);
+  if (overflowCount > 0) {
+    for (let idx = placed; idx < children.length; idx++) {
+      const base = idx % placed;
+      const { x, y } = results[base];
+      results[idx] = { x, y, fit: false, id: children[idx].id };
     }
   }
 

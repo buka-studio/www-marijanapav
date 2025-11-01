@@ -36,7 +36,10 @@ export function DrawnActionButton({
 }: ComponentProps<typeof motion.button>) {
   return (
     <motion.button
-      className={cn('min-h-[40px] text-stone-700 [&:disabled>*]:opacity-50', className)}
+      className={cn(
+        'focus-dashed text-stone-700 outline-offset-4 [&:disabled>*]:opacity-50',
+        className,
+      )}
       {...props}
     >
       {children}

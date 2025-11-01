@@ -109,15 +109,35 @@ export default function Description({ className }: { className?: string }) {
 
   return (
     <div className={cn('flex flex-col gap-5 font-libertinus text-stone-700 lg:gap-9', className)}>
-      <motion.div
+      <motion.nav
         {...fadeInProps}
         transition={{ duration: 0.35, delay: 1.5 }}
-        className={cn('relative flex items-center justify-between gap-5')}
+        className={cn('relative')}
+        aria-label="Breadcrumb"
       >
-        <Link href="/" className="flex items-baseline gap-2 text-stone-800">
-          <span className="text-xs">◄</span> Back to Home
-        </Link>
-      </motion.div>
+        <ul className="text-s group/nav flex items-center tracking-tight text-stone-600">
+          <li>
+            <Link
+              href="/"
+              className="focus-dashed flex items-baseline gap-1 px-1 hover:text-stone-800"
+            >
+              <span>marijanapav</span>
+            </Link>
+          </li>
+          <li aria-hidden="true" className="text-stone-600 group-focus-within/nav:opacity-0">
+            /
+          </li>
+          <li>
+            <Link
+              href="/stamps"
+              aria-current="page"
+              className="focus-dashed flex items-baseline gap-1 px-1 text-stone-600 hover:text-stone-800"
+            >
+              <span>digital stamp collection</span>
+            </Link>
+          </li>
+        </ul>
+      </motion.nav>
       <h1>
         <AnimatedText
           text="The weight of paper"
@@ -138,7 +158,7 @@ export default function Description({ className }: { className?: string }) {
         }}
         initial="hidden"
         animate="show"
-        className="flex flex-col gap-5 lg:gap-9"
+        className="flex flex-col gap-5 lg:gap-5"
       >
         <motion.p variants={slideInVariants} className="text-pretty">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his
@@ -146,7 +166,7 @@ export default function Description({ className }: { className?: string }) {
           it online for a new audience to enjoy.
         </motion.p>
 
-        <motion.p variants={slideInVariants} className="text-pretty">
+        <motion.p variants={slideInVariants} className="text-prety">
           Each stamp tells a story of a piece of history, a moment in time. Some recreations are
           inspired by the stamps I have in my family&apos;s archive, and some by global finds I
           stumbled upon. Together, they celebrate the enduring craft of stamp design — and the
@@ -159,7 +179,7 @@ export default function Description({ className }: { className?: string }) {
           onAnimationComplete={() => setAnimate(true)}
         >
           <EmptyState
-            className="mx-auto max-w-xl"
+            className="mx-auto mt-4 max-w-xl md:mt-10"
             animate={animate}
             shouldAnimate={!animated}
             onAnimationComplete={() => setAnimated(true)}

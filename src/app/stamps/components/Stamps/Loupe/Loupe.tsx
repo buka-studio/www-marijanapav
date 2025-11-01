@@ -107,7 +107,7 @@ function Loupe({
       return;
     }
 
-    if (store.zoomed) {
+    if (store.isZoomed) {
       setCoords({
         x: dragConstraints.current.offsetWidth / 2,
         y: dragConstraints.current.offsetHeight / 2,
@@ -134,7 +134,7 @@ function Loupe({
         filter: 'blur(10px)',
       });
     }
-  }, [store.zoomed, magnifierControls, dragConstraints, setCoords, dialSize]);
+  }, [store.isZoomed, magnifierControls, dragConstraints, setCoords, dialSize]);
 
   const [canvasData, setCanvasData] = useState<{
     canvas: HTMLCanvasElement;
@@ -289,7 +289,7 @@ function Loupe({
   return (
     <motion.div
       drag
-      data-zoomed={store.zoomed}
+      data-zoomed={store.isZoomed}
       initial={initial}
       dragElastic={0.01}
       dragListener={false}
@@ -309,7 +309,7 @@ function Loupe({
         className={cn(
           'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-[100] aspect-square w-[var(--lens-size)] -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] [&[data-dragging="true"]]:cursor-grabbing [&[data-zoomed="false"]]:pointer-events-none',
           {
-            'pointer-events-none': !store.zoomed,
+            'pointer-events-none': !store.isZoomed,
           },
         )}
         onPointerDown={handlePointerDown}

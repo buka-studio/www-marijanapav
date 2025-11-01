@@ -1,1 +1,1 @@
-export { default } from './Stamps';
+export { default } from './StampsContainer';

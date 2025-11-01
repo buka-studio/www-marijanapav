@@ -462,8 +462,7 @@ export const baseCollections = {
     ],
     colors: { bg: '#D3EEC9', fg: '#4D7C37', mutedBg: '#F2FAEF', mutedFg: '#99C883' },
   },
-
-  hieroglyphs: {
+  dither: {
     colors: { bg: '#C3DEEE', fg: '#457AA1', mutedBg: '#EDF5FA', mutedFg: '#82ACCA' },
     stamps: [],
   },
@@ -482,8 +481,8 @@ export const collections = Object.fromEntries(
   ]),
 );
 
+export type CollectionType = keyof typeof baseCollections;
+
 export const collectionTypes = Object.keys(collections) as CollectionType[];
 
 export const stamps = Object.values(collections).flatMap((collection) => collection.stamps);
-
-export type CollectionType = keyof typeof collections;
