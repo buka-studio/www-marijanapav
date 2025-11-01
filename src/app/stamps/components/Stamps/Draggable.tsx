@@ -85,8 +85,16 @@ function Draggable({
     z: 1,
   });
 
+  const isFocused = useRef(false);
+
   useImperativeHandle(draggableControllerRef, () => ({
     center: (container: HTMLElement, scale: number = 1.5) => {
+      if (isFocused.current) {
+        return;
+      }
+
+      isFocused.current = true;
+
       controls.start((_, current) => {
         beforeFocus.current = {
           scale: current.scale ?? 1,
@@ -115,16 +123,23 @@ function Draggable({
       rotate?: number;
       padding?: number;
     }) => {
+      if (isFocused.current) {
+        return;
+      }
+
       const containerRect = container.getBoundingClientRect();
       const elRect = innerRef.current?.getBoundingClientRect();
 
       const elWidth = elRect?.width ?? 0;
       const elHeight = elRect?.height ?? 0;
 
+      const centerX = containerRect.width / 2 - elWidth / 2;
+      const centerY = containerRect.height / 2 - elHeight / 2;
+
       controls
         .start({
-          x: containerRect.width / 2 - elWidth,
-          y: containerRect.height / 2 - elHeight,
+          x: centerX,
+          y: centerY,
           z: 1,
           transition: {
             duration: 0,
@@ -135,21 +150,25 @@ function Draggable({
             const x = (current.x as number) || 0;
             const y = (current.y as number) || 0;
 
+            const minX = padding + elWidth / 2;
+            const maxX = containerRect.width - elWidth - padding;
+            const minY = padding + elHeight / 2;
+            const maxY = containerRect.height - elHeight - padding;
+
             return {
               rotate: rotate ?? randInt(-35, 35),
-              x: clamp(padding, containerRect.width - elWidth - padding, x + randInt(-dist, dist)),
-              y: clamp(
-                padding,
-                containerRect.height - elHeight - padding,
-                y + randInt(-dist, dist),
-              ),
+              x: clamp(minX, maxX, x + randInt(-dist, dist)),
+              y: clamp(minY, maxY, y + randInt(-dist, dist)),
               z: 1,
               opacity: 1,
             };
           });
         });
     },
-    unfocus: () => controls.start(beforeFocus.current),
+    unfocus: () => {
+      controls.start(beforeFocus.current);
+      isFocused.current = false;
+    },
     controls,
     index,
     id,

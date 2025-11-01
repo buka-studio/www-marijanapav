@@ -1,3 +1,5 @@
+import { LockSimpleIcon } from '@phosphor-icons/react';
+
 import { remap } from '~/src/math';
 import { cn } from '~/src/util';
 
@@ -25,6 +27,7 @@ export default function CollectionsList({
     >
       {collectionTypes.map((c, i, arr) => {
         const colors = collections[c].colors;
+        const hasStamps = collections[c].stamps.length > 0;
         const isSelected = c === collection;
 
         return (
@@ -52,14 +55,13 @@ export default function CollectionsList({
               onClick={() => onCollectionClick(c)}
               onMouseOver={() => onCollectionMouseOver(c)}
               onFocus={() => onCollectionFocus(c)}
+              disabled={!hasStamps}
               className={cn(
-                'font-commitmono h-full w-full px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-0 focus:outline-none focus-visible:bg-[--bg] focus-visible:text-[--fg] focus-visible:outline-none',
-
-                ' bg-[--muted-bg] text-[--muted-fg] hover:border-solid hover:bg-[--bg] hover:text-[--fg]',
+                'font-commitmono flex h-full w-full items-center justify-center gap-1 bg-[--muted-bg] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[--muted-fg] transition-colors duration-0 focus:outline-none focus-visible:bg-[--bg] focus-visible:text-[--fg] focus-visible:outline-none hover:enabled:border-solid hover:enabled:bg-[--bg] hover:enabled:text-[--fg] disabled:opacity-50',
                 { 'bg-[--bg] text-[--fg]': isSelected },
               )}
             >
-              {c}
+              {c} {!hasStamps && <LockSimpleIcon weight="fill" />}
             </button>
           </li>
         );
