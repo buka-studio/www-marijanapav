@@ -3,6 +3,8 @@ import colors from 'tailwindcss/colors';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '~/src/components/ui/HoverCard';
 import Image from '~/src/components/ui/Image';
+import { Popover, PopoverContent, PopoverTrigger } from '~/src/components/ui/Popover';
+import useMatchMedia from '~/src/hooks/useMatchMedia';
 import { cn } from '~/src/util';
 
 import { collections } from '../../constants';
@@ -80,6 +82,46 @@ function ValueCell({ children, className, ...props }: ComponentProps<'div'>) {
   );
 }
 
+const PopoverOrHoverCard = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  const isHoverableDevice = useMatchMedia('(hover: hover)');
+
+  const trigger = (
+    <ExistingStamp className="w-[120px] cursor-pointer transition-colors duration-150 group-data-[state=open]:[--bg:var(--tw-color-stone-400)] group-data-[state=open]:[--fg:var(--tw-color-stone-800)]" />
+  );
+
+  if (isHoverableDevice) {
+    return (
+      <HoverCard openDelay={0}>
+        <HoverCardTrigger className={cn('group', className)}>{trigger}</HoverCardTrigger>
+        <HoverCardContent
+          side="top"
+          className="flex h-auto w-auto items-center justify-center bg-stone-50"
+        >
+          {children}
+        </HoverCardContent>
+      </HoverCard>
+    );
+  }
+
+  return (
+    <Popover>
+      <PopoverTrigger className={cn('group', className)}>{trigger}</PopoverTrigger>
+      <PopoverContent
+        side="top"
+        className="flex h-auto w-auto items-center justify-center bg-stone-50"
+      >
+        {children}
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 export default function MetadataTable({ className }: { className?: string }) {
   const stampStore = useStampStore();
   const collection = collections[stampStore.collection];
@@ -98,22 +140,10 @@ export default function MetadataTable({ className }: { className?: string }) {
           <>
             <div className="flex items-center gap-1">
               This stamp was inspired by an{' '}
-              <HoverCard openDelay={0}>
-                <HoverCardTrigger
-                  className="group/hovercard hidden lg:block"
-                  aria-label="View original stamp"
-                >
-                  <ExistingStamp className="w-[120px] cursor-pointer transition-colors duration-150 group-data-[state=open]/hovercard:[--bg:var(--tw-color-stone-400)] group-data-[state=open]/hovercard:[--fg:var(--tw-color-stone-800)]" />
-                </HoverCardTrigger>
-                <HoverCardContent
-                  side="top"
-                  className="flex h-auto w-auto items-center justify-center bg-stone-50"
-                >
-                  <Image src={stamp.srcOriginal} alt="Original stamp" width={200} height={200} />
-                </HoverCardContent>
-              </HoverCard>
+              <PopoverOrHoverCard className="group/hovercard hidden lg:block">
+                <Image src={stamp.srcOriginal} alt="Original stamp" width={200} height={200} />
+              </PopoverOrHoverCard>
               <span className="lg:hidden">existing stamp.</span>
-          
             </div>
             <div className="mt-2 flex h-[200px] w-full items-center justify-center rounded-md border border-stone-300 bg-stone-50 p-2 lg:hidden">
               <Image
