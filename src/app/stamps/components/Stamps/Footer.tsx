@@ -3,7 +3,7 @@ import { ComponentProps, useCallback } from 'react';
 
 import { cn } from '~/src/util';
 
-import { collections, collectionTypes } from '../../constants';
+import { collections, CollectionType, collectionTypes } from '../../constants';
 import { useStampStore } from '../../store';
 
 function CollectionButton({ className, ...props }: ComponentProps<'button'>) {
@@ -26,7 +26,13 @@ function getNextCollectionIndex(collectionIndex: number) {
   return (collectionIndex + 1) % collectionTypes.length;
 }
 
-export function Footer({ className }: { className?: string }) {
+export function Footer({
+  className,
+  onSelectCollection,
+}: {
+  className?: string;
+  onSelectCollection: (collection: CollectionType) => void;
+}) {
   const store = useStampStore();
   const collectionIndex = collectionTypes.indexOf(store.collection);
 
@@ -34,13 +40,13 @@ export function Footer({ className }: { className?: string }) {
 
   const handlePreviousCollection = useCallback(() => {
     const prevIndex = getPreviousCollectionIndex(collectionIndex);
-    store.setCollection(collectionTypes[prevIndex]);
-  }, [collectionIndex, store]);
+    onSelectCollection(collectionTypes[prevIndex]);
+  }, [collectionIndex, onSelectCollection]);
 
   const handleNextCollection = useCallback(() => {
     const nextIndex = getNextCollectionIndex(collectionIndex);
-    store.setCollection(collectionTypes[nextIndex]);
-  }, [collectionIndex, store]);
+    onSelectCollection(collectionTypes[nextIndex]);
+  }, [collectionIndex, onSelectCollection]);
 
   const prevCollection = collectionTypes[getPreviousCollectionIndex(collectionIndex)];
   const nextCollection = collectionTypes[getNextCollectionIndex(collectionIndex)];

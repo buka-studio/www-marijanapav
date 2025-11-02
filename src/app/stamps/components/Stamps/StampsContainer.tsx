@@ -1,16 +1,16 @@
 'use client';
 
 import { MotionProps } from 'framer-motion';
-import { useState } from 'react';
 
 import ClientRendered from '~/src/components/ClientRendered';
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '~/src/components/ui/Drawer';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 
+import { useStampStore } from '../../store';
 import Stamps from './Stamps';
 
 export default function StampsContainer() {
-  const snapPoints = ['150px', 1];
+  const store = useStampStore();
 
   const desktopStampsProps: MotionProps = {
     initial: { opacity: 0 },
@@ -18,23 +18,15 @@ export default function StampsContainer() {
     transition: { duration: 0.5 },
   };
 
-  const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
-  const [open, setOpen] = useState(true);
-
   const isMobile = useMatchMedia('(max-width: 1024px)');
 
   return (
     <ClientRendered>
       {isMobile ? (
         <Drawer
-          defaultOpen
-          open={open}
-          onOpenChange={setOpen}
-          dismissible={false}
+          open={store.stampsDrawerOpen}
+          onOpenChange={store.setStampsDrawerOpen}
           autoFocus={false}
-          snapPoints={snapPoints}
-          activeSnapPoint={snap}
-          setActiveSnapPoint={setSnap}
           shouldScaleBackground={false}
         >
           <DrawerContent

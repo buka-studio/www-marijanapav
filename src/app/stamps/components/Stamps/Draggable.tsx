@@ -5,6 +5,7 @@ import { clamp, randInt } from '~/src/math';
 import { cn } from '~/src/util';
 
 interface Props {
+  dragDisabled?: boolean;
   children: React.ReactNode;
   index?: number;
   className?: string;
@@ -67,6 +68,7 @@ function calcTransformToCenter(container: HTMLElement, element: HTMLElement) {
 function Draggable({
   children,
   draggableControllerRef,
+  dragDisabled = false,
   className,
   ref,
   index,
@@ -195,7 +197,7 @@ function Draggable({
       ref={handleRef}
       className={cn('absolute flex origin-center cursor-pointer', className)}
       animate={controls}
-      drag
+      drag={!dragDisabled}
       {...draggableProps}
       {...props}
     >

@@ -371,11 +371,12 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       store.reset();
 
       const focused = selectedStampIdRef?.current;
+      if (focused) {
+        draggableControllerRefs.current.get(focused!)?.unfocus();
+        selectedStampIdRef.current = null;
 
-      draggableControllerRefs.current.get(focused!)?.unfocus();
-      selectedStampIdRef.current = null;
-
-      placeOnTop(focused!);
+        placeOnTop(focused!);
+      }
     },
     [store, draggableControllerRefs, placeOnTop],
   );
@@ -499,6 +500,17 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       preloadImage(stamp.src);
     }
   }, []);
+
+  const handleSelectCollection = useCallback(
+    (c: CollectionType) => {
+      handlePreloadCollection(c);
+      if (selectedStampId) {
+        handleDeselectStamp();
+      }
+      store.setCollection(c as CollectionType);
+    },
+    [handlePreloadCollection, handleDeselectStamp, store, selectedStampId],
+  );
 
   const gridCellSize = isMobile ? 16 : 32;
 
@@ -733,16 +745,16 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             'absolute origin-bottom-left -translate-x-px -translate-y-8 rotate-90 lg:-translate-y-10',
           )}
           collection={store.collection}
-          onCollectionClick={(c) => {
-            handlePreloadCollection(c);
-            store.setCollection(c as CollectionType);
-          }}
+          onCollectionClick={handleSelectCollection}
           onCollectionMouseOver={(c) => handlePreloadCollection(c)}
           onCollectionFocus={(c) => handlePreloadCollection(c)}
         />
       </div>
 
-      <Footer className="col-[1] row-[3] pl-2 lg:col-[2] lg:row-[2] lg:pl-0" />
+      <Footer
+        className="col-[1] row-[3] pl-2 lg:col-[2] lg:row-[2] lg:pl-0"
+        onSelectCollection={handleSelectCollection}
+      />
     </motion.div>
   );
 }

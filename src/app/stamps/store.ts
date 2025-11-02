@@ -13,6 +13,8 @@ interface StampStore {
   setZoomEnabled: (zoomEnabled: boolean) => void;
   setCollection: (collection: CollectionType) => void;
   reset: () => void;
+  stampsDrawerOpen: boolean;
+  setStampsDrawerOpen: (stampsDrawerOpen: boolean) => void;
 }
 
 export const useStampStore = create<StampStore>((set) => ({
@@ -30,4 +32,12 @@ export const useStampStore = create<StampStore>((set) => ({
     set({ collection, selectedStampId: '' });
   },
   reset: () => set({ isZoomed: false, zoomEnabled: false, selectedStampId: '' }),
+  stampsDrawerOpen: false,
+  setStampsDrawerOpen: (state: boolean) => {
+    if (!state) {
+      set({ stampsDrawerOpen: false, isZoomed: false, zoomEnabled: false, selectedStampId: '' });
+    } else {
+      set({ stampsDrawerOpen: true });
+    }
+  },
 }));
