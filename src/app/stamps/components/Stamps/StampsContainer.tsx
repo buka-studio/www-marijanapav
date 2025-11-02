@@ -1,7 +1,7 @@
 'use client';
 
 import { MotionProps } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import ClientRendered from '~/src/components/ClientRendered';
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '~/src/components/ui/Drawer';
@@ -10,7 +10,7 @@ import useMatchMedia from '~/src/hooks/useMatchMedia';
 import Stamps from './Stamps';
 
 export default function StampsContainer() {
-  const snapPoints = [0.2, 1];
+  const snapPoints = ['150px', 1];
 
   const desktopStampsProps: MotionProps = {
     initial: { opacity: 0 },
@@ -18,27 +18,24 @@ export default function StampsContainer() {
     transition: { duration: 0.5 },
   };
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
+  const [open, setOpen] = useState(true);
 
   const isMobile = useMatchMedia('(max-width: 1024px)');
-  useEffect(() => {
-    if (isMobile) {
-      setDrawerOpen(true);
-    }
-  }, [isMobile]);
 
   return (
     <ClientRendered>
       {isMobile ? (
         <Drawer
-          open={drawerOpen}
+          defaultOpen
+          open={open}
+          onOpenChange={setOpen}
           dismissible={false}
           autoFocus={false}
-          onOpenChange={setDrawerOpen}
           snapPoints={snapPoints}
           activeSnapPoint={snap}
           setActiveSnapPoint={setSnap}
+          shouldScaleBackground={false}
         >
           <DrawerContent
             overlayClassName="!opacity-0"
@@ -58,7 +55,4 @@ export default function StampsContainer() {
       )}
     </ClientRendered>
   );
-}
-function preloadCollection(arg0: string) {
-  throw new Error('Function not implemented.');
 }

@@ -562,6 +562,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             return (
               <MemoizedDraggable
                 key={stamp.id}
+                dragDisabled={Boolean(selectedStampId)}
                 ref={handleDragContainerRef}
                 data-index={index}
                 data-id={stamp.id}
@@ -670,7 +671,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   }
                   data-slot="stamp-image"
                   className={cn(
-                    'pointer-events-none h-auto w-[calc(var(--size-scale)*var(--width)*1px)] drop-shadow transition-all duration-200',
+                    'pointer-events-none h-auto w-[calc(var(--size-scale)*var(--width)*1px)] drop-shadow transition-all duration-200 lg:min-h-[160px] lg:min-w-[120px]',
                   )}
                 />
               </MemoizedDraggable>

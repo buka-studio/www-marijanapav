@@ -4,17 +4,21 @@ import Background from './Background.svg';
 import Signature from './Signature';
 import Sun from './Sun';
 
+interface Props {
+  className?: string;
+  animate?: boolean;
+  onAnimationComplete?: () => void;
+  shouldAnimate?: boolean;
+  children?: React.ReactNode;
+}
+
 export default function EmptyState({
   className,
   animate,
   onAnimationComplete,
   shouldAnimate,
-}: {
-  className?: string;
-  animate?: boolean;
-  onAnimationComplete?: () => void;
-  shouldAnimate?: boolean;
-}) {
+  children,
+}: Props) {
   return (
     <div className={cn('relative', className)}>
       <Background className="text-stone-300 [mask-image:linear-gradient(90deg,transparent_0%,black_5%,black_95%,transparent_100%)]" />
@@ -25,6 +29,7 @@ export default function EmptyState({
         groupProps={{ onAnimationComplete }}
       />
       <Sun className="absolute right-[50px] top-5 w-10 text-stone-400 xl:right-[150px] xl:top-10 xl:w-14" />
+      {children}
     </div>
   );
 }
