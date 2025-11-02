@@ -42,7 +42,7 @@ import Draggable, { DraggableController } from './Draggable';
 import { Footer } from './Footer';
 import Loupe from './Loupe';
 import { PunchPattern } from './PunchPattern';
-import { computeGridArrangement } from './util';
+import { computeGridArrangement, useIsMobile } from './util';
 
 interface DragContainerRef {
   e: HTMLElement;
@@ -126,8 +126,8 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   const collection = collections[collectionKey];
   const stamps = collection.stamps;
 
-  const isMobile = useMatchMedia('(max-width: 1024px)', false);
-  const isMobileSmall = useMatchMedia('(max-width: 640px)', false);
+  const isMobile = useIsMobile(false);
+  const isMobileSmall = useMatchMedia('(max-width: 639px)', false);
 
   const centerScale = isMobile ? 2 : 1.5;
 

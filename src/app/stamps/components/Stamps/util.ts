@@ -1,3 +1,5 @@
+import useMatchMedia from '~/src/hooks/useMatchMedia';
+
 type NodeResult = { x: number; y: number; fit: boolean; id: string };
 
 export function calcArea({ width, height }: { width: number; height: number }) {
@@ -66,4 +68,10 @@ export function computeGridArrangement(opts: {
   }
 
   return results;
+}
+
+export function useIsMobile(defaultState?: boolean) {
+  const isMobile = useMatchMedia('(max-width: 1023px)', defaultState);
+
+  return isMobile;
 }

@@ -4,9 +4,10 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 import type React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 
-import useMatchMedia from '~/src/hooks/useMatchMedia';
 import { remap } from '~/src/math';
 import { cn } from '~/src/util';
+
+import { useIsMobile } from '../util';
 
 interface Props {
   size: number;
@@ -48,7 +49,7 @@ export default function Dial({
   onAngleChange,
   className,
 }: Props) {
-  const isMobile = useMatchMedia('(max-width: 1024px)');
+  const isMobile = useIsMobile();
 
   const padding = isMobile ? 14 : 20;
   const size = requestedSize - padding * 2;

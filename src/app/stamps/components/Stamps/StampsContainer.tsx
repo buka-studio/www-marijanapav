@@ -4,10 +4,10 @@ import { MotionProps } from 'framer-motion';
 
 import ClientRendered from '~/src/components/ClientRendered';
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '~/src/components/ui/Drawer';
-import useMatchMedia from '~/src/hooks/useMatchMedia';
 
 import { useStampStore } from '../../store';
 import Stamps from './Stamps';
+import { useIsMobile } from './util';
 
 export default function StampsContainer() {
   const store = useStampStore();
@@ -18,7 +18,7 @@ export default function StampsContainer() {
     transition: { duration: 0.5 },
   };
 
-  const isMobile = useMatchMedia('(max-width: 1024px)');
+  const isMobile = useIsMobile();
 
   return (
     <ClientRendered>

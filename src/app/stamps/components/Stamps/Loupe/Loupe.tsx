@@ -2,13 +2,13 @@ import { motion, Point, useAnimation, useDragControls } from 'framer-motion';
 import { CSSProperties, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import colors from 'tailwindcss/colors';
 
-import useMatchMedia from '~/src/hooks/useMatchMedia';
 import { clamp } from '~/src/math';
 import { cn } from '~/src/util';
 
 import { Stamp } from '../../../models';
 import { useStampStore } from '../../../store';
 import { drawGrid, setupHiDPICtx } from '../../CanvasGrid/util';
+import { useIsMobile } from '../util';
 import Dial from './Dial';
 import Lens from './Lens';
 import { useLoupeStore } from './store';
@@ -89,7 +89,7 @@ function Loupe({
   const setScale = useLoupeStore((s) => s.setScale);
   const scale = useLoupeStore((s) => s.scale);
 
-  const isMobile = useMatchMedia('(max-width: 1024px)');
+  const isMobile = useIsMobile();
   const store = useStampStore();
 
   const lensSize = isMobile ? 135 : 300;
