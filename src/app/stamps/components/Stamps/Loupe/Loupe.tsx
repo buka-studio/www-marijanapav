@@ -162,11 +162,10 @@ function Loupe({
       return;
     }
 
-    const stampRect = (
+    const stampImgEl =
       activeStampContainerRef.current?.querySelector(`[data-slot="stamp-image"]`) ||
-      document.querySelector(`[data-id="${selectedStamp.id}"] [data-slot="stamp-image"]`)
-    )?.getBoundingClientRect();
-    if (!stampRect) {
+      document.querySelector(`[data-id="${selectedStamp.id}"] [data-slot="stamp-image"]`);
+    if (!stampImgEl) {
       return;
     }
 
@@ -192,8 +191,8 @@ function Loupe({
         ctx.shadowColor = 'rgba(0,0,0,0.25)';
         ctx.shadowBlur = 20;
 
-        const imgWidth = stampRect.width * baseScale;
-        const imgHeight = stampRect.height * baseScale;
+        const imgWidth = stampImgEl.clientWidth * baseScale;
+        const imgHeight = stampImgEl.clientHeight * baseScale;
 
         const centerX = container.offsetWidth / 2;
         const centerY = container.offsetHeight / 2;

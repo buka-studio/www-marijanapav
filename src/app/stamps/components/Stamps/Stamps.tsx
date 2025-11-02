@@ -683,7 +683,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   }
                   data-slot="stamp-image"
                   className={cn(
-                    'pointer-events-none h-auto w-[calc(var(--size-scale)*var(--width)*1px)] drop-shadow transition-all duration-200',
+                    'pointer-events-none h-auto w-[calc(var(--size-scale)*var(--width)*1px)] object-contain object-center drop-shadow transition-all duration-200',
                   )}
                 />
               </MemoizedDraggable>
