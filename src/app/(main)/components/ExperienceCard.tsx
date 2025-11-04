@@ -13,9 +13,15 @@ type Position = {
 };
 const positions: Position[] = [
   {
-    title: 'Designer',
+    title: 'Senior Brand Designer',
+    company: { name: 'Vercel', href: 'https://vercel.com/' },
+    from: '2025',
+  },
+  {
+    title: 'Senior Designer',
     company: { name: 'LiveKit', href: 'https://livekit.io' },
     from: '2024',
+    to: '2025',
   },
   {
     title: 'Brand Designer',

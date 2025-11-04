@@ -20,21 +20,20 @@ const directoryData: DirectoryItem[] = [
         githubUrl: 'https://github.com/buka-studio/www-marijanapav',
         children: [
           {
+            name: 'stamps',
+            githubUrl: 'https://github.com/buka-studio/www-marijanapav/tree/main/src/app/stamps',
+          },
+          {
             name: 'playground',
             isLocked: true,
           },
           {
-            name: 'stamps',
+            name: 'sketchbook',
             isLocked: true,
           },
         ],
       },
     ],
-  },
-  {
-    name: 'livekit',
-    githubUrl: 'https://github.com/livekit',
-    children: [{ name: 'web', isLocked: true }],
   },
 ];
 
