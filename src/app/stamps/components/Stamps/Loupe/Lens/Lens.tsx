@@ -134,13 +134,29 @@ function LensScene({
     sourceHeightOverride,
   ]);
 
-  useFrame(() => {
-    const {
-      coords: { x, y },
-      scale,
-    } = useLoupeStore.getState();
+  const scaleRef = useRef(useLoupeStore.getState().scale);
+  const coordsRef = useRef(useLoupeStore.getState().coords);
+
+  useEffect(() => {
+    const unsub = useLoupeStore.subscribe((v) => {
+      scaleRef.current = v.scale;
+      coordsRef.current = v.coords;
+    });
+
+    return unsub;
+  }, []);
+
+  useFrame((_, dt) => {
     const u = matRef.current.uniforms;
-    u.uLensMagnification.value = scale;
+
+    u.uLensMagnification.value = THREE.MathUtils.damp(
+      u.uLensMagnification.value,
+      scaleRef.current,
+      35,
+      dt,
+    );
+
+    const { x, y } = coordsRef.current;
     u.uLensCenterPx.value.set(x, y);
   });
 
