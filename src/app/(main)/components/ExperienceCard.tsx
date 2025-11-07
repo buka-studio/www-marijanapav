@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
+import { ReactNode } from 'react';
 
 import CardTitle from '~/src/components/ui/CardTitle';
 import Tag from '~/src/components/ui/Tag';
@@ -6,15 +7,17 @@ import Tag from '~/src/components/ui/Tag';
 import Card from './Card';
 
 type Position = {
-  title: string;
-  company: { name: string; href: string };
+  title: ReactNode;
+  company?: { name: string; href: string };
   from: string;
   to?: string;
+  muted?: boolean;
 };
+
 const positions: Position[] = [
   {
     title: 'Senior Brand Designer',
-    company: { name: 'Vercel', href: 'https://vercel.com/' },
+    company: { name: 'Vercel', href: 'https://vercel.com/home' },
     from: '2025',
   },
   {
@@ -30,18 +33,35 @@ const positions: Position[] = [
     to: '2024',
   },
   {
-    title: 'Brand Designer',
-    company: { name: 'Infinum', href: 'https://infinum.com/' },
-    from: '2018',
-    to: '2022',
+    title: (
+      <a
+        className="group inline-flex items-center text-text-primary/50 hover:text-main-accent"
+        href="https://www.linkedin.com/in/marijana-pavlinic/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        View full work history
+        <ArrowUpRight className="ml-0.5 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
+      </a>
+    ),
+    from: '2022',
+    to: '2017',
+    muted: true,
   },
-  {
-    title: 'Designer',
-    company: { name: 'Norma Studio', href: 'https://norma.hr/' },
-    from: '2017',
-    to: '2018',
-  },
-  // { title: 'Freelancing', from: '2015', to: '2018' },
+
+  // {
+  //   title: 'Brand Designer',
+  //   company: { name: 'Infinum', href: 'https://infinum.com/' },
+  //   from: '2018',
+  //   to: '2022',
+  // },
+  // {
+  //   title: 'Designer',
+  //   company: { name: 'Norma Studio', href: 'https://norma.hr/' },
+  //   from: '2017',
+  //   to: '2018',
+  // },
+  // { title: 'Misc', from: '2022', to: '2017' },
 ];
 
 export default function ExperienceCard() {
@@ -65,8 +85,8 @@ export default function ExperienceCard() {
                   </span>
                 )}
                 <span className="flex items-center gap-1">
-                  <span className="text-text-primary">
-                    {p.title} {p.company && 'at'}{' '}
+                  <span className={p.muted ? 'text-text-primary/60' : 'text-text-primary'}>
+                    {p.title} {p.company && p.title !== 'Other' && 'at'}{' '}
                   </span>
                   {p.company ? (
                     <Tag asChild className="bg-transparent p-0">
@@ -87,9 +107,9 @@ export default function ExperienceCard() {
                   ) : null}
                 </span>
               </span>
-              <span className="text-text-secondary">
+              <span className={p.muted ? 'text-text-primary/50' : 'text-text-primary'}>
                 <span className="hidden xs:block">
-                  {p.from}—{p.to ? p.to : 'ongoing'}
+                  {p.from}—{p.to ? p.to : 'present'}
                 </span>
               </span>
             </li>
