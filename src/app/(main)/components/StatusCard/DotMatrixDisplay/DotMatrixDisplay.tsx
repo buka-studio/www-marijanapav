@@ -33,7 +33,7 @@ const DotMatrixDisplay = ({
 
   const frame = useRef<number>(0);
   const frameContextRef = useRef<MatrixFrameContext | null>(null);
-  const lastMs = useRef<number | null>(null);
+  const lastMsRef = useRef<number | null>(null);
   const timeSec = useRef<number>(0);
 
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -106,19 +106,19 @@ const DotMatrixDisplay = ({
 
   const initRef = useRef(false);
 
-  useAnimationFrame((nowMs) => {
+  useAnimationFrame((t) => {
     const ctx = ctxRef.current;
     if (!ctx || !onRender) {
-      lastMs.current = null;
+      lastMsRef.current = null;
       return;
     }
 
-    if (lastMs.current === null) {
-      lastMs.current = nowMs;
+    if (lastMsRef.current === null) {
+      lastMsRef.current = t;
     }
 
-    let deltaMs = nowMs - lastMs.current;
-    lastMs.current = nowMs;
+    let deltaMs = t - lastMsRef.current;
+    lastMsRef.current = t;
 
     // cap so we don't jump when tab is unfocused
     if (deltaMs > 100) {
@@ -164,7 +164,7 @@ const DotMatrixDisplay = ({
 
   useEffect(() => {
     return () => {
-      lastMs.current = null;
+      lastMsRef.current = null;
       timeSec.current = 0;
       frame.current = 0;
     };
