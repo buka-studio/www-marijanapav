@@ -28,6 +28,7 @@ interface Props {
   step?: number;
   value?: number;
   onChange?: (value: number) => void;
+  disabled?: boolean;
 }
 
 export default function Dial({
@@ -48,6 +49,7 @@ export default function Dial({
   damping = 50,
   onAngleChange,
   className,
+  disabled,
 }: Props) {
   const isMobile = useIsMobile();
 
@@ -217,7 +219,7 @@ export default function Dial({
 
   return (
     <div
-      className={cn('group select-none [&:has(:focus-visible)_.handle]:fill-stone-500', className)}
+      className={cn('group select-none [&:has(:focus-visible)_.handle]:fill-stone-50', className)}
     >
       <input
         type="range"
@@ -245,6 +247,7 @@ export default function Dial({
 
           onAngleChange?.(angle);
         }}
+        disabled={disabled}
       />
 
       <svg
@@ -264,7 +267,9 @@ export default function Dial({
             fill="none"
           />
           <circle
-            className="pointer-events-auto cursor-grab touch-none active:cursor-grabbing"
+            className={cn('pointer-events-auto cursor-grab touch-none active:cursor-grabbing', {
+              'pointer-events-none': disabled,
+            })}
             onPointerDown={handlePointerDown}
             cx={center - 1}
             cy={padding - handleInset} // Position at the top, inset by circle radius

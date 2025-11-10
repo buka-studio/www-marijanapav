@@ -8,4 +8,6 @@ export type Stamp = {
   srcOriginal?: string;
   catalogCodes: string[];
   meta?: Record<string, string>;
+  width?: number;
+  height?: number;
 };

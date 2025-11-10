@@ -39,6 +39,7 @@
     "radix-ui": "~1.4.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-focus-lock": "~2.13.6",
     "react-responsive-masonry": "~2.7.1",
     "sharp": "~0.34.3",
     "tailwind-merge": "~2.0.0",

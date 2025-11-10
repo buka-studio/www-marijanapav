@@ -12,6 +12,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import FocusLock from 'react-focus-lock';
 import colors from 'tailwindcss/colors';
 
 import {
@@ -116,6 +117,8 @@ const getIndexAttribute = (e: { dataset: DOMStringMap } | null) => {
 
 const getIdAttribute = (e: { dataset: DOMStringMap } | null) => getAttribute(e, 'id');
 
+const directionKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+
 export default function Stamps({ className, ...props }: ComponentProps<typeof motion.div>) {
   const store = useStampStore();
   const selectedStampId = useStampStore((s) => s.selectedStampId);
@@ -124,7 +127,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   const setSelectedStampId = useStampStore((s) => s.setSelectedStampId);
 
   const collection = collections[collectionKey];
-  const stamps = collection.stamps;
+  const stamps: Stamp[] = collection.stamps;
 
   const isMobile = useIsMobile(false);
   const isMobileSmall = useMatchMedia('(max-width: 639px)', false);
@@ -147,6 +150,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   const draggableContainerRefs = useRef(new Map<string, DragContainerRef>());
   const draggableControllerRefs = useRef(new Map<string, DraggableController>());
 
+  const focusedStampIdRef = useRef<string | null>(null);
   const selectedStampIdRef = useRef<string | null>(null);
   const selectedStampContainerRef = useRef<HTMLElement | null>(null);
   const stampsContainerRef = useRef<HTMLDivElement>(null);
@@ -173,6 +177,46 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       return newZ;
     },
     [draggableContainerRefs, getMaxZ],
+  );
+
+  const focusById = useCallback((id: string | null) => {
+    if (!id) {
+      return;
+    }
+
+    const el = draggableContainerRefs.current.get(id)?.e;
+    if (!el) {
+      return;
+    }
+
+    el.focus();
+    focusedStampIdRef.current = id;
+  }, []);
+
+  const getIndexById = useCallback(
+    (id: string | null | undefined) => {
+      if (!id) {
+        return null;
+      }
+      return stamps.findIndex((stamp) => stamp.id === id);
+    },
+    [stamps],
+  );
+
+  const getNextFocusId = useCallback(
+    (nextIndex: number) => {
+      if (!stamps.length) {
+        return null;
+      }
+      if (nextIndex < 0) {
+        return stamps.at(-1)?.id ?? null;
+      }
+      if (nextIndex >= stamps.length) {
+        return stamps[0]?.id ?? null;
+      }
+      return stamps[nextIndex]?.id ?? null;
+    },
+    [stamps],
   );
 
   const handleOrganize = useCallback(() => {
@@ -512,6 +556,77 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     [handlePreloadCollection, handleDeselectStamp, store, selectedStampId],
   );
 
+  const handleListKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      const count = stamps.length;
+      if (!count) {
+        return;
+      }
+
+      if (directionKeys.includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      const i = getIndexById(focusedStampIdRef.current);
+      if (e.key === 'Home') {
+        focusById(stamps[0]?.id ?? null);
+        return;
+      }
+      if (e.key === 'End') {
+        focusById(stamps.at(-1)?.id ?? null);
+        return;
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        const nextId = getNextFocusId((i ?? 0) - 1);
+        focusById(nextId);
+        return;
+      }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        const nextId = getNextFocusId((i ?? 0) + 1);
+        focusById(nextId);
+        return;
+      }
+    },
+    [stamps, getNextFocusId, focusById, getIndexById],
+  );
+
+  const handleListFocus = useCallback(
+    (e: React.FocusEvent<HTMLDivElement>) => {
+      if (e.target !== stampsContainerRef.current) {
+        return;
+      }
+
+      const firstId = focusedStampIdRef.current ?? stamps[0]?.id ?? null;
+      focusById(firstId);
+
+      if (stampsContainerRef.current) {
+        stampsContainerRef.current.tabIndex = -1;
+      }
+    },
+    [focusById, stamps],
+  );
+
+  const handleListBlur = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
+    const related = e.relatedTarget;
+
+    if (!stampsContainerRef.current) {
+      return;
+    }
+    if (!related || !stampsContainerRef.current.contains(related)) {
+      stampsContainerRef.current.tabIndex = 0;
+    }
+  }, []);
+
+  const handleStampFocusReturn = useCallback(() => {
+    if (!focusedStampIdRef.current || selectedStampIdRef.current) {
+      return;
+    }
+    setTimeout(() => {
+      focusById(focusedStampIdRef.current);
+    }, 0);
+  }, [focusById]);
+
   const gridCellSize = isMobile ? 16 : 32;
 
   const showCollectionActions = Boolean(!selectedStampId);
@@ -558,8 +673,14 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         </div>
         {/* todo: inset top and right */}
         <div
-          className="pointer-events-none absolute inset-0 transform-gpu border"
+          className="pointer-events-none absolute inset-0 transform-gpu border focus-visible:outline-none"
           ref={stampsContainerRef}
+          role="list"
+          tabIndex={0}
+          aria-label={`${collectionKey} Stamps List`}
+          onFocus={handleListFocus}
+          onBlur={handleListBlur}
+          onKeyDown={handleListKeyDown}
         >
           <div
             className="stamp-drag-container pointer-events-none absolute bottom-0 left-0"
@@ -568,6 +689,8 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
               right: dragContainerPadding.right,
             }}
             ref={stampsDragContainerRef}
+            role="presentation"
+            aria-hidden="true"
           />
 
           {stamps.map((stamp, index) => {
@@ -583,7 +706,10 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                 initial={stampInitial}
                 transition={stampTransition}
                 draggableControllerRef={handleDraggableControllerRef}
-                tabIndex={0}
+                role="listitem"
+                aria-current={selectedStampId === stamp.id ? 'true' : undefined}
+                tabIndex={-1}
+                inert={store.isZoomed && selectedStampId !== stamp.id}
                 onKeyDown={handleKeyDown}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
@@ -600,73 +726,79 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   },
                 )}
               >
-                <AnimatePresence>
-                  {selectedStampId === stamp.id && (
-                    <motion.div
-                      {...fadeInProps}
-                      key="stamp-actions"
-                      custom={{
-                        scale: invertScale(centerScale),
-                      }}
-                      className="pointer-events-auto absolute top-[calc(100%+8px)] flex items-center gap-5"
-                    >
-                      <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
-                        <Drawer
-                          shouldScaleBackground={false}
-                          onOpenChange={(open) => {
-                            setDrawerOpen(open);
-                            if (open) {
-                              store.setZoomed(false);
-                            }
-                          }}
-                          open={drawerOpen}
-                        >
-                          <AnimatePresence>
-                            <DrawerTrigger asChild>
-                              <DrawnActionButton disabled={!selectedStamp}>
-                                <DrawnInfo className="w-[55px]" aria-label="Stamp Info" />
-                              </DrawnActionButton>
-                            </DrawerTrigger>
-                          </AnimatePresence>
-
-                          <DrawerContent
-                            className="max-w-[100vw] !rounded-none !border-none bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)]"
-                            handle={false}
-                            overlayClassName="!opacity-0"
-                          >
-                            <div className="flex-1 overflow-y-auto pb-10 font-libertinus">
-                              <DrawerHeader className="sr-only">
-                                <DrawerTitle>{selectedStamp?.title || 'Stamp Info'}</DrawerTitle>
-                                <DrawerDescription>
-                                  {selectedStamp?.country || ''}
-                                </DrawerDescription>
-                              </DrawerHeader>
-                              <PunchPattern className="sticky top-0 z-[1] flex flex-row bg-stone-100 px-4 py-4" />
-                              <div className="w-full border-b border-dashed border-stone-300"></div>
-                              <div className="max-w-[100vw] p-5">
-                                {selectedStamp && <MetadataTable />}
-                              </div>
-                            </div>
-                          </DrawerContent>
-                        </Drawer>
-                      </motion.div>
-                      <DrawnActionButton
-                        disabled={!store.zoomEnabled}
-                        onClick={() => store.toggleZoomed()}
+                <FocusLock
+                  disabled={selectedStampId !== stamp.id}
+                  group={`stamp-${stamp.id}`}
+                  onDeactivation={handleStampFocusReturn}
+                >
+                  <AnimatePresence>
+                    {selectedStampId === stamp.id && (
+                      <motion.div
                         {...fadeInProps}
-                        key="toggle-zoom-button"
-                        custom={{ i: 1 }}
+                        key="stamp-actions"
+                        custom={{
+                          scale: invertScale(centerScale),
+                        }}
+                        className="pointer-events-auto absolute top-[calc(100%+8px)] flex items-center gap-5"
                       >
-                        <DrawnZoom
-                          className={cn('w-[60px]', {
-                            '[&_.plus-vertical]:hidden': store.isZoomed,
-                          })}
-                          aria-label="Toggle Zoom"
-                        />
-                      </DrawnActionButton>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
+                          <Drawer
+                            shouldScaleBackground={false}
+                            onOpenChange={(open) => {
+                              setDrawerOpen(open);
+                              if (open) {
+                                store.setZoomed(false);
+                              }
+                            }}
+                            open={drawerOpen}
+                          >
+                            <AnimatePresence>
+                              <DrawerTrigger asChild>
+                                <DrawnActionButton disabled={!selectedStamp}>
+                                  <DrawnInfo className="w-[55px]" aria-label="Stamp Info" />
+                                </DrawnActionButton>
+                              </DrawerTrigger>
+                            </AnimatePresence>
+
+                            <DrawerContent
+                              className="max-w-[100vw] !rounded-none !border-none bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)]"
+                              handle={false}
+                              overlayClassName="!opacity-0"
+                            >
+                              <div className="flex-1 overflow-y-auto pb-10 font-libertinus">
+                                <DrawerHeader className="sr-only">
+                                  <DrawerTitle>{selectedStamp?.title || 'Stamp Info'}</DrawerTitle>
+                                  <DrawerDescription>
+                                    {selectedStamp?.country || ''}
+                                  </DrawerDescription>
+                                </DrawerHeader>
+                                <PunchPattern className="sticky top-0 z-[1] flex flex-row bg-stone-100 px-4 py-4" />
+                                <div className="w-full border-b border-dashed border-stone-300"></div>
+                                <div className="max-w-[100vw] p-5">
+                                  {selectedStamp && <MetadataTable />}
+                                </div>
+                              </div>
+                            </DrawerContent>
+                          </Drawer>
+                        </motion.div>
+                        <DrawnActionButton
+                          disabled={!store.zoomEnabled}
+                          onClick={() => store.toggleZoomed()}
+                          {...fadeInProps}
+                          key="toggle-zoom-button"
+                          custom={{ i: 1 }}
+                        >
+                          <DrawnZoom
+                            className={cn('w-[60px]', {
+                              '[&_.plus-vertical]:hidden': store.isZoomed,
+                            })}
+                            aria-label="Toggle Zoom"
+                          />
+                        </DrawnActionButton>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </FocusLock>
                 <Image
                   src={stamp.src}
                   alt={stamp.country || ''}
@@ -712,7 +844,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                 </DrawnActionButton>
 
                 <DrawnActionButton
-                  onClick={() => handleSpreadOut({ stagger: 5 })}
+                  onClick={() => handleSpreadOut({ stagger: 3 })}
                   disabled={Boolean(selectedStampId)}
                   custom={{ i: 1 }}
                   {...fadeInProps}
@@ -725,19 +857,25 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           </AnimatePresence>
         </div>
         {selectedStamp && (
-          <Loupe
-            gridCellSize={gridCellSize}
-            className={cn({
-              'pointer-events-none': !store.isZoomed,
-            })}
-            baseScale={centerScale}
-            key={selectedStamp.id}
-            selectedStamp={selectedStamp as unknown as Stamp}
-            dragConstraints={containerRef}
-            activeStampContainerRef={selectedStampContainerRef}
-          />
+          <FocusLock disabled={!store.isZoomed} returnFocus>
+            <Loupe
+              gridCellSize={gridCellSize}
+              className={cn({
+                'pointer-events-none': !store.isZoomed,
+              })}
+              baseScale={centerScale}
+              key={selectedStamp.id}
+              selectedStamp={selectedStamp as unknown as Stamp}
+              dragConstraints={containerRef}
+              activeStampContainerRef={selectedStampContainerRef}
+            />
+          </FocusLock>
         )}
       </div>
+      <p id="stamps-navigation-help" className="sr-only">
+        Use Left/Right/Up/Down to move focus between stamps. Home jumps to the first, End to the
+        last. Press Space to open a stamp to see the details.
+      </p>
 
       <div className="relative w-8 lg:w-10">
         <CollectionsList

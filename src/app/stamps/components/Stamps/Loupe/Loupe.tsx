@@ -1,4 +1,4 @@
-import { motion, Point, useAnimation, useDragControls } from 'framer-motion';
+import { motion, Point, useAnimation, useAnimationFrame, useDragControls } from 'framer-motion';
 import { CSSProperties, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import colors from 'tailwindcss/colors';
 
@@ -70,6 +70,8 @@ const initial = {
   opacity: 0,
 };
 
+const directionKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift'];
+
 function Loupe({
   selectedStamp,
   dragConstraints,
@@ -101,6 +103,9 @@ function Loupe({
   const draggingMagnifier = useRef(false);
   const draggingMagnifierRefOffset = useRef<{ x: number; y: number } | null>({ x: 0, y: 0 });
   const triggerRef = useRef<HTMLDivElement>(null);
+
+  const pressedKeysRef = useRef<Set<string>>(new Set());
+  const rafTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!dragConstraints?.current) {
@@ -285,6 +290,82 @@ function Loupe({
     [lensSize, dialSize],
   );
 
+  const handleTriggerKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!store.isZoomed) return;
+      if (directionKeys.includes(e.key)) {
+        pressedKeysRef.current.add(e.key);
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    },
+    [store.isZoomed],
+  );
+
+  const handleTriggerKeyUp = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (directionKeys.includes(e.key)) {
+      pressedKeysRef.current.delete(e.key);
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, []);
+
+  const onBlur = useCallback(() => {
+    pressedKeysRef.current.clear();
+  }, []);
+
+  useAnimationFrame((t) => {
+    const container = dragConstraints.current;
+    if (!container || !store.isZoomed) {
+      rafTimeRef.current = t;
+      return;
+    }
+
+    const prev = rafTimeRef.current ?? t;
+    const dt = Math.min(0.05, (t - prev) / 1000);
+    rafTimeRef.current = t;
+
+    if (!pressedKeysRef.current.size) {
+      return;
+    }
+
+    const pressedKeys = pressedKeysRef.current;
+
+    const speed = 200 * (pressedKeys.has('Shift') ? 2 : 1);
+    let vx = 0;
+    let vy = 0;
+    if (pressedKeys.has('ArrowLeft')) vx -= 1;
+    if (pressedKeys.has('ArrowRight')) vx += 1;
+    if (pressedKeys.has('ArrowUp')) vy -= 1;
+    if (pressedKeys.has('ArrowDown')) vy += 1;
+    if (!(vx || vy)) {
+      return;
+    }
+
+    const len = Math.hypot(vx, vy) || 1;
+    vx /= len;
+    vy /= len;
+
+    const { x: cx, y: cy } = useLoupeStore.getState().coords;
+    const newX = cx + vx * speed * dt;
+    const newY = cy + vy * speed * dt;
+
+    const radius = dialSize / 2;
+
+    const clampedX = clamp(radius, container.offsetWidth - radius, newX);
+    const clampedY = clamp(radius, container.offsetHeight - radius, newY);
+
+    useLoupeStore.setState({ coords: { x: clampedX, y: clampedY } });
+
+    magnifierControls.start({
+      x: clampedX - radius,
+      y: clampedY - radius,
+      transition: {
+        duration: 0,
+      },
+    });
+  });
+
   return (
     <motion.div
       drag
@@ -298,7 +379,7 @@ function Loupe({
       animate={magnifierControls}
       style={style}
       className={cn(
-        'loupe absolute z-[100] flex aspect-square w-[var(--dial-size)] items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30 outline outline-1 outline-[rgba(255,255,255,0.1)] [&[data-zoomed="false"]_.loupe-lens]:!pointer-events-none',
+        'loupe absolute z-[100] flex aspect-square w-[var(--dial-size)] items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30 outline outline-1 outline-offset-8 outline-[rgba(255,255,255,0.1)] [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&:has(.loupe-trigger:focus-visible)]:outline-stone-500 [&[data-zoomed="false"]_.loupe-lens]:!pointer-events-none',
         'shadow-md',
         className,
       )}
@@ -306,15 +387,23 @@ function Loupe({
       <div
         ref={triggerRef}
         className={cn(
-          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-[100] aspect-square w-[var(--lens-size)] -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] [&[data-dragging="true"]]:cursor-grabbing [&[data-zoomed="false"]]:pointer-events-none',
+          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-[100] aspect-square w-[var(--lens-size)] -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] focus-visible:outline-none [&[data-dragging="true"]]:cursor-grabbing [&[data-zoomed="false"]]:pointer-events-none',
           {
             'pointer-events-none': !store.isZoomed,
           },
         )}
+        role="region"
+        tabIndex={0}
+        aria-label="Stamps Loupe"
+        aria-describedby="stamps-loupe-description"
+        aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerLeave}
+        onKeyDown={handleTriggerKeyDown}
+        onKeyUp={handleTriggerKeyUp}
+        onBlur={onBlur}
       />
       <MemoizedLens
         image={canvasData?.canvas}
@@ -345,7 +434,11 @@ function Loupe({
         minValue={1}
         maxValue={3}
         maxAngle={360}
+        disabled={!store.isZoomed}
       />
+      <p id="stamps-loupe-description" className="sr-only">
+        Use arrow keys to move the loupe. Press Tab to switch between local controls.
+      </p>
     </motion.div>
   );
 }

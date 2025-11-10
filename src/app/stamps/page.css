@@ -35,5 +35,5 @@
 }
 
 .stamps-layout .focus-dashed {
-  @apply rounded-[2px] focus-visible:outline-dashed focus-visible:outline-stone-500;
+  @apply rounded-[2px] focus-visible:outline-dashed focus-visible:outline-1 focus-visible:outline-stone-500;
 }

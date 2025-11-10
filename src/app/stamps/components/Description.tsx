@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, MotionProps, Variants } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import FocusLock from 'react-focus-lock';
 
 import { cn } from '~/src/util';
 
@@ -194,7 +195,9 @@ export default function Description({ className }: { className?: string }) {
           <AnimatePresence mode="popLayout" initial={false}>
             {selectedStampId ? (
               <motion.div key="metadata-table" {...fadeInProps}>
-                <MetadataTable />
+                <FocusLock group={`stamp-${selectedStampId}`}>
+                  <MetadataTable />
+                </FocusLock>
               </motion.div>
             ) : (
               <motion.div key="empty-state" {...fadeInProps}>
