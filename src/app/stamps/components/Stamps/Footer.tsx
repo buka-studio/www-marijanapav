@@ -29,9 +29,11 @@ function getNextCollectionIndex(collectionIndex: number) {
 export function Footer({
   className,
   onSelectCollection,
+  children,
 }: {
   className?: string;
   onSelectCollection: (collection: CollectionType) => void;
+  children?: React.ReactNode;
 }) {
   const store = useStampStore();
   const collectionIndex = collectionTypes.indexOf(store.collection);
@@ -65,8 +67,10 @@ export function Footer({
         Leuchtturm <SmileyIcon className="hidden h-4 w-4 lg:block" weight="bold" />{' '}
         <span className="hidden lg:block">G-System</span>
       </div>
-      <div className="hidden lg:block">2020-{new Date().getFullYear()}</div>
-      <div className="ml-auto flex items-center gap-2">
+      {children}
+      {/* <div className="hidden lg:block">2020-{new Date().getFullYear()}</div> */}
+
+      <div className="ml-auto hidden items-center gap-2 lg:flex">
         <div>{store.collection}</div>
         <div>{indexLabel} </div>
 

@@ -18,6 +18,7 @@ module.exports = {
           'monospace',
         ],
         libertinus: ['var(--font-libertinus-serif)'],
+        caveat: ['var(--font-caveat)'],
       },
       colors: {
         theme: {

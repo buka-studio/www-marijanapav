@@ -12,9 +12,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { flushSync } from 'react-dom';
 import FocusLock from 'react-focus-lock';
 import colors from 'tailwindcss/colors';
 
+import { DialogDescription, DialogTitle } from '~/src/components/ui/Dialog';
 import {
   Drawer,
   DrawerContent,
@@ -40,6 +42,17 @@ import DrawnOrganize from './actions/organize.svg';
 import DrawnShuffle from './actions/shuffle.svg';
 import DrawnZoom from './actions/zoom.svg';
 import Draggable, { DraggableController } from './Draggable';
+import FeedbackForm from './Feedback/FeedbackForm/FeedbackForm';
+import FlipCard, { FlipCardBack, FlipCardFront, FlipCardTrigger } from './Feedback/FlipCard';
+import {
+  FeedbackDialog,
+  FeedbackDialogContent,
+  FeedbackDialogOverlay,
+  FeedbackDialogPortal,
+  FeedbackDialogTrigger,
+  GenieAnimationController,
+  GenieBackdrop,
+} from './Feedback/GenieDialog/GenieDialog';
 import { Footer } from './Footer';
 import Loupe from './Loupe';
 import { PunchPattern } from './PunchPattern';
@@ -162,6 +175,35 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     return Math.max(...Array.from(draggableContainerRefs.current.values()).map(({ z }) => z)) + 1;
   }, [draggableContainerRefs]);
 
+  const compactZIndices = useCallback(
+    (activeId?: string) => {
+      const entries = Array.from(draggableContainerRefs.current.entries());
+      if (!entries.length) return;
+
+      entries.sort(([, a], [, b]) => a.z - b.z);
+
+      let nextZ = 1;
+      for (const [id, target] of entries) {
+        if (activeId && id === activeId) {
+          continue;
+        }
+        target.z = nextZ;
+        target.e?.style.setProperty('--z', String(nextZ));
+        nextZ++;
+      }
+
+      if (activeId) {
+        const active = draggableContainerRefs.current.get(activeId);
+        if (active) {
+          const topZ = entries.length + 1;
+          active.z = topZ;
+          active.e?.style.setProperty('--z', String(topZ));
+        }
+      }
+    },
+    [draggableContainerRefs],
+  );
+
   const placeOnTop = useCallback(
     (id: string, forceZ?: number) => {
       const target = draggableContainerRefs.current.get(id);
@@ -174,9 +216,15 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       target.e.style.setProperty('--z', newZ.toString());
       target.z = newZ;
 
+      const maxZ = draggableContainerRefs.current.size + 1;
+
+      if (newZ > maxZ) {
+        compactZIndices(id);
+      }
+
       return newZ;
     },
-    [draggableContainerRefs, getMaxZ],
+    [draggableContainerRefs, getMaxZ, compactZIndices],
   );
 
   const focusById = useCallback((id: string | null) => {
@@ -631,6 +679,60 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
   const showCollectionActions = Boolean(!selectedStampId);
 
+  const [open, setOpen] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+
+  const handleSubmit = useCallback((data: any) => {
+    setOpen(false);
+  }, []);
+
+  const genieAnimationRef = useRef<GenieAnimationController>(null);
+  const postcardSideRef = useRef<HTMLElement | null>(null);
+  const postcardImgRef = useRef<HTMLDivElement | null>(null);
+  const postcardFormRef = useRef<HTMLDivElement | null>(null);
+  const isPlayingRef = useRef(false);
+
+  const flipCard = useMemo(() => {
+    return (
+      <FlipCard
+        className="h-[450px] max-h-[90vh] w-[320px] max-w-[90vw] sm:h-[400px] sm:w-[550px]"
+        onSideChange={(side) => {
+          if (side === 'front') {
+            postcardSideRef.current = postcardImgRef.current;
+          } else {
+            postcardSideRef.current = postcardFormRef.current;
+          }
+        }}
+      >
+        <FlipCardFront>
+          <div
+            ref={(e) => {
+              console.log('setting postcardSideRef', e);
+              postcardSideRef.current = e;
+              postcardImgRef.current = e;
+            }}
+            className="h-full w-full rounded-[2px] border border-stone-300 bg-stone-50 p-2"
+          >
+            <Image
+              src={isMobileSmall ? '/stamps/postcard_lg_vertical.png' : '/stamps/postcard_lg.png'}
+              alt="Postcard"
+              className="h-full w-full rounded-[2px] object-cover"
+              width={isMobileSmall ? 300 : 550}
+              height={isMobileSmall ? 450 : 350}
+            />
+          </div>
+
+          <FlipCardTrigger>Flip</FlipCardTrigger>
+        </FlipCardFront>
+        <FlipCardBack>
+          <FeedbackForm className="h-full w-full border border-stone-300" ref={postcardFormRef} />
+
+          <FlipCardTrigger>Flip</FlipCardTrigger>
+        </FlipCardBack>
+      </FlipCard>
+    );
+  }, [isMobileSmall]);
+
   return (
     <motion.div
       className={cn(
@@ -671,7 +773,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             )}
           />
         </div>
-        {/* todo: inset top and right */}
         <div
           className="pointer-events-none absolute inset-0 transform-gpu border focus-visible:outline-none"
           ref={stampsContainerRef}
@@ -739,7 +840,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                         custom={{
                           scale: invertScale(centerScale),
                         }}
-                        className="pointer-events-auto absolute top-[calc(100%+8px)] flex items-center gap-5"
+                        className="pointer-events-auto absolute top-[calc(100%+8px)] flex w-full items-center justify-center gap-5"
                       >
                         <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
                           <Drawer
@@ -823,9 +924,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           })}
         </div>
         <div
-          className={cn(
-            'absolute left-1/2 top-8 z-[99999] flex -translate-x-1/2 items-center gap-5',
-          )}
+          className={cn('absolute left-1/2 top-8 z-50 flex -translate-x-1/2 items-center gap-5')}
         >
           <AnimatePresence mode="wait">
             {showCollectionActions && (
@@ -888,11 +987,84 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           onCollectionFocus={(c) => handlePreloadCollection(c)}
         />
       </div>
-
       <Footer
         className="col-[1] row-[3] pl-2 lg:col-[2] lg:row-[2] lg:pl-0"
         onSelectCollection={handleSelectCollection}
-      />
+      >
+        <FeedbackDialog
+          open={open}
+          onOpenChange={(open) => {
+            if (isPlayingRef.current) {
+              return;
+            }
+            if (!open) {
+              isPlayingRef.current = true;
+
+              genieAnimationRef.current
+                ?.exit({
+                  target: postcardSideRef.current,
+                  onStart: () => {
+                    setRevealed(false);
+                  },
+                })
+                .then(() => {
+                  setOpen(false);
+                  isPlayingRef.current = false;
+                });
+            }
+          }}
+        >
+          <FeedbackDialogPortal container={containerRef.current}>
+            <FeedbackDialogOverlay className="absolute inset-0 z-[60] bg-white/20 backdrop-blur-sm">
+              <GenieBackdrop
+                ref={genieAnimationRef}
+                className="pointer-events-none absolute inset-0 z-[70]"
+              />
+            </FeedbackDialogOverlay>
+
+            <FeedbackDialogContent
+              className={cn('absolute left-1/2 top-1/2 z-[80] -translate-x-1/2 -translate-y-1/2', {
+                'opacity-0 transition-all duration-200': !revealed,
+                'opacity-100 transition-all duration-100': revealed,
+              })}
+            >
+              {flipCard}
+              <DialogTitle className="sr-only">Feedback</DialogTitle>
+              <DialogDescription className="sr-only">Hello world</DialogDescription>
+            </FeedbackDialogContent>
+          </FeedbackDialogPortal>
+
+          <FeedbackDialogTrigger asChild>
+            <button
+              style={
+                {
+                  '--shimmer-bg': colors.stone[400],
+                  '--shimmer-fg': colors.stone[500],
+                } as CSSProperties
+              }
+              className="focus-dashed shimmer-text ml-auto cursor-pointer font-mono uppercase md:ml-0"
+              onClick={() => {
+                flushSync(() => {
+                  setOpen(true);
+                  isPlayingRef.current = true;
+                });
+
+                genieAnimationRef.current
+                  ?.enter({
+                    autoHide: true,
+                    target: postcardImgRef.current,
+                  })
+                  .then(() => {
+                    setRevealed(true);
+                    isPlayingRef.current = false;
+                  });
+              }}
+            >
+              Give Feedback
+            </button>
+          </FeedbackDialogTrigger>
+        </FeedbackDialog>
+      </Footer>
     </motion.div>
   );
 }

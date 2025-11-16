@@ -43,7 +43,7 @@ function getPointerOffsetFromElementCenter(point: Point, element?: HTMLElement |
   return { x: offsetX, y: offsetY };
 }
 
-function loadImage(src: string) {
+export function loadImage(src: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const img = new Image();
     img.src = src;
