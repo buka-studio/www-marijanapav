@@ -668,7 +668,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   return (
     <motion.div
       className={cn(
-        'group/stamps-container grid h-full grid-cols-[1fr_auto] grid-rows-[auto_1fr_auto] bg-stone-100 lg:grid-cols-[56px_1fr_auto] lg:grid-rows-[1fr_auto] lg:py-5',
+        'group/stamps-container grid h-full grid-cols-[1fr_auto] grid-rows-[auto_auto_1fr] bg-stone-100 lg:grid-cols-[56px_1fr_auto] lg:grid-rows-[1fr_auto] lg:py-5',
         {
           'touch-none': selectedStampId,
         },
@@ -676,12 +676,12 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       )}
       {...props}
     >
-      <div className="col-[1/3] row-[1] flex-col  items-center justify-center lg:col-[1] lg:flex">
+      <div className="col-[1/3] row-[1] flex-col  items-center justify-center border-b border-dashed border-stone-300 lg:col-[1] lg:flex lg:border-b-0">
         <PunchPattern className={cn('flex-row px-2 py-4 lg:flex-col lg:px-0 lg:py-0')} />
       </div>
       <div
         data-vaul-no-drag
-        className={cn('relative row-[2] flex h-full items-start lg:row-[1]')}
+        className={cn('relative row-[3] flex h-full items-start lg:row-[1]')}
         ref={containerRef}
         onClick={handleContainerClick}
       >
@@ -899,7 +899,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         last. Press Space to open a stamp to see the details.
       </p>
 
-      <div className="relative w-8 lg:w-10">
+      <div className="absolute right-0 top-[165px] row-[3] w-8 lg:static lg:right-auto lg:row-[1] lg:w-10">
         <CollectionsList
           className={cn(
             'absolute origin-bottom-left -translate-x-px -translate-y-8 rotate-90 group-[:has(div[data-state=open][data-slot=dialog-content])]/stamps-container:blur-sm lg:-translate-y-10',
@@ -914,7 +914,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         />
       </div>
       <Footer
-        className="col-[1] row-[3] py-2 pb-10 pl-2 sm:py-2 sm:pb-2 lg:col-[2] lg:row-[2] lg:pl-0"
+        className="col-[1] row-[2] py-2 pl-2 sm:py-2 sm:pb-2 lg:col-[2] lg:row-[2] lg:pl-0 "
         onSelectCollection={handleSelectCollection}
       >
         <FeedbackDialog
@@ -928,7 +928,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   '--shimmer-fg': colors.stone[500],
                 } as CSSProperties
               }
-              className="focus-dashed shimmer-text ml-auto cursor-pointer font-mono uppercase lg:ml-0"
+              className="focus-dashed shimmer-text cursor-pointer font-mono uppercase lg:ml-0"
             >
               Give Feedback
             </button>

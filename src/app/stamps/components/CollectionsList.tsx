@@ -34,7 +34,7 @@ export default function CollectionsList({
           <li
             key={c}
             className={cn(
-              'relative -ml-2 flex min-w-[100px] items-center overflow-clip rounded-tl-md rounded-tr-md border border-stone-300 shadow-[2px_0px_5px_0px_rgba(0,0,0,0.1)] first:ml-0 first:rounded-tl-none lg:first:rounded-tl-md',
+              'relative -ml-2 flex min-w-[100px] items-center overflow-clip rounded-bl-md rounded-br-md border border-stone-300 shadow-[2px_0px_5px_0px_rgba(0,0,0,0.1)] first:ml-0 first:rounded-tl-none lg:rounded-bl-none lg:rounded-br-none lg:rounded-tl-md lg:rounded-tr-md lg:first:rounded-tl-md',
               'border-dashed border-[--muted-fg]',
               {
                 'z-[--max-z] border-solid': isSelected,
@@ -57,7 +57,7 @@ export default function CollectionsList({
               onFocus={() => onCollectionFocus(c)}
               disabled={!hasStamps}
               className={cn(
-                'font-commitmono flex h-full w-full items-center justify-center gap-1 bg-[--muted-bg] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[--muted-fg] transition-colors duration-0 focus:outline-none focus-visible:bg-[--bg] focus-visible:text-[--fg] focus-visible:outline-none hover:enabled:border-solid hover:enabled:bg-[--bg] hover:enabled:text-[--fg] disabled:opacity-50',
+                'flex h-full w-full items-center justify-center gap-1 bg-[--muted-bg] px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-[--muted-fg] transition-colors duration-0 focus:outline-none focus-visible:bg-[--bg] focus-visible:text-[--fg] focus-visible:outline-none hover:enabled:border-solid hover:enabled:bg-[--bg] hover:enabled:text-[--fg] disabled:opacity-50',
                 { 'bg-[--bg] text-[--fg]': isSelected },
               )}
             >

@@ -56,7 +56,7 @@ export default function FeedbackForm({
             aria-label="Postcard message"
             maxLength={MAX_CHARS}
             id="message"
-            className="absolute inset-0 h-full w-full resize-none bg-transparent font-[cursive] text-base leading-relaxed text-stone-500 caret-gray-700 placeholder:text-stone-400 focus:outline-none sm:text-lg"
+            className="absolute inset-0 h-full w-full resize-none bg-transparent font-[cursive] text-lg leading-relaxed text-stone-500 caret-gray-700 placeholder:text-stone-400 focus:outline-none"
             placeholder={placeholder}
             autoFocus
           />
@@ -102,7 +102,7 @@ export default function FeedbackForm({
         {addressLines.map((_, i) => (
           <div
             key={i}
-            className="min-h-[1em] w-full border-b border-stone-200 font-[cursive] text-[0.875rem] text-stone-600 sm:text-sm"
+            className="min-h-[1em] w-full border-b border-stone-200 font-[monospace] text-[0.65rem] uppercase text-stone-600 sm:text-xs"
           >
             {addressLines[i] || ''}
           </div>

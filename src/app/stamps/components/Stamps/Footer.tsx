@@ -59,11 +59,11 @@ export function Footer({
   return (
     <div
       className={cn(
-        'grid grid-cols-2 items-center justify-center justify-items-center gap-2 py-2 font-mono text-xs font-bold uppercase text-stone-400 lg:grid-cols-3',
+        'grid grid-cols-1 items-center justify-center justify-items-center gap-2 py-2 font-mono text-xs font-bold uppercase text-stone-400 lg:grid-cols-3',
         className,
       )}
     >
-      <div className="mr-auto flex items-center gap-2 font-mono">
+      <div className="mr-auto hidden items-center gap-2 font-mono lg:flex">
         Leuchtturm <SmileyIcon className="hidden h-4 w-4 lg:block" weight="bold" />{' '}
         <span className="hidden lg:block">G-System</span>
       </div>

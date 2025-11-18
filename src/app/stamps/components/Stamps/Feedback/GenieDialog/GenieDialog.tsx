@@ -223,11 +223,12 @@ export function GenieBackdrop({
           texture={snapshot.texture}
           width={dimensions.width}
           height={dimensions.height}
-          warpRange={isMobile ? { left: 90, right: 95 } : { left: 47.5, right: 52.5 }} // todo: calculate from DialogTrigger bounding rect
+          warpRange={{ left: 47.5, right: 52.5 }} // todo: calculate from DialogTrigger bounding rect
           warpRef={warpRef}
           duration={duration}
           motionBlur={1}
           easing={1}
+          side={isMobile ? 'top' : 'bottom'}
           className={cn('absolute inset-0 transition-all duration-0', {
             'opacity-0 duration-500': !isVisible,
           })}

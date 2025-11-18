@@ -34,6 +34,7 @@ interface WarpProps {
   easing: number;
   isReversed: boolean;
   duration: number;
+  side?: 'top' | 'bottom';
 }
 
 const WarpMaterial = shaderMaterial(
@@ -45,6 +46,7 @@ const WarpMaterial = shaderMaterial(
     uEasingFunction: 2,
     uIsReversed: true,
     uTexture: null as THREE.Texture | null,
+    uSide: 0,
   },
   vertexShaderSource,
   fragmentShaderSource,
@@ -62,6 +64,7 @@ type WarpMatImpl = THREE.ShaderMaterial & {
     uEasingFunction: { value: number };
     uIsReversed: { value: number };
     uTexture: { value: THREE.Texture | null };
+    uSide: { value: number };
   };
 };
 
@@ -89,6 +92,7 @@ function WarpScene({
   isReversed,
   playId,
   isStatic,
+  side = 'bottom',
 }: {
   texture: THREE.Texture;
   durationMs: number;
@@ -98,6 +102,7 @@ function WarpScene({
   isReversed: boolean;
   playId: number;
   isStatic: boolean;
+  side?: 'top' | 'bottom';
 }) {
   const matRef = useRef<WarpMatImpl>(null!);
   const progressRef = useRef(0);
@@ -115,7 +120,8 @@ function WarpScene({
     u.uMotionBlur.value = motionBlur / 100;
     u.uEasingFunction.value = easing | 0;
     u.uIsReversed.value = isReversed ? 1 : 0;
-  }, [texture, ranges.left, ranges.right, motionBlur, easing, isReversed]);
+    u.uSide.value = side === 'top' ? 1 : 0;
+  }, [texture, ranges.left, ranges.right, motionBlur, easing, isReversed, side]);
 
   useLayoutEffect(() => {
     progressRef.current = 0;
@@ -159,11 +165,12 @@ export default function Warp({
   warpRange,
   texture,
   className,
+  side,
   ...props
 }: CanvasProps &
   Pick<
     WarpProps,
-    'easing' | 'warpRange' | 'motionBlur' | 'height' | 'width' | 'duration' | 'texture'
+    'easing' | 'warpRange' | 'motionBlur' | 'height' | 'width' | 'duration' | 'texture' | 'side'
   > & { warpRef: React.Ref<WarpController> }) {
   const [isReversed, setIsReversed] = useState(false);
   const [playId, setPlayId] = useState(0);
@@ -232,6 +239,7 @@ export default function Warp({
           isReversed={isReversed}
           playId={playId}
           isStatic={isStatic}
+          side={side}
         />
       )}
     </Canvas>
