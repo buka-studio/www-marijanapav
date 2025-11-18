@@ -160,7 +160,10 @@ export default function MetadataTable({ className }: { className?: string }) {
         )}
       </div>
       <div
-        className={cn('grid grid-cols-[2fr_3fr] font-mono text-sm font-bold', className)}
+        className={cn(
+          'grid transform-gpu grid-cols-[2fr_3fr] font-mono text-sm font-bold',
+          className,
+        )}
         key={stamp?.id}
       >
         {Object.entries(rows).map(([label, value], i) => {
