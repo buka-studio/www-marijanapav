@@ -254,14 +254,14 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
               </div>
 
               <FlipCardTrigger asChild>
-                <PostcardButton className="absolute bottom-8 left-4 sm:bottom-4 sm:left-4">
+                <PostcardButton className="absolute bottom-4 left-4 sm:bottom-4 sm:left-4">
                   Flip
                 </PostcardButton>
               </FlipCardTrigger>
             </FlipCardFront>
             <FlipCardBack className="group" key="back">
               <FeedbackForm
-                className="group/form h-full w-full border border-stone-200 shadow-sm"
+                className="group/form h-full w-full border border-stone-200 shadow-sm [background-image:url('/stamps/noise.svg')]"
                 ref={postcardFormRef}
                 onSubmit={handleSubmit}
                 footer={
@@ -276,10 +276,10 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
                         aria-live="assertive"
                         {...submitMessageAnimationProps}
                       >
-                        {submitState === 'error' ? 'Uh-oh, try again! :(' : 'Thank you! :)'}
+                        {submitState === 'error' ? 'Try again! :(' : 'Thank you! :)'}
                       </motion.div>
                     ) : (
-                      <motion.div className="font-[monospace] text-xs uppercase">
+                      <motion.div className="hidden font-[monospace] text-xs uppercase sm:block">
                         Buka Studio Production
                       </motion.div>
                     )}
@@ -288,7 +288,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
               >
                 <PostcardButton
                   type="submit"
-                  className="absolute bottom-8 right-4 flex min-w-[60px] justify-center group-invalid/form:pointer-events-none group-invalid/form:opacity-50 sm:bottom-3.5 sm:right-4"
+                  className="absolute bottom-3.5 right-4 flex min-w-[60px] justify-center group-invalid/form:pointer-events-none group-invalid/form:opacity-50 sm:bottom-3.5 sm:right-4"
                   disabled={submitState === 'sending'}
                 >
                   {submitState === 'sending' ? (
@@ -299,7 +299,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
                 </PostcardButton>
               </FeedbackForm>
               <FlipCardTrigger asChild>
-                <PostcardButton className="absolute bottom-8 left-4 sm:bottom-3.5 sm:left-4">
+                <PostcardButton className="absolute bottom-3.5 left-4 sm:bottom-3.5 sm:left-4">
                   Flip
                 </PostcardButton>
               </FlipCardTrigger>
