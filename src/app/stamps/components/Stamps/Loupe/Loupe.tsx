@@ -379,7 +379,7 @@ function Loupe({
       animate={magnifierControls}
       style={style}
       className={cn(
-        'loupe absolute z-[100] flex aspect-square w-[var(--dial-size)] items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30 outline outline-1 outline-offset-8 outline-[rgba(255,255,255,0.1)] [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&:has(.loupe-trigger:focus-visible)]:outline-stone-500 [&[data-zoomed="false"]_.loupe-lens]:!pointer-events-none',
+        'loupe absolute z-[100] flex aspect-square w-[var(--dial-size)] items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30  outline-offset-8 [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&:has(.loupe-trigger:focus-visible)]:outline-stone-400 [&[data-zoomed="false"]_.loupe-lens]:!pointer-events-none',
         'shadow-md',
         className,
       )}
