@@ -9,15 +9,15 @@ const MAX_CHARS = 300;
 
 const addressLines = ['Robert and Marijana', 'Digital Stamp Collection HQ', 'Feedback Dept.'];
 const placeholders = [
-  `hey hi — can we get a Kamakura stamp on the site? big buddha energy pls. ok bye`,
-  `hello!! dropping in to request a Himeji stamp because that castle is unreal. ty in advance lol`,
-  `yo can you make a Miyajima stamp? floating torii gate supremacy. ok thanks bye`,
-  `hi from the adriatic enjoyer community — pls add a Rab stamp?? would be iconic. thx`,
+  `hey hi, can we get a Kamakura stamp on the site? big buddha energy pls. ok bye`,
+  `hello!! dropping in to request a Himeji stamp because that castle is unreal. ty in advance, greetings from Japan!`,
+  `Can you make a Miyajima stamp? floating torii gate would be crazy good! thankyouu bye`,
+  `Hi from the adriatic enjoyer! Can you add a Rab stamp?? Greetings from Croatia :)`,
   `hey! any chance for a Bali stamp? beaches + temples + chaos monkeys? would love it.`,
-  `hiii can we get a Koh Samui stamp?? i need the palm-tree vibes on your site. ty!!`,
-  `hello internet person — requesting a Singapore stamp. skyline, food, absolute efficiency. pls add`,
-  `hey! can you add a CDMX / Teotihuacán stamp?? pyramids + city energy = need. ok bye`,
-  `hi hi — any chance for an Amsterdam stamp? canals, bikes, cute houses… the works. thx :)`,
+  `hiii can we get a Koh Samui stamp?? i need the palm-tree vibes ty!!`,
+  `hello, requesting a Singapore stamp: skyline, food markets, merlion, gardens by the bay, that kinda thing!`,
+  `Heyyo from CDMX! Can you add a Teotihuacán stamp, Pyramid of the Moon! `,
+  `hi hi you're missing an Amsterdam stamp, canals, bikes, windmills :) can you add?`,
 ];
 
 export default function FeedbackForm({
