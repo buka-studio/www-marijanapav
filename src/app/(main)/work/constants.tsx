@@ -117,6 +117,14 @@ import SupabaseLW1203 from '~/public/work/supabase-lw12/supabase03.png';
 import SupabaseLW1204 from '~/public/work/supabase-lw12/supabase04.png';
 import SupabaseLW1205 from '~/public/work/supabase-lw12/supabase05.png';
 import SupabaseLW1206 from '~/public/work/supabase-lw12/supabase06.png';
+import FeedbackPostcards00 from '~/public/work/postcard/feedback-postcard_00.png';
+
+import FeedbackPostcards01 from '~/public/work/postcard/feedback-postcard_01.png';
+import FeedbackPostcards02 from '~/public/work/postcard/feedback-postcard_02.png';
+import FeedbackPostcards03 from '~/public/work/postcard/feedback-postcard_03.png';
+import FeedbackPostcards04 from '~/public/work/postcard/feedback-postcard_04.png';
+import FeedbackPostcards05 from '~/public/work/postcard/feedback-postcard_05.png';
+import FeedbackPostcards06 from '~/public/work/postcard/feedback-postcard_06.png';
 
 import SupabaseCard from './components/SupabaseCard';
 
@@ -153,6 +161,18 @@ export type Project = (StaticProject | ComponentProject) & {
 // aspect - width/height - for grid layout
 // todo: consider contentlayer or some other lightweight cms
 export const projects: Project[] = [
+  {
+    type: 'project',
+    title: 'Feedback postcards on the web',
+    slug: 'feedback-postcards',
+    preview: FeedbackPostcards00,
+    images: [FeedbackPostcards01, FeedbackPostcards02, FeedbackPostcards03, FeedbackPostcards04, FeedbackPostcards05, FeedbackPostcards06],
+    filters: ['illustration'],
+    description: `Illustrations for the digital postcard component, where users can send feedback or request new stamp designs. Each scene captures familiar moments of writing, desktop or mobile — each scene reflects the quiet, everyday contexts in which we send messages. The postcard’s stamp pays homage to the first issue, Queen Victoria’s Penny Black, reimagined as a portrait of the two of us who built this project.`,
+     link: 'https://marijanapav.com/stamps',
+    tags: ['Figma', '© 2025'],
+    aspect: 1.1,
+  },
   {
     type: 'project',
     title: 'An overview of how LiveKit works',
