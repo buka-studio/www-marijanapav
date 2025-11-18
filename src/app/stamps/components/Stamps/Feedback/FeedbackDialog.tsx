@@ -261,7 +261,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
             </FlipCardFront>
             <FlipCardBack className="group" key="back">
               <FeedbackForm
-                className="h-full w-full border border-stone-200 shadow-sm"
+                className="group/form h-full w-full border border-stone-200 shadow-sm"
                 ref={postcardFormRef}
                 onSubmit={handleSubmit}
                 footer={
@@ -288,7 +288,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
               >
                 <PostcardButton
                   type="submit"
-                  className="absolute bottom-8 right-4 flex min-w-[60px] justify-center sm:bottom-4 sm:right-4"
+                  className="absolute bottom-8 right-4 flex min-w-[60px] justify-center group-invalid/form:pointer-events-none group-invalid/form:opacity-50 sm:bottom-4 sm:right-4"
                   disabled={submitState === 'sending'}
                 >
                   {submitState === 'sending' ? (

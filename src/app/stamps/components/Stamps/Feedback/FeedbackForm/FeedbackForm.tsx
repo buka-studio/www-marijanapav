@@ -51,6 +51,7 @@ export default function FeedbackForm({
             className="sr-only"
           />
           <textarea
+            required
             name="message"
             aria-label="Postcard message"
             maxLength={MAX_CHARS}

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Archivo, Caveat, IBM_Plex_Mono, Inter, Libertinus_Serif } from 'next/font/google';
+import { Archivo, IBM_Plex_Mono, Inter, Libertinus_Serif } from 'next/font/google';
 
 import './globals.css';
 
@@ -30,12 +30,6 @@ const libertinusSerif = Libertinus_Serif({
   variable: '--font-libertinus-serif',
 });
 
-const caveat = Caveat({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-caveat',
-});
-
 export const metadata: Metadata = {
   title: "Marijana Pavlinić's Personal Website",
   metadataBase:
@@ -46,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className="">
       <body
-        className={`${inter.variable} ${archivo.variable} ${ibmPlexMono.variable} ${libertinusSerif.variable} ${caveat.variable} font-sans`}
+        className={`${inter.variable} ${archivo.variable} ${ibmPlexMono.variable} ${libertinusSerif.variable} font-sans`}
       >
         <ThemeProvider>{children}</ThemeProvider>
       </body>
