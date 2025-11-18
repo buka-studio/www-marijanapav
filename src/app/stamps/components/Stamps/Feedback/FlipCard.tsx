@@ -167,19 +167,21 @@ export function FlipCard({
         {children}
 
         {shine && (
-          <motion.span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 hidden rounded-[inherit] hoverable:block"
-            style={{
-              mixBlendMode: 'soft-light',
-              maskImage:
-                'linear-gradient(90deg, transparent 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, transparent 100%)',
-              background:
-                'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15) 45%, transparent 70%)',
-              filter: 'blur(2px)',
-              transform: shineTransform,
-            }}
-          />
+          <div className="absolute inset-0 overflow-clip">
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 hidden rounded-[inherit] hoverable:block"
+              style={{
+                mixBlendMode: 'soft-light',
+                maskImage:
+                  'linear-gradient(90deg, transparent 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, transparent 100%)',
+                background:
+                  'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15) 45%, transparent 70%)',
+                filter: 'blur(2px)',
+                transform: shineTransform,
+              }}
+            />
+          </div>
         )}
       </motion.div>
     </FlipCardContext.Provider>
