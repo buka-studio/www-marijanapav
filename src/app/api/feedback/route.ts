@@ -11,7 +11,7 @@ const schema = z.object({
 });
 
 const COOKIE = 'feedback_id';
-const WINDOW_MS = 30_000;
+const WINDOW_MS = 30_000; // 30 seconds
 const MAX_AGE_MS = 60 * 60 * 24 * 365; // 1 year
 
 export async function POST(req: Request) {

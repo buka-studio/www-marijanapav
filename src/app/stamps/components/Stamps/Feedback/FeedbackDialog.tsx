@@ -237,7 +237,10 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
             <FlipCardFront className="group" key="front">
               <div
                 ref={(e) => {
-                  postcardSideRef.current = e;
+                  if (!postcardSideRef.current) {
+                    postcardSideRef.current = e;
+                  }
+
                   postcardImgRef.current = e;
                 }}
                 className="h-full w-full rounded-[2px] border border-stone-200 bg-stone-50 p-2 shadow-sm"
@@ -280,7 +283,15 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
                         {submitState === 'error' ? 'Try again! :(' : 'Thank you! :)'}
                       </motion.div>
                     ) : (
-                      <motion.div className="hidden font-[monospace] text-xs uppercase sm:block">
+                      <motion.div
+                        className={cn(
+                          'hidden font-[monospace] text-xs uppercase transition-opacity duration-200 sm:block',
+                          {
+                            'opacity-0': submitState !== 'initial',
+                          },
+                        )}
+                        key="footer"
+                      >
                         Buka Studio Production
                       </motion.div>
                     )}
