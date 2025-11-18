@@ -288,7 +288,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
               >
                 <PostcardButton
                   type="submit"
-                  className="absolute bottom-8 right-4 flex min-w-[60px] justify-center group-invalid/form:pointer-events-none group-invalid/form:opacity-50 sm:bottom-4 sm:right-4"
+                  className="absolute bottom-8 right-4 flex min-w-[60px] justify-center group-invalid/form:pointer-events-none group-invalid/form:opacity-50 sm:bottom-3.5 sm:right-4"
                   disabled={submitState === 'sending'}
                 >
                   {submitState === 'sending' ? (
@@ -299,7 +299,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
                 </PostcardButton>
               </FeedbackForm>
               <FlipCardTrigger asChild>
-                <PostcardButton className="absolute bottom-8 left-4 sm:bottom-4 sm:left-4">
+                <PostcardButton className="absolute bottom-8 left-4 sm:bottom-3.5 sm:left-4">
                   Flip
                 </PostcardButton>
               </FlipCardTrigger>
