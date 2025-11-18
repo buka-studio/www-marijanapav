@@ -40,6 +40,18 @@ function useFlipCardContext(component: string) {
   return ctx;
 }
 
+function hasNoTiltAncestor(target: Element | null, container: HTMLElement) {
+  let el: Element | null = target;
+  while (el && el !== container) {
+    if ((el as HTMLElement).dataset?.noTilt !== undefined) {
+      return true;
+    }
+    el = el.parentElement;
+  }
+
+  return !!(el && (el as HTMLElement).dataset?.noTilt !== undefined);
+}
+
 interface FlipCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   side?: FlipSide;
   onSideChange?: (side: FlipSide) => void;
@@ -113,9 +125,15 @@ export function FlipCard({
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
-      const container = e.currentTarget as HTMLElement | null;
-      if (!container) return;
-      if (disableTilt) return;
+      const container = e.currentTarget;
+      if (!container || disableTilt) {
+        return;
+      }
+      const target = e.target;
+      if (hasNoTiltAncestor(target as Element, container)) {
+        return;
+      }
+
       const t = getHoverTiltFromPointer({ event: e as any, container, factor: 5 });
       tiltX.set(t.rotateX);
       tiltY.set(t.rotateY);
@@ -208,7 +226,7 @@ export function FlipCardBack({ asChild, className, style, children, ...divProps 
     <Comp
       {...divProps}
       className={cn('absolute inset-0 [backface-visibility:hidden]', className)}
-      style={{ transform: 'rotateY(180deg)', ...style }}
+      style={{ transform: 'rotateY(180deg) translateZ(1px)', ...style }}
       inert={side !== 'back'}
     >
       {children}

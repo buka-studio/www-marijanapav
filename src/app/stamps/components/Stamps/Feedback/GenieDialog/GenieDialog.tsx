@@ -27,7 +27,7 @@ const useGenieDialog = () => {
   return useContext(GenieContext);
 };
 
-export function FeedbackDialog({
+export function GenieDialog({
   children,
   ...props
 }: { children: React.ReactNode } & Dialog.DialogProps) {
@@ -42,27 +42,20 @@ export function FeedbackDialog({
   );
 }
 
-export const FeedbackDialogPortal = Dialog.Portal;
+export const GenieDialogPortal = Dialog.Portal;
 
-export function FeedbackDialogOverlay({ ...props }: Dialog.DialogOverlayProps) {
+export function GenieDialogOverlay({ ...props }: Dialog.DialogOverlayProps) {
   return <Dialog.Overlay {...props} />;
 }
 
-export function FeedbackDialogTrigger({ ...props }) {
+export function GenieDialogTrigger({ ...props }: Dialog.DialogTriggerProps) {
   const { setTriggerRef } = useGenieDialog();
 
   return <Dialog.Trigger ref={setTriggerRef} {...props} />;
 }
 
-export function FeedbackDialogContent({
-  children,
-  ...props
-}: { children: React.ReactNode } & Dialog.DialogContentProps) {
-  return (
-    <Dialog.Content data-slot="dialog-content" {...props}>
-      {children}
-    </Dialog.Content>
-  );
+export function GenieDialogContent({ ...props }: Dialog.DialogContentProps) {
+  return <Dialog.Content data-slot="dialog-content" {...props} />;
 }
 
 export interface GenieAnimationController {
@@ -106,41 +99,39 @@ export function GenieBackdrop({
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const isMobile = useIsMobile();
 
-  const [isActive, setIsActive] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  const targetsCacheRef = useRef<WeakMap<HTMLElement, Snapshot>>(new WeakMap());
+  const targetsCacheRef = useRef<Map<string, Snapshot>>(new Map());
 
   const warpRef = useRef<WarpController>(null);
 
   const handlePrepareSnapshot = useCallback(
-    async (target?: HTMLElement | null) => {
+    async (target?: HTMLElement | null, key?: string) => {
       if (!target) {
         return;
       }
 
-      // const cached = targetsCacheRef.current.get(target);
-      // if (cached) {
-      //   flushSync(() => {
-      //     setSnapshot(cached);
-      //   });
-      //   return;
-      // }
+      const cached = key ? targetsCacheRef.current.get(key) : null;
+      if (cached) {
+        flushSync(() => {
+          setSnapshot(cached);
+        });
+        return;
+      }
 
       const snap = await snapdom(target, {
-        embedFonts: true,
-        // cache: 'disabled',
-        excludeFonts: {
-          families: [
-            'Inter',
-            'Inter Fallback',
-            'Archivo',
-            'Archivo Fallback',
-            'IBM Plex Mono',
-            'IBM Plex Mono Fallback',
-            'Libertinus Serif',
-          ],
-        },
+        // todo: look into why this takes forever on safari
+        // embedFonts: true,
+        // excludeFonts: {
+        //   families: [
+        //     'Inter',
+        //     'Inter Fallback',
+        //     'Archivo',
+        //     'Archivo Fallback',
+        //     'IBM Plex Mono Fallback',
+        //     'Libertinus Serif',
+        //   ],
+        // },
       });
       const img = await snap.toPng();
 
@@ -175,7 +166,9 @@ export function GenieBackdrop({
         texture: imageToTexture(canvas),
       };
 
-      targetsCacheRef.current.set(target, data);
+      if (key) {
+        targetsCacheRef.current.set(key, data);
+      }
 
       flushSync(() => {
         setSnapshot(data);
@@ -187,18 +180,18 @@ export function GenieBackdrop({
   );
 
   useImperativeHandle(ref, () => ({
-    prepare: async (props?: { target?: HTMLElement | null }) => {
+    prepare: async (props?: { target?: HTMLElement | null; key?: string }) => {
       await handlePrepareSnapshot(props?.target);
     },
     enter: async (props?: {
       autoHide?: boolean;
       target?: HTMLElement | null;
+      key?: string;
       onStart?: () => void;
     }) => {
       await handlePrepareSnapshot(props?.target);
 
       setIsVisible(true);
-      setIsActive(true);
 
       props?.onStart?.();
       await warpRef.current?.enter();
@@ -207,15 +200,13 @@ export function GenieBackdrop({
         setIsVisible(false);
       }
     },
-    exit: async (props?: { target?: HTMLElement | null; onStart?: () => void }) => {
+    exit: async (props?: { target?: HTMLElement | null; key?: string; onStart?: () => void }) => {
       await handlePrepareSnapshot(props?.target);
 
       setIsVisible(true);
 
       props?.onStart?.();
       await warpRef.current?.exit();
-
-      setIsActive(false);
     },
   }));
 
