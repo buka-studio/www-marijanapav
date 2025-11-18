@@ -668,7 +668,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   return (
     <motion.div
       className={cn(
-        'grid h-full grid-cols-[1fr_auto] grid-rows-[auto_1fr_auto] bg-stone-100 lg:grid-cols-[56px_1fr_auto] lg:grid-rows-[1fr_auto] lg:py-5',
+        'group/stamps-container grid h-full grid-cols-[1fr_auto] grid-rows-[auto_1fr_auto] bg-stone-100 lg:grid-cols-[56px_1fr_auto] lg:grid-rows-[1fr_auto] lg:py-5',
         {
           'touch-none': selectedStampId,
         },
@@ -696,7 +696,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             cellWidth={gridCellSize}
             cellHeight={gridCellSize}
             align="top"
-            className={cn('absolute inset-0 ')}
+            className={cn('absolute inset-0 opacity-40 md:opacity-100')}
           />
         </div>
         <div
@@ -902,7 +902,10 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       <div className="relative w-8 lg:w-10">
         <CollectionsList
           className={cn(
-            'absolute origin-bottom-left -translate-x-px -translate-y-8 rotate-90 lg:-translate-y-10',
+            'absolute origin-bottom-left -translate-x-px -translate-y-8 rotate-90 group-[:has(div[data-state=open][data-slot=dialog-content])]/stamps-container:blur-sm lg:-translate-y-10',
+            {
+              'blur-sm': selectedStampId,
+            },
           )}
           collection={store.collection}
           onCollectionClick={handleSelectCollection}

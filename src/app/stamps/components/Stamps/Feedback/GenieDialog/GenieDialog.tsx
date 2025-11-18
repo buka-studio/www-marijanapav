@@ -1,6 +1,7 @@
 import { snapdom } from '@zumer/snapdom';
 import { Dialog } from 'radix-ui';
 import {
+  ComponentProps,
   createContext,
   useCallback,
   useContext,
@@ -90,11 +91,12 @@ export function GenieBackdrop({
   ref,
   className,
   duration = 625,
+  ...props
 }: {
   ref: React.RefObject<GenieAnimationController | null>;
   className?: string;
   duration?: number;
-}) {
+} & Omit<ComponentProps<'div'>, 'ref'>) {
   const { ref: containerRef, dimensions } = useResizeRef<HTMLDivElement>();
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const isMobile = useIsMobile();
@@ -211,7 +213,11 @@ export function GenieBackdrop({
   }));
 
   return (
-    <div ref={containerRef} className={cn('pointer-events-none absolute inset-0 ', className)}>
+    <div
+      ref={containerRef}
+      className={cn('pointer-events-none absolute inset-0 ', className)}
+      {...props}
+    >
       {snapshot && (
         <Warp
           texture={snapshot.texture}

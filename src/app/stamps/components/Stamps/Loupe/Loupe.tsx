@@ -181,7 +181,7 @@ function Loupe({
       cellWidth: gridCellSize,
       cellHeight: gridCellSize,
       background: colors.stone[100],
-      foreground: colors.stone[300],
+      foreground: isMobile ? colors.stone[200] : colors.stone[300],
       lineWidth: 1,
     });
 
@@ -212,7 +212,15 @@ function Loupe({
           cssHeight: container.offsetHeight,
         });
       });
-  }, [lensSize, selectedStamp, dragConstraints, baseScale, gridCellSize, activeStampContainerRef]);
+  }, [
+    isMobile,
+    lensSize,
+    selectedStamp,
+    dragConstraints,
+    baseScale,
+    gridCellSize,
+    activeStampContainerRef,
+  ]);
 
   const handlePointerDown = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {

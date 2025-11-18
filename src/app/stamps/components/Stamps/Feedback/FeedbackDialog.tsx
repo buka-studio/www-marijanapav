@@ -212,6 +212,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
       <GenieDialogPortal container={containerRef.current}>
         <GenieDialogOverlay className="absolute inset-0 z-[60] bg-white/20 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
           <GenieBackdrop
+            data-slot="genie-backdrop"
             ref={genieAnimationRef}
             className="pointer-events-none absolute inset-0 z-[70]"
           />
