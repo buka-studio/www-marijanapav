@@ -763,7 +763,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                         custom={{
                           scale: invertScale(centerScale),
                         }}
-                        className="pointer-events-auto absolute top-[calc(100%+8px)] flex w-full items-center justify-center gap-5"
+                        className="pointer-events-auto absolute top-full flex w-full items-center justify-center gap-5"
                       >
                         <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
                           <Drawer

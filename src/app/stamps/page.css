@@ -34,7 +34,7 @@
   color: #2d1c00;
 }
 
-.stamps-layout .focus-dashed {
+.focus-dashed {
   @apply rounded-[2px] focus-visible:outline-dashed focus-visible:outline-1 focus-visible:outline-stone-500;
 }
 

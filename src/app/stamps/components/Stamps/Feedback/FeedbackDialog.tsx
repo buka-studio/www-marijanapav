@@ -42,7 +42,7 @@ function PostcardButton({ className, ...props }: ComponentProps<typeof motion.bu
   return (
     <motion.button
       className={cn(
-        'rounded-full bg-stone-300/80 px-4 py-1 font-[monospace] text-xs uppercase text-stone-600 transition-opacity duration-200 group-hover:opacity-100 hover:bg-stone-200 focus-visible:bg-stone-200 focus-visible:opacity-100 focus-visible:outline-none disabled:cursor-not-allowed hoverable:opacity-0',
+        'rounded-full bg-stone-300/80 px-4 py-1 font-[monospace] text-xs uppercase text-stone-600 outline-offset-2 transition-opacity duration-200 group-hover:opacity-100 hover:bg-stone-200 focus-visible:bg-stone-200 focus-visible:opacity-100 focus-visible:outline-dashed focus-visible:outline-1 focus-visible:outline-stone-500 disabled:cursor-not-allowed hoverable:opacity-0',
         className,
       )}
       {...props}

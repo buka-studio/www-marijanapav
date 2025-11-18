@@ -57,6 +57,7 @@ export default function FeedbackForm({
             id="message"
             className="absolute inset-0 h-full w-full resize-none bg-transparent font-[cursive] text-base leading-relaxed text-stone-500 caret-gray-700 placeholder:text-stone-400 focus:outline-none sm:text-lg"
             placeholder={placeholder}
+            autoFocus
           />
         </div>
       </div>
