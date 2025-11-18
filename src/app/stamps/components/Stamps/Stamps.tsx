@@ -914,7 +914,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         />
       </div>
       <Footer
-        className="col-[1] row-[3] py-5 pl-2 sm:py-2 lg:col-[2] lg:row-[2] lg:pl-0"
+        className="col-[1] row-[3] py-2 pb-10 pl-2 sm:py-2 sm:pb-2 lg:col-[2] lg:row-[2] lg:pl-0"
         onSelectCollection={handleSelectCollection}
       >
         <FeedbackDialog

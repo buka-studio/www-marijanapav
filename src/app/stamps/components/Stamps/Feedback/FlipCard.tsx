@@ -155,7 +155,7 @@ export function FlipCard({
   const content = (
     <FlipCardContext.Provider value={ctx}>
       <motion.div
-        className="relative h-full w-full "
+        className="group/flipcard relative h-full w-full"
         style={{
           transformStyle: 'preserve-3d',
           rotateX: springX,
@@ -167,16 +167,16 @@ export function FlipCard({
         {children}
 
         {shine && (
-          <div className="absolute inset-0 overflow-clip">
+          <div className="pointer-events-none absolute inset-0 overflow-clip [transform:translateZ(2px)]">
             <motion.div
               aria-hidden
-              className="pointer-events-none absolute inset-0 hidden rounded-[inherit] hoverable:block"
+              className="absolute inset-0 hidden rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover/flipcard:opacity-100 hoverable:block"
               style={{
                 mixBlendMode: 'soft-light',
                 maskImage:
                   'linear-gradient(90deg, transparent 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, transparent 100%)',
                 background:
-                  'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15) 45%, transparent 70%)',
+                  'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.1) 45%, transparent 70%)',
                 filter: 'blur(2px)',
                 transform: shineTransform,
               }}
@@ -211,7 +211,10 @@ export function FlipCardFront({ asChild, className, style, children, ...divProps
   return (
     <Comp
       {...divProps}
-      className={cn('absolute inset-0 [backface-visibility:hidden]', className)}
+      className={cn(
+        'absolute inset-0 [backface-visibility:hidden] [transform:translateZ(1px)]',
+        className,
+      )}
       style={style}
       inert={side !== 'front'}
     >
