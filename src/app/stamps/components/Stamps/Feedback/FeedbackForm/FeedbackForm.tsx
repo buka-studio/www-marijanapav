@@ -35,12 +35,12 @@ export default function FeedbackForm({
   return (
     <form
       className={cn(
-        'grid grid-cols-[1fr_auto] grid-rows-[1fr_1fr_auto] gap-x-5 rounded-[2px] border border-stone-200 bg-stone-100 p-3 sm:grid-cols-[1fr_1fr] sm:gap-x-6 sm:p-4 sm:px-6',
+        'grid grid-cols-[1fr_auto] grid-rows-[1fr_1fr_auto] gap-x-5 rounded-[2px] border border-stone-200 bg-stone-100 p-3 pb-4 sm:grid-cols-[1fr_1fr] sm:gap-x-6 sm:p-4 sm:px-6',
         className,
       )}
       {...props}
     >
-      <div className="col-[1/3] row-[2] border-t border-dashed border-stone-200 py-3 pb-12 sm:col-[1] sm:row-span-3 sm:border-r sm:border-t-0 sm:py-5 sm:pb-5 sm:pr-5">
+      <div className="relative col-[1/3] row-[2] py-3 pb-8 sm:col-[1] sm:row-span-3 sm:py-5 sm:pb-5 sm:pr-5">
         <div className="relative h-full w-full" data-no-tilt>
           <input
             type="text"
@@ -61,7 +61,30 @@ export default function FeedbackForm({
             autoFocus
           />
         </div>
+        <svg className="absolute top-0 h-[2px] w-full text-stone-300 sm:right-0 sm:h-full sm:w-[2px] ">
+          <line
+            className="sm:hidden"
+            x1="0"
+            y1="0"
+            x2="100%"
+            y2="0"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+          />
+          <line
+            className="hidden sm:block"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="100%"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+          />
+        </svg>
       </div>
+
       <div className="col-[2] row-[1] flex items-start justify-end">
         <div className="relative h-[120px] w-[90px] border border-stone-300">
           <Image
@@ -86,7 +109,7 @@ export default function FeedbackForm({
         ))}
       </div>
 
-      <div className="col-[1/3] row-[3] flex justify-between text-[0.5rem] text-stone-400 sm:col-[2] sm:block sm:text-[0.65rem]">
+      <div className="col-[1/3] row-[3] flex justify-center text-[0.5rem] text-stone-400 sm:col-[2] sm:block sm:justify-between sm:text-[0.65rem]">
         {footer}
       </div>
 
