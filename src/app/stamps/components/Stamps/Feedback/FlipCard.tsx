@@ -175,7 +175,7 @@ export function FlipCard({
               maskImage:
                 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, transparent 100%)',
               background:
-                'linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.35) 45%, rgba(255,255,255,0) 70%)',
+                'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15) 45%, transparent 70%)',
               filter: 'blur(2px)',
               transform: shineTransform,
             }}
