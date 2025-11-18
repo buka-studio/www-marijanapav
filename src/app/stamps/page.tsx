@@ -27,7 +27,7 @@ export default function Page() {
           __html: `:root{background:#f5f5f4 !important;}`,
         }}
       />
-      <div className="overflow-auto scrollbar-thin scrollbar-track-stone-100 scrollbar-thumb-stone-300">
+      <div className="overflow-y-auto overflow-x-clip scrollbar-thin scrollbar-track-stone-100 scrollbar-thumb-stone-300">
         <Description className="mx-auto max-w-xl px-4 pt-4 lg:pb-10 lg:pt-5" />
       </div>
       <Stamps />

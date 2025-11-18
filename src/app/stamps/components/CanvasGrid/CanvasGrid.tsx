@@ -1,10 +1,13 @@
 import { ComponentProps, useLayoutEffect, useRef } from 'react';
 
+import useResizeRef from '~/src/hooks/useResizeRef';
+import { cn } from '~/src/util';
+
 import { drawGrid, setupHiDPICtx, type NoiseOpts } from './util';
 
 export type CanvasGridProps = {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   cellWidth: number;
   cellHeight: number;
   background?: string;
@@ -21,24 +24,36 @@ export default function CanvasGrid({
   background = '#e7e5e4',
   foreground = '#d6d3d1',
   align = 'center',
+  ref,
+  className,
   ...props
-}: CanvasGridProps & ComponentProps<'canvas'>) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+}: CanvasGridProps & ComponentProps<'div'>) {
+  const { ref: containerRef, dimensions } = useResizeRef();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const w = width || dimensions.width;
+  const h = height || dimensions.height;
 
   useLayoutEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {
+      return;
+    }
 
-    const { ctx, dpr } = setupHiDPICtx(
+    if (!w || !h) {
+      return;
+    }
+
+    const { ctx } = setupHiDPICtx(
       canvas,
-      width,
-      height,
+      w,
+      h,
       typeof window !== 'undefined' ? window.devicePixelRatio : 1,
     );
 
     drawGrid(ctx, {
-      width,
-      height,
+      width: w,
+      height: h,
       cellWidth,
       cellHeight,
       background,
@@ -46,7 +61,29 @@ export default function CanvasGrid({
       lineWidth: 1,
       align,
     });
-  }, [width, height, cellWidth, cellHeight, background, foreground, align]);
+  }, [w, h, cellWidth, cellHeight, background, foreground, align]);
 
-  return <canvas ref={canvasRef} {...props} />;
+  return (
+    <div
+      className={cn(
+        'transition-opacity',
+        {
+          'opacity-0': !w || !h,
+          'opacity-100': w && h,
+        },
+        className,
+      )}
+      ref={(e) => {
+        containerRef.current = e;
+        if (typeof ref === 'function') {
+          ref(e);
+        } else if (ref) {
+          ref.current = e;
+        }
+      }}
+      {...props}
+    >
+      <canvas ref={canvasRef} />
+    </div>
+  );
 }

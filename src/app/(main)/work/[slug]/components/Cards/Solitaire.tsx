@@ -55,7 +55,7 @@ export default function Solitaire({ cardSrc }: { cardSrc: string }) {
   const state = useRef<{ card: Vec2; velocity: Vec2 } | null>(null);
 
   const img = useRef<HTMLImageElement | null>(null);
-  const tickDiff = useRef(0);
+  const tickDiffRef = useRef(0);
 
   const narrow = useMatchMedia('(max-width: 640px)');
   const cardSize = narrow ? { width: 80, height: 120 } : { width: 100, height: 150 };
@@ -95,13 +95,13 @@ export default function Solitaire({ cardSrc }: { cardSrc: string }) {
     // img.current.src = 'public/work/illustrated-cards/Back.svg';
   }, [cardSrc]);
 
-  useAnimationFrame((deltaTime) => {
+  useAnimationFrame((t) => {
     if (!ctx.current) return;
     if (!img.current?.complete) return;
 
     // 30fps
-    if (deltaTime - tickDiff.current < 1000 / 120) return;
-    tickDiff.current = deltaTime;
+    if (t - tickDiffRef.current < 1000 / 120) return;
+    tickDiffRef.current = t;
 
     if (!state.current) {
       state.current = init();
