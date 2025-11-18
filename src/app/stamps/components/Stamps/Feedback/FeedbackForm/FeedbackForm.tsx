@@ -76,10 +76,10 @@ export default function FeedbackForm({
         </div>
       </div>
       <div className="justify-start-start col-[1] row-[1] flex flex-col gap-2 sm:col-[2] sm:row-[2] sm:justify-center">
-        {Array.from({ length: 4 }).map((_, i) => (
+        {addressLines.map((_, i) => (
           <div
             key={i}
-            className="min-h-[1em] w-full border-b border-stone-200 font-[monospace] text-[0.625rem] uppercase text-stone-500 sm:text-xs"
+            className="min-h-[1em] w-full border-b border-stone-200 font-[cursive] text-[0.875rem] text-stone-600 sm:text-sm"
           >
             {addressLines[i] || ''}
           </div>
