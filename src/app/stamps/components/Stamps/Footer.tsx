@@ -68,8 +68,6 @@ export function Footer({
         <span className="hidden lg:block">G-System</span>
       </div>
       {children}
-      {/* <div className="hidden lg:block">2020-{new Date().getFullYear()}</div> */}
-
       <div className="ml-auto hidden items-center gap-2 lg:flex">
         <div>{store.collection}</div>
         <div>{indexLabel} </div>

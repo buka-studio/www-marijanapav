@@ -12,11 +12,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { flushSync } from 'react-dom';
 import FocusLock from 'react-focus-lock';
 import colors from 'tailwindcss/colors';
 
-import { DialogDescription, DialogTitle } from '~/src/components/ui/Dialog';
 import {
   Drawer,
   DrawerContent,
@@ -26,7 +24,6 @@ import {
   DrawerTrigger,
 } from '~/src/components/ui/Drawer';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
-import useResizeRef from '~/src/hooks/useResizeRef';
 import { randInt } from '~/src/math';
 import { cn, preloadImage } from '~/src/util';
 
@@ -42,17 +39,7 @@ import DrawnOrganize from './actions/organize.svg';
 import DrawnShuffle from './actions/shuffle.svg';
 import DrawnZoom from './actions/zoom.svg';
 import Draggable, { DraggableController } from './Draggable';
-import FeedbackForm from './Feedback/FeedbackForm/FeedbackForm';
-import FlipCard, { FlipCardBack, FlipCardFront, FlipCardTrigger } from './Feedback/FlipCard';
-import {
-  FeedbackDialog,
-  FeedbackDialogContent,
-  FeedbackDialogOverlay,
-  FeedbackDialogPortal,
-  FeedbackDialogTrigger,
-  GenieAnimationController,
-  GenieBackdrop,
-} from './Feedback/GenieDialog/GenieDialog';
+import { FeedbackDialog } from './Feedback';
 import { Footer } from './Footer';
 import Loupe from './Loupe';
 import { PunchPattern } from './PunchPattern';
@@ -169,7 +156,8 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   const stampsContainerRef = useRef<HTMLDivElement>(null);
   const stampsDragContainerRef = useRef<HTMLDivElement>(null);
 
-  const { ref: containerRef, dimensions } = useResizeRef<HTMLDivElement>();
+  // const { ref: containerRef, dimensions } = useResizeRef<HTMLDivElement>();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const getMaxZ = useCallback(() => {
     return Math.max(...Array.from(draggableContainerRefs.current.values()).map(({ z }) => z)) + 1;
@@ -452,8 +440,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     ],
   );
 
-  const containerMeasured = dimensions.width > 0 && dimensions.height > 0;
-
   const handleDeselectStamp = useCallback(
     (e?: React.MouseEvent<HTMLDivElement>) => {
       if (!selectedStampIdRef.current) {
@@ -679,67 +665,11 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
   const showCollectionActions = Boolean(!selectedStampId);
 
-  const [open, setOpen] = useState(false);
-  const [revealed, setRevealed] = useState(false);
-
-  const handleSubmit = useCallback((data: any) => {
-    setOpen(false);
-  }, []);
-
-  const genieAnimationRef = useRef<GenieAnimationController>(null);
-  const postcardSideRef = useRef<HTMLElement | null>(null);
-  const postcardImgRef = useRef<HTMLDivElement | null>(null);
-  const postcardFormRef = useRef<HTMLDivElement | null>(null);
-  const isPlayingRef = useRef(false);
-
-  const flipCard = useMemo(() => {
-    return (
-      <FlipCard
-        className="h-[450px] max-h-[90vh] w-[320px] max-w-[90vw] sm:h-[400px] sm:w-[550px]"
-        onSideChange={(side) => {
-          if (side === 'front') {
-            postcardSideRef.current = postcardImgRef.current;
-          } else {
-            postcardSideRef.current = postcardFormRef.current;
-          }
-        }}
-      >
-        <FlipCardFront>
-          <div
-            ref={(e) => {
-              console.log('setting postcardSideRef', e);
-              postcardSideRef.current = e;
-              postcardImgRef.current = e;
-            }}
-            className="h-full w-full rounded-[2px] border border-stone-300 bg-stone-50 p-2"
-          >
-            <Image
-              src={isMobileSmall ? '/stamps/postcard_lg_vertical.png' : '/stamps/postcard_lg.png'}
-              alt="Postcard"
-              className="h-full w-full rounded-[2px] object-cover"
-              width={isMobileSmall ? 300 : 550}
-              height={isMobileSmall ? 450 : 350}
-            />
-          </div>
-
-          <FlipCardTrigger>Flip</FlipCardTrigger>
-        </FlipCardFront>
-        <FlipCardBack>
-          <FeedbackForm className="h-full w-full border border-stone-300" ref={postcardFormRef} />
-
-          <FlipCardTrigger>Flip</FlipCardTrigger>
-        </FlipCardBack>
-      </FlipCard>
-    );
-  }, [isMobileSmall]);
-
   return (
     <motion.div
       className={cn(
         'grid h-full grid-cols-[1fr_auto] grid-rows-[auto_1fr_auto] bg-stone-100 lg:grid-cols-[56px_1fr_auto] lg:grid-rows-[1fr_auto] lg:py-5',
         {
-          'opacity-0': !containerMeasured,
-          'opacity-100': containerMeasured,
           'touch-none': selectedStampId,
         },
         className,
@@ -761,16 +691,12 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           )}
         >
           <CanvasGrid
-            width={dimensions.width}
-            height={dimensions.height}
             background={colors.stone[100]}
             foreground={colors.stone[300]}
             cellWidth={gridCellSize}
             cellHeight={gridCellSize}
             align="top"
-            className={cn(
-              'absolute inset-0 left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 transition-opacity',
-            )}
+            className={cn('absolute inset-0 ')}
           />
         </div>
         <div
@@ -785,10 +711,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         >
           <div
             className="stamp-drag-container pointer-events-none absolute bottom-0 left-0"
-            style={{
-              top: dragContainerPadding.top,
-              right: dragContainerPadding.right,
-            }}
+            style={dragContainerPadding}
             ref={stampsDragContainerRef}
             role="presentation"
             aria-hidden="true"
@@ -988,53 +911,13 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         />
       </div>
       <Footer
-        className="col-[1] row-[3] pl-2 lg:col-[2] lg:row-[2] lg:pl-0"
+        className="col-[1] row-[3] py-5 pl-2 sm:py-2 lg:col-[2] lg:row-[2] lg:pl-0"
         onSelectCollection={handleSelectCollection}
       >
         <FeedbackDialog
-          open={open}
-          onOpenChange={(open) => {
-            if (isPlayingRef.current) {
-              return;
-            }
-            if (!open) {
-              isPlayingRef.current = true;
-
-              genieAnimationRef.current
-                ?.exit({
-                  target: postcardSideRef.current,
-                  onStart: () => {
-                    setRevealed(false);
-                  },
-                })
-                .then(() => {
-                  setOpen(false);
-                  isPlayingRef.current = false;
-                });
-            }
-          }}
-        >
-          <FeedbackDialogPortal container={containerRef.current}>
-            <FeedbackDialogOverlay className="absolute inset-0 z-[60] bg-white/20 backdrop-blur-sm">
-              <GenieBackdrop
-                ref={genieAnimationRef}
-                className="pointer-events-none absolute inset-0 z-[70]"
-              />
-            </FeedbackDialogOverlay>
-
-            <FeedbackDialogContent
-              className={cn('absolute left-1/2 top-1/2 z-[80] -translate-x-1/2 -translate-y-1/2', {
-                'opacity-0 transition-all duration-200': !revealed,
-                'opacity-100 transition-all duration-100': revealed,
-              })}
-            >
-              {flipCard}
-              <DialogTitle className="sr-only">Feedback</DialogTitle>
-              <DialogDescription className="sr-only">Hello world</DialogDescription>
-            </FeedbackDialogContent>
-          </FeedbackDialogPortal>
-
-          <FeedbackDialogTrigger asChild>
+          containerRef={containerRef}
+          // todo(rpavlini): make this composable
+          trigger={
             <button
               style={
                 {
@@ -1042,28 +925,12 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   '--shimmer-fg': colors.stone[500],
                 } as CSSProperties
               }
-              className="focus-dashed shimmer-text ml-auto cursor-pointer font-mono uppercase md:ml-0"
-              onClick={() => {
-                flushSync(() => {
-                  setOpen(true);
-                  isPlayingRef.current = true;
-                });
-
-                genieAnimationRef.current
-                  ?.enter({
-                    autoHide: true,
-                    target: postcardImgRef.current,
-                  })
-                  .then(() => {
-                    setRevealed(true);
-                    isPlayingRef.current = false;
-                  });
-              }}
+              className="focus-dashed shimmer-text ml-auto cursor-pointer font-mono uppercase lg:ml-0"
             >
               Give Feedback
             </button>
-          </FeedbackDialogTrigger>
-        </FeedbackDialog>
+          }
+        />
       </Footer>
     </motion.div>
   );
