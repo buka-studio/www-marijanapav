@@ -202,7 +202,7 @@ export default function Description({ className }: { className?: string }) {
             ) : (
               <motion.div key="empty-state" {...fadeInProps}>
                 <EmptyState
-                  className="mx-auto max-w-xl"
+                  className="mx-auto max-w-xl transform-gpu"
                   animate={animate}
                   shouldAnimate={!animated}
                   onAnimationComplete={() => setAnimated(true)}
