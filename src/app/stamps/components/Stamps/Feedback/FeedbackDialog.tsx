@@ -85,14 +85,17 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
   }, []);
 
   const genieAnimationRef = useRef<GenieAnimationController>(null);
-  const postcardSideRef = useRef<HTMLElement | null>(null);
   const postcardImgRef = useRef<HTMLDivElement | null>(null);
   const postcardFormRef = useRef<HTMLFormElement | null>(null);
   const isPlayingRef = useRef(false);
+  const sideRef = useRef<'front' | 'back' | null>('front');
 
   const [submitState, setSubmitState] = useState<'initial' | 'sending' | 'error' | 'success'>(
     'initial',
   );
+
+  const getTarget = () =>
+    sideRef.current === 'front' ? postcardImgRef.current : postcardFormRef.current;
 
   const handleOpenChange = useCallback(
     async (open: boolean) => {
@@ -111,7 +114,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
         try {
           await withTimeout(
             genieAnimationRef.current.exit({
-              target: postcardSideRef.current,
+              target: getTarget(),
               onStart: () => {
                 updateState({ isRevealed: false });
               },
@@ -135,6 +138,8 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
       return;
     }
 
+    sideRef.current = 'front';
+
     flushSync(() => {
       updateState({ isOpen: true, isRevealed: false });
       isPlayingRef.current = true;
@@ -148,8 +153,8 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
     try {
       await withTimeout(
         genieAnimationRef.current.enter({
+          target: getTarget(),
           autoHide: true,
-          target: postcardImgRef.current,
         }),
         genieTimeoutMs,
       );
@@ -227,22 +232,12 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
           <FlipCard
             className="h-[450px] max-h-[90vh] w-[320px] max-w-[90vw] sm:h-[400px] sm:w-[550px]"
             onSideChange={(side) => {
-              if (side === 'front') {
-                postcardSideRef.current = postcardImgRef.current;
-              } else {
-                postcardSideRef.current = postcardFormRef.current;
-              }
+              sideRef.current = side;
             }}
           >
             <FlipCardFront className="group" key="front">
               <div
-                ref={(e) => {
-                  if (!postcardSideRef.current) {
-                    postcardSideRef.current = e;
-                  }
-
-                  postcardImgRef.current = e;
-                }}
+                ref={postcardImgRef}
                 className="h-full w-full rounded-[2px] border border-stone-200 bg-stone-50 p-2 shadow-sm"
               >
                 <Image
