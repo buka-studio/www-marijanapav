@@ -700,7 +700,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           />
         </div>
         <div
-          className="pointer-events-none absolute inset-0 transform-gpu border focus-visible:outline-none"
+          className="pointer-events-none absolute inset-0 transform-gpu focus-visible:outline-none"
           ref={stampsContainerRef}
           role="list"
           tabIndex={0}
