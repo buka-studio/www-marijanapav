@@ -127,7 +127,7 @@ export default async function Work({ params }: { params: Promise<{ slug: string 
               Explore other projects
             </Heading>
           ) : null}
-          <div className="flex flex-col justify-center gap-6 md:flex-row md:[&>*]:max-w-[400px]">
+          <div className="flex flex-col justify-center gap-6 md:flex-row md:*:max-w-[400px]">
             {previousProject && (
               <Link href={`/work/${previousProject.slug}`} className="flex-1 rounded-xl">
                 <PaginationCard direction="left" project={previousProject} />

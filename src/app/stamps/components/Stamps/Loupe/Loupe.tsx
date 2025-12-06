@@ -387,7 +387,7 @@ function Loupe({
       animate={magnifierControls}
       style={style}
       className={cn(
-        'loupe absolute z-[100] flex aspect-square w-[var(--dial-size)] items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30  outline-offset-8 [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&:has(.loupe-trigger:focus-visible)]:outline-stone-400 [&[data-zoomed="false"]_.loupe-lens]:!pointer-events-none',
+        'loupe absolute z-100 flex aspect-square w-(--dial-size) items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30  outline-offset-8 [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&:has(.loupe-trigger:focus-visible)]:outline-stone-400 [&[data-zoomed="false"]_.loupe-lens]:pointer-events-none!',
         'shadow-md',
         className,
       )}
@@ -395,7 +395,7 @@ function Loupe({
       <div
         ref={triggerRef}
         className={cn(
-          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-[100] aspect-square w-[var(--lens-size)] -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] focus-visible:outline-none [&[data-dragging="true"]]:cursor-grabbing [&[data-zoomed="false"]]:pointer-events-none',
+          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-100 aspect-square w-(--lens-size) -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] focus-visible:outline-none data-[dragging="true"]:cursor-grabbing data-[zoomed="false"]:pointer-events-none',
           {
             'pointer-events-none': !store.isZoomed,
           },

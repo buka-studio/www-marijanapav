@@ -787,7 +787,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                             <DrawerContent
                               className="max-w-[100vw] rounded-none! border-none! bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)]"
                               handle={false}
-                              overlayClassName="!opacity-0"
+                              overlayClassName="opacity-0!"
                             >
                               <div className="font-libertinus flex-1 overflow-y-auto pb-10">
                                 <DrawerHeader className="sr-only">

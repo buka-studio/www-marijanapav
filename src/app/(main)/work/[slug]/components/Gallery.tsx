@@ -34,7 +34,7 @@ export function GalleryTrigger({
 
   return (
     <button
-      className={cn('contents [&>*]:hover:brightness-75', className)}
+      className={cn('contents *:hover:brightness-75', className)}
       onClick={() => {
         open(at);
       }}
@@ -70,11 +70,8 @@ export default function GalleryContextProvider({
       {children}
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Portal container={getTopLayer()}>
-          <Dialog.Overlay className="gallery-overlay fixed inset-0 z-20 bg-neutral-900 backdrop-blur [.theme-dark_&]:bg-neutral-950 [.theme-dark_&]:bg-opacity-80 [.theme-light_&]:bg-white [.theme-light_&]:bg-opacity-80" />
-          <Dialog.Content
-            className="gallery-content pointer-events-none
-          fixed left-1/2 top-1/2 z-[21] h-[calc(calc(var(--vh,1vh)*90)-85px)] w-[90vw] max-w-screen-2xl -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none"
-          >
+          <Dialog.Overlay className="gallery-overlay in[.theme-dark]:bg-opacity-80 in-[.theme-light]:bg-opacity-80 fixed inset-0 z-20 bg-neutral-900 backdrop-blur in-[.theme-dark]:bg-neutral-950 in-[.theme-light]:bg-white" />
+          <Dialog.Content className="gallery-content pointer-events-none fixed top-1/2 left-1/2 z-21 h-[calc(calc(var(--vh,1vh)*90)-85px)] w-[90vw] max-w-(--breakpoint-2xl) -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none">
             {/* <Slider sources={sources} index={index} setIndex={setIndex} /> */}
           </Dialog.Content>
         </Dialog.Portal>

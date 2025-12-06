@@ -215,16 +215,16 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
   return (
     <GenieDialog open={state.isOpen} onOpenChange={handleOpenChange}>
       <GenieDialogPortal container={containerRef.current}>
-        <GenieDialogOverlay className="absolute inset-0 z-[60] bg-white/20 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+        <GenieDialogOverlay className="absolute inset-0 z-60 bg-white/20 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
           <GenieBackdrop
             data-slot="genie-backdrop"
             ref={genieAnimationRef}
-            className="pointer-events-none absolute inset-0 z-[70]"
+            className="pointer-events-none absolute inset-0 z-70"
           />
         </GenieDialogOverlay>
 
         <GenieDialogContent
-          className={cn('absolute left-1/2 top-1/2 z-[80] -translate-x-1/2 -translate-y-1/2', {
+          className={cn('absolute left-1/2 top-1/2 z-80 -translate-x-1/2 -translate-y-1/2', {
             'opacity-0 transition-all duration-200': !state.isRevealed,
             'opacity-100 transition-all duration-100': state.isRevealed,
           })}
@@ -260,7 +260,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
             </FlipCardFront>
             <FlipCardBack className="group" key="back">
               <FeedbackForm
-                className="group/form h-full w-full border border-stone-200 shadow-sm [background-image:url('/stamps/noise.svg')]"
+                className="group/form h-full w-full border border-stone-200 shadow-sm bg-[url('/stamps/noise.svg')]"
                 ref={postcardFormRef}
                 onSubmit={handleSubmit}
                 footer={

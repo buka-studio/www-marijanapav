@@ -124,7 +124,7 @@ export default function Carousel({
         </div>
       </div>
 
-      <div className="header fixed left-5 right-5 top-5 z-[11] flex items-center justify-between">
+      <div className="header fixed left-5 right-5 top-5 z-11 flex items-center justify-between">
         <div className="counter bg-theme-3 rounded-full px-3 py-1 text-xs opacity-50 transition-opacity duration-200 group-hover/card:opacity-100">
           {index + 1} / {sources.length}
         </div>

@@ -139,7 +139,7 @@ export function Card({ children, className }: { children: ReactNode; className?:
     >
       <div className="relative">
         <div className="illustration">{children}</div>
-        <div className="foil absolute top-[-1px] left-0 h-full w-full"></div>
+        <div className="foil absolute -top-px left-0 h-full w-full"></div>
         <div className="reflection absolute top-0 left-0 h-full w-full rounded-2xl"></div>
       </div>
     </div>
@@ -255,7 +255,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
             style={{ rotate: rotations[c] }}
           >
             <Card
-              className={cn(c, '[.bw_&]:saturate-0', {
+              className={cn(c, 'in-[.bw]:saturate-0', {
                 'blur-[1px] grayscale-[0.5]': !active,
                 'blur-none grayscale-0': active,
               })}
@@ -272,7 +272,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
             className="z-1"
             key={c + i}
           >
-            <Card className={cn(c, '[.bw_&]:saturate-0')}>{Illustration}</Card>
+            <Card className={cn(c, 'in-[.bw]:saturate-0')}>{Illustration}</Card>
           </motion.button>
         );
       })}
@@ -304,7 +304,7 @@ export default function Cards() {
   return (
     <div className="bw cards-container relative h-full w-full transform-gpu overflow-hidden rounded-[20px]">
       <GridBackground
-        className="grid-bg pointer-events-none absolute top-[-1px] left-[-1px] h-[calc(100%+2px)] w-[calc(100%+2px)] text-[rgba(0,0,0,0.05)] [.theme-dark_&]:text-[rgba(200,200,200,0.05)]"
+        className="grid-bg pointer-events-none absolute -top-px -left-px h-[calc(100%+2px)] w-[calc(100%+2px)] text-[rgba(0,0,0,0.05)] in-[.theme-dark]:text-[rgba(200,200,200,0.05)]"
         n={400}
       />
       <CardStack effect={effect} />

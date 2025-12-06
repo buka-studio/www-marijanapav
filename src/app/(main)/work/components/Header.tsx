@@ -27,7 +27,7 @@ export default function Header() {
             key={f}
             asChild
             variant={f === filter ? 'secondary' : 'primary'}
-            className="flex-shrink-0 text-xs md:text-sm"
+            className="shrink-0 text-xs md:text-sm"
           >
             <Link {...{ href: f === 'all' ? `/work` : `/work?f=${f}` }}>{getFilterLabel(f)}</Link>
           </Button>

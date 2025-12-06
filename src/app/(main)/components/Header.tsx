@@ -23,7 +23,7 @@ export default function Header({ children }: { children?: ReactNode }) {
         },
       )}
     >
-      <div className="absolute inset-0 z-[-1] rounded-bl-[32px] rounded-br-[32px] backdrop-blur [mask-image:linear-gradient(to_top,transparent,black_65%)]" />
+      <div className="absolute inset-0 z-[-1] rounded-bl-[32px] rounded-br-[32px] backdrop-blur mask-[linear-gradient(to_top,transparent,black_65%)]" />
       <Link
         href="/"
         className="flex items-center gap-2 rounded-full text-text-primary"
@@ -37,7 +37,7 @@ export default function Header({ children }: { children?: ReactNode }) {
         <span className="hidden pr-1 md:inline">Marijana Pavlinić</span>
       </Link>
       {children && (
-        <div className="order-3 mt-4 w-full lg:order-none lg:mt-0 lg:w-auto">{children}</div>
+        <div className="order-3 mt-4 w-full lg:order-0 lg:mt-0 lg:w-auto">{children}</div>
       )}
       <ThemeSwitcher />
     </header>

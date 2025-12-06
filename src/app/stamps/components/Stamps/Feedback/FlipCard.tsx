@@ -167,10 +167,10 @@ export function FlipCard({
         {children}
 
         {shine && (
-          <div className="pointer-events-none absolute inset-0 overflow-clip [transform:translateZ(2px)]">
+          <div className="pointer-events-none absolute inset-0 transform-[translateZ(2px)] overflow-clip">
             <motion.div
               aria-hidden
-              className="absolute inset-0 hidden rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover/flipcard:opacity-100 block"
+              className="absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover/flipcard:opacity-100"
               style={{
                 mixBlendMode: 'soft-light',
                 maskImage:
@@ -211,10 +211,7 @@ export function FlipCardFront({ asChild, className, style, children, ...divProps
   return (
     <Comp
       {...divProps}
-      className={cn(
-        'absolute inset-0 [backface-visibility:hidden] [transform:translateZ(1px)]',
-        className,
-      )}
+      className={cn('absolute inset-0 transform-[translateZ(1px)] backface-hidden', className)}
       style={style}
       inert={side !== 'front'}
     >
@@ -230,7 +227,7 @@ export function FlipCardBack({ asChild, className, style, children, ...divProps 
   return (
     <Comp
       {...divProps}
-      className={cn('absolute inset-0 [backface-visibility:hidden]', className)}
+      className={cn('absolute inset-0 backface-hidden', className)}
       style={{ transform: 'rotateY(180deg) translateZ(1px)', ...style }}
       inert={side !== 'back'}
     >
