@@ -41,6 +41,8 @@
   --breakpoint-xxs: 360px;
   --breakpoint-xs: 475px;
   --breakpoint-2xl: 1336px;
+
+  --animate-ping-slow: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 @custom-variant hoverable {
