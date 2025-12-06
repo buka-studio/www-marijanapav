@@ -43,6 +43,12 @@
   --breakpoint-2xl: 1336px;
 }
 
+@custom-variant hoverable {
+  @media (hover: hover) and (pointer: fine) {
+    @slot;
+  }
+}
+
 * {
   -webkit-font-smoothing: antialiased;
 }

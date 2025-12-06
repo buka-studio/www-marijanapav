@@ -42,7 +42,7 @@ function PostcardButton({ className, ...props }: ComponentProps<typeof motion.bu
   return (
     <motion.button
       className={cn(
-        'rounded-full bg-stone-300/80 px-4 py-1 font-[monospace] text-xs uppercase text-stone-600 outline-offset-2 transition-opacity duration-200 group-hover:opacity-100 hover:bg-stone-200 focus-visible:bg-stone-200 focus-visible:opacity-100 focus-visible:outline-dashed focus-visible:outline-1 focus-visible:outline-stone-500 disabled:cursor-not-allowed opacity-0',
+        'hoverable:opacity-0 rounded-full bg-stone-300/80 px-4 py-1 font-[monospace] text-xs text-stone-600 uppercase opacity-0 outline-offset-2 transition-opacity duration-200 group-hover:opacity-100 hover:bg-stone-200 focus-visible:bg-stone-200 focus-visible:opacity-100 focus-visible:outline-1 focus-visible:outline-stone-500 focus-visible:outline-dashed disabled:cursor-not-allowed',
         className,
       )}
       {...props}
@@ -215,7 +215,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
   return (
     <GenieDialog open={state.isOpen} onOpenChange={handleOpenChange}>
       <GenieDialogPortal container={containerRef.current}>
-        <GenieDialogOverlay className="absolute inset-0 z-60 bg-white/20 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+        <GenieDialogOverlay className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 absolute inset-0 z-60 bg-white/20 backdrop-blur-sm">
           <GenieBackdrop
             data-slot="genie-backdrop"
             ref={genieAnimationRef}
@@ -224,7 +224,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
         </GenieDialogOverlay>
 
         <GenieDialogContent
-          className={cn('absolute left-1/2 top-1/2 z-80 -translate-x-1/2 -translate-y-1/2', {
+          className={cn('absolute top-1/2 left-1/2 z-80 -translate-x-1/2 -translate-y-1/2', {
             'opacity-0 transition-all duration-200': !state.isRevealed,
             'opacity-100 transition-all duration-100': state.isRevealed,
           })}
@@ -260,7 +260,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
             </FlipCardFront>
             <FlipCardBack className="group" key="back">
               <FeedbackForm
-                className="group/form h-full w-full border border-stone-200 shadow-sm bg-[url('/stamps/noise.svg')]"
+                className="group/form h-full w-full border border-stone-200 bg-[url('/stamps/noise.svg')] shadow-sm"
                 ref={postcardFormRef}
                 onSubmit={handleSubmit}
                 footer={
@@ -268,7 +268,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
                     {submitState === 'error' || submitState === 'success' ? (
                       <motion.div
                         key={submitState}
-                        className={cn(' font-[monospace] text-xs uppercase ', {
+                        className={cn('font-[monospace] text-xs uppercase', {
                           'text-red-500': submitState === 'error',
                         })}
                         role="alert"
@@ -295,7 +295,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
               >
                 <PostcardButton
                   type="submit"
-                  className="absolute bottom-3.5 right-4 flex min-w-[60px] justify-center group-invalid/form:pointer-events-none group-invalid/form:opacity-50 sm:bottom-3.5 sm:right-4"
+                  className="absolute right-4 bottom-3.5 flex min-w-[60px] justify-center group-invalid/form:pointer-events-none group-invalid/form:opacity-50 sm:right-4 sm:bottom-3.5"
                   disabled={submitState === 'sending'}
                 >
                   {submitState === 'sending' ? (

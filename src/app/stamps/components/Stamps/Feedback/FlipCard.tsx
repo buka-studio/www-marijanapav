@@ -170,7 +170,7 @@ export function FlipCard({
           <div className="pointer-events-none absolute inset-0 transform-[translateZ(2px)] overflow-clip">
             <motion.div
               aria-hidden
-              className="absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover/flipcard:opacity-100"
+              className="hoverable:block absolute inset-0 hidden rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover/flipcard:opacity-100"
               style={{
                 mixBlendMode: 'soft-light',
                 maskImage:
