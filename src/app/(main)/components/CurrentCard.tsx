@@ -49,9 +49,9 @@ export default function CurrentCard() {
                   }}
                 >
                   {expandedItem === index ? (
-                    <FolderOpenedIcon className="h-5 w-5 transition-all duration-200 hoverable:text-theme-1 hoverable:hover:text-theme-2" />
+                    <FolderOpenedIcon className="h-5 w-5 transition-all duration-200 text-theme-1 hover:text-theme-2" />
                   ) : (
-                    <FolderClosedIcon className="h-5 w-5 transition-all duration-200 hoverable:text-theme-1 hoverable:hover:text-theme-2" />
+                    <FolderClosedIcon className="h-5 w-5 transition-all duration-200 text-theme-1 hover:text-theme-2" />
                   )}
                 </motion.div>
                 <p

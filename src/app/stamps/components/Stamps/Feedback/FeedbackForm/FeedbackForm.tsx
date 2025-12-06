@@ -40,7 +40,7 @@ export default function FeedbackForm({
       )}
       {...props}
     >
-      <div className="relative col-[1/3] row-[2] py-3 pb-8 sm:col-[1] sm:row-span-3 sm:py-5 sm:pb-5 sm:pr-5">
+      <div className="relative col-[1/3] row-2 py-3 pb-8 sm:col-1 sm:row-span-3 sm:py-5 sm:pb-5 sm:pr-5">
         <div className="relative h-full w-full" data-no-tilt>
           <input
             type="text"
@@ -85,7 +85,7 @@ export default function FeedbackForm({
         </svg>
       </div>
 
-      <div className="col-[2] row-[1] flex items-start justify-end">
+      <div className="col-2 row-1 flex items-start justify-end">
         <div className="relative h-[120px] w-[90px] border border-stone-300">
           <Image
             className="absolute right-1 top-1 h-full w-full rotate-3 object-contain"
@@ -98,7 +98,7 @@ export default function FeedbackForm({
           <PostageDue className="absolute -bottom-1/2 -left-1/2 text-stone-600" />
         </div>
       </div>
-      <div className="justify-start-start col-[1] row-[1] flex flex-col gap-2 sm:col-[2] sm:row-[2] sm:justify-center">
+      <div className="justify-start-start col-1 row-1 flex flex-col gap-2 sm:col-2 sm:row-2 sm:justify-center">
         {addressLines.map((_, i) => (
           <div
             key={i}
@@ -109,7 +109,7 @@ export default function FeedbackForm({
         ))}
       </div>
 
-      <div className="col-[1/3] row-[3] flex justify-center text-[0.5rem] text-stone-400 sm:col-[2] sm:block sm:justify-between sm:text-[0.65rem]">
+      <div className="col-[1/3] row-3 flex justify-center text-[0.5rem] text-stone-400 sm:col-2 sm:block sm:justify-between sm:text-[0.65rem]">
         {footer}
       </div>
 

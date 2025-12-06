@@ -112,7 +112,7 @@ export default function Screenshot({ screenshotRef, className }: ScreenshotProps
         canvasRef!.current!.width = dimensions.width;
         canvasRef!.current!.height = dimensions.height;
 
-        ctx.fillStyle = getSketchStrokeColor();
+        ctx.fillStyle = getSketchStrokeColor() || '#000';
 
         for (const path of paths) {
           const p = new Path2D(path);
@@ -144,7 +144,7 @@ export default function Screenshot({ screenshotRef, className }: ScreenshotProps
   return (
     <div
       className={cn(
-        'ss-container pointer-events-none absolute bottom-0 right-0 rounded-lg border border-panel-border bg-white/50 p-1 opacity-0 dark:bg-black/10',
+        'ss-container border-panel-border pointer-events-none absolute right-0 bottom-0 rounded-lg border bg-white/50 p-1 opacity-0 dark:bg-black/10',
         className,
       )}
       ref={scope}

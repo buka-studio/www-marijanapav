@@ -83,7 +83,7 @@ export default function ProjectsGrid({ projects }: Props) {
                   }
                 }}
               >
-                <DialogContent className="flex h-full max-h-[calc(var(--vh,1vh)*100)] max-w-screen-md flex-col pb-6 sm:rounded-[20px] md:max-h-[min(calc(var(--vh,1vh)*100),800px)]">
+                <DialogContent className="flex h-full max-h-[calc(var(--vh,1vh)*100)] max-w-(--breakpoint-md) flex-col pb-6 sm:rounded-[20px] md:max-h-[min(calc(var(--vh,1vh)*100),800px)]">
                   <div
                     className={cn('-mx-3 h-[90vw] md:h-auto md:flex-1', {
                       '-mt-3 h-auto': Boolean(DynamicComponent),

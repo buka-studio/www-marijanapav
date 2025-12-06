@@ -6,17 +6,11 @@
       width="70.9966"
       height="71"
       rx="15.5"
-      fill="oklch(var(--theme-4, currentColor)"
-      stroke="oklch(var(--theme-2, currentColor)"
+      fill="var(--theme-4, currentColor)"
+      stroke="var(--theme-2, currentColor)"
     />
-    <circle
-      class="ping"
-      cx="36"
-      cy="36.7778"
-      r="13.7256"
-      fill="oklch(var(--theme-1, currentColor)"
-    />
-    <circle cx="36" cy="36.7778" r="13.7256" fill="oklch(var(--theme-1, currentColor)" />
+    <circle class="ping" cx="36" cy="36.7778" r="13.7256" fill="var(--theme-1, currentColor)" />
+    <circle cx="36" cy="36.7778" r="13.7256" fill="var(--theme-1, currentColor)" />
   </g>
   <defs>
     <clipPath id="clip0_1555_12494">

@@ -75,7 +75,7 @@ export default function BioCard() {
                 rel="noreferrer noopener"
                 key={url}
                 href={`${url}`}
-                className="hover cursor-pointer rounded-full transition-all duration-200 hoverable:text-theme-2 hoverable:hover:text-theme-1"
+                className="hover cursor-pointer rounded-full transition-all duration-200 text-theme-2 hover:text-theme-1"
                 {...attrs}
               >
                 <Icon />

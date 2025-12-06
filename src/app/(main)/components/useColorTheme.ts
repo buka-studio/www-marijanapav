@@ -6,11 +6,15 @@ export const colorThemes = ['red', 'green', 'blue'] as const;
 export type ColorTheme = (typeof colorThemes)[number];
 
 function getMainEl() {
-  return document.querySelector('.main')!;
+  return document.querySelector(':root')!;
 }
 
+const defaultThemes = ['theme-light', 'theme-dark'];
+
 function getThemeClassnames() {
-  return Array.from(getMainEl()?.classList.values()! || []).filter((c) => c.startsWith('theme-'));
+  return Array.from(getMainEl()?.classList.values()! || []).filter(
+    (c) => c.startsWith('theme-') && !defaultThemes.includes(c),
+  );
 }
 
 function getColorThemeFromClass(classList: string[]): ColorTheme | undefined {

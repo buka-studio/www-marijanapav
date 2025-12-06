@@ -1,7 +1,7 @@
-import { oklchToHex } from '~/src/util';
+import { oklabToHex } from '~/src/util';
 
 export function getSketchStrokeColor() {
-  const color = getComputedStyle(document.querySelector('.main')!).getPropertyValue('--theme-1');
+  const color = getComputedStyle(document.querySelector(':root')!).getPropertyValue('--theme-1');
 
-  return oklchToHex(color);
+  return oklabToHex(color);
 }

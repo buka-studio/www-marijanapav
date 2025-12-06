@@ -139,8 +139,8 @@ export function Card({ children, className }: { children: ReactNode; className?:
     >
       <div className="relative">
         <div className="illustration">{children}</div>
-        <div className="foil absolute left-0 top-[-1px] h-full w-full"></div>
-        <div className="reflection absolute left-0 top-0 h-full w-full rounded-2xl"></div>
+        <div className="foil absolute -top-px left-0 h-full w-full"></div>
+        <div className="reflection absolute top-0 left-0 h-full w-full rounded-2xl"></div>
       </div>
     </div>
   );
@@ -223,7 +223,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
 
   return (
     <motion.div
-      className="cards relative z-[1] flex h-full w-full flex-1 items-center justify-center gap-2"
+      className="cards relative z-1 flex h-full w-full flex-1 items-center justify-center gap-2"
       initial="hidden"
       animate={effect ? 'hidden' : 'shown'}
     >
@@ -241,7 +241,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
             key={c + i}
             constrained
             className={cn(
-              'highlight-transparent pointer-events-none absolute z-[1] last:pointer-events-auto',
+              'highlight-transparent pointer-events-none absolute z-1 last:pointer-events-auto',
             )}
             i={i}
             onSwiped={() => {
@@ -255,7 +255,7 @@ function CardStack({ effect }: { effect?: CardEffect }) {
             style={{ rotate: rotations[c] }}
           >
             <Card
-              className={cn(c, '[.bw_&]:saturate-0', {
+              className={cn(c, 'in-[.bw]:saturate-0', {
                 'blur-[1px] grayscale-[0.5]': !active,
                 'blur-none grayscale-0': active,
               })}
@@ -269,10 +269,10 @@ function CardStack({ effect }: { effect?: CardEffect }) {
             transition={{
               delay: 0.2 * i,
             }}
-            className="z-[1]"
+            className="z-1"
             key={c + i}
           >
-            <Card className={cn(c, '[.bw_&]:saturate-0')}>{Illustration}</Card>
+            <Card className={cn(c, 'in-[.bw]:saturate-0')}>{Illustration}</Card>
           </motion.button>
         );
       })}
@@ -304,7 +304,7 @@ export default function Cards() {
   return (
     <div className="bw cards-container relative h-full w-full transform-gpu overflow-hidden rounded-[20px]">
       <GridBackground
-        className="grid-bg pointer-events-none absolute left-[-1px] top-[-1px] h-[calc(100%+2px)] w-[calc(100%+2px)] text-[rgba(0,0,0,0.05)] [.theme-dark_&]:text-[rgba(200,200,200,0.05)]"
+        className="grid-bg pointer-events-none absolute -top-px -left-px h-[calc(100%+2px)] w-[calc(100%+2px)] text-[rgba(0,0,0,0.05)] in-[.theme-dark]:text-[rgba(200,200,200,0.05)]"
         n={400}
       />
       <CardStack effect={effect} />
@@ -313,7 +313,7 @@ export default function Cards() {
         onClick={pickEffect}
         aria-label="Pick a card effect"
         iconLeft={<JoystickIcon className="h-6 w-6" />}
-        className="absolute bottom-5 right-5 z-[1] text-text-primary"
+        className="text-text-primary absolute right-5 bottom-5 z-1"
       />
     </div>
   );

@@ -1,5 +1,5 @@
 .highlight {
-  background: linear-gradient(90deg, oklch(var(--theme-2)) 50%, oklch(var(--theme-1)) 50%);
+  background: linear-gradient(90deg, var(--theme-2) 50%, var(--theme-1) 50%);
   -webkit-background-clip: text;
   background-clip: text;
   background-size: 200% 100%;

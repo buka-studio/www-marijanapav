@@ -62,13 +62,13 @@ export default function KonamiCode({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div
-      className={cn('font-mono text-xs text-theme-2 transition-opacity duration-300', {
+      className={cn('text-theme-2 font-mono text-xs transition-opacity duration-300', {
         'text-text-muted opacity-70': !match.length,
       })}
       style={
         {
-          '--color-active': 'oklch(var(--text-primary))',
-          '--color-inactive': 'oklch(var(--text-muted))',
+          '--color-active': 'var(--text-primary)',
+          '--color-inactive': 'var(--text-muted)',
         } as React.CSSProperties
       }
     >

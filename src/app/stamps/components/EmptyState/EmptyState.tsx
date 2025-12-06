@@ -24,7 +24,7 @@ export default function EmptyState({
 
   return (
     <div className={cn('relative block', className)}>
-      <Background className="text-stone-300 [mask-image:linear-gradient(90deg,transparent_0%,black_5%,black_95%,transparent_100%)]" />
+      <Background className="text-stone-300 mask-[linear-gradient(90deg,transparent_0%,black_5%,black_95%,transparent_100%)]" />
       <SignaturePrompt
         className="absolute left-1/2 top-1/2 hidden w-full -translate-x-1/2 -translate-y-1/2 text-stone-600 lg:block lg:min-w-[350px]"
         animate={animate}

@@ -31,10 +31,10 @@ export default function Navabar() {
 
   return (
     <>
-      <nav className="relative z-[1] flex items-center gap-2 rounded-full border border-panel-border bg-panel-background p-1 shadow-card">
+      <nav className="border-panel-border bg-panel-background shadow-card relative z-1 flex items-center gap-2 rounded-full border p-1">
         {/* note: motion.div layoutId loses position after page scrolls */}
         <div
-          className="absolute h-[90%] rounded-full bg-theme-3 transition-all duration-300 ease-out"
+          className="bg-theme-3 absolute h-[90%] rounded-full transition-all duration-300 ease-out"
           style={{
             width: `${links[pathSegment]?.width}rem`,
             left: highlightOffset,
@@ -44,7 +44,7 @@ export default function Navabar() {
           <Link
             href={path}
             key={l.label}
-            className="z-[1] rounded-full px-4 py-1 text-sm text-text-primary"
+            className="text-text-primary z-1 rounded-full px-4 py-1 text-sm"
           >
             {l.label}
           </Link>
@@ -54,15 +54,15 @@ export default function Navabar() {
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Scroll to top"
         className={cn(
-          'anchor-top absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ',
+          'anchor-top absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-300',
           {
             'right-0 opacity-0': y < 50,
-            '-top-6 right-0 xs:-right-[2.5rem] xs:top-1/2': y > 50,
+            'xs:-right-10 xs:top-1/2 -top-6 right-0': y > 50,
           },
         )}
       >
-        <span className="relative z-[1] flex h-[2rem] w-[2rem] items-center justify-end rounded-full bg-theme-3 px-2">
-          <ArrowRightIcon className="h-6 w-6 -rotate-90 text-text-primary" />
+        <span className="bg-theme-3 relative z-1 flex h-8 w-8 items-center justify-end rounded-full px-2">
+          <ArrowRightIcon className="text-text-primary h-6 w-6 -rotate-90" />
         </span>
       </button>
     </>

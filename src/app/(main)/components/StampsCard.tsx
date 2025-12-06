@@ -12,7 +12,7 @@ import Card from './Card';
 const Stamps = () => (
   <>
     {Array.from({ length: 2 }).map((_, i) => (
-      <div key={i} className="row flex [&_>*:not(:first-child)]:ml-[-1px]">
+      <div key={i} className="row flex [&_>*:not(:first-child)]:-ml-px">
         {Array.from({ length: 4 }).map((_, j) =>
           j % 2 === 0 ? <Gibraltar1 key={j} /> : <Gibraltar2 key={j} />,
         )}
@@ -26,11 +26,11 @@ export default function StampsCard() {
     <Card id="stamps">
       <div className="flex flex-col">
         <div className="relative mb-5 min-h-[240px] w-full overflow-hidden rounded-md xl:min-h-[420px]">
-          <div className="stamps absolute translate-x-[9%] translate-y-[36px] scale-[120%] [&_>*:not(:first-child)]:mt-[-1px]">
+          <div className="stamps absolute translate-x-[9%] translate-y-[36px] scale-[120%] [&_>*:not(:first-child)]:-mt-px">
             <Stamps />
           </div>
         </div>
-        <div className="mb-4 [&_>*]:inline [&_>*]:align-middle">
+        <div className="mb-4 *:inline *:align-middle">
           <CardTitle variant="mono" className="flex items-center gap-2">
             <Link href="/stamps" className="group rounded-md">
               Digital Stamp Collection&nbsp;

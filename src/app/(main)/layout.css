@@ -1,16 +1,16 @@
 ::selection {
-  background-color: oklch(var(--theme-1));
-  color: oklch(var(--theme-2));
+  background-color: var(--theme-1);
+  color: var(--theme-2);
 }
 
 :root {
-  background: oklch(var(--main-background));
+  background: var(--main-background);
   scroll-padding-top: 80px;
   scroll-behavior: smooth;
 }
 
 .glow {
-  background: radial-gradient(oklch(var(--theme-1)), transparent);
+  background: radial-gradient(var(--theme-1), transparent);
   top: calc(var(--mouse-y) - 200px);
   left: calc(var(--mouse-x) - 200px);
   opacity: 0.1;
@@ -18,5 +18,5 @@
 
 button:focus-visible,
 a:focus-visible {
-  outline: 1px solid oklch(var(--theme-1));
+  outline: 1px solid var(--theme-1);
 }

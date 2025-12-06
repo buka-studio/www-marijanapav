@@ -157,7 +157,7 @@ export default function DraggableStickers({
   return (
     <>
       <div
-        className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
+        className="pointer-events-none absolute inset-0 z-1 overflow-hidden"
         ref={constraintsRef}
       />
       <div
@@ -168,7 +168,7 @@ export default function DraggableStickers({
             '--items': stickers.length,
           } as CSSProperties
         }
-        className="relative z-[1] grid grid-cols-[clamp(200px,50vw,300px)] grid-rows-[auto] justify-center"
+        className="relative z-1 grid grid-cols-[clamp(200px,50vw,300px)] grid-rows-[auto] justify-center"
       >
         <div
           className={cn('m-auto inline-flex transition-all duration-300', {
@@ -187,8 +187,7 @@ export default function DraggableStickers({
 
           return (
             <motion.div
-              className="sticker group pointer-events-auto absolute z-[var(--z)] col-start-1
-       col-end-1 row-start-1 row-end-1 inline-flex origin-center cursor-grab items-center justify-center"
+              className="sticker group pointer-events-auto absolute z-(--z) col-start-1 col-end-1 row-start-1 row-end-1 inline-flex origin-center cursor-grab items-center justify-center"
               key={i}
               drag
               ref={(e) => {

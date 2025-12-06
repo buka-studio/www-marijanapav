@@ -157,7 +157,7 @@ export function Stamps({ width, height }: { width: number; height: number }) {
   return (
     <div className="relative h-full w-full">
       <ReactLenis
-        className="max-h-[420px] w-full overflow-hidden rounded-lg scrollbar-none"
+        className="scrollbar-none max-h-[420px] w-full overflow-hidden rounded-lg"
         options={{
           infinite: true,
           syncTouch: true,
@@ -166,7 +166,7 @@ export function Stamps({ width, height }: { width: number; height: number }) {
         }}
       >
         <div className="h-[1000px] w-full" />
-        <div className="absolute right-0 top-0 mx-auto flex h-full w-full flex-col items-center overflow-hidden rounded-lg">
+        <div className="absolute top-0 right-0 mx-auto flex h-full w-full flex-col items-center overflow-hidden rounded-lg">
           {Array.from({ length: numCards }).map((_, i) => {
             const Stamp = stamps[i % stamps.length];
             return (
@@ -184,8 +184,8 @@ export function Stamps({ width, height }: { width: number; height: number }) {
               >
                 <Stamp
                   className={cn(
-                    '[--background:oklch(var(--theme-3))] [--foreground-muted:oklch(var(--text-primary))]',
-                    '[.theme-dark_&]:[--background:oklch(var(--theme-1))] [.theme-dark_&]:[--foreground-muted:oklch(var(--theme-3))] [.theme-dark_&]:[--foreground:oklch(var(--theme-3))] [.theme-dark_&]:[--outline:oklch(var(--theme-2))]',
+                    '[--background:var(--theme-3)] [--foreground-muted:var(--text-primary)]',
+                    'in-[.theme-dark]:[--background:var(--theme-1)] in-[.theme-dark]:[--foreground-muted:var(--theme-3)] in-[.theme-dark]:[--foreground:var(--theme-3)] in-[.theme-dark]:[--outline:var(--theme-2)]',
                     'h-auto w-[150px] drop-shadow-sm',
                   )}
                 />
@@ -217,10 +217,10 @@ export default function SkewedStampsCard() {
           className="relative h-full min-h-[240px] w-full overflow-auto rounded-md xl:min-h-[420px]"
           ref={ref}
         >
-          <GridBackground className="absolute left-0 top-0 h-full w-full" n={300} />
+          <GridBackground className="absolute top-0 left-0 h-full w-full" n={300} />
           <Stamps width={dimensions.width} height={dimensions.height} />
         </div>
-        <p className="text-sm  text-text-primary">
+        <p className="text-text-primary text-sm">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his
           stamps in a digital form, exploring the blend of art, history, and typography and bringing
           it online for a new audience to enjoy.
