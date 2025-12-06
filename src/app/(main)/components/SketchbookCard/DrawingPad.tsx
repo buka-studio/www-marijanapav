@@ -179,7 +179,7 @@ export default function DrawingPad({
 
       const color = getSketchStrokeColor();
 
-      clone.style.setProperty('color', color);
+      clone.style.setProperty('color', color || '#000');
       clone.setAttribute('viewBox', `0 0 ${width} ${height}`);
       clone.setAttribute('width', width.toString());
       clone.setAttribute('height', height.toString());
