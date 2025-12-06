@@ -1,5 +1,5 @@
 import { ClassValue, clsx } from 'clsx';
-import { formatHex, oklch } from 'culori';
+import { formatHex, parse } from 'culori';
 import ReactDOM from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 
@@ -7,9 +7,8 @@ export function cn(...classes: ClassValue[]) {
   return twMerge(clsx(classes));
 }
 
-export function oklchToHex(oklchString: string) {
-  const [l, c, h] = oklchString.split(' ').map(Number);
-  const color = oklch({ l, c, h, mode: 'oklch' });
+export function oklabToHex(oklabString: string) {
+  const color = parse(oklabString);
 
   return formatHex(color);
 }

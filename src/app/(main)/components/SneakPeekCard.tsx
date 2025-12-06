@@ -71,7 +71,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
       <CardTitle variant="mono" className="mb-2">
         In Progress
       </CardTitle>
-      <div className="mb-20 flex items-start justify-between  xl:mb-[120px]">
+      <div className="mb-20 flex items-start justify-between xl:mb-[120px]">
         <div className="font-archivo text-3xl md:text-4xl">
           Sneak <br className="hidden md:block" />
           peek
@@ -81,7 +81,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
         <AnimatePresence>
           {revealed && (
             <motion.p
-              className="absolute bottom-[calc(100%+16px)] mt-2 text-sm text-text-primary [text-wrap:pretty]"
+              className="text-text-primary absolute bottom-[calc(100%+16px)] mt-2 text-sm text-pretty"
               initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
@@ -99,9 +99,9 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
             </motion.p>
           )}
         </AnimatePresence>
-        <div className="progress relative mb-4 rounded-full bg-panel-overlay pr-2 text-text-contrast">
+        <div className="progress bg-panel-overlay text-text-contrast relative mb-4 rounded-full pr-2">
           <div
-            className="progress-bar absolute h-full min-w-[130px] rounded-full bg-text-primary transition-all duration-300"
+            className="progress-bar bg-text-primary absolute h-full min-w-[130px] rounded-full transition-all duration-300"
             style={
               {
                 width: `calc(130px + ((100% - 130px) / ${maxClicks}) * ${Math.min(
@@ -112,7 +112,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
             }
           />
           <button
-            className="relative flex w-[130px] items-center gap-2 rounded-full bg-text-primary px-2 py-[4px] text-sm text-text-contrast"
+            className="bg-text-primary text-text-contrast relative flex w-[130px] items-center gap-2 rounded-full px-2 py-[4px] text-sm"
             onClick={handleClick}
           >
             {revealed ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}
@@ -120,9 +120,9 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
           </button>
           <span
             className={cn(
-              'duration-[500ms] absolute right-2 top-[4px] text-sm transition-all ease-out',
+              'absolute top-[4px] right-2 text-sm transition-all duration-500 ease-out',
               {
-                '-translate-x-4 opacity-0 ': !revealed,
+                '-translate-x-4 opacity-0': !revealed,
                 'translate-x-0 opacity-100': revealed,
               },
             )}

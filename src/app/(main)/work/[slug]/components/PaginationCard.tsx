@@ -22,7 +22,7 @@ export default function PaginationCard({
     >
       <div
         className={cn(
-          'relative-mouse relative h-full w-full overflow-hidden rounded-lg bg-panel-background md:[grid-column:1] md:[grid-row:1]',
+          'relative-mouse bg-panel-background relative h-full w-full overflow-hidden rounded-lg md:[grid-column:1] md:[grid-row:1]',
           relativeMouseClassname,
           { '[grid-column:2]': direction === 'left' },
         )}
@@ -37,7 +37,7 @@ export default function PaginationCard({
       </div>
       <div
         className={cn(
-          ' relative z-[1] flex h-[140px] flex-col items-center justify-center gap-2 [grid-row:1] md:min-h-[230px] md:[grid-column:1]',
+          'relative z-1 [grid-row:1] flex h-[140px] flex-col items-center justify-center gap-2 md:[grid-column:1] md:min-h-[230px]',
           {
             '[grid-column:2]': direction === 'right',
           },
@@ -45,7 +45,7 @@ export default function PaginationCard({
       >
         {' '}
         <ArrowRightIcon
-          className={cn('bg-theme-3 h-8 w-8 rounded-full p-1 text-text-primary opacity-60', {
+          className={cn('bg-theme-3 text-text-primary h-8 w-8 rounded-full p-1 opacity-60', {
             'rotate-180 transform': direction === 'left',
           })}
         />

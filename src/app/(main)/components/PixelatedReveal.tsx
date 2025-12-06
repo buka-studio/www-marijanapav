@@ -6,7 +6,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import './cards.css';
 
 import useResizeRef from '~/src/hooks/useResizeRef';
-import { cn, oklchToHex } from '~/src/util';
+import { cn, oklabToHex } from '~/src/util';
 
 import useColorTheme from './useColorTheme';
 
@@ -23,7 +23,7 @@ function addAlphaToHex(hex: string, alpha: number) {
 }
 
 function getCurrColorsForSteps() {
-  const root = document.querySelector('.main')!;
+  const root = document.querySelector(':root')!;
   const styles = getComputedStyle(root);
   const alphas = [1, 1, 0.6, 0.4, 0.2, 0.1];
 
@@ -34,7 +34,7 @@ function getCurrColorsForSteps() {
     styles.getPropertyValue('--theme-3'),
     styles.getPropertyValue('--theme-3'),
     styles.getPropertyValue('--theme-3'),
-  ].map((c, i) => addAlphaToHex(oklchToHex(c), alphas[i]));
+  ].map((c, i) => addAlphaToHex(oklabToHex(c!)!, alphas[i]));
 
   return colors;
 }
@@ -268,14 +268,14 @@ export default function PixelatedReveal({ step, maxSteps }: { step: number; maxS
   return (
     <div className="relative h-full w-full" ref={ref}>
       <div
-        className={cn('bg-main-theme-overlay absolute left-0 top-0 h-full w-full opacity-50', {
+        className={cn('bg-main-theme-overlay absolute top-0 left-0 h-full w-full opacity-50', {
           'opacity-0': revealed,
         })}
       />
       <canvas
         ref={canvasRef}
         className={cn(
-          'absolute left-0 top-0 aspect-square rounded-md transition-all duration-300 ease-linear',
+          'absolute top-0 left-0 aspect-square rounded-md transition-all duration-300 ease-linear',
           {
             'opacity-0': revealed,
             'opacity-100': !revealed,

@@ -22,7 +22,7 @@ function ToolbarButton({
       <TooltipTrigger asChild>
         <motion.button
           className={cn(
-            'z-[1] shrink-0 rounded-full text-text-secondary opacity-80 hover:text-text-primary hover:opacity-100 disabled:opacity-50',
+            'text-text-secondary hover:text-text-primary z-1 shrink-0 rounded-full opacity-80 hover:opacity-100 disabled:opacity-50',
             className,
           )}
           {...props}
@@ -40,7 +40,7 @@ function InkLevel({ percentageUsed }: { percentageUsed: number }) {
   return (
     <motion.div
       layout="size"
-      className="h-2 overflow-hidden rounded-full bg-theme-3"
+      className="bg-theme-3 h-2 overflow-hidden rounded-full"
       style={{
         width: INK_LEVEL_WIDTH,
         borderRadius: '9999px',
@@ -52,7 +52,7 @@ function InkLevel({ percentageUsed }: { percentageUsed: number }) {
     >
       <motion.div
         layout="size"
-        className="h-full rounded-full bg-theme-1"
+        className="bg-theme-1 h-full rounded-full"
         style={{
           width: `${remap(percentageUsed, 0, 1, INK_LEVEL_WIDTH, 0)}px`,
           borderRadius: '9999px',
@@ -69,7 +69,7 @@ function Toolbar({ children }: { children: React.ReactNode }) {
       style={{
         borderRadius: '9999px',
       }}
-      className="flex items-center gap-2 bg-panel-background/10 px-2 py-1 backdrop-blur"
+      className="bg-panel-background/10 flex items-center gap-2 px-2 py-1 backdrop-blur"
       transition={{ duration: 0.2 }}
     >
       {children}
@@ -85,7 +85,7 @@ function SizeWarning({ children }: { children: React.ReactNode }) {
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       exit={{ opacity: 0, y: -10, filter: 'blur(5px)' }}
       style={{ width: INK_LEVEL_WIDTH }}
-      className="flex items-center justify-center text-sm text-text-secondary"
+      className="text-text-secondary flex items-center justify-center text-sm"
       transition={{ duration: 0.2, delay: 0.2 }}
     >
       {children}
@@ -251,7 +251,7 @@ export default function DrawingPad({
           ref.current = e;
         }}
         className={cn('relative isolate h-full w-full touch-none transition-opacity duration-200', {
-          'pointer-events-none cursor-not-allowed text-theme-1 opacity-80': svgTooBig,
+          'text-theme-1 pointer-events-none cursor-not-allowed opacity-80': svgTooBig,
         })}
       >
         {points && <path d={pathData} fill="currentColor" />}

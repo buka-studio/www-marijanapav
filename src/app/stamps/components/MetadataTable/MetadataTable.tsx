@@ -63,7 +63,7 @@ function getRows(stamp: Stamp): Record<string, RowValue> {
 function KeyCell({ children, className, ...props }: ComponentProps<'div'>) {
   return (
     <div
-      className={cn('border-b border-stone-300 py-2 uppercase text-stone-400', className)}
+      className={cn('border-b border-stone-300 py-2 text-stone-400 uppercase', className)}
       {...props}
     >
       {children}
@@ -74,7 +74,7 @@ function KeyCell({ children, className, ...props }: ComponentProps<'div'>) {
 function ValueCell({ children, className, ...props }: ComponentProps<'div'>) {
   return (
     <div
-      className={cn('break-all border-b border-stone-300 py-2 uppercase text-stone-500', className)}
+      className={cn('border-b border-stone-300 py-2 break-all text-stone-500 uppercase', className)}
       {...props}
     >
       {children}
@@ -92,7 +92,7 @@ const PopoverOrHoverCard = ({
   const isHoverableDevice = useMatchMedia('(hover: hover)');
 
   const trigger = (
-    <ExistingStamp className="w-[120px] cursor-pointer transition-colors duration-150 group-data-[state=open]:[--bg:var(--tw-color-stone-400)] group-data-[state=open]:[--fg:var(--tw-color-stone-800)]" />
+    <ExistingStamp className="w-[120px] cursor-pointer transition-colors duration-150 group-data-[state=open]:[--bg:var(--color-stone-400)] group-data-[state=open]:[--fg:var(--color-stone-800)]" />
   );
 
   if (isHoverableDevice) {
@@ -135,7 +135,7 @@ export default function MetadataTable({ className }: { className?: string }) {
 
   return (
     <div>
-      <div className="mb-5 font-libertinus text-stone-700">
+      <div className="font-libertinus mb-5 text-stone-700">
         {stamp.srcOriginal ? (
           <>
             <div className="flex items-center gap-1">

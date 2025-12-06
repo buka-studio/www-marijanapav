@@ -31,10 +31,10 @@ export default function ColorThemeCard() {
     <Card>
       <div className="flex h-full min-h-[210px] w-full flex-col content-center gap-3">
         <div className="relative h-full">
-          <GridBackground className="absolute left-0 top-0 h-full w-full" />
-          <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-lg">
-            <div className="rounded-full bg-theme-3 p-[1px]">
-              <div className="relative flex gap-3 rounded-full bg-panel-background px-2 py-2 ">
+          <GridBackground className="absolute top-0 left-0 h-full w-full" />
+          <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center rounded-lg">
+            <div className="bg-theme-3 rounded-full p-px">
+              <div className="bg-panel-background relative flex gap-3 rounded-full px-2 py-2">
                 {colorThemes.map((t, i) => {
                   const isActive = t === colorTheme;
                   return (
@@ -54,7 +54,7 @@ export default function ColorThemeCard() {
                       >
                         {isActive ? (
                           <motion.span
-                            className="absolute h-3 w-3 rounded-full bg-theme-1"
+                            className="bg-theme-1 absolute h-3 w-3 rounded-full"
                             layoutId="color-theme-dot"
                           />
                         ) : (
@@ -68,7 +68,7 @@ export default function ColorThemeCard() {
             </div>
           </div>
         </div>
-        <div className="h-6 flex-shrink-0 overflow-hidden">
+        <div className="h-6 shrink-0 overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               className="flex h-full items-center justify-between"
@@ -86,9 +86,9 @@ export default function ColorThemeCard() {
                 disabled={!colorTheme}
               >
                 {colorTheme ? (
-                  <ArrowCounterClockwiseIcon className="h-4 w-4 text-text-primary transition-all duration-200 group-hover:text-theme-1" />
+                  <ArrowCounterClockwiseIcon className="text-text-primary group-hover:text-theme-1 h-4 w-4 transition-all duration-200" />
                 ) : (
-                  <ArrowUpIcon className="h-4 w-4 text-text-primary" />
+                  <ArrowUpIcon className="text-text-primary h-4 w-4" />
                 )}
               </button>
             </motion.div>

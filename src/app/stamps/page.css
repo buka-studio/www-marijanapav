@@ -1,15 +1,4 @@
-.stamps-page {
-  --tw-color-stone-100: theme('colors.stone.100');
-  --tw-color-stone-200: theme('colors.stone.200');
-  --tw-color-stone-300: theme('colors.stone.300');
-  --tw-color-stone-400: theme('colors.stone.400');
-  --tw-color-stone-500: theme('colors.stone.500');
-  --tw-color-stone-600: theme('colors.stone.600');
-  --tw-color-stone-700: theme('colors.stone.700');
-  --tw-color-stone-800: theme('colors.stone.800');
-  --tw-color-stone-900: theme('colors.stone.900');
-  --tw-color-stone-950: theme('colors.stone.950');
-}
+@reference "tailwindcss";
 
 .grain::before {
   position: absolute;
@@ -25,8 +14,8 @@
 }
 
 .stamps-layout ::selection {
-  background: theme('colors.stone.300');
-  color: theme('colors.stone.600');
+  background: var(--color-stone-300);
+  color: var(--color-stone-600);
 }
 
 .stamps-layout ::-moz-selection {
@@ -35,7 +24,7 @@
 }
 
 .focus-dashed {
-  @apply rounded-[2px] focus-visible:outline-dashed focus-visible:outline-1 focus-visible:outline-stone-500;
+  @apply rounded-[2px] focus-visible:outline-1 focus-visible:outline-stone-500 focus-visible:outline-dashed;
 }
 
 .shimmer-text {

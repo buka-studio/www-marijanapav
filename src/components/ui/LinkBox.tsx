@@ -20,7 +20,7 @@ function LinkBox({
     <Component
       ref={ref}
       className={cn(
-        'relative [&_*[role="button"]]:relative [&_*[role="button"]]:z-[1] [&_a:not(.link-overlay)]:relative [&_a:not(.link-overlay)]:z-[1] [&_button]:relative [&_button]:z-[1]',
+        'relative [&_*[role="button"]]:relative [&_*[role="button"]]:z-1 [&_a:not(.link-overlay)]:relative [&_a:not(.link-overlay)]:z-1 [&_button]:relative [&_button]:z-1',
         className,
       )}
       {...props}

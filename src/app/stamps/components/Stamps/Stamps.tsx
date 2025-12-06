@@ -676,18 +676,18 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       )}
       {...props}
     >
-      <div className="col-[1/3] row-[1] flex-col  items-center justify-center border-b border-dashed border-stone-300 lg:col-[1] lg:flex lg:border-b-0">
+      <div className="col-[1/3] row-1 flex-col items-center justify-center border-b border-dashed border-stone-300 lg:col-1 lg:flex lg:border-b-0">
         <PunchPattern className={cn('flex-row px-2 py-4 lg:flex-col lg:px-0 lg:py-0')} />
       </div>
       <div
         data-vaul-no-drag
-        className={cn('relative row-[3] flex h-full items-start lg:row-[1]')}
+        className={cn('relative row-3 flex h-full items-start lg:row-1')}
         ref={containerRef}
         onClick={handleContainerClick}
       >
         <div
           className={cn(
-            'pointer-events-none absolute inset-0 left-1/2 top-1/2 z-0 h-full w-full -translate-x-1/2 -translate-y-1/2 select-none overflow-clip border border-solid border-stone-300 duration-500',
+            'pointer-events-none absolute inset-0 top-1/2 left-1/2 z-0 h-full w-full -translate-x-1/2 -translate-y-1/2 overflow-clip border border-solid border-stone-300 duration-500 select-none',
           )}
         >
           <CanvasGrid
@@ -743,7 +743,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                 onClick={handleStampClick}
                 data-slot="stamp-container"
                 className={cn(
-                  'focus-dashed group pointer-events-auto absolute z-[--z] flex items-center justify-center outline-offset-4 transition-[filter] duration-200 will-change-transform',
+                  'focus-dashed group pointer-events-auto absolute z-(--z) flex items-center justify-center outline-offset-4 transition-[filter] duration-200 will-change-transform',
                   {
                     'opacity-40 blur-lg': selectedStampId && selectedStampId !== stamp.id,
                     'pointer-events-none': selectedStampId,
@@ -785,18 +785,18 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                             </AnimatePresence>
 
                             <DrawerContent
-                              className="max-w-[100vw] !rounded-none !border-none bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)]"
+                              className="max-w-[100vw] rounded-none! border-none! bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)]"
                               handle={false}
                               overlayClassName="!opacity-0"
                             >
-                              <div className="flex-1 overflow-y-auto pb-10 font-libertinus">
+                              <div className="font-libertinus flex-1 overflow-y-auto pb-10">
                                 <DrawerHeader className="sr-only">
                                   <DrawerTitle>{selectedStamp?.title || 'Stamp Info'}</DrawerTitle>
                                   <DrawerDescription>
                                     {selectedStamp?.country || ''}
                                   </DrawerDescription>
                                 </DrawerHeader>
-                                <PunchPattern className="sticky top-0 z-[1] flex flex-row bg-stone-100 px-4 py-4" />
+                                <PunchPattern className="sticky top-0 z-1 flex flex-row bg-stone-100 px-4 py-4" />
                                 <div className="w-full border-b border-dashed border-stone-300"></div>
                                 <div className="max-w-[100vw] p-5">
                                   {selectedStamp && <MetadataTable />}
@@ -847,7 +847,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
           })}
         </div>
         <div
-          className={cn('absolute left-1/2 top-8 z-50 flex -translate-x-1/2 items-center gap-5')}
+          className={cn('absolute top-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-5')}
         >
           <AnimatePresence mode="wait">
             {showCollectionActions && (
@@ -899,7 +899,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         last. Press Space to open a stamp to see the details.
       </p>
 
-      <div className="absolute right-0 top-[165px] row-[3] w-8 lg:static lg:right-auto lg:row-[1] lg:w-10">
+      <div className="absolute top-[165px] right-0 row-3 w-8 lg:static lg:right-auto lg:row-1 lg:w-10">
         <CollectionsList
           className={cn(
             'absolute origin-bottom-left -translate-x-px -translate-y-8 rotate-90 group-[:has(div[data-state=open][data-slot=dialog-content])]/stamps-container:blur-sm lg:-translate-y-10',
@@ -914,7 +914,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         />
       </div>
       <Footer
-        className="col-[1] row-[2] py-2 pl-2 sm:py-2 sm:pb-2 lg:col-[2] lg:row-[2] lg:pl-0 "
+        className="col-1 row-2 py-2 pl-2 sm:py-2 sm:pb-2 lg:col-2 lg:row-2 lg:pl-0"
         onSelectCollection={handleSelectCollection}
       >
         <FeedbackDialog

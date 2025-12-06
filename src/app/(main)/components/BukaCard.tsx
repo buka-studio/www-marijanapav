@@ -13,7 +13,7 @@ export default function BukaCard() {
           </CardTitle>
         </div>
         <div className="flex items-center gap-4">
-          <BukaIcon className="[&_*]:origin-center [&_*]:[transform-box:fill-box] [&_.ping]:animate-ping-slow" />
+          <BukaIcon className="[&_.ping]:animate-ping-slow **:origin-center **:transform-fill" />
           <div className="font-archivo text-3xl md:text-4xl">
             <a
               className="group flex items-center gap-3 rounded-lg"
@@ -21,11 +21,11 @@ export default function BukaCard() {
               target="_blank"
             >
               EchoTab
-              <LinkIcon className="h-8 w-8 rounded-full p-1 transition-all duration-150 group-hover:bg-theme-3 md:h-12 md:w-12" />
+              <LinkIcon className="group-hover:bg-theme-3 h-8 w-8 rounded-full p-1 transition-all duration-150 md:h-12 md:w-12" />
             </a>
           </div>
         </div>
-        <p className="text-sm text-text-primary">
+        <p className="text-text-primary text-sm">
           A clean browser extension for managing browser tabs and bookmarks, with multi-select,
           smart tagging and command menu for quick actions. Always updating.
         </p>

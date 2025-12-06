@@ -1,8 +1,8 @@
-@import './themes-oklab.css';
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin 'tailwind-scrollbar';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import './themes-oklab.css';
 
 @layer base {
   html {
@@ -10,10 +10,43 @@
   }
 }
 
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-archivo: var(--font-archivo);
+  --font-mono: var(--font-ibm-plex-mono), 'IBM Plex Mono', 'Fira Code', Consolas, Monaco, monospace;
+  --font-libertinus: var(--font-libertinus-serif);
+
+  --animation-ping-slow: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+
+  --color-theme-1: var(--theme-1);
+  --color-theme-2: var(--theme-2);
+  --color-theme-3: var(--theme-3);
+  --color-theme-4: var(--theme-4);
+
+  --color-main-background: var(--main-background);
+  --color-main-accent: var(--main-accent);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-contrast: var(--text-contrast);
+
+  --color-panel-background: var(--panel-background);
+  --color-panel-shadow: var(--panel-shadow);
+  --color-panel-border: var(--panel-border);
+  --color-panel-overlay: var(--panel-overlay);
+
+  --shadow-card: 0px 0px 20px var(--panel-shadow) / 0.1;
+
+  --breakpoint-xxs: 360px;
+  --breakpoint-xs: 475px;
+  --breakpoint-2xl: 1336px;
+}
+
 * {
   -webkit-font-smoothing: antialiased;
 }
 
-.text-pretty {
-  text-wrap: pretty;
+button {
+  cursor: pointer;
 }
