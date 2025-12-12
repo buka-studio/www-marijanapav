@@ -82,12 +82,12 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
 
   return (
     <li className="select-none">
-      <div className="group relative flex w-full items-center rounded-md hover:bg-panel-border hover:text-text-primary">
+      <div className="group hover:bg-panel-border hover:text-text-primary relative flex w-full items-center rounded-md">
         <button
           onClick={toggleExpand}
           disabled={item.isLocked || !hasChildren}
           className={cn(
-            'flex w-full items-center rounded-md px-2 py-1 text-left text-text-primary transition-colors',
+            'text-text-primary flex w-full items-center rounded-md px-2 py-1 text-left transition-colors',
             hasChildren ? 'hover:text-main-accent' : 'hover:text-text-primary',
             { 'text-text-secondary': !hasChildren },
           )}
@@ -131,6 +131,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
         {item.isLocked ? null : item.githubUrl ? (
           <a
             href={item.githubUrl}
+            aria-label={`Open ${item.name} on GitHub`}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary absolute right-2 rounded-md opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
@@ -144,7 +145,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
         <ul
           className={cn(
             'mt-1',
-            'border-l border-panel-overlay',
+            'border-panel-overlay border-l',
             isDeepNested ? 'ml-2 pl-2' : 'ml-4 pl-4',
           )}
         >

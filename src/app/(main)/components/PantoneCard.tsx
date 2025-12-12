@@ -53,11 +53,11 @@ export default function PantoneCard() {
   return (
     <Card containerClassName="z-3 pantone-card">
       <div className="flex min-h-[210px] w-full flex-col gap-3">
-        <div className="duration-250 flex-1 rounded-md bg-theme-2 transition-all"></div>
+        <div className="bg-theme-2 flex-1 rounded-md transition-all duration-250"></div>
         <div className="flex justify-between">
           <div className="flex-1 overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>
-              <motion.div className=" text-text-primary" key={name} {...slideLeftProps}>
+              <motion.div className="text-text-primary" key={name} {...slideLeftProps}>
                 <CardTitle variant="mono" className="inline">
                   PANTONE
                 </CardTitle>{' '}
@@ -68,7 +68,7 @@ export default function PantoneCard() {
             </AnimatePresence>
           </div>
           <Tooltip>
-            <TooltipTrigger className="rounded-full">
+            <TooltipTrigger className="rounded-full" aria-label="Fictional Pantone color name">
               <InfoIcon className="text-text-primary" />
             </TooltipTrigger>
             <TooltipContent className="w-[200px] text-center">
