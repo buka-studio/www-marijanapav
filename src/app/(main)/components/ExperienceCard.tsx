@@ -35,7 +35,7 @@ const positions: Position[] = [
   {
     title: (
       <a
-        className="group inline-flex items-center text-text-primary/50 hover:text-main-accent"
+        className="group text-text-primary/50 hover:text-main-accent inline-flex items-center"
         href="https://www.linkedin.com/in/marijana-pavlinic/"
         target="_blank"
         rel="noreferrer"
@@ -48,40 +48,26 @@ const positions: Position[] = [
     to: '2017',
     muted: true,
   },
-
-  // {
-  //   title: 'Brand Designer',
-  //   company: { name: 'Infinum', href: 'https://infinum.com/' },
-  //   from: '2018',
-  //   to: '2022',
-  // },
-  // {
-  //   title: 'Designer',
-  //   company: { name: 'Norma Studio', href: 'https://norma.hr/' },
-  //   from: '2017',
-  //   to: '2018',
-  // },
-  // { title: 'Misc', from: '2022', to: '2017' },
 ];
 
 export default function ExperienceCard() {
   return (
     <Card>
       <div className="flex flex-col justify-between px-2">
-        <CardTitle variant="mono" className="mb-10 border-panel-border pb-6">
+        <CardTitle variant="mono" className="border-panel-border mb-10 pb-6">
           Work
         </CardTitle>
         <ul className="flex flex-col">
           {positions.map((p, i) => (
             <li
               key={i}
-              className="flex flex-row items-center justify-between border-b border-panel-border py-2 text-sm last-of-type:border-none"
+              className="border-panel-border flex flex-row items-center justify-between border-b py-2 text-sm last-of-type:border-none"
             >
               <span className="flex flex-1 flex-wrap items-center gap-2 whitespace-nowrap">
                 {!p.to && (
                   <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-main-accent opacity-75"></span>
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-main-accent"></span>
+                    <span className="bg-main-accent absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
+                    <span className="bg-main-accent relative inline-flex h-1.5 w-1.5 rounded-full"></span>
                   </span>
                 )}
                 <span className="flex items-center gap-1">
@@ -92,7 +78,7 @@ export default function ExperienceCard() {
                     <Tag asChild className="bg-transparent p-0">
                       {p.company.href ? (
                         <a
-                          className="text-md group inline-flex items-center text-text-primary hover:text-main-accent"
+                          className="text-md group text-text-primary hover:text-main-accent inline-flex items-center"
                           href={p.company.href}
                           rel="noreferrer"
                           target="_blank"
@@ -107,8 +93,8 @@ export default function ExperienceCard() {
                   ) : null}
                 </span>
               </span>
-              <span className={p.muted ? 'text-text-primary/50' : 'text-text-primary'}>
-                <span className="hidden xs:block">
+              <span className={p.muted ? 'text-text-primary/60' : 'text-text-primary'}>
+                <span className="xs:block hidden">
                   {p.from}—{p.to ? p.to : 'present'}
                 </span>
               </span>

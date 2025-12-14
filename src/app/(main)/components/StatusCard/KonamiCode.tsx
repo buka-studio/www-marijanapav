@@ -36,6 +36,10 @@ const konamiCodeMap = {
   m: 'M',
 };
 
+export function konamiCodeToString() {
+  return konamiCode.map((key) => konamiCodeMap[key as keyof typeof konamiCodeMap]).join(' ');
+}
+
 export default function KonamiCode({ onComplete }: { onComplete: () => void }) {
   const userInputRef = useRef(new CircularBuffer<string>(konamiCode.length));
   const [match, setMatch] = useState<string[]>([]);

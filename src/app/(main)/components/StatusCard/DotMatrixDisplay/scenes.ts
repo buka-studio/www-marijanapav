@@ -26,8 +26,9 @@ export interface SceneContext {
 
 export abstract class Scene {
   constructor(
-    public renderer: MatrixRenderer,
+    public readonly renderer: MatrixRenderer,
     protected context: SceneContext,
+    public readonly instructions: string,
   ) {}
 
   public setupControls(): void {}
@@ -51,7 +52,7 @@ export class StatusScene extends Scene {
       fps: 10,
       palette: context.palette,
     });
-    super(renderer, context);
+    super(renderer, context, text);
   }
 }
 
@@ -69,7 +70,7 @@ export class MenuScene extends Scene {
       fps: 10,
       palette: context.palette,
     });
-    super(renderer, context);
+    super(renderer, context, 'Game Select: 1:Snake 2:Pong 3:Impact');
 
     const menuGameMap = {
       '1': 'snake',
@@ -109,7 +110,11 @@ export class SnakeScene extends Scene {
       onScoreChange: (score) => context.onScoreChange({ player1: score }),
       onGameOver: (score) => this.handleGameOver(score),
     });
-    super(renderer, context);
+    super(
+      renderer,
+      context,
+      'Snake: W, A, S, D or Arrow keys to move. Escape to exit. Use Tab to leave this area.',
+    );
 
     const directionMap = {
       w: Direction.Up,
@@ -162,7 +167,11 @@ export class PongGameScene extends Scene {
         context.onScoreChange({ player1: score.left, player2: score.right }),
       onGameOver: (score) => this.handleGameOver(score),
     });
-    super(renderer, context);
+    super(
+      renderer,
+      context,
+      'Pong: W, S or Arrow keys to move. Escape to exit. Use Tab to leave this area.',
+    );
 
     const directionMap = {
       w: PongDirection.Up,
@@ -215,7 +224,11 @@ export class ImpactGameScene extends Scene {
       onScoreChange: (score) => context.onScoreChange({ player1: score }),
       onGameOver: (score) => this.handleGameOver(score),
     });
-    super(renderer, context);
+    super(
+      renderer,
+      context,
+      'Impact: W, S, A, D or Arrow keys to move. Space to shoot. Escape to exit. Use Tab to leave this area.',
+    );
 
     const keyMap: Record<string, PlayerAction> = {
       w: PlayerAction.Up,

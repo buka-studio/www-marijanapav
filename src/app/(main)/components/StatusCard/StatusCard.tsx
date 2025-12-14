@@ -14,8 +14,12 @@ import DotMatrixDisplay, {
   SceneManager,
   useSceneManager,
 } from './DotMatrixDisplay';
-import KonamiCode from './KonamiCode';
+import KonamiCode, { konamiCodeToString } from './KonamiCode';
 import ScoreCounter from './ScoreCounter';
+
+const getKonamiCodeInstructions = () => {
+  return `Enter Konami Code: ${konamiCodeToString()}`;
+};
 
 const infoSlideProps = {
   initial: { opacity: 0, y: 10 },
@@ -38,6 +42,10 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
 
   const handleGameEnd = useCallback(() => {
     setScoreVisible(false);
+    const menuInstructions = sceneManager?.scenes?.menu?.instructions;
+    if (menuInstructions) {
+      setInstructions(menuInstructions);
+    }
   }, []);
 
   const handleGameSelect = useCallback(
@@ -45,9 +53,19 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
       setScoreVisible(true);
       const initialScore = game === 'pong' ? { player1: 0, player2: 0 } : { player1: 0 };
       setScore(initialScore);
+      const gameInstructions = manager.scenes?.[game]?.instructions;
+      if (gameInstructions) {
+        setInstructions(gameInstructions);
+      }
     },
     [],
   );
+
+  const handleReset = useCallback(() => {
+    setInstructions(getKonamiCodeInstructions());
+  }, []);
+
+  const [instructions, setInstructions] = useState(getKonamiCodeInstructions());
 
   const { sceneManager, activeRenderer } = useSceneManager({
     metrics,
@@ -57,6 +75,7 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
     onGameEnd: handleGameEnd,
     onGameSelect: handleGameSelect,
     analytics,
+    onReset: handleReset,
   });
 
   useEffect(() => {
@@ -93,6 +112,11 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
   const handleKonamiCodeComplete = useCallback(() => {
     sceneManager?.switchTo('menu');
     containerRef.current?.focus();
+
+    const menuInstructions = sceneManager?.scenes?.menu?.instructions;
+    if (menuInstructions) {
+      setInstructions(menuInstructions);
+    }
   }, [sceneManager]);
 
   return (
@@ -114,15 +138,17 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
         </CardTitle>
 
         <div
-          className="rounded-lg border border-panel-border bg-black p-1 focus-visible:outline-none focus-visible:outline-[0.5px] focus-visible:outline-theme-1/20"
+          className="border-panel-border focus-visible:outline-theme-1/20 rounded-lg border bg-black p-1 focus-visible:outline-[0.5px] focus-visible:outline-none"
           tabIndex={0}
           ref={containerRef}
+          role="application"
           aria-label="System status display"
+          aria-describedby="statuscard-instructions"
         >
           <div className="relative" style={{ height: 4 * 7 }}>
             <DotMatrixDisplay
               className={cn(
-                'absolute left-1/2 top-0 -translate-x-1/2 overflow-clip rounded opacity-0 transition-opacity duration-1000',
+                'absolute top-0 left-1/2 -translate-x-1/2 overflow-clip rounded opacity-0 transition-opacity duration-1000',
                 { 'opacity-100': init },
               )}
               onRender={handleRender}
@@ -131,6 +157,13 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
               cellSize={4}
               ref={dotMatrixDisplayRef}
             />
+          </div>
+          <p id="statuscard-instructions" className="sr-only">
+            {instructions}
+          </p>
+          <div aria-live="polite" className="sr-only" aria-atomic="true">
+            {scoreVisible &&
+              `Score: Player one ${score.player1}${score.player2 !== undefined ? `, Player two ${score.player2}` : ''}`}
           </div>
         </div>
       </div>

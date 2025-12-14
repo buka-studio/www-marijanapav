@@ -20,7 +20,7 @@ import { getPalette } from './util';
 
 export class SceneManager {
   private context: SceneContext;
-  private scenes: Record<SceneName, Scene> | null = null;
+  public scenes: Record<SceneName, Scene> | null = null;
   private transitionRenderer: TransitionRenderer;
   private activeSceneName: SceneName | null = null;
   private isTransitioning = false;
@@ -131,6 +131,7 @@ interface UseSceneManagerParams {
   onScoreChange: (score: { player1: number; player2?: number }) => void;
   onGameEnd: () => void;
   onGameSelect: (manager: SceneManager, game: 'snake' | 'pong' | 'impact') => void;
+  onReset?: () => void;
   analytics: {
     track: (event: string, data?: any) => void;
   };
@@ -142,6 +143,7 @@ export const useSceneManager = ({
   containerRef,
   onScoreChange,
   onGameEnd,
+  onReset,
   onGameSelect,
   analytics,
 }: UseSceneManagerParams) => {
@@ -159,7 +161,7 @@ export const useSceneManager = ({
       metrics,
       onScoreChange,
       onGameEnd: () => {
-        sceneManagerRef.current?.switchTo('status');
+        sceneManagerRef.current?.switchTo('menu');
         onGameEnd();
       },
       onGameSelect: (game) => {
@@ -184,6 +186,7 @@ export const useSceneManager = ({
         }
         if (scene instanceof MenuScene) {
           sceneManagerRef.current?.switchTo('status');
+          onReset?.();
         } else {
           sceneManagerRef.current?.switchTo('menu');
           onGameEnd();
