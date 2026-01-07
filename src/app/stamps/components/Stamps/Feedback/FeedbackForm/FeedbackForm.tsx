@@ -40,7 +40,7 @@ export default function FeedbackForm({
       )}
       {...props}
     >
-      <div className="relative col-[1/3] row-2 py-3 pb-8 sm:col-1 sm:row-span-3 sm:py-5 sm:pb-5 sm:pr-5">
+      <div className="relative col-[1/3] row-2 py-3 pb-8 sm:col-1 sm:row-span-3 sm:py-5 sm:pr-5 sm:pb-5">
         <div className="relative h-full w-full" data-no-tilt>
           <input
             type="text"
@@ -56,12 +56,12 @@ export default function FeedbackForm({
             aria-label="Postcard message"
             maxLength={MAX_CHARS}
             id="message"
-            className="absolute inset-0 h-full w-full resize-none bg-transparent font-[cursive] text-lg leading-relaxed text-stone-500 caret-gray-700 placeholder:text-stone-400 focus:outline-none"
+            className={cn("absolute inset-0 h-full w-full resize-none bg-transparent font-[cursive] text-lg leading-relaxed caret-gray-700 placeholder:text-stone-400 focus:outline-none placeholder-shown:text-stone-400 text-stone-700")}
             placeholder={placeholder}
             autoFocus
           />
         </div>
-        <svg className="absolute top-0 h-[2px] w-full text-stone-300 sm:right-0 sm:h-full sm:w-[2px] ">
+        <svg className="absolute top-0 h-[2px] w-full text-stone-300 sm:right-0 sm:h-full sm:w-[2px]">
           <line
             className="sm:hidden"
             x1="0"
@@ -88,7 +88,7 @@ export default function FeedbackForm({
       <div className="col-2 row-1 flex items-start justify-end">
         <div className="relative h-[120px] w-[90px] border border-stone-300">
           <Image
-            className="absolute right-1 top-1 h-full w-full rotate-3 object-contain"
+            className="absolute top-1 right-1 h-full w-full"
             src="/stamps/penny_black.png"
             alt="Marijana & Robert Penny Black Stamp"
             unoptimized
@@ -102,7 +102,7 @@ export default function FeedbackForm({
         {addressLines.map((_, i) => (
           <div
             key={i}
-            className="min-h-[1em] w-full border-b border-stone-200 font-[monospace] text-[0.65rem] uppercase text-stone-600 sm:text-xs"
+            className="min-h-[1em] w-full border-b border-stone-200 font-[monospace] text-[0.65rem] text-stone-600 uppercase sm:text-xs"
           >
             {addressLines[i] || ''}
           </div>
