@@ -3,7 +3,8 @@
   color: var(--theme-2);
 }
 
-:root {
+:root,
+[data-lens-root] {
   background: var(--main-background);
   scroll-padding-top: 80px;
   scroll-behavior: smooth;

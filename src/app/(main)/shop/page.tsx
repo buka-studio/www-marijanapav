@@ -6,6 +6,8 @@ import ViewLogger from '~/src/components/ViewCounter';
 
 import Header from '../components/Header';
 import DraggableStickers from './DraggableStickers';
+import LensClone from './LensClone';
+import LensDialRoot from './LensDialRoot';
 
 import './page.css';
 
@@ -18,16 +20,13 @@ export default async function Home() {
     <>
       <Header />
       <ViewLogger pathname="/shop" />
-      <main className="shop flex flex-1 flex-col px-11 py-8">
-        {/* dirty hack until https://github.com/vercel/next.js/issues/51030
-        is resolved. .main:has(.shop) not supported in FF just yet
-        */}
+      <main className="shop flex h-full w-full flex-1 flex-col px-11 py-8" data-lens-root>
         <style
           dangerouslySetInnerHTML={{
             __html: `.main{overflow:hidden}`,
           }}
         />
-        <div className="relative mb-[100px] flex flex-col items-center gap-2 md:mb-[150px] md:mt-[calc(var(--vh,1vh)*10)]">
+        <div className="relative mb-[100px] flex flex-col items-center gap-2 md:mt-[calc(var(--vh,1vh)*10)] md:mb-[150px]">
           <p className="text-sm uppercase">Shop</p>
           <Heading className="text-center text-[clamp(2.25rem,2vw+2.5rem,4rem)] leading-none">
             Coming soon
@@ -41,6 +40,9 @@ export default async function Home() {
         </div>
         <DraggableStickers rotationSeed={Math.random()} positionSeed={Math.random()} />
       </main>
+
+      <LensClone cloneSelector="[data-lens-root]" />
+      <LensDialRoot />
     </>
   );
 }
