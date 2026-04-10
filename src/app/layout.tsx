@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { Archivo, IBM_Plex_Mono, Inter, Libertinus_Serif } from 'next/font/google';
 
+import 'dialkit/styles.css';
 import './globals.css';
 
 import Script from 'next/script';
