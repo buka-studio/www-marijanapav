@@ -1,7 +1,7 @@
 'use client';
 
 import { useDialKit } from 'dialkit';
-import { motion, useAnimation, useDragControls } from 'framer-motion';
+import { motion, useAnimation, useAnimationFrame, useDragControls } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { create } from 'zustand';
 
@@ -230,6 +230,8 @@ const useSiteMagnifierStore = create<SiteMagnifierStore>((set) => ({
   setAngle: (angle) => set({ angle }),
   setScale: (scale) => set({ scale }),
 }));
+
+const directionKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift'];
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -486,10 +488,13 @@ export default function LensClone({
   const cloneSyncStateRef = useRef<CloneSyncState>(createEmptyCloneSyncState());
   const sourceSizeRef = useRef({ width: 1, height: 1 });
   const coordsRef = useRef(useSiteMagnifierStore.getState().coords);
+  const lensPositionRef = useRef({ x: 0, y: 0 });
   const isTextureReadyRef = useRef(false);
   const readyFrameRef = useRef<number | null>(null);
   const warmupFrameRef = useRef<number | null>(null);
   const lensParamsRef = useRef(lensParams);
+  const pressedKeysRef = useRef<Set<string>>(new Set());
+  const rafTimeRef = useRef<number | null>(null);
   const dragControls = useDragControls();
   const lensControls = useAnimation();
 
@@ -517,6 +522,63 @@ export default function LensClone({
     canvasRef.current?.requestPaint();
   }, [lensParams]);
 
+  const syncLensPositionFromFrame = useCallback(() => {
+    const overlay = overlayRef.current;
+    const lensFrame = lensFrameRef.current;
+
+    if (!overlay || !lensFrame) {
+      return lensPositionRef.current;
+    }
+
+    const overlayRect = overlay.getBoundingClientRect();
+    const lensRect = lensFrame.getBoundingClientRect();
+
+    const position = {
+      x: lensRect.left - overlayRect.left,
+      y: lensRect.top - overlayRect.top,
+    };
+
+    lensPositionRef.current = position;
+    return position;
+  }, []);
+
+  const setLensPosition = useCallback(
+    (nextPosition: { x: number; y: number }) => {
+      const overlay = overlayRef.current;
+      const sourceRoot = document.querySelector<HTMLElement>(cloneSelector);
+
+      if (!overlay || !sourceRoot) {
+        return;
+      }
+
+      const overlayRect = overlay.getBoundingClientRect();
+      const sourceRect = sourceRoot.getBoundingClientRect();
+      const clampedX = clamp(nextPosition.x, 0, Math.max(0, overlay.clientWidth - lensSize));
+      const clampedY = clamp(nextPosition.y, 0, Math.max(0, overlay.clientHeight - lensSize));
+
+      lensPositionRef.current = {
+        x: clampedX,
+        y: clampedY,
+      };
+
+      lensControls.start({
+        x: clampedX,
+        y: clampedY,
+        transition: {
+          duration: 0,
+        },
+      });
+
+      setCoords({
+        x: clamp(clampedX + lensRadius + overlayRect.left - sourceRect.left, 0, sourceRect.width),
+        y: clamp(clampedY + lensRadius + overlayRect.top - sourceRect.top, 0, sourceRect.height),
+      });
+
+      canvasRef.current?.requestPaint();
+    },
+    [cloneSelector, lensControls, lensRadius, lensSize, setCoords],
+  );
+
   const updateLensCenterFromFrame = useCallback(() => {
     const sourceRoot = document.querySelector<HTMLElement>(cloneSelector);
     const lensRect = lensFrameRef.current?.getBoundingClientRect();
@@ -530,7 +592,7 @@ export default function LensClone({
       x: clamp(lensRect.left + lensRect.width * 0.5 - sourceRect.left, 0, sourceRect.width),
       y: clamp(lensRect.top + lensRect.height * 0.5 - sourceRect.top, 0, sourceRect.height),
     });
-  }, [setCoords]);
+  }, [cloneSelector, setCoords]);
 
   useEffect(() => {
     if (!open) {
@@ -836,10 +898,13 @@ export default function LensClone({
       return;
     }
 
-    setSpawnPosition({
+    const nextSpawnPosition = {
       x: Math.max(0, (overlay.clientWidth - lensSize) * 0.5),
       y: Math.max(0, (overlay.clientHeight - lensSize) * 0.5),
-    });
+    };
+
+    lensPositionRef.current = nextSpawnPosition;
+    setSpawnPosition(nextSpawnPosition);
   }, [lensSize]);
 
   useEffect(() => {
@@ -867,8 +932,74 @@ export default function LensClone({
     });
   }, [isTextureReady, lensControls, open]);
 
+  const handleTriggerKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!open) {
+        return;
+      }
+
+      if (directionKeys.includes(event.key)) {
+        pressedKeysRef.current.add(event.key);
+
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    },
+    [open],
+  );
+
+  const handleTriggerKeyUp = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (directionKeys.includes(event.key)) {
+      pressedKeysRef.current.delete(event.key);
+
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, []);
+
+  const handleTriggerBlur = useCallback(() => {
+    pressedKeysRef.current.clear();
+  }, []);
+
+  useAnimationFrame((time) => {
+    if (!open || !isTextureReady) {
+      rafTimeRef.current = time;
+      return;
+    }
+
+    const prevTime = rafTimeRef.current ?? time;
+    const dt = Math.min(0.05, (time - prevTime) / 1000);
+    rafTimeRef.current = time;
+
+    if (!pressedKeysRef.current.size) {
+      return;
+    }
+
+    const pressedKeys = pressedKeysRef.current;
+    const speed = 200 * (pressedKeys.has('Shift') ? 2 : 1);
+    let vx = 0;
+    let vy = 0;
+
+    if (pressedKeys.has('ArrowLeft')) vx -= 1;
+    if (pressedKeys.has('ArrowRight')) vx += 1;
+    if (pressedKeys.has('ArrowUp')) vy -= 1;
+    if (pressedKeys.has('ArrowDown')) vy += 1;
+    if (!(vx || vy)) {
+      return;
+    }
+
+    const length = Math.hypot(vx, vy) || 1;
+    const currentPosition = lensPositionRef.current ?? syncLensPositionFromFrame();
+    const nextPosition = {
+      x: currentPosition.x + (vx / length) * speed * dt,
+      y: currentPosition.y + (vy / length) * speed * dt,
+    };
+
+    setLensPosition(nextPosition);
+  });
+
   return (
-    <div ref={overlayRef} className="pointer-events-none fixed inset-0 z-40">
+    <div ref={overlayRef} className="pointer-events-none fixed inset-0 z-[9]">
       <motion.div
         ref={lensFrameRef}
         initial={{
@@ -883,20 +1014,17 @@ export default function LensClone({
         dragConstraints={overlayRef}
         animate={lensControls}
         onDrag={() => {
-          const canvas = canvasRef.current;
-          if (!canvas) {
-            return;
-          }
-
+          syncLensPositionFromFrame();
           updateLensCenterFromFrame();
-          canvas.requestPaint();
+          canvasRef.current?.requestPaint();
         }}
         className={cn(
           'absolute aspect-square rounded-full shadow-[0_18px_40px_rgba(0,0,0,0.28)] outline-offset-8',
-          !isTextureReady && 'invisible',
-          open && isTextureReady
-            ? 'pointer-events-auto opacity-100 [filter:blur(0px)]'
-            : 'pointer-events-none opacity-0 [filter:blur(10px)]',
+          {
+            invisible: !isTextureReady,
+            'pointer-events-auto opacity-100 [filter:blur(0px)]': open && isTextureReady,
+            'pointer-events-none opacity-0 [filter:blur(10px)]': !open || !isTextureReady,
+          },
         )}
         style={{
           x: spawnPosition.x,
@@ -907,11 +1035,19 @@ export default function LensClone({
       >
         <div
           ref={triggerRef}
-          role="button"
+          role="region"
           tabIndex={0}
-          aria-label="Drag magnifier"
-          onPointerDown={(event) => dragControls.start(event)}
-          className="absolute top-1/2 left-1/2 z-40 aspect-square -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full active:cursor-grabbing"
+          aria-label="Shop magnifier"
+          aria-describedby="shop-lens-description"
+          aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown"
+          onPointerDown={(event) => {
+            event.currentTarget.focus();
+            dragControls.start(event);
+          }}
+          onKeyDown={handleTriggerKeyDown}
+          onKeyUp={handleTriggerKeyUp}
+          onBlur={handleTriggerBlur}
+          className="focus-visible:outline-theme-1 absolute top-1/2 left-1/2 z-40 aspect-square -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full focus-visible:outline-2 focus-visible:outline-offset-8 active:cursor-grabbing"
           style={{ width: lensSize, height: lensSize }}
         />
         <div
@@ -933,6 +1069,9 @@ export default function LensClone({
             />
           </canvas>
         </div>
+        <p id="shop-lens-description" className="sr-only">
+          Use arrow keys to move the magnifier. Press Tab to switch between local controls.
+        </p>
       </motion.div>
     </div>
   );

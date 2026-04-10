@@ -3,5 +3,5 @@
 import { DialRoot } from 'dialkit';
 
 export default function LensDialRoot() {
-  return <DialRoot position="top-right" defaultOpen={false} productionEnabled />;
+  return <DialRoot position="top-right" defaultOpen={false} />;
 }

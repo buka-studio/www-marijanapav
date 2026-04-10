@@ -6,8 +6,7 @@ import ViewLogger from '~/src/components/ViewCounter';
 
 import Header from '../components/Header';
 import DraggableStickers from './DraggableStickers';
-import LensClone from './LensClone';
-import LensDialRoot from './LensDialRoot';
+import ShopLensControls from './components/LensClone/ShopLensControls';
 
 import './page.css';
 
@@ -40,9 +39,7 @@ export default async function Home() {
         </div>
         <DraggableStickers rotationSeed={Math.random()} positionSeed={Math.random()} />
       </main>
-
-      <LensClone cloneSelector="[data-lens-root]" />
-      <LensDialRoot />
+      <ShopLensControls />
     </>
   );
 }

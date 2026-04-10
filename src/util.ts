@@ -34,3 +34,27 @@ export async function withTimeout<T>(
 export function preloadImage(url: string) {
   return ReactDOM.preload(url, { as: 'image' });
 }
+
+export function supportsHtmlInCanvas() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return false;
+  }
+
+  const canvas = document.createElement('canvas') as HTMLCanvasElement & {
+    requestPaint?: () => void;
+  };
+  const gl = canvas.getContext('webgl') as
+    | (WebGLRenderingContext & {
+        texElementImage2D?: (
+          target: number,
+          level: number,
+          internalformat: number,
+          format: number,
+          type: number,
+          element: Element,
+        ) => void;
+      })
+    | null;
+
+  return typeof canvas.requestPaint === 'function' && typeof gl?.texElementImage2D === 'function';
+}
