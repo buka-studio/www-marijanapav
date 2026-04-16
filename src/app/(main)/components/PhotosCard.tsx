@@ -13,6 +13,7 @@ import photo7 from '~/public/home/photos/photo_7.jpg';
 import photo8 from '~/public/home/photos/photo_8.jpg';
 import photo9 from '~/public/home/photos/photo_9.jpg';
 import photo10 from '~/public/home/photos/photo_10.jpg';
+import photoKavaCoffeeBagsCaffeineCrackSticker from '~/public/home/photos/kava-coffee-bags-caffeine-crack-sticker.png';
 import CardTitle from '~/src/components/ui/CardTitle';
 import Image from '~/src/components/ui/Image';
 import { cn } from '~/src/util';
@@ -23,6 +24,7 @@ export const photos = [
   photo0,
   photo1,
   photo2,
+  photoKavaCoffeeBagsCaffeineCrackSticker,
   photo3,
   photo4,
   photo5,

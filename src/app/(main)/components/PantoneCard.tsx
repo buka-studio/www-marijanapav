@@ -12,8 +12,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '~/src/components/ui/Too
 
 import Card from './Card';
 
-import './PantoneCard.css';
-
 import useColorTheme from './useColorTheme';
 
 type Pantone = {
@@ -51,7 +49,7 @@ export default function PantoneCard() {
   const name = pantoneByTheme[themeName as Theme]?.name;
 
   return (
-    <Card containerClassName="z-3 pantone-card">
+    <Card containerClassName="z-3">
       <div className="flex min-h-[210px] w-full flex-col gap-3">
         <div className="bg-theme-2 flex-1 rounded-md transition-all duration-250"></div>
         <div className="flex justify-between">

@@ -9,7 +9,6 @@ import {
   BukaCard,
   CodeCard,
   ColorThemeCard,
-  ExperienceCard,
   NotesCard,
   PantoneCard,
   PhotosCard,
@@ -17,7 +16,7 @@ import {
   SkewedStampsCard,
   SneakPeekCard,
   StatusCard,
-  ToolsCard,
+  ToolsCreatedCard,
   WorkspaceCard,
 } from './components';
 import Header from './components/Header';
@@ -40,18 +39,18 @@ const projectLinks: Array<{ label: string; href: FilterHref }> = [
   { label: 'Illustration', href: '/work?f=illustration' },
 ];
 
-const getCards = ({ sketchbookCard }: { sketchbookCard: boolean }) => [
+const getCards = () => [
   { gridArea: '👋', Component: BioCard },
-  { gridArea: '👔', Component: ExperienceCard },
+  { gridArea: '💯', Component: BukaCard },
   { gridArea: '💬', Component: StatusCard },
   { gridArea: '📌', Component: WorkspaceCard },
   { gridArea: '🖌️', Component: PantoneCard },
   { gridArea: '🎨', Component: ColorThemeCard },
   { gridArea: '👀', Component: SneakPeekCard },
   { gridArea: '🖼️', Component: PhotosCard },
-  { gridArea: '💯', Component: BukaCard },
   { gridArea: '🧪', Component: CodeCard },
-  { gridArea: '👩‍💻', Component: sketchbookCard ? SketchbookCard : ToolsCard },
+  { gridArea: '🔧', Component: ToolsCreatedCard },
+  { gridArea: '👩‍💻', Component: SketchbookCard },
   { gridArea: '💌', Component: SkewedStampsCard },
   { gridArea: '📝', Component: NotesCard },
 ];
@@ -121,7 +120,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="home-cards">
-            {getCards({ sketchbookCard: true }).map(({ gridArea, Component }, i) => (
+            {getCards().map(({ gridArea, Component }, i) => (
               <div key={i} style={{ gridArea }}>
                 <Component currentCount={currentCount || 0} metrics={metrics} />
               </div>
