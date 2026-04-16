@@ -9,8 +9,8 @@ import Card from './Card';
 export default function WorkspaceCard() {
   return (
     <Card>
-      <LinkBox className="group flex flex-col justify-between">
-        <div className="text-text-primary group-hover:text-main-accent mb-4 flex items-center justify-between transition-colors">
+      <LinkBox className="group flex h-full min-h-0 flex-col justify-between">
+        <div className="text-text-primary group-hover:text-main-accent mb-4 flex shrink-0 items-center justify-between transition-colors">
           <div className="flex items-center gap-2">
             <CardTitle variant="mono">
               <LinkBoxLink
@@ -26,7 +26,7 @@ export default function WorkspaceCard() {
           </div>
           <ArrowUpRight className="h-4 w-4 transition-opacity group-hover:opacity-100" />
         </div>
-        <div className="relative aspect-4/2 w-full overflow-hidden rounded-md">
+        <div className="relative min-h-[200px] w-full flex-1 overflow-hidden rounded-md">
           <Image
             src="/home/workspace.png"
             alt="workspaces.xyz"

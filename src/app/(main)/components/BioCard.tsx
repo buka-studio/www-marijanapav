@@ -56,14 +56,36 @@ export default function BioCard() {
       </div>
 
       <p className="panel text-sm leading-6 text-text-primary">
-        I&apos;m a designer interested in tech, exploring brand, web, illustration, and code. Lately
-        my focus has been shaping brands and websites for devtools, which pushed me to explore
-        frontend, curious how implementation can push design further when you follow it all the way
-        from Figma to prod. I&apos;m based in Croatia where I co-run{' '}
-        <TextLink className=" font-semibold hover:text-theme-1" href="https://www.buka.studio">
+        I&apos;m a Brand Designer at{' '}
+        <TextLink
+          className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
+          href="https://vercel.com/home"
+        >
+          Vercel
+        </TextLink>
+        , working across brand, web, and code in the devtools space. Before that, I was at{' '}
+        <TextLink
+          className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
+          href="https://livekit.io"
+        >
+          LiveKit
+        </TextLink>{' '}
+        and{' '}
+        <TextLink
+          className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
+          href="https://supabase.com"
+        >
+          Supabase
+        </TextLink>
+        , where I helped shape their brand and websites as they grew, which pulled me deeper into
+        frontend and actually building what I design. I&apos;m based in Croatia, where I also co-run{' '}
+        <TextLink
+          className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
+          href="https://www.buka.studio"
+        >
           Buka Studio
         </TextLink>{' '}
-        alongside my partner (and a cat who rarely skips a meeting).
+        with my partner (and a cat who rarely skips meetings).
       </p>
       <div className="mt-4 flex flex-col items-start justify-between text-text-primary md:flex-row md:items-center">
         <div className="flex flex-wrap items-center gap-2">

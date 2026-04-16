@@ -1,0 +1,48 @@
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M32.2715 6.97046L34.0723 6.97046V11.9568L32.2715 11.9568V6.97046Z"
+    fill="currentColor"
+    fill-opacity="0.2"
+  />
+  <path
+    d="M13.9258 6.97046L15.7266 6.97046V11.9568H13.9258L13.9258 6.97046Z"
+    fill="currentColor"
+    fill-opacity="0.2"
+  />
+  <path
+    d="M36.043 13.9275L41.0293 13.9275V15.7283H36.043V13.9275Z"
+    fill="currentColor"
+    fill-opacity="0.2"
+  />
+  <path
+    d="M6.9707 13.9275L11.957 13.9275L11.957 15.7283L6.9707 15.7283L6.9707 13.9275Z"
+    fill="currentColor"
+    fill-opacity="0.2"
+  />
+  <path
+    d="M36.043 32.2722H41.0293V34.073H36.043V32.2722Z"
+    fill="currentColor"
+    fill-opacity="0.2"
+  />
+  <path
+    d="M6.9707 32.2722H11.957V34.073H6.9707L6.9707 32.2722Z"
+    fill="currentColor"
+    fill-opacity="0.2"
+  />
+  <path
+    d="M32.2715 36.0427H34.0723V41.0291H32.2715V36.0427Z"
+    fill="currentColor"
+    fill-opacity="0.2"
+  />
+  <path
+    d="M13.9258 36.0427H15.7266L15.7266 41.0291H13.9258L13.9258 36.0427Z"
+    fill="currentColor"
+    fill-opacity="0.2"
+  />
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M34.0732 34.0732H13.9277V13.9268H34.0732V34.0732ZM28 28V32.2725H32.2725V28H28ZM21.8008 32.2725H26.1992V28H21.8008V32.2725ZM15.7285 32.2725H20V28H15.7285V32.2725ZM28 21.8008V26.1992H32.2725V21.8008H28ZM15.7285 26.1992H20V21.8008H15.7285V26.1992ZM21.8008 26.1992H26.1992V21.8008H21.8008V26.1992ZM28 20H32.2725V15.7285H28V20ZM15.7285 20H20V15.7285H15.7285V20ZM21.8008 20H26.1992V15.7285H21.8008V20Z"
+    fill="currentColor"
+  />
+</svg>
