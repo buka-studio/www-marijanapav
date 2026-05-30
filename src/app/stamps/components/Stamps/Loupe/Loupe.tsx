@@ -79,6 +79,7 @@ function Loupe({
   baseScale,
   gridCellSize,
   activeStampContainerRef,
+  onReady,
 }: {
   selectedStamp: Stamp;
   dragConstraints: React.RefObject<HTMLElement | null>;
@@ -86,13 +87,14 @@ function Loupe({
   baseScale: number;
   gridCellSize: number;
   activeStampContainerRef: React.RefObject<HTMLElement | null>;
+  onReady?: (stampId: string) => void;
 }) {
   const setCoords = useLoupeStore((s) => s.setCoords);
   const setScale = useLoupeStore((s) => s.setScale);
   const scale = useLoupeStore((s) => s.scale);
 
   const isMobile = useIsMobile();
-  const store = useStampStore();
+  const isZoomed = useStampStore((s) => s.isZoomed);
 
   const lensSize = isMobile ? 135 : 300;
   const dialSize = isMobile ? 190 : 400;
@@ -112,7 +114,7 @@ function Loupe({
       return;
     }
 
-    if (store.isZoomed) {
+    if (isZoomed) {
       setCoords({
         x: dragConstraints.current.offsetWidth / 2,
         y: dragConstraints.current.offsetHeight / 2,
@@ -139,7 +141,7 @@ function Loupe({
         filter: 'blur(10px)',
       });
     }
-  }, [store.isZoomed, magnifierControls, dragConstraints, setCoords, dialSize]);
+  }, [isZoomed, magnifierControls, dragConstraints, setCoords, dialSize]);
 
   const [canvasData, setCanvasData] = useState<{
     canvas: HTMLCanvasElement;
@@ -222,6 +224,26 @@ function Loupe({
     activeStampContainerRef,
   ]);
 
+  useEffect(() => {
+    if (!canvasData) {
+      return;
+    }
+
+    let firstFrame = 0;
+    let secondFrame = 0;
+
+    firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(() => {
+        onReady?.(selectedStamp.id);
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+    };
+  }, [canvasData, onReady, selectedStamp.id]);
+
   const handlePointerDown = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
       draggingMagnifier.current = true;
@@ -300,14 +322,14 @@ function Loupe({
 
   const handleTriggerKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (!store.isZoomed) return;
+      if (!isZoomed) return;
       if (directionKeys.includes(e.key)) {
         pressedKeysRef.current.add(e.key);
         e.preventDefault();
         e.stopPropagation();
       }
     },
-    [store.isZoomed],
+    [isZoomed],
   );
 
   const handleTriggerKeyUp = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -324,7 +346,7 @@ function Loupe({
 
   useAnimationFrame((t) => {
     const container = dragConstraints.current;
-    if (!container || !store.isZoomed) {
+    if (!container || !isZoomed) {
       rafTimeRef.current = t;
       return;
     }
@@ -377,7 +399,7 @@ function Loupe({
   return (
     <motion.div
       drag
-      data-zoomed={store.isZoomed}
+      data-zoomed={isZoomed}
       initial={initial}
       dragElastic={0.01}
       dragListener={false}
@@ -387,7 +409,7 @@ function Loupe({
       animate={magnifierControls}
       style={style}
       className={cn(
-        'loupe absolute z-100 flex aspect-square w-(--dial-size) items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30  outline-offset-8 [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&:has(.loupe-trigger:focus-visible)]:outline-stone-400 [&[data-zoomed="false"]_.loupe-lens]:pointer-events-none!',
+        'loupe absolute z-100 flex aspect-square w-(--dial-size) items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30 outline-offset-8 [&:has(.loupe-trigger:focus-visible)]:outline-stone-400 [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&[data-zoomed="false"]_.loupe-lens]:pointer-events-none!',
         'shadow-md',
         className,
       )}
@@ -395,9 +417,9 @@ function Loupe({
       <div
         ref={triggerRef}
         className={cn(
-          'loupe-trigger pointer-events-auto absolute inset-0 left-1/2 top-1/2 z-100 aspect-square w-(--lens-size) -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] focus-visible:outline-none data-[dragging="true"]:cursor-grabbing data-[zoomed="false"]:pointer-events-none',
+          'loupe-trigger pointer-events-auto absolute inset-0 top-1/2 left-1/2 z-100 aspect-square w-(--lens-size) -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none rounded-full [box-shadow:0_0_3px_3px_rgba(0,0,0,0.2)_inset] focus-visible:outline-none data-[dragging="true"]:cursor-grabbing data-[zoomed="false"]:pointer-events-none',
           {
-            'pointer-events-none': !store.isZoomed,
+            'pointer-events-none': !isZoomed,
           },
         )}
         role="region"
@@ -442,7 +464,7 @@ function Loupe({
         minValue={1}
         maxValue={3}
         maxAngle={360}
-        disabled={!store.isZoomed}
+        disabled={!isZoomed}
       />
       <p id="stamps-loupe-description" className="sr-only">
         Use arrow keys to move the loupe. Press Tab to switch between local controls.

@@ -27,6 +27,12 @@
   @apply rounded-[2px] focus-visible:outline-1 focus-visible:outline-stone-500 focus-visible:outline-dashed;
 }
 
+.stamps-list[data-has-selection='true'] [data-slot='stamp-container']:not([data-selected='true']) {
+  opacity: 0.4;
+  filter: blur(16px);
+  pointer-events: none;
+}
+
 .shimmer-text {
   background-clip: text;
   -webkit-background-clip: text;

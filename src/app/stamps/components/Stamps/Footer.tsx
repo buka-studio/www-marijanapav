@@ -10,7 +10,7 @@ function CollectionButton({ className, ...props }: ComponentProps<'button'>) {
   return (
     <button
       className={cn(
-        'text-stone-400 hover:text-stone-600  focus:outline-none focus-visible:text-stone-600 focus-visible:outline-none disabled:opacity-50',
+        'text-stone-400 hover:text-stone-600 focus:outline-none focus-visible:text-stone-600 focus-visible:outline-none disabled:opacity-50',
         className,
       )}
       {...props}
@@ -35,8 +35,8 @@ export function Footer({
   onSelectCollection: (collection: CollectionType) => void;
   children?: React.ReactNode;
 }) {
-  const store = useStampStore();
-  const collectionIndex = collectionTypes.indexOf(store.collection);
+  const collection = useStampStore((s) => s.collection);
+  const collectionIndex = collectionTypes.indexOf(collection);
 
   const indexLabel = String(collectionIndex + 1).padStart(2, '0');
 
@@ -59,7 +59,7 @@ export function Footer({
   return (
     <div
       className={cn(
-        'grid grid-cols-1 items-center justify-center justify-items-center gap-2 py-2 font-mono text-xs font-bold uppercase text-stone-400 lg:grid-cols-3',
+        'grid grid-cols-1 items-center justify-center justify-items-center gap-2 py-2 font-mono text-xs font-bold text-stone-400 uppercase lg:grid-cols-3',
         className,
       )}
     >
@@ -69,7 +69,7 @@ export function Footer({
       </div>
       {children}
       <div className="ml-auto hidden items-center gap-2 lg:flex">
-        <div>{store.collection}</div>
+        <div>{collection}</div>
         <div>{indexLabel} </div>
 
         <div className="flex items-center gap-2 text-[0.5rem]">

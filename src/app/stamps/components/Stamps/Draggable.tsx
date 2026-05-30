@@ -17,7 +17,7 @@ interface Props {
 export interface DraggableController {
   id?: string;
   index?: number;
-  center: (container: HTMLElement, scale: number) => void;
+  center: (container: HTMLElement, scale: number) => Promise<void>;
   spreadOut: ({
     container,
     dist,
@@ -92,27 +92,29 @@ function Draggable({
   useImperativeHandle(draggableControllerRef, () => ({
     center: (container: HTMLElement, scale: number = 1.5) => {
       if (isFocused.current) {
-        return;
+        return Promise.resolve();
       }
 
-      controls.start((_, current) => {
-        beforeFocus.current = {
-          scale: current.scale ?? 1,
-          x: current.x ?? 0,
-          y: current.y ?? 0,
-          rotate: current.rotate ?? 0,
-          z: current.z ?? 1,
-        };
+      return controls
+        .start((_, current) => {
+          beforeFocus.current = {
+            scale: current.scale ?? 1,
+            x: current.x ?? 0,
+            y: current.y ?? 0,
+            rotate: current.rotate ?? 0,
+            z: current.z ?? 1,
+          };
 
-        isFocused.current = true;
+          isFocused.current = true;
 
-        return {
-          scale: scale,
-          ...calcTransformToCenter(container, innerRef.current!),
-          z: 1,
-          rotate: 0,
-        };
-      });
+          return {
+            scale: scale,
+            ...calcTransformToCenter(container, innerRef.current!),
+            z: 1,
+            rotate: 0,
+          };
+        })
+        .then(() => undefined);
     },
     spreadOut: ({
       container,

@@ -7,9 +7,13 @@ interface StampStore {
   collection: CollectionType;
   isZoomed: boolean;
   zoomEnabled: boolean;
-  toggleZoomed: () => void;
+  toggleZoomed: (force?: boolean) => void;
   setZoomed: (zoomed: boolean) => void;
   setSelectedStampId: (selectedStampId: string) => void;
+  selectStamp: (
+    selectedStampId: string,
+    options?: { isZoomed?: boolean; zoomEnabled?: boolean },
+  ) => void;
   setZoomEnabled: (zoomEnabled: boolean) => void;
   setCollection: (collection: CollectionType) => void;
   reset: () => void;
@@ -27,6 +31,12 @@ export const useStampStore = create<StampStore>((set) => ({
   },
   setZoomed: (zoomed: boolean) => set({ isZoomed: zoomed }),
   setSelectedStampId: (selectedStampId: string) => set({ selectedStampId }),
+  selectStamp: (selectedStampId: string, options) =>
+    set((state) => ({
+      selectedStampId,
+      zoomEnabled: options?.zoomEnabled ?? false,
+      isZoomed: options?.isZoomed ?? state.isZoomed,
+    })),
   setZoomEnabled: (zoomEnabled: boolean) => set({ zoomEnabled }),
   setCollection: (collection: CollectionType) => {
     set({ collection, selectedStampId: '' });

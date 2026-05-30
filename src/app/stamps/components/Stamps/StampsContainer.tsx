@@ -10,7 +10,8 @@ import Stamps from './Stamps';
 import { useIsMobile } from './util';
 
 export default function StampsContainer() {
-  const store = useStampStore();
+  const stampsDrawerOpen = useStampStore((s) => s.stampsDrawerOpen);
+  const setStampsDrawerOpen = useStampStore((s) => s.setStampsDrawerOpen);
 
   const desktopStampsProps: MotionProps = {
     initial: { opacity: 0 },
@@ -24,15 +25,15 @@ export default function StampsContainer() {
     <ClientRendered>
       {isMobile ? (
         <Drawer
-          open={store.stampsDrawerOpen}
-          onOpenChange={store.setStampsDrawerOpen}
+          open={stampsDrawerOpen}
+          onOpenChange={setStampsDrawerOpen}
           autoFocus={false}
           shouldScaleBackground={false}
         >
           <DrawerContent
             overlayClassName="opacity-0!"
             handle={false}
-            className="rounded-none! border-none! bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)] data-[vaul-drawer-direction=bottom]:max-h-[calc(100svh-46px)] focus-visible:outline-none lg:hidden"
+            className="rounded-none! border-none! bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)] focus-visible:outline-none data-[vaul-drawer-direction=bottom]:max-h-[calc(100svh-46px)] lg:hidden"
           >
             <DrawerTitle className="sr-only">Stamps</DrawerTitle>
             <DrawerDescription className="sr-only">Drag and explore stamps</DrawerDescription>

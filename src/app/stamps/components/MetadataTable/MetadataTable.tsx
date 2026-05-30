@@ -123,9 +123,10 @@ const PopoverOrHoverCard = ({
 };
 
 export default function MetadataTable({ className }: { className?: string }) {
-  const stampStore = useStampStore();
-  const collection = collections[stampStore.collection];
-  const stamp = collection.stamps.find((stamp) => stamp.id === stampStore.selectedStampId) as Stamp;
+  const collectionKey = useStampStore((s) => s.collection);
+  const selectedStampId = useStampStore((s) => s.selectedStampId);
+  const collection = collections[collectionKey];
+  const stamp = collection.stamps.find((stamp) => stamp.id === selectedStampId) as Stamp;
 
   if (!stamp) {
     return null;
