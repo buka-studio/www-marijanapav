@@ -1,7 +1,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
-import { FileMigrationProvider, Kysely, Migrator, PostgresDialect } from 'kysely';
+import { Kysely, PostgresDialect } from 'kysely';
+import { FileMigrationProvider, Migrator } from 'kysely/migration';
 import { Pool } from 'pg';
 
 import Database from './Database';
