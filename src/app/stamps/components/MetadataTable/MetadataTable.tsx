@@ -101,7 +101,7 @@ const PopoverOrHoverCard = ({
         <HoverCardTrigger className={cn('group', className)}>{trigger}</HoverCardTrigger>
         <HoverCardContent
           side="top"
-          className="flex h-auto w-auto items-center justify-center bg-stone-50"
+          className="flex h-auto w-auto items-center justify-center border border-stone-200 bg-stone-50"
         >
           {children}
         </HoverCardContent>
@@ -146,7 +146,7 @@ export default function MetadataTable({ className }: { className?: string }) {
               </PopoverOrHoverCard>
               <span className="lg:hidden">existing stamp.</span>
             </div>
-            <div className="mt-2 flex h-[200px] w-full items-center justify-center rounded-md border border-stone-300 bg-stone-50 p-2 lg:hidden">
+            <div className="mt-2 flex h-[200px] w-full items-center justify-center rounded-md border border-stone-200 bg-stone-50 p-2 lg:hidden">
               <Image
                 src={stamp.srcOriginal}
                 alt="Original stamp"
