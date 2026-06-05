@@ -29,6 +29,7 @@ import { cn, preloadImage } from '~/src/util';
 
 import { collections, CollectionType } from '../../constants';
 import { Stamp } from '../../models';
+import { usePlayLoupeActivationSound, usePlayLoupeDeactivationSound } from '../../sounds';
 import { useStampStore } from '../../store';
 import CanvasGrid from '../CanvasGrid';
 import CollectionsList from '../CollectionsList';
@@ -125,6 +126,8 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   const collectionKey = useStampStore((s) => s.collection);
   const setZoomEnabled = useStampStore((s) => s.setZoomEnabled);
   const setSelectedStampId = useStampStore((s) => s.setSelectedStampId);
+  const playLoupeActivationSound = usePlayLoupeActivationSound();
+  const playLoupeDeactivationSound = usePlayLoupeDeactivationSound();
 
   const collection = collections[collectionKey];
   const stamps: Stamp[] = collection.stamps;
@@ -440,24 +443,42 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     ],
   );
 
-  const handleDeselectStamp = useCallback(
-    (e?: React.MouseEvent<HTMLDivElement>) => {
-      if (!selectedStampIdRef.current) {
-        return;
-      }
+  const handleDeselectStamp = useCallback(() => {
+    const focused = selectedStampIdRef.current;
+    if (!focused) {
+      return;
+    }
 
-      store.reset();
+    if (store.isZoomed) {
+      playLoupeDeactivationSound();
+    }
 
-      const focused = selectedStampIdRef?.current;
-      if (focused) {
-        draggableControllerRefs.current.get(focused!)?.unfocus();
-        selectedStampIdRef.current = null;
+    store.reset();
 
-        placeOnTop(focused!);
-      }
-    },
-    [store, draggableControllerRefs, placeOnTop],
-  );
+    draggableControllerRefs.current.get(focused)?.unfocus();
+    selectedStampIdRef.current = null;
+
+    placeOnTop(focused);
+  }, [store, draggableControllerRefs, placeOnTop, playLoupeDeactivationSound]);
+
+  const handleDeactivateZoom = useCallback(() => {
+    if (!store.isZoomed) {
+      return;
+    }
+
+    playLoupeDeactivationSound();
+    store.setZoomed(false);
+  }, [playLoupeDeactivationSound, store]);
+
+  const handleToggleZoom = useCallback(() => {
+    if (store.isZoomed) {
+      handleDeactivateZoom();
+      return;
+    }
+
+    playLoupeActivationSound();
+    store.setZoomed(true);
+  }, [handleDeactivateZoom, playLoupeActivationSound, store]);
 
   useEffect(() => {
     const focusWithinRef = containerRef.current?.contains(document.activeElement);
@@ -469,7 +490,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       if (selectedStampId) {
         if (e.key === 'Escape') {
           if (store.isZoomed) {
-            store.setZoomed(false);
+            handleDeactivateZoom();
           } else {
             handleDeselectStamp();
           }
@@ -492,6 +513,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   }, [
     selectedStampId,
     handleDeselectStamp,
+    handleDeactivateZoom,
     handleSpreadOut,
     store,
     containerRef,
@@ -558,9 +580,9 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
       handleSelectStamp(id);
 
-      store.setZoomed(false);
+      handleDeactivateZoom();
     },
-    [handleSelectStamp, store, selectedStampId],
+    [handleDeactivateZoom, handleSelectStamp, selectedStampId],
   );
 
   const handleContainerClick = useCallback(
@@ -581,13 +603,17 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
   const handleSelectCollection = useCallback(
     (c: CollectionType) => {
+      if (c === collectionKey) {
+        return;
+      }
+
       handlePreloadCollection(c);
       if (selectedStampId) {
         handleDeselectStamp();
       }
       store.setCollection(c as CollectionType);
     },
-    [handlePreloadCollection, handleDeselectStamp, store, selectedStampId],
+    [collectionKey, handlePreloadCollection, handleDeselectStamp, store, selectedStampId],
   );
 
   const handleListKeyDown = useCallback(
@@ -771,7 +797,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                             onOpenChange={(open) => {
                               setDrawerOpen(open);
                               if (open) {
-                                store.setZoomed(false);
+                                handleDeactivateZoom();
                               }
                             }}
                             open={drawerOpen}
@@ -807,7 +833,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                         </motion.div>
                         <DrawnActionButton
                           disabled={!store.zoomEnabled}
-                          onClick={() => store.toggleZoomed()}
+                          onClick={handleToggleZoom}
                           {...fadeInProps}
                           key="toggle-zoom-button"
                           custom={{ i: 1 }}

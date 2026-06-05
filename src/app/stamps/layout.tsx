@@ -1,5 +1,7 @@
 import { Metadata, Viewport } from 'next';
 
+import { SoundProvider } from './providers';
+
 export const viewport: Viewport = {
   themeColor: '#e7e5e4',
 };
@@ -11,5 +13,9 @@ export const metadata: Metadata = {
 };
 
 export default function StampsLayout({ children }: { children: React.ReactNode }) {
-  return <div className="stamps-layout">{children}</div>;
+  return (
+    <div className="stamps-layout">
+      <SoundProvider>{children}</SoundProvider>
+    </div>
+  );
 }

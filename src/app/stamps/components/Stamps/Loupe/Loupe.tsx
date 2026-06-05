@@ -6,6 +6,7 @@ import { clamp } from '~/src/math';
 import { cn } from '~/src/util';
 
 import { Stamp } from '../../../models';
+import { usePlayLoupeZoomClick } from '../../../sounds';
 import { useStampStore } from '../../../store';
 import { drawGrid, setupHiDPICtx } from '../../CanvasGrid/util';
 import { useIsMobile } from '../util';
@@ -71,6 +72,8 @@ const initial = {
 };
 
 const directionKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift'];
+const loupeScaleClickIncrement = 0.012;
+const loupeScaleClickMinIntervalMs = 20;
 
 function Loupe({
   selectedStamp,
@@ -92,6 +95,7 @@ function Loupe({
   const setCoords = useLoupeStore((s) => s.setCoords);
   const setScale = useLoupeStore((s) => s.setScale);
   const scale = useLoupeStore((s) => s.scale);
+  const playLoupeZoomClick = usePlayLoupeZoomClick();
 
   const isMobile = useIsMobile();
   const isZoomed = useStampStore((s) => s.isZoomed);
@@ -108,6 +112,8 @@ function Loupe({
 
   const pressedKeysRef = useRef<Set<string>>(new Set());
   const rafTimeRef = useRef<number | null>(null);
+  const lastScaleClickStepRef = useRef(Math.round(scale / loupeScaleClickIncrement));
+  const lastScaleClickAtRef = useRef(0);
 
   useEffect(() => {
     if (!dragConstraints?.current) {
@@ -148,6 +154,28 @@ function Loupe({
     cssWidth: number;
     cssHeight: number;
   } | null>(null);
+
+  const handleScaleChange = useCallback(
+    (nextScale: number) => {
+      setScale(nextScale);
+
+      const nextStep = Math.round(nextScale / loupeScaleClickIncrement);
+      if (nextStep === lastScaleClickStepRef.current) {
+        return;
+      }
+
+      const now = performance.now();
+      lastScaleClickStepRef.current = nextStep;
+
+      if (now - lastScaleClickAtRef.current < loupeScaleClickMinIntervalMs) {
+        return;
+      }
+
+      lastScaleClickAtRef.current = now;
+      playLoupeZoomClick();
+    },
+    [playLoupeZoomClick, setScale],
+  );
 
   useEffect(() => {
     const container = dragConstraints.current;
@@ -459,7 +487,7 @@ function Loupe({
         damping={50}
         value={scale}
         step={0.01}
-        onChange={setScale}
+        onChange={handleScaleChange}
         minAngle={0}
         minValue={1}
         maxValue={3}
