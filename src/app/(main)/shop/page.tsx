@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 
 import { ArrowRightIcon } from '~/src/components/icons';
 import Heading from '~/src/components/ui/Heading';
-import ViewLogger from '~/src/components/ViewCounter';
 
 import Header from '../components/Header';
 import DraggableStickers from './DraggableStickers';
@@ -18,7 +17,6 @@ export default async function Home() {
   return (
     <>
       <Header />
-      <ViewLogger pathname="/shop" />
       <main className="shop flex h-full w-full flex-1 flex-col px-11 py-8" data-lens-root>
         <style
           dangerouslySetInnerHTML={{

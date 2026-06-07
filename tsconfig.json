@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2022",
     "lib": [
       "dom",
       "dom.iterable",
@@ -23,7 +23,12 @@
         "name": "next"
       }
     ],
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
+    "types": [
+      "@cloudflare/workers-types",
+      "./types/env.d.ts"
+    ],
     "paths": {
       "~/*": [
         "./*"
@@ -35,7 +40,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    "alchemy.run.ts",
+    "open-next.config.ts"
   ],
   "exclude": [
     "node_modules"

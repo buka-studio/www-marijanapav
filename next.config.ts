@@ -1,5 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   images: {
     qualities: [80, 90, 100],
   },
@@ -36,4 +38,12 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
+
+initOpenNextCloudflareForDev({
+  configPath: './wrangler.jsonc',
+  persist: {
+    path: './.alchemy/miniflare/v3',
+  },
+  remoteBindings: false,
+});

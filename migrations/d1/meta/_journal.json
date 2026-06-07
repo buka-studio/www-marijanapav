@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1780694413289,
+      "tag": "0000_moaning_wendell_rand",
+      "breakpoints": true
+    }
+  ]
+}

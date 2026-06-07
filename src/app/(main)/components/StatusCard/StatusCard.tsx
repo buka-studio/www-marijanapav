@@ -1,10 +1,11 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import CardTitle from '~/src/components/ui/CardTitle';
-import { SystemMetrics } from '~/src/lib/models';
+import { SystemMetrics, systemMetricsFromSitePulse } from '~/src/lib/models';
+import { useSitePulseQuery } from '~/src/lib/query/api';
 import { track } from '~/src/umami/event';
 import { cn } from '~/src/util';
 
@@ -30,6 +31,11 @@ const infoSlideProps = {
 const analytics = { track };
 
 export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
+  const { data: pulse } = useSitePulseQuery();
+  const liveMetrics = useMemo(
+    () => (pulse ? systemMetricsFromSitePulse(pulse) : metrics),
+    [metrics, pulse],
+  );
   const [scoreVisible, setScoreVisible] = useState(false);
   const [score, setScore] = useState<{ player1: number; player2?: number }>({
     player1: 0,
@@ -68,7 +74,7 @@ export default function StatusCard({ metrics }: { metrics: SystemMetrics }) {
   const [instructions, setInstructions] = useState(getKonamiCodeInstructions());
 
   const { sceneManager, activeRenderer } = useSceneManager({
-    metrics,
+    metrics: liveMetrics,
     dotMatrixDisplayRef,
     containerRef,
     onScoreChange: setScore,

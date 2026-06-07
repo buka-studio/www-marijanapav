@@ -1,12 +1,13 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import SneakPeekPhoto from '~/public/home/sneak_peek-3.png';
 import { EyeIcon, EyeOffIcon } from '~/src/components/icons';
 import CardTitle from '~/src/components/ui/CardTitle';
 import Image from '~/src/components/ui/Image';
+import { useIncrementStatsMutation, useStatsQuery } from '~/src/lib/query/api';
 import { cn } from '~/src/util';
 
 import Card from './Card';
@@ -22,49 +23,76 @@ const PixelatedReveal = dynamic(() => import('./PixelatedReveal'), { ssr: false 
 
 const maxClicks = 5;
 
-const submitClicks = (amount: number) => {
-  const params = new URLSearchParams([
-    ['pathname', '/#sneak-peek'],
-    ['type', 'action'],
-  ]).toString();
-
-  return fetch('/api/stats?' + params, {
-    method: 'POST',
-    body: JSON.stringify({
-      amount,
-    }),
-  });
-};
-
 export default function SneakPeekCard({ currentCount }: { currentCount: number }) {
+  const { data: stats } = useStatsQuery('/#sneak-peek', 'action', { count: currentCount });
+  const { mutate: incrementStats } = useIncrementStatsMutation();
   const [clickCount, setClickCount] = useState(0);
+  const [confirmedClickCount, setConfirmedClickCount] = useState(0);
   const cycleClickCount = clickCount % (maxClicks + 1);
 
   const countRef = useRef(clickCount);
-  const submitted = useRef(clickCount);
+  const submittedClickCount = useRef(clickCount);
+  const confirmedClickCountRef = useRef(clickCount);
 
   const revealed = cycleClickCount === maxClicks;
+
+  const submitClicksThrough = useCallback(
+    (nextSubmittedClickCount: number) => {
+      const amount = nextSubmittedClickCount - submittedClickCount.current;
+
+      if (amount <= 0) {
+        return;
+      }
+
+      const previousSubmittedClickCount = submittedClickCount.current;
+      submittedClickCount.current = nextSubmittedClickCount;
+
+      incrementStats(
+        {
+          pathname: '/#sneak-peek',
+          type: 'action',
+          amount,
+        },
+        {
+          onSuccess: () => {
+            confirmedClickCountRef.current = Math.max(
+              confirmedClickCountRef.current,
+              nextSubmittedClickCount,
+            );
+            setConfirmedClickCount(confirmedClickCountRef.current);
+          },
+          onError: () => {
+            if (submittedClickCount.current === nextSubmittedClickCount) {
+              submittedClickCount.current = previousSubmittedClickCount;
+            }
+          },
+        },
+      );
+    },
+    [incrementStats],
+  );
 
   useEffect(() => {
     countRef.current = clickCount;
     if (revealed) {
-      submitClicks(clickCount - submitted.current).then(() => {
-        submitted.current = clickCount;
-      });
+      submitClicksThrough(clickCount);
     }
-  }, [revealed, clickCount]);
+  }, [revealed, clickCount, submitClicksThrough]);
 
   useEffect(() => {
     return () => {
-      if (countRef.current > submitted.current) {
-        submitClicks(countRef.current);
+      if (countRef.current > submittedClickCount.current) {
+        submitClicksThrough(countRef.current);
       }
     };
-  }, []);
+  }, [submitClicksThrough]);
 
   const handleClick = () => {
     setClickCount((c) => c + 1);
   };
+
+  const persistedCount = stats?.count ?? currentCount;
+  const pendingLocalClicks = Math.max(0, clickCount - confirmedClickCount);
 
   return (
     <Card className="flex flex-col">
@@ -127,7 +155,7 @@ export default function SneakPeekCard({ currentCount }: { currentCount: number }
               },
             )}
           >
-            {currentCount + clickCount} clicks
+            {persistedCount + pendingLocalClicks} clicks
           </span>
         </div>
       </div>

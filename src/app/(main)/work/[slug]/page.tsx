@@ -9,7 +9,6 @@ import MousePositionVarsSetter from '~/src/components/MousePositionVarsSetter';
 import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
-import ViewLogger from '~/src/components/ViewCounter';
 
 import Divider from '../components/Divider';
 import { projects, StaticProject } from '../constants';
@@ -54,7 +53,6 @@ export default async function Work({ params }: { params: Promise<{ slug: string 
 
   return (
     <>
-      {project.slug && <ViewLogger pathname={`/work/${project.slug}`} />}
       <DynamicVHVarsSetter />
       <MousePositionVarsSetter />
       <div className="flex-1 px-5 py-10 [html:has(&)_footer>*:not(.nav)]:invisible">

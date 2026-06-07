@@ -7,6 +7,7 @@ import GridBackground from '~/src/components/GridBackground';
 import Button from '~/src/components/ui/Button';
 import CardTitle from '~/src/components/ui/CardTitle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/src/components/ui/Tooltip';
+import { useSketchUploadMutation } from '~/src/lib/query/api';
 
 import Card from '../Card';
 import DrawingPad, { DrawingPadRef } from './DrawingPad';
@@ -25,16 +26,15 @@ export default function SketchbookCard() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const formats: Formats[] = ['svg'];
 
-  const [sending, setSending] = useState(false);
+  const uploadSketch = useSketchUploadMutation();
 
-  // todo: add react-query
   const handleSend = async () => {
-    if (sending) {
+    if (state === 'sending' || uploadSketch.isPending) {
       return;
     }
 
     try {
-      setSending(true);
+      setState('sending');
 
       const paths = drawingPadRef.current?.getPaths();
       const svg = drawingPadRef.current?.getSVG();
@@ -63,16 +63,7 @@ export default function SketchbookCard() {
         formData.append('svg', new Blob([svg!], { type: 'image/svg+xml' }), 'screenshot.svg');
       }
 
-      const response = await fetch('/api/sketches', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to upload screenshot.');
-      }
-
-      setSending(false);
+      await uploadSketch.mutateAsync(formData);
 
       setState('sent');
       screenshotRef.current?.exit({ success: true });
@@ -81,7 +72,6 @@ export default function SketchbookCard() {
         setHasDrawn(false);
       }, 2000);
     } catch (error) {
-      setSending(false);
       setState('error');
       screenshotRef.current?.exit({ success: false });
 
@@ -91,6 +81,7 @@ export default function SketchbookCard() {
       }, 2000);
     }
   };
+  const sketchbookState = state === 'sending' || uploadSketch.isPending ? 'sending' : state;
 
   return (
     <Card id="sketchbook">
@@ -131,13 +122,12 @@ export default function SketchbookCard() {
           <CardTitle variant="mono">Sketchbook</CardTitle>
           <SketchbookButton
             hasDrawn={hasDrawn}
-            state={state}
+            state={sketchbookState}
             onClick={() => {
               if (state === 'initial') {
                 setState('drawing');
               }
               if (state === 'drawing') {
-                setState('sending');
                 handleSend();
               }
             }}

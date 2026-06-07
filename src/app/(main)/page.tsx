@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import MousePositionVarsSetter from '~/src/components/MousePositionVarsSetter';
 import Button from '~/src/components/ui/Button';
-import ViewCounter from '~/src/components/ViewCounter';
 
 import {
   BioCard,
@@ -27,8 +26,6 @@ import './page.css';
 import { Metadata } from 'next';
 
 import SystemMetricsCollector from '~/src/lib/SystemMetricsCollector';
-import { withTimeout } from '~/src/util';
-
 import { Filter } from './work/constants';
 
 type FilterHref = `/work?f=${Filter}`;
@@ -55,39 +52,6 @@ const getCards = () => [
   { gridArea: '📝', Component: NotesCard },
 ];
 
-const fetchSneakPeekCount = ({ timeout = 1000 }) => {
-  const responsePromise = fetch(
-    process.env.NEXT_PUBLIC_HOST +
-      '/api/stats?' +
-      new URLSearchParams([
-        ['pathname', '/#sneak-peek'],
-        ['type', 'action'],
-      ]),
-    { cache: 'no-store' },
-  )
-    .then((res) => res.json())
-    .then((res) => res.count)
-    .catch((e) => {
-      console.error(e);
-      return 0;
-    });
-
-  return withTimeout(responsePromise, 0, timeout);
-};
-
-const fetchSystemMetrics = ({ timeout = 1000 }) => {
-  const responsePromise = SystemMetricsCollector.collect().catch((e) => {
-    console.error(e);
-    return SystemMetricsCollector.default({ reason: e?.message ?? 'collector error' });
-  });
-
-  return withTimeout(
-    responsePromise,
-    SystemMetricsCollector.default({ reason: `timeout ${timeout}ms` }),
-    timeout,
-  );
-};
-
 export const metadata: Metadata = {
   title: 'About | Marijana Pavlinić',
   description:
@@ -95,15 +59,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [currentCount, metrics] = await Promise.all([
-    fetchSneakPeekCount({ timeout: 1000 }),
-    fetchSystemMetrics({ timeout: 1000 }),
-  ]);
+  const metrics = await SystemMetricsCollector.collect();
 
   return (
     <div>
       <Header />
-      <ViewCounter pathname="/" />
       <MousePositionVarsSetter />
       <div className="glow pointer-events-none fixed h-[400px] w-[400px] rounded-full blur-3xl" />
       <div className="flex flex-col px-5 py-5 md:py-12">
@@ -122,7 +82,7 @@ export default async function Home() {
           <div className="home-cards">
             {getCards().map(({ gridArea, Component }, i) => (
               <div key={i} style={{ gridArea }}>
-                <Component currentCount={currentCount || 0} metrics={metrics} />
+                <Component currentCount={metrics.counters.sneakPeekActions} metrics={metrics} />
               </div>
             ))}
           </div>

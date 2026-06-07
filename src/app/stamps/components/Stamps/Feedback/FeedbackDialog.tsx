@@ -9,6 +9,7 @@ import { flushSync } from 'react-dom';
 import { DialogDescription, DialogTitle } from '~/src/components/ui/Dialog';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 import { cn, preloadImage } from '~/src/util';
+import { useFeedbackMutation } from '~/src/lib/query/api';
 
 import FeedbackForm from './FeedbackForm';
 import FlipCard, { FlipCardBack, FlipCardFront, FlipCardTrigger } from './FlipCard';
@@ -90,9 +91,20 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
   const isPlayingRef = useRef(false);
   const sideRef = useRef<'front' | 'back' | null>('front');
 
-  const [submitState, setSubmitState] = useState<'initial' | 'sending' | 'error' | 'success'>(
-    'initial',
-  );
+  const {
+    mutateAsync: submitFeedback,
+    isPending: isSubmitting,
+    isError: submitError,
+    isSuccess: submitSuccess,
+    reset: resetSubmit,
+  } = useFeedbackMutation();
+  const feedbackStatus = isSubmitting
+    ? 'sending'
+    : submitSuccess
+      ? 'success'
+      : submitError
+        ? 'error'
+        : 'initial';
 
   const getTarget = () =>
     sideRef.current === 'front' ? postcardImgRef.current : postcardFormRef.current;
@@ -139,6 +151,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
     }
 
     sideRef.current = 'front';
+    resetSubmit();
 
     flushSync(() => {
       updateState({ isOpen: true, isRevealed: false });
@@ -164,38 +177,25 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
       updateState({ isRevealed: true });
       isPlayingRef.current = false;
     }
-  }, [updateState, prefersReduced]);
+  }, [updateState, prefersReduced, resetSubmit]);
 
-  // todo: add react-query
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       const formData = new FormData(e.target as HTMLFormElement);
 
-      setSubmitState('sending');
-
       try {
-        const response = await fetch('/api/feedback', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to submit feedback.');
-        }
-
-        setSubmitState('success');
+        await submitFeedback(formData);
 
         setTimeout(() => {
           handleOpenChange(false);
         }, 2000);
       } catch (e) {
-        setSubmitState('error');
         console.error(e);
       }
     },
-    [handleOpenChange],
+    [handleOpenChange, submitFeedback],
   );
 
   useEffect(() => {
@@ -265,24 +265,24 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
                 onSubmit={handleSubmit}
                 footer={
                   <AnimatePresence mode="wait">
-                    {submitState === 'error' || submitState === 'success' ? (
+                    {feedbackStatus === 'error' || feedbackStatus === 'success' ? (
                       <motion.div
-                        key={submitState}
+                        key={feedbackStatus}
                         className={cn('font-[monospace] text-xs uppercase', {
-                          'text-red-500': submitState === 'error',
+                          'text-red-500': feedbackStatus === 'error',
                         })}
                         role="alert"
                         aria-live="assertive"
                         {...submitMessageAnimationProps}
                       >
-                        {submitState === 'error' ? 'Try again! :(' : 'Thank you! :)'}
+                        {feedbackStatus === 'error' ? 'Try again! :(' : 'Thank you! :)'}
                       </motion.div>
                     ) : (
                       <motion.div
                         className={cn(
                           'hidden font-[monospace] text-xs uppercase transition-opacity duration-200 sm:block',
                           {
-                            'opacity-0': submitState !== 'initial',
+                            'opacity-0': feedbackStatus !== 'initial',
                           },
                         )}
                         key="footer"
@@ -296,9 +296,9 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
                 <PostcardButton
                   type="submit"
                   className="absolute right-4 bottom-3.5 flex min-w-[60px] justify-center group-invalid/form:pointer-events-none group-invalid/form:opacity-50 sm:right-4 sm:bottom-3.5"
-                  disabled={submitState === 'sending'}
+                  disabled={feedbackStatus === 'sending'}
                 >
-                  {submitState === 'sending' ? (
+                  {feedbackStatus === 'sending' ? (
                     <SpinnerIcon className="h-4 w-4 animate-spin" />
                   ) : (
                     'Send'

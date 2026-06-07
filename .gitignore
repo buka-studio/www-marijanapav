@@ -10,6 +10,7 @@
 
 # next.js
 /.next/
+/.open-next/
 /out/
 
 # production
@@ -26,7 +27,12 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
+.env.*.local
 .env*.local
+.alchemy
+.wrangler
+wrangler.jsonc
 
 # vercel
 .vercel

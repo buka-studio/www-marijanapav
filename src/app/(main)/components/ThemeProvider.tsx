@@ -11,6 +11,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         light: 'theme-light',
         dark: 'theme-dark',
       }}
+      scriptProps={{
+        'data-cfasync': 'false',
+        type: 'application/json',
+      }}
       attribute="class"
     >
       {children}

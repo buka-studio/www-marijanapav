@@ -1,7 +1,14 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-import { createClient } from '~/src/supabase/server';
+import { eq, and, sql } from 'drizzle-orm';
+
+import { getDb } from '~/src/db/client';
+import { stats } from '~/src/db/schema';
+
+type IncrementBody = {
+  amount?: unknown;
+};
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -14,20 +21,17 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: 'Pathname is required.' }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    const db = getDb();
+    const [row] = await db
+      .select({ count: stats.count })
+      .from(stats)
+      .where(and(eq(stats.pathname, pathname), eq(stats.type, type)))
+      .limit(1);
 
-    const { data, error } = await supabase.from('stats').select('count').match({ pathname, type });
-
-    if (error) {
-      throw error;
-    }
-
-    const count = !data?.length ? 0 : Number(data[0]?.count);
-
-    return NextResponse.json({ count });
+    return NextResponse.json({ count: Number(row?.count ?? 0) });
   } catch (e) {
     console.error(e);
-    NextResponse.json({ message: 'Something went wrong.' }, { status: 500 });
+    return NextResponse.json({ message: 'Something went wrong.' }, { status: 500 });
   }
 }
 
@@ -49,28 +53,34 @@ export async function POST(req: Request) {
 
     let amount = 1;
     try {
-      const body = await req.json();
+      const body = (await req.json()) as IncrementBody;
 
       if (Number.isFinite(body.amount)) {
-        amount = body.amount;
+        amount = Number(body.amount);
       }
     } catch (e) {
       // pass
     }
 
-    const supabase = await createClient();
+    const db = getDb();
 
-    const { data, error } = await supabase.rpc('incr_stat', {
-      pathname,
-      type,
-      amount,
-    });
+    await db
+      .insert(stats)
+      .values({ pathname, type, count: amount })
+      .onConflictDoUpdate({
+        target: [stats.pathname, stats.type],
+        set: {
+          count: sql`${stats.count} + excluded.count`,
+        },
+      });
 
-    if (error) {
-      throw error;
-    }
+    const [row] = await db
+      .select({ count: stats.count })
+      .from(stats)
+      .where(and(eq(stats.pathname, pathname), eq(stats.type, type)))
+      .limit(1);
 
-    return NextResponse.json({ count: data });
+    return NextResponse.json({ count: Number(row?.count ?? 0) });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ message: 'Something went wrong.' }, { status: 500 });
