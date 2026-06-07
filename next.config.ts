@@ -1,5 +1,9 @@
 import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
 import type { NextConfig } from 'next';
+import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
+import { existsSync } from 'node:fs';
+
+const wranglerConfigPath = './wrangler.jsonc';
 
 const nextConfig: NextConfig = {
   images: {
@@ -38,12 +42,16 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default function config(phase: string): NextConfig {
+  if (phase === PHASE_DEVELOPMENT_SERVER && existsSync(wranglerConfigPath)) {
+    initOpenNextCloudflareForDev({
+      configPath: wranglerConfigPath,
+      persist: {
+        path: './.alchemy/miniflare/v3',
+      },
+      remoteBindings: false,
+    });
+  }
 
-initOpenNextCloudflareForDev({
-  configPath: './wrangler.jsonc',
-  persist: {
-    path: './.alchemy/miniflare/v3',
-  },
-  remoteBindings: false,
-});
+  return nextConfig;
+}
