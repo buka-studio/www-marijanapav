@@ -12,6 +12,7 @@
     "destroy:from-local": "alchemy destroy --env-file .env.local",
     "start": "next start",
     "lint": "eslint .",
+    "typecheck": "next typegen && tsc --noEmit --pretty false",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
     "db:migrate:local": "wrangler d1 migrations apply marijana-site-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply marijana-site-db --remote"
