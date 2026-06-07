@@ -1,6 +1,7 @@
 import { SystemMetrics } from '~/src/lib/models';
 import { remap } from '~/src/math';
 
+import EmptyRenderer from './EmptyRenderer';
 import ImpactGameRenderer, { PlayerAction } from './ImpactGameRenderer';
 import { MatrixFrameContext, MatrixRenderer, Palette } from './MatrixRenderer';
 import PongGameSceneRenderer, { Player, PongDirection } from './PongGameRenderer';
@@ -37,10 +38,22 @@ export abstract class Scene {
 
 export class StatusScene extends Scene {
   constructor(context: SceneContext) {
-    const memoryMB = Math.round(context.metrics.memory.usedBytes / 1024 / 1024);
-    const memoryText =
-      context.metrics.memory.usedPct === 0 ? `${memoryMB}MB` : `${context.metrics.memory.usedPct}%`;
-    const text = ` CPU:${context.metrics.cpu.percent}% • MEMORY:${memoryText} • STATUS:${context.metrics.status.toUpperCase()} •`;
+    if (context.metrics.timings.pulseMs === null) {
+      const renderer = new EmptyRenderer({
+        cellShape: 'circle',
+        cellPadding: 0.25,
+        palette: context.palette,
+      });
+
+      super(renderer, context, 'Loading edge telemetry');
+      return;
+    }
+
+    const formatMs = (value: number | null) => (value === null ? 'PENDING' : `${Math.round(value)}MS`);
+    const edge = context.metrics.edge.colo.toUpperCase();
+    const rtt = formatMs(context.metrics.edge.rttMs);
+    const { pulseMs, d1Ms, r2Ms } = context.metrics.timings;
+    const text = ` EDGE ${edge} • RTT ${rtt} • PULSE ${formatMs(pulseMs)} • D1 ${formatMs(d1Ms)} • R2 ${formatMs(r2Ms)} •`;
 
     const renderer = new TextRenderer({
       text: text,

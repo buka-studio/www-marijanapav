@@ -1,9 +1,11 @@
-import { randomUUID } from 'crypto';
 import { cookies, headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { createClient } from '~/src/supabase/server';
+import { and, count, eq, gte } from 'drizzle-orm';
+
+import { getDb } from '~/src/db/client';
+import { feedback } from '~/src/db/schema';
 
 const schema = z.object({
   message: z.string().trim().min(1).max(1000),
@@ -22,7 +24,7 @@ export async function POST(req: Request) {
     const cookieStore = await cookies();
     let feedbackId = cookieStore.get(COOKIE)?.value;
     if (!feedbackId) {
-      feedbackId = randomUUID();
+      feedbackId = crypto.randomUUID();
     }
 
     const body = await req.formData().catch(() => new FormData());
@@ -38,32 +40,26 @@ export async function POST(req: Request) {
       return NextResponse.json({}, { status: 204 });
     }
 
-    const supabase = await createClient();
+    const db = getDb();
 
     const sinceISO = new Date(Date.now() - WINDOW_MS).toISOString();
-    const { count: recentCount, error: countErr } = await supabase
-      .from('feedback')
-      .select('id', { count: 'exact', head: true })
-      .gte('created_at', sinceISO)
-      .eq('feedback_id', feedbackId);
+    const [recent] = await db
+      .select({ count: count() })
+      .from(feedback)
+      .where(and(gte(feedback.createdAt, sinceISO), eq(feedback.feedbackId, feedbackId)));
 
-    if (countErr) {
-      throw countErr;
-    }
-    if ((recentCount ?? 0) > 0) {
+    if (Number(recent?.count ?? 0) > 0) {
       return NextResponse.json({ message: 'Too many requests.' }, { status: 429 });
     }
 
-    const { error } = await supabase.from('feedback').insert({
-      feedback_id: feedbackId,
-      message: parsed.data.message,
-      ua,
-      meta: {},
-    });
-
-    if (error) {
-      throw error;
-    }
+    await db
+      .insert(feedback)
+      .values({
+        feedbackId,
+        message: parsed.data.message,
+        ua,
+        meta: JSON.stringify({}),
+      });
 
     const res = NextResponse.json({ ok: true }, { status: 201 });
     if (!cookieStore.get(COOKIE)?.value) {

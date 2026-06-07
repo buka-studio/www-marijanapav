@@ -26,4 +26,49 @@ A space for loose unformed ideas, early tests, and small visual explorations.
 ### Contact
 **marijana@buka.studio**
 
+## Deployment
 
+This app deploys to Cloudflare Workers through Alchemy and OpenNext.
+
+Alchemy provisions the Worker, D1 database, R2 sketch bucket, and Cloudflare Images binding. The
+`IMAGES` binding is required for OpenNext/Cloudflare `next/image` optimization, so Cloudflare Images
+must be enabled on the Cloudflare account before deploying.
+
+Install the Cloudflare deployment dependencies after pulling migration changes:
+
+```sh
+npm install
+```
+
+Run the local Cloudflare dev environment:
+
+```sh
+npm run dev
+```
+
+Build and deploy:
+
+```sh
+npm run build
+npm run deploy
+```
+
+## Database migrations
+
+D1 schema changes are defined in `src/db/schema.ts` and generated with Drizzle Kit:
+
+```sh
+npm run db:generate
+```
+
+Apply migrations locally:
+
+```sh
+npm run db:migrate:local
+```
+
+Apply migrations to Cloudflare:
+
+```sh
+npm run db:migrate:remote
+```

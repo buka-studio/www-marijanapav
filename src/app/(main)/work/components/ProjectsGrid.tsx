@@ -18,7 +18,6 @@ import {
 } from '~/src/components/ui/Dialog';
 import Image from '~/src/components/ui/Image';
 import Tag from '~/src/components/ui/Tag';
-import { useViewLogger } from '~/src/components/ViewCounter';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 import { cn } from '~/src/util';
 
@@ -63,7 +62,6 @@ export default function ProjectsGrid({ projects }: Props) {
   }, []);
 
   const [openProject, setOpenProject] = useState<string>('');
-  useViewLogger(openProject);
 
   return (
     <div className="flex-1 px-5 py-10" ref={containerRef}>

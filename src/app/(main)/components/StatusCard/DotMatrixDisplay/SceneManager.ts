@@ -99,6 +99,44 @@ export class SceneManager {
       });
   }
 
+  public updateMetrics(metrics: SystemMetrics) {
+    this.context.metrics = metrics;
+    if (!this.scenes) {
+      return;
+    }
+
+    const previousStatusScene = this.scenes.status;
+    const nextStatusScene = new StatusScene(this.context);
+    this.scenes.status = nextStatusScene;
+
+    if (this.activeSceneName !== 'status') {
+      return;
+    }
+
+    const ctx = this.context.dotMatrixDisplayRef.current?.getFrameContext();
+    previousStatusScene.renderer.pause();
+
+    if (!ctx || this.isTransitioning) {
+      nextStatusScene.renderer.resume();
+      this.onSceneRendererChange(nextStatusScene.renderer);
+      return;
+    }
+
+    this.isTransitioning = true;
+    this.transitionRenderer.renderTransition(ctx, { durationSeconds: 0.7, direction: 'left' }).then(() => {
+      nextStatusScene.renderer?.restart?.();
+      nextStatusScene.renderer.resume();
+      previousStatusScene.cleanupControls();
+
+      if (document.activeElement === this.context.containerRef.current) {
+        nextStatusScene.setupControls();
+      }
+
+      this.onSceneRendererChange(nextStatusScene.renderer);
+      this.isTransitioning = false;
+    });
+  }
+
   public setPalette(palette: Palette) {
     this.context.palette = palette;
     if (!this.scenes) {
@@ -151,6 +189,7 @@ export const useSceneManager = ({
   const { resolvedTheme } = useTheme();
 
   const sceneManagerRef = useRef<SceneManager | null>(null);
+  const metricsRef = useRef<SystemMetrics | null>(null);
   const [activeRenderer, setActiveRenderer] = useState<MatrixRenderer | null>(null);
 
   useEffect(() => {
@@ -177,6 +216,7 @@ export const useSceneManager = ({
 
     instance.init();
     sceneManagerRef.current = instance;
+    metricsRef.current = metrics;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -206,11 +246,19 @@ export const useSceneManager = ({
     onScoreChange,
     onGameEnd,
     onGameSelect,
-    metrics,
     dotMatrixDisplayRef,
     containerRef,
     analytics,
   ]);
+
+  useEffect(() => {
+    if (!sceneManagerRef.current || metricsRef.current === metrics) {
+      return;
+    }
+
+    metricsRef.current = metrics;
+    sceneManagerRef.current.updateMetrics(metrics);
+  }, [metrics]);
 
   useEffect(() => {
     if (sceneManagerRef.current) {

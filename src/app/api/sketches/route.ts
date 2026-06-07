@@ -1,13 +1,13 @@
-import dompurify from 'dompurify';
-import { JSDOM } from 'jsdom';
+import createDOMPurify from 'dompurify';
+import { parseHTML } from 'linkedom';
 import { NextResponse } from 'next/server';
 
-import { createClient } from '~/src/supabase/server';
+import { getCloudflareEnv } from '~/src/cloudflare/env';
 
 const MAX_SIZE = 500 * 1024; // 500KB
 
-const window = new JSDOM('').window;
-const purify = dompurify(window);
+const { window } = parseHTML('');
+const purify = createDOMPurify(window);
 
 export async function POST(req: Request) {
   try {
@@ -23,24 +23,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'SVG file is too large.' }, { status: 413 });
     }
 
-    const svgBlob = new Blob([svgFile], { type: 'image/svg+xml' });
+    const cleanSvgString = purify.sanitize(await svgFile.text());
+    const key = `uploads/sketch_${Date.now()}_${crypto.randomUUID()}.svg`;
 
-    const svgString = await svgBlob.text();
-    const cleanSvgString = purify.sanitize(svgString);
-    const cleanSvgBlob = new Blob([cleanSvgString], { type: 'image/svg+xml' });
-
-    const supabase = await createClient();
-
-    const { data, error } = await supabase.storage
-      .from('sketches')
-      .upload(`uploads/sketch_${Date.now()}.svg`, cleanSvgBlob, {
+    await getCloudflareEnv().SKETCHES.put(key, cleanSvgString, {
+      httpMetadata: {
         contentType: 'image/svg+xml',
-        upsert: false,
-      });
-
-    if (error) {
-      throw error;
-    }
+      },
+    });
 
     return NextResponse.json(
       {
