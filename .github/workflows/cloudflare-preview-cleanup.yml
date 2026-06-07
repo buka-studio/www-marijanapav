@@ -1,0 +1,58 @@
+name: Cleanup preview
+
+on:
+  pull_request:
+    types:
+      - closed
+
+concurrency:
+  group: cloudflare-preview-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  cleanup:
+    name: Cleanup preview
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      ALCHEMY_STAGE: pr-${{ github.event.pull_request.number }}
+      ALCHEMY_PASSWORD: ${{ secrets.ALCHEMY_PASSWORD }}
+      ALCHEMY_STATE_TOKEN: ${{ secrets.ALCHEMY_STATE_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+      GITHUB_TOKEN: ${{ github.token }}
+      PULL_REQUEST: ${{ github.event.pull_request.number }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.20.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Guard preview stage
+        run: |
+          case "$ALCHEMY_STAGE" in
+            pr-[0-9]*) ;;
+            *)
+              echo "Refusing to destroy non-preview stage: $ALCHEMY_STAGE"
+              exit 1
+              ;;
+          esac
+
+      - name: Destroy preview
+        run: npm run destroy -- --stage "$ALCHEMY_STAGE"
