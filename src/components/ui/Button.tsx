@@ -1,3 +1,5 @@
+'use client';
+
 import { Slot } from 'radix-ui';
 import { ComponentProps, ReactNode } from 'react';
 

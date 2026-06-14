@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
-import ClientRendered from '~/src/components/ClientRendered';
-
-import ProjectsGrid from './components/ProjectsGrid';
+import Projects from './components/Projects';
 import { Filter, projects } from './constants';
 
 export const metadata: Metadata = {
@@ -28,10 +27,9 @@ export default async function Work({ searchParams }: { searchParams: Promise<{ f
   return (
     <div className="flex flex-1 flex-col">
       <main className="flex-1">
-        {/* todo: hotfix, remove client rendered */}
-        <ClientRendered>
-          <ProjectsGrid projects={filteredProjects} />
-        </ClientRendered>
+        <Suspense>
+          <Projects projects={filteredProjects} />
+        </Suspense>
       </main>
     </div>
   );

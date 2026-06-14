@@ -1,0 +1,35 @@
+.projects-list-row {
+  --row-enter-delay: calc(var(--projects-list-row-index, 0) * 14ms);
+
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 140ms ease-out var(--row-enter-delay),
+    transform 140ms ease-out var(--row-enter-delay),
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+@starting-style {
+  .projects-list-row {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-list-row {
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  @starting-style {
+    .projects-list-row {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
