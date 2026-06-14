@@ -130,6 +130,8 @@ import SupabaseCard from './components/SupabaseCard';
 
 export const filters = ['all', 'illustration', 'branding', 'digital', 'merch'] as const;
 
+export const projectGridPreviewSizes = '(max-width: 639px) 100vw, 50vw';
+
 export type Filter = (typeof filters)[number];
 
 export type StaticProject = {

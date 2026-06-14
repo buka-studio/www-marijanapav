@@ -1,3 +1,5 @@
+'use client';
+
 import { Slot } from 'radix-ui';
 import { ComponentProps, ReactNode } from 'react';
 
@@ -49,7 +51,7 @@ function Button({
         {iconRight && iconRight}
         <div
           className={cn(
-            'pointer-events-none absolute right-0 top-0 h-full w-full -translate-x-full bg-neutral-500 transition-all duration-300 group-hover:translate-x-0 group-focus-visible:translate-x-0 in-[.theme-dark]:mix-blend-color-dodge in-[.theme-light]:mix-blend-color-burn',
+            'pointer-events-none absolute top-0 right-0 h-full w-full -translate-x-full bg-neutral-500 transition-all duration-300 group-hover:translate-x-0 group-focus-visible:translate-x-0 in-[.theme-dark]:mix-blend-color-dodge in-[.theme-light]:mix-blend-color-burn',
           )}
         />
       </Component>

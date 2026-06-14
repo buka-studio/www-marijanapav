@@ -62,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       suppressHydrationWarning
       className={`${inter.variable} ${archivo.variable} ${ibmPlexMono.variable} ${libertinusSerif.variable} font-sans`}
+      data-scroll-behavior="smooth"
     >
       <head>
         <script
@@ -78,10 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Providers>
       </body>
       {process.env.NODE_ENV === 'production' && umamiWebsiteId && (
-        <Script
-          src="https://cloud.umami.is/script.js"
-          data-website-id={umamiWebsiteId}
-        />
+        <Script src="https://cloud.umami.is/script.js" data-website-id={umamiWebsiteId} />
       )}
     </html>
   );
