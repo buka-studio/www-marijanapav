@@ -71,6 +71,13 @@ import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
 import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
 import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
 import OperaPostersPreview from '~/public/work/opera-posters/preview.png';
+import FeedbackPostcards00 from '~/public/work/postcard/feedback-postcard_00.png';
+import FeedbackPostcards01 from '~/public/work/postcard/feedback-postcard_01.png';
+import FeedbackPostcards02 from '~/public/work/postcard/feedback-postcard_02.png';
+import FeedbackPostcards03 from '~/public/work/postcard/feedback-postcard_03.png';
+import FeedbackPostcards04 from '~/public/work/postcard/feedback-postcard_04.png';
+import FeedbackPostcards05 from '~/public/work/postcard/feedback-postcard_05.png';
+import FeedbackPostcards06 from '~/public/work/postcard/feedback-postcard_06.png';
 import SignOffPreview from '~/public/work/program-end/sign-off_preview.png';
 import SignOff01 from '~/public/work/program-end/sign-off01.png';
 import SignOff02 from '~/public/work/program-end/sign-off02.png';
@@ -88,7 +95,6 @@ import Stamps01 from '~/public/work/stamps/stamps_01.png';
 import Stamps07 from '~/public/work/stamps/stamps_07.png';
 import Stamps08 from '~/public/work/stamps/stamps_08.png';
 import Stamps10 from '~/public/work/stamps/stamps_10.png';
-import Stars from '~/public/work/stamps/stars.gif';
 import SupabaseHomepagePreview from '~/public/work/supabase-homepage/preview.png';
 import SupabaseHomepage01 from '~/public/work/supabase-homepage/supabase01.png';
 import SupabaseHomepage02 from '~/public/work/supabase-homepage/supabase02.png';
@@ -106,6 +112,7 @@ import SupabaseLW74 from '~/public/work/supabase-lw7/lw7-04.png';
 import SupabaseLW75 from '~/public/work/supabase-lw7/lw7-05.png';
 import SupabaseLW76 from '~/public/work/supabase-lw7/lw7-06.png';
 import SupabaseLW7 from '~/public/work/supabase-lw7/preview.png';
+import SupabaseLW8Preview from '~/public/work/supabase-lw8/preview.png';
 import SupabaseLW8 from '~/public/work/supabase-lw8/supabase0.png';
 import SupabaseLW81 from '~/public/work/supabase-lw8/supabase1.png';
 import SupabaseLW82 from '~/public/work/supabase-lw8/supabase2.png';
@@ -117,14 +124,6 @@ import SupabaseLW1203 from '~/public/work/supabase-lw12/supabase03.png';
 import SupabaseLW1204 from '~/public/work/supabase-lw12/supabase04.png';
 import SupabaseLW1205 from '~/public/work/supabase-lw12/supabase05.png';
 import SupabaseLW1206 from '~/public/work/supabase-lw12/supabase06.png';
-import FeedbackPostcards00 from '~/public/work/postcard/feedback-postcard_00.png';
-
-import FeedbackPostcards01 from '~/public/work/postcard/feedback-postcard_01.png';
-import FeedbackPostcards02 from '~/public/work/postcard/feedback-postcard_02.png';
-import FeedbackPostcards03 from '~/public/work/postcard/feedback-postcard_03.png';
-import FeedbackPostcards04 from '~/public/work/postcard/feedback-postcard_04.png';
-import FeedbackPostcards05 from '~/public/work/postcard/feedback-postcard_05.png';
-import FeedbackPostcards06 from '~/public/work/postcard/feedback-postcard_06.png';
 
 import SupabaseCard from './components/SupabaseCard';
 
@@ -166,10 +165,17 @@ export const projects: Project[] = [
     title: 'Feedback postcards on the web',
     slug: 'feedback-postcards',
     preview: FeedbackPostcards00,
-    images: [FeedbackPostcards01, FeedbackPostcards02, FeedbackPostcards03, FeedbackPostcards04, FeedbackPostcards05, FeedbackPostcards06],
+    images: [
+      FeedbackPostcards01,
+      FeedbackPostcards02,
+      FeedbackPostcards03,
+      FeedbackPostcards04,
+      FeedbackPostcards05,
+      FeedbackPostcards06,
+    ],
     filters: ['illustration'],
     description: `Illustrations for the digital postcard component, where users can send feedback or request new stamp designs. Each scene captures familiar moments of writing, desktop or mobile — each scene reflects the quiet, everyday contexts in which we send messages. The postcard’s stamp pays homage to the first issue, Queen Victoria’s Penny Black, reimagined as a portrait of the two of us who built this project.`,
-     link: 'https://marijanapav.com/stamps',
+    link: 'https://marijanapav.com/stamps',
     tags: ['Figma', '© 2025'],
     aspect: 1.1,
   },
@@ -310,7 +316,7 @@ export const projects: Project[] = [
     type: 'project',
     title: 'Supabase Launch Week 8',
     slug: 'supabase-launch-week-8',
-    preview: Stars,
+    preview: SupabaseLW8Preview,
     images: [SupabaseLW8, SupabaseLW81, SupabaseLW82, SupabaseLW83],
     filters: ['digital', 'branding'],
     description:
