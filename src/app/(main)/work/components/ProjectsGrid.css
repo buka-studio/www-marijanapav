@@ -1,0 +1,30 @@
+.projects-grid-card {
+  --grid-card-enter-delay: calc(var(--projects-grid-card-index, 0) * 18ms);
+
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 200ms ease-out var(--grid-card-enter-delay),
+    transform 200ms ease-out var(--grid-card-enter-delay),
+    filter 250ms ease;
+}
+
+@starting-style {
+  .projects-grid-card {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-grid-card {
+    transition: filter 250ms ease;
+  }
+
+  @starting-style {
+    .projects-grid-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
