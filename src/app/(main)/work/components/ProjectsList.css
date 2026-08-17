@@ -6,9 +6,9 @@
   transition:
     opacity 140ms ease-out var(--row-enter-delay),
     transform 140ms ease-out var(--row-enter-delay),
-    color 150ms ease,
-    background-color 150ms ease,
-    border-color 150ms ease;
+    color 50ms ease,
+    background-color 50ms ease,
+    border-color 50ms ease;
 }
 
 @starting-style {

@@ -492,7 +492,7 @@ export default function ProjectsList({ projects }: Props) {
                 style={{ '--projects-list-row-index': i } as CSSProperties}
                 data-project-index={i}
                 data-super-hover
-                className="projects-list-row border-theme-3 hover:text-text-primary data-[super-hover-active]:bg-theme-4 focus-within:bg-theme-4 focus-within:text-text-primary text-text-secondary relative grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-5 border-b px-3 py-3 text-sm leading-8 last:border-b-0 md:grid-cols-[4rem_minmax(16rem,1.7fr)_minmax(10rem,0.8fr)_minmax(10rem,0.8fr)]"
+                className="projects-list-row border-theme-3 hover:bg-theme-4 hover:text-text-primary data-[super-hover-active]:bg-theme-4 data-[super-hover-active]:text-text-primary focus-within:bg-theme-4 focus-within:text-text-primary text-text-secondary relative grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-5 border-b px-3 py-3 text-sm leading-8 last:border-b-0 md:grid-cols-[4rem_minmax(16rem,1.7fr)_minmax(10rem,0.8fr)_minmax(10rem,0.8fr)]"
               >
                 <span className="tabular-nums">{(i + 1).toString().padStart(3, '0')}</span>
                 <span className="truncate text-right md:text-left">
@@ -566,7 +566,7 @@ export default function ProjectsList({ projects }: Props) {
                     src={hoveredProject.project.preview}
                     quality={90}
                     fill
-                    className="object-cover object-top duration-150"
+                    className="object-cover object-top duration-0"
                     sizes="350px"
                   />
                 </motion.div>
