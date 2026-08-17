@@ -190,16 +190,9 @@ type HtmlInCanvasCanvas = HTMLCanvasElement & {
   onpaint: ((event: Event) => void) | null;
 };
 
-type HtmlInCanvasGL = WebGLRenderingContext & {
-  texElementImage2D: (
-    target: number,
-    level: number,
-    internalformat: number,
-    format: number,
-    type: number,
-    element: Element,
-  ) => void;
-};
+type HtmlInCanvasGL = WebGL2RenderingContext | WebGLRenderingContext;
+
+const GL_RGBA8 = 0x8058;
 
 type GLState = {
   gl: HtmlInCanvasGL;
@@ -254,12 +247,30 @@ function compileShader(gl: WebGLRenderingContext, type: number, source: string) 
   return shader;
 }
 
+function uploadElementImage(gl: HtmlInCanvasGL, element: Element) {
+  const internalFormat = gl instanceof WebGL2RenderingContext ? gl.RGBA8 : GL_RGBA8;
+
+  try {
+    gl.texElementImage2D(gl.TEXTURE_2D, internalFormat, element);
+  } catch (error) {
+    // Chrome 150+ changed this from the texImage2D-shaped 6-arg form.
+    // https://github.com/WICG/html-in-canvas/issues/132
+    if (!(error instanceof TypeError)) {
+      throw error;
+    }
+
+    gl.texElementImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, element);
+  }
+}
+
 function initGL(canvas: HtmlInCanvasCanvas) {
-  const gl = canvas.getContext('webgl', {
+  const contextOptions: WebGLContextAttributes = {
     alpha: true,
     antialias: true,
     premultipliedAlpha: true,
-  }) as HtmlInCanvasGL | null;
+  };
+  const gl = (canvas.getContext('webgl2', contextOptions) ??
+    canvas.getContext('webgl', contextOptions)) as HtmlInCanvasGL | null;
 
   if (!gl) {
     throw new Error('Failed to create WebGL context.');
@@ -454,8 +465,8 @@ function clonePageIntoSource(
 /**
  * not very optimized, very very spaghetti, proceed carefully! :)
  * quick codex port of `src/app/stamps/components/Stamps/Loupe`.
- * uses the new html-in-canvas proposal, requires chrome canary with the
- * `chrome://flags/#canvas-draw-element` flag enabled.
+ * uses the html-in-canvas proposal (Chrome 150+ texElementImage2D signature),
+ * requires chrome canary with `chrome://flags/#canvas-draw-element` enabled.
  * https://github.com/WICG/html-in-canvas
  */
 export default function LensClone({
@@ -641,14 +652,7 @@ export default function LensClone({
       glState.gl.clear(glState.gl.COLOR_BUFFER_BIT);
       glState.gl.bindTexture(glState.gl.TEXTURE_2D, glState.texture);
       try {
-        glState.gl.texElementImage2D(
-          glState.gl.TEXTURE_2D,
-          0,
-          glState.gl.RGBA,
-          glState.gl.RGBA,
-          glState.gl.UNSIGNED_BYTE,
-          sourceHost,
-        );
+        uploadElementImage(glState.gl, sourceHost);
       } catch (error) {
         if (
           error instanceof Error &&
@@ -1059,6 +1063,7 @@ export default function LensClone({
         >
           <canvas
             ref={canvasRef}
+            layoutsubtree=""
             className="block h-full w-full rounded-full"
             style={{ width: lensSize, height: lensSize }}
           >

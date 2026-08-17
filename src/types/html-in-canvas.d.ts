@@ -3,7 +3,11 @@ import 'react';
 export {};
 
 declare global {
-  interface ElementImage {}
+  interface ElementImage {
+    readonly width: number;
+    readonly height: number;
+    close(): void;
+  }
 
   interface PaintEvent extends Event {
     readonly changedElements: readonly Element[];
@@ -83,7 +87,24 @@ declare global {
     ): DOMMatrix;
   }
 
+  interface WebGLCopyElementImageConfig {
+    sx?: number;
+    sy?: number;
+    swidth?: number;
+    sheight?: number;
+    width?: number;
+    height?: number;
+  }
+
   interface WebGLRenderingContext {
+    // Chrome 150+: https://github.com/WICG/html-in-canvas/issues/132
+    texElementImage2D(
+      target: number,
+      internalformat: number,
+      element: Element | ElementImage,
+      config?: WebGLCopyElementImageConfig,
+    ): void;
+    // Chrome < 150 (texImage2D-shaped signature)
     texElementImage2D(
       target: number,
       level: number,
