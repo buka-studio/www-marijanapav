@@ -30,7 +30,7 @@
     "clsx": "~2.1.1",
     "culori": "~4.0.2",
     "dayjs": "~1.11.21",
-    "dialkit": "~1.2.0",
+    "dialkit": "~1.4.3",
     "dompurify": "~3.4.7",
     "drizzle-orm": "~0.45.2",
     "framer-motion": "~12.40.0",
