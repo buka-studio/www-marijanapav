@@ -143,7 +143,7 @@ export default function Solitaire({ cardSrc }: { cardSrc: string }) {
         }
         className="hidden"
       />
-      <canvas ref={canvas} className="h-full w-full bg-main-background"></canvas>;
+      <canvas ref={canvas} className="bg-main-background h-full w-full"></canvas>;
     </div>
   );
 }

@@ -18,10 +18,10 @@ function CardTitle({
   return (
     <h2
       className={cn(
-        'text-base font-semibold text-text-primary',
+        'text-text-primary text-base font-semibold',
         // Style variants
         variant === 'default' && 'font-sans',
-        variant === 'mono' && 'font-mono text-xs uppercase tracking-[0.2em]',
+        variant === 'mono' && 'font-mono text-xs tracking-[0.2em] uppercase',
         className,
       )}
       ref={ref}

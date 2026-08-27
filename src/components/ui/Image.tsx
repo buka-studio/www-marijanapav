@@ -23,7 +23,7 @@ function Image({
         'transition-all duration-500',
         {
           'scale-95 blur-md': !loaded,
-          'scale-100 blur-0': loaded,
+          'blur-0 scale-100': loaded,
         },
         className,
       )}

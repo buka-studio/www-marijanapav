@@ -6,6 +6,10 @@ import { existsSync } from 'node:fs';
 const wranglerConfigPath = './wrangler.jsonc';
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ['rpavlini.local'],
+  experimental: {
+    optimizePackageImports: ['@react-three/drei'],
+  },
   images: {
     qualities: [80, 90, 100],
   },

@@ -58,7 +58,7 @@ export default async function Work({ params }: { params: Promise<{ slug: string 
       <div className="flex-1 px-5 py-10 [html:has(&)_footer>*:not(.nav)]:invisible">
         <Heading className="mb-2 max-w-xl text-left text-5xl">{project.title}</Heading>
         <p className="max-w-xl text-left">{project.description}</p>
-        <div className="mt-10 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center ">
+        <div className="mt-10 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
           {(project.tags?.length || 0) > 0 && (
             <div className="justify-left flex flex-wrap gap-2">
               {project.tags?.map((t, i) => (
@@ -102,7 +102,7 @@ export default async function Work({ params }: { params: Promise<{ slug: string 
                             src={e}
                             alt=""
                             sizes={genImageSizes(items.length)}
-                            className="m-auto max-h-full w-full object-cover focus-within:outline-theme-1"
+                            className="focus-within:outline-theme-1 m-auto max-h-full w-full object-cover"
                           />
                         </GalleryTrigger>
                       </div>

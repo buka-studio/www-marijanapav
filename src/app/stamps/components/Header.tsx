@@ -14,7 +14,7 @@ export default function Header({
   return (
     <div
       className={cn(
-        'relative flex h-9 items-center justify-between gap-5 font-libertinus',
+        'font-libertinus relative flex h-9 items-center justify-between gap-5',
         className,
       )}
     >

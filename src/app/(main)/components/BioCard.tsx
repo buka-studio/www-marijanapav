@@ -41,7 +41,7 @@ const social = [
 
 export default function BioCard() {
   return (
-    <Card className="flex flex-1 flex-col gap-4 bg-panel-background">
+    <Card className="bg-panel-background flex flex-1 flex-col gap-4">
       <div className="relative">
         <Image
           alt="A wild Marijana caught drawing"
@@ -52,27 +52,27 @@ export default function BioCard() {
           sizes="(max-width: 768px) 100vw, 768px"
           priority
         />
-        <div className="absolute left-0 top-0 h-full w-full rounded-md bg-panel-overlay transition-colors duration-200" />
+        <div className="bg-panel-overlay absolute top-0 left-0 h-full w-full rounded-md transition-colors duration-200" />
       </div>
 
-      <p className="panel text-sm leading-6 text-text-primary">
+      <p className="panel text-text-primary text-sm leading-6">
         I&apos;m a Brand Designer at{' '}
         <TextLink
-          className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
+          className="hover:text-theme-1 font-semibold underline decoration-from-font underline-offset-2"
           href="https://vercel.com/home"
         >
           Vercel
         </TextLink>
         , working across brand, web, and code in the devtools space. Before that, I was at{' '}
         <TextLink
-          className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
+          className="hover:text-theme-1 font-semibold underline decoration-from-font underline-offset-2"
           href="https://livekit.io"
         >
           LiveKit
         </TextLink>{' '}
         and{' '}
         <TextLink
-          className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
+          className="hover:text-theme-1 font-semibold underline decoration-from-font underline-offset-2"
           href="https://supabase.com"
         >
           Supabase
@@ -80,14 +80,14 @@ export default function BioCard() {
         , where I helped shape their brand and websites as they grew, which pulled me deeper into
         frontend and actually building what I design. I&apos;m based in Croatia, where I also co-run{' '}
         <TextLink
-          className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
+          className="hover:text-theme-1 font-semibold underline decoration-from-font underline-offset-2"
           href="https://www.buka.studio"
         >
           Buka Studio
         </TextLink>{' '}
         with my partner (and a cat who rarely skips meetings).
       </p>
-      <div className="mt-4 flex flex-col items-start justify-between text-text-primary md:flex-row md:items-center">
+      <div className="text-text-primary mt-4 flex flex-col items-start justify-between md:flex-row md:items-center">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm">See what I&apos;ve been doing on</span>
           <div className="flex gap-2">
@@ -97,7 +97,7 @@ export default function BioCard() {
                 rel="noreferrer noopener"
                 key={url}
                 href={`${url}`}
-                className="hover cursor-pointer rounded-full transition-all duration-200 text-theme-2 hover:text-theme-1"
+                className="hover text-theme-2 hover:text-theme-1 cursor-pointer rounded-full transition-all duration-200"
                 {...attrs}
               >
                 <Icon />

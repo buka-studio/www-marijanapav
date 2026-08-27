@@ -49,7 +49,8 @@ export class StatusScene extends Scene {
       return;
     }
 
-    const formatMs = (value: number | null) => (value === null ? 'PENDING' : `${Math.round(value)}MS`);
+    const formatMs = (value: number | null) =>
+      value === null ? 'PENDING' : `${Math.round(value)}MS`;
     const edge = context.metrics.edge.colo.toUpperCase();
     const rtt = formatMs(context.metrics.edge.rttMs);
     const { pulseMs, d1Ms, r2Ms } = context.metrics.timings;

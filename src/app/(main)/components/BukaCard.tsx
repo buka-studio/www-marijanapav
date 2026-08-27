@@ -15,7 +15,7 @@ export default function BukaCard() {
         <div className="flex items-center gap-4 overflow-visible">
           <span className="border-theme-2 bg-theme-4 relative isolate flex h-[73px] w-[72px] shrink-0 items-center justify-center overflow-visible rounded-[15px] border">
             <CfntdIcon
-              className="text-theme-1 h-11 w-11 shrink-0 overflow-visible [&_.ping]:animate-cfntd-pulse-soft **:origin-center **:transform-fill"
+              className="text-theme-1 [&_.ping]:animate-cfntd-pulse-soft h-11 w-11 shrink-0 overflow-visible **:origin-center **:transform-fill"
               aria-hidden
             />
           </span>
@@ -32,8 +32,8 @@ export default function BukaCard() {
           </div>
         </div>
         <p className="text-text-primary text-sm">
-          A small coffee archive for specialty coffee enthusiasts—keeping track of roasters, beans, and
-          brews in one place. Still brewing.
+          A small coffee archive for specialty coffee enthusiasts—keeping track of roasters, beans,
+          and brews in one place. Still brewing.
         </p>
       </div>
     </Card>

@@ -14,7 +14,7 @@ export default function SupabaseCard() {
         <Heading className="text-3xl md:text-4xl">
           <a
             href="https://supabase.com/blog/designing-with-ai-midjourney"
-            className="rounded-md before:absolute before:left-0 before:top-0 before:h-full before:w-full"
+            className="rounded-md before:absolute before:top-0 before:left-0 before:h-full before:w-full"
             rel="noreferrer"
             target="_blank"
           >

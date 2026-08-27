@@ -78,10 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Providers>
       </body>
       {process.env.NODE_ENV === 'production' && umamiWebsiteId && (
-        <Script
-          src="https://cloud.umami.is/script.js"
-          data-website-id={umamiWebsiteId}
-        />
+        <Script src="https://cloud.umami.is/script.js" data-website-id={umamiWebsiteId} />
       )}
     </html>
   );

@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <MainHeader>
-      <div className="filters flex flex-nowrap items-center gap-1 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-none md:overflow-visible">
+      <div className="filters flex scrollbar-none flex-nowrap items-center gap-1 overflow-x-auto overflow-y-hidden whitespace-nowrap md:overflow-visible">
         {filters.map((f) => (
           <Button
             key={f}

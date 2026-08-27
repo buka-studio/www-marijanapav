@@ -123,18 +123,20 @@ export class SceneManager {
     }
 
     this.isTransitioning = true;
-    this.transitionRenderer.renderTransition(ctx, { durationSeconds: 0.7, direction: 'left' }).then(() => {
-      nextStatusScene.renderer?.restart?.();
-      nextStatusScene.renderer.resume();
-      previousStatusScene.cleanupControls();
+    this.transitionRenderer
+      .renderTransition(ctx, { durationSeconds: 0.7, direction: 'left' })
+      .then(() => {
+        nextStatusScene.renderer?.restart?.();
+        nextStatusScene.renderer.resume();
+        previousStatusScene.cleanupControls();
 
-      if (document.activeElement === this.context.containerRef.current) {
-        nextStatusScene.setupControls();
-      }
+        if (document.activeElement === this.context.containerRef.current) {
+          nextStatusScene.setupControls();
+        }
 
-      this.onSceneRendererChange(nextStatusScene.renderer);
-      this.isTransitioning = false;
-    });
+        this.onSceneRendererChange(nextStatusScene.renderer);
+        this.isTransitioning = false;
+      });
   }
 
   public setPalette(palette: Palette) {
@@ -242,14 +244,7 @@ export const useSceneManager = ({
       container?.removeEventListener('keydown', handleKeyDown);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    onScoreChange,
-    onGameEnd,
-    onGameSelect,
-    dotMatrixDisplayRef,
-    containerRef,
-    analytics,
-  ]);
+  }, [onScoreChange, onGameEnd, onGameSelect, dotMatrixDisplayRef, containerRef, analytics]);
 
   useEffect(() => {
     if (!sceneManagerRef.current || metricsRef.current === metrics) {

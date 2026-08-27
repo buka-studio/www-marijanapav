@@ -25,12 +25,12 @@ export default function Contact() {
     <>
       <Header />
       <main className="flex flex-1 flex-col px-11 py-8">
-        <div className="flex flex-1 flex-col items-center justify-center text-text-primary">
+        <div className="text-text-primary flex flex-1 flex-col items-center justify-center">
           <h1>Say hi or talk future projects</h1>
-          <div className="mb-[100px] flex flex-col items-center gap-6 text-center md:mb-8 md:flex-row ">
+          <div className="mb-[100px] flex flex-col items-center gap-6 text-center md:mb-8 md:flex-row">
             <a
               href="mailto:marijana@buka.studio"
-              className="rounded-lg font-archivo text-[clamp(2.25rem,2vw+1rem,3.75rem)]"
+              className="font-archivo rounded-lg text-[clamp(2.25rem,2vw+1rem,3.75rem)]"
             >
               marijana@buka.studio
             </a>

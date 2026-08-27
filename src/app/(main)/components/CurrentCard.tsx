@@ -28,12 +28,12 @@ export default function CurrentCard() {
 
   return (
     <Card className="">
-      <div className="flex h-[280px]  flex-col justify-between">
-        <div className="mb-14 flex items-center gap-2 font-sans text-text-secondary">
+      <div className="flex h-[280px] flex-col justify-between">
+        <div className="text-text-secondary mb-14 flex items-center gap-2 font-sans">
           Currently exploring frontend
         </div>
 
-        <div className="flex flex-col  gap-2">
+        <div className="flex flex-col gap-2">
           {folderItems.map((item, index) => (
             <div key={index} className="flex flex-col gap-1">
               <div className="flex cursor-pointer gap-2" onClick={() => toggleItem(index)}>
@@ -49,13 +49,13 @@ export default function CurrentCard() {
                   }}
                 >
                   {expandedItem === index ? (
-                    <FolderOpenedIcon className="h-5 w-5 transition-all duration-200 text-theme-1 hover:text-theme-2" />
+                    <FolderOpenedIcon className="text-theme-1 hover:text-theme-2 h-5 w-5 transition-all duration-200" />
                   ) : (
-                    <FolderClosedIcon className="h-5 w-5 transition-all duration-200 text-theme-1 hover:text-theme-2" />
+                    <FolderClosedIcon className="text-theme-1 hover:text-theme-2 h-5 w-5 transition-all duration-200" />
                   )}
                 </motion.div>
                 <p
-                  className={`font-medium text-text-secondary transition-colors duration-200 ${
+                  className={`text-text-secondary font-medium transition-colors duration-200 ${
                     expandedItem === index ? 'text-theme-1' : ''
                   }`}
                 >

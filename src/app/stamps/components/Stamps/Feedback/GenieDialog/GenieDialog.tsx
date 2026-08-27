@@ -215,7 +215,7 @@ export function GenieBackdrop({
   return (
     <div
       ref={containerRef}
-      className={cn('pointer-events-none absolute inset-0 ', className)}
+      className={cn('pointer-events-none absolute inset-0', className)}
       {...props}
     >
       {snapshot && (

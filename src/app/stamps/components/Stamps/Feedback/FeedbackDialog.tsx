@@ -8,8 +8,8 @@ import { flushSync } from 'react-dom';
 
 import { DialogDescription, DialogTitle } from '~/src/components/ui/Dialog';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
-import { cn, preloadImage } from '~/src/util';
 import { useFeedbackMutation } from '~/src/lib/query/api';
+import { cn, preloadImage } from '~/src/util';
 
 import FeedbackForm from './FeedbackForm';
 import FlipCard, { FlipCardBack, FlipCardFront, FlipCardTrigger } from './FlipCard';

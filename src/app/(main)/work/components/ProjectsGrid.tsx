@@ -93,7 +93,7 @@ export default function ProjectsGrid({ projects }: Props) {
                         <DialogClose aria-label="Close dialog" asChild>
                           <Button
                             iconLeft={<ExitIcon className="h-6 w-6" />}
-                            className="absolute right-5 top-5 opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100"
+                            className="absolute top-5 right-5 opacity-50 group-hover/card:opacity-100 focus-visible:opacity-100"
                           />
                         </DialogClose>
                       </div>
@@ -119,7 +119,7 @@ export default function ProjectsGrid({ projects }: Props) {
                       <DialogTitle className="mb-4">{project.title}</DialogTitle>
                       <div className="flex flex-wrap items-center gap-2">
                         {project.tags?.map((t) => (
-                          <Tag key={t} className="text-sm text-text-secondary">
+                          <Tag key={t} className="text-text-secondary text-sm">
                             {t}
                           </Tag>
                         ))}
@@ -139,7 +139,7 @@ export default function ProjectsGrid({ projects }: Props) {
                       </div>
                     </div>
                     {project.description && (
-                      <DialogDescription className="mt-4 overflow-auto border-t border-t-theme-2 pt-4 leading-7 text-text-secondary md:max-h-[200px]">
+                      <DialogDescription className="border-t-theme-2 text-text-secondary mt-4 overflow-auto border-t pt-4 leading-7 md:max-h-[200px]">
                         {project.description}
                       </DialogDescription>
                     )}
@@ -184,14 +184,14 @@ export default function ProjectsGrid({ projects }: Props) {
                         </div>
                       </div>
                       <div
-                        className="title title absolute bottom-0 left-0 w-full translate-y-full rounded-tl-md rounded-tr-md p-2 px-3 text-text-primary transition-all duration-300 group-hover:translate-y-[-4px] group-focus-visible:translate-y-[-4px]"
+                        className="title title text-text-primary absolute bottom-0 left-0 w-full translate-y-full rounded-tl-md rounded-tr-md p-2 px-3 transition-all duration-300 group-hover:translate-y-[-4px] group-focus-visible:translate-y-[-4px]"
                         ref={(e) => {
                           titleRefs.current.set(i, e!);
                         }}
                       >
                         {project.title}
                       </div>
-                      <Tag className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-xs opacity-0 transition-all duration-300 group-hover/hidden:opacity-100 group-focus-visible/hidden:opacity-100 sm:text-sm">
+                      <Tag className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs whitespace-nowrap opacity-0 transition-all duration-300 group-hover/hidden:opacity-100 group-focus-visible/hidden:opacity-100 sm:text-sm">
                         Coming Soon
                       </Tag>
                     </Card>

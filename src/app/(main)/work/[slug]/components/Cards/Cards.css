@@ -105,7 +105,8 @@
 
   .card:hover .reflection,
   button:focus-visible .reflection {
-    background-image: radial-gradient(
+    background-image:
+      radial-gradient(
         200px 200px at calc(var(--mouse-x, 9999px) * 1px) calc(var(--mouse-y, 9999px) * 1px),
         rgba(255, 255, 255, 0.15) 35%,
         transparent

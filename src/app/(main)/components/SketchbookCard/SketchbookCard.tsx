@@ -87,11 +87,11 @@ export default function SketchbookCard() {
     <Card id="sketchbook">
       <div className="flex h-full w-full flex-col gap-3 overflow-hidden">
         <div className="relative h-full min-h-[300px] w-full overflow-hidden" ref={containerRef}>
-          <GridBackground className="absolute left-0 top-0 h-full w-full" n={300} />
+          <GridBackground className="absolute top-0 left-0 h-full w-full" n={300} />
           <AnimatePresence mode="wait">
             {state === 'initial' ? (
               <Sketchbooks count={10} className="group" key="sketchbooks">
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 focus-within:opacity-100 group-hover:opacity-100">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:opacity-100 focus-within:opacity-100">
                   <Tooltip>
                     <Button buttonClassName="gap-2" asChild>
                       <TooltipTrigger onClick={() => setState('drawing')}>

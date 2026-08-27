@@ -157,7 +157,7 @@ export function Stamps({ width, height }: { width: number; height: number }) {
   return (
     <div className="relative h-full w-full">
       <ReactLenis
-        className="scrollbar-none max-h-[420px] w-full overflow-hidden rounded-lg"
+        className="max-h-[420px] w-full scrollbar-none overflow-hidden rounded-lg"
         options={{
           infinite: true,
           syncTouch: true,

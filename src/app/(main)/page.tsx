@@ -10,7 +10,7 @@ import {
   ColorThemeCard,
   NotesCard,
   PantoneCard,
-  PhotosCard,
+  PhotosCardWebgl,
   SketchbookCard,
   SkewedStampsCard,
   SneakPeekCard,
@@ -26,6 +26,7 @@ import './page.css';
 import { Metadata } from 'next';
 
 import SystemMetricsCollector from '~/src/lib/SystemMetricsCollector';
+
 import { Filter } from './work/constants';
 
 type FilterHref = `/work?f=${Filter}`;
@@ -44,7 +45,7 @@ const getCards = () => [
   { gridArea: '🖌️', Component: PantoneCard },
   { gridArea: '🎨', Component: ColorThemeCard },
   { gridArea: '👀', Component: SneakPeekCard },
-  { gridArea: '🖼️', Component: PhotosCard },
+  { gridArea: '🖼️', Component: PhotosCardWebgl },
   { gridArea: '🧪', Component: CodeCard },
   { gridArea: '🔧', Component: ToolsCreatedCard },
   { gridArea: '👩‍💻', Component: SketchbookCard },
@@ -69,7 +70,7 @@ export default async function Home() {
       <div className="flex flex-col px-5 py-5 md:py-12">
         <main className="pb-12">
           <Heading className="mb-8" />
-          <div className="mb-20 flex flex-col items-start gap-2 text-text-primary xxs:flex-row xxs:items-center xxs:gap-4">
+          <div className="text-text-primary xxs:flex-row xxs:items-center xxs:gap-4 mb-20 flex flex-col items-start gap-2">
             <div>What I do</div>
             <div className="flex gap-2">
               {projectLinks.map(({ label, ...linkProps }) => (

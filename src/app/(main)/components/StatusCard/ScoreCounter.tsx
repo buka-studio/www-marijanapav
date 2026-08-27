@@ -9,7 +9,7 @@ function PlayerScoreCounter({ score, padding = 4 }: PlayerScoreCounterProps) {
   const maxScore = Math.pow(10, padding) - 1;
 
   if (score > maxScore) {
-    return <div className="font-mono text-xs text-text-primary">{maxScore}+</div>;
+    return <div className="text-text-primary font-mono text-xs">{maxScore}+</div>;
   }
 
   const formattedNum = String(score).padStart(padding, '0');
@@ -44,7 +44,7 @@ interface Props {
 export default function ScoreCounter({ player1Score, player2Score, padding = 4 }: Props) {
   if (typeof player2Score !== 'undefined') {
     return (
-      <div className="flex items-center gap-1 font-mono text-xs text-text-primary">
+      <div className="text-text-primary flex items-center gap-1 font-mono text-xs">
         <PlayerScoreCounter score={player1Score} padding={padding} />
         <span>:</span>
         <PlayerScoreCounter score={player2Score} padding={padding} />
