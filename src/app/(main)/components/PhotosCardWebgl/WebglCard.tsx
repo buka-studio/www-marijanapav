@@ -26,12 +26,13 @@ import { photos } from '../photos';
 import { defaultPhotoDistortParams, type PhotoDistortParams } from './params';
 import fragmentShader from './PhotoDistort.frag';
 import vertexShader from './PhotoDistort.vert';
-import PhotoLoader from './PhotoLoader';
+import ImageTextureLoader from '~/src/lib/three/ImageTextureLoader';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 const GAP_PX = 16;
 const RADIUS_PX = 6;
-const VISIBLE_SLOTS = 5;
+const VISIBLE_SLOTS = 3;
+const PRELOAD_RADIUS = 2;
 const PHOTO_COUNT = photos.length;
 const SNAP_SETTLE_MS = 160;
 const SNAP_DURATION_S = 0.32;
@@ -94,7 +95,7 @@ const photoImageSizes: THREE.Vector2[] = [];
 for (const photo of photos) {
   photoImageSizes.push(new THREE.Vector2(photo.width, photo.height));
 }
-const photoLoader = new PhotoLoader(
+const photoLoader = new ImageTextureLoader(
   photos.map((photo) => photo.src),
   { width: 1080, quality: 80 },
 );
@@ -378,7 +379,7 @@ const CarouselScene = memo(function CarouselScene({
         texturesChanged ||
         (retryAroundAtRef.current > 0 && now >= retryAroundAtRef.current)
       ) {
-        retryAroundAtRef.current = photoLoader.requestAround(origin, Math.floor(VISIBLE_SLOTS / 2));
+        retryAroundAtRef.current = photoLoader.requestAround(origin, PRELOAD_RADIUS);
         requestedOriginRef.current = origin;
       }
     } else {

@@ -36,7 +36,7 @@ export default function Projects({ projects }: Props) {
   return (
     <div className="min-w-0 overflow-hidden">
       <div className="mt-8 flex items-start justify-between gap-5 px-5">
-        <p className="text-theme-1 max-w-[500px] text-sm">
+        <p className="text-theme-1 max-w-[500px] text-sm pl-2">
           I do a wide variety of projects but lately I enjoy most finding ways to illustrate complex
           systems in technical visuals that reflect the brand
         </p>

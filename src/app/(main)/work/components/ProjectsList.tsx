@@ -1,14 +1,7 @@
 'use client';
 
 import { ArrowUpRightIcon } from '@phosphor-icons/react';
-import {
-  AnimatePresence,
-  motion,
-  Transition,
-  useMotionValue,
-  useReducedMotion,
-  type Variants,
-} from 'framer-motion';
+import { useMotionValue } from 'framer-motion';
 import Link from 'next/link';
 import {
   useCallback,
@@ -20,11 +13,11 @@ import {
 } from 'react';
 import { useSuperHoverRef } from 'super-hover/react';
 
-import Image from '~/src/components/ui/Image';
 import LinkBox, { LinkBoxLink } from '~/src/components/ui/LinkBox';
 
 import { Project, StaticProject } from '../constants';
-import Card from './Card';
+import ProjectHoverPreview from './ProjectHoverPreview';
+import { PREVIEW_CELL_WIDTH } from './ProjectHoverPreview/params';
 
 import './ProjectsList.css';
 
@@ -37,51 +30,13 @@ type PreviewMotion = {
   yOffset: number;
 };
 
-type MotionDirection = 1 | -1;
-
-type MotionAxisDirection = {
-  x: MotionDirection;
-  y: MotionDirection;
-};
-
-type MotionAxisAmount = {
-  x: number;
-  y: number;
-};
-
-const previewContainerMotionDirection: MotionAxisDirection = {
-  x: 1,
-  y: 1,
-};
-
-const previewContainerMotionAmount: MotionAxisAmount = {
-  x: 1,
-  y: 1,
-};
-
-const previewContentMotionDirection: MotionAxisDirection = {
-  x: -1,
-  y: -1,
-};
-
-const previewContentMotionAmount: MotionAxisAmount = {
-  x: 2,
-  y: 2,
-};
-
 const previewMotionDistance = 40;
 const previewCursorOffset = 40;
-const previewMotionDuration = 0.25;
 const previewMotionVelocity = 1;
-
-const previewMotionTransition: Transition = {
-  opacity: { duration: previewMotionDuration / 2 },
-  duration: previewMotionDuration,
-};
 
 type HoveredProject = {
   project: StaticProject;
-  contentMotion: PreviewMotion;
+  index: number;
 };
 
 function isStaticProject(project: Project): project is StaticProject {
@@ -184,17 +139,6 @@ function hasPointerMotion({ xOffset, yOffset }: PreviewMotion) {
   return xOffset !== 0 || yOffset !== 0;
 }
 
-function getAdjustedPreviewMotion(
-  { xOffset, yOffset }: PreviewMotion,
-  direction: MotionAxisDirection,
-  amount: MotionAxisAmount,
-): PreviewMotion {
-  return {
-    xOffset: xOffset * direction.x * amount.x,
-    yOffset: yOffset * direction.y * amount.y,
-  };
-}
-
 function getItemRelationMotion({
   current,
   previous,
@@ -263,80 +207,10 @@ export default function ProjectsList({ projects }: Props) {
   const exitMotionRef = useRef<PreviewMotion>({ xOffset: 0, yOffset: 0 });
   const previewX = useMotionValue(0);
   const previewY = useMotionValue(0);
-  const prefersReducedMotion = useReducedMotion();
-  const previewVariants: Variants = {
-    initial: (previewMotion: PreviewMotion) => {
-      const { xOffset, yOffset } = getAdjustedPreviewMotion(
-        previewMotion,
-        previewContainerMotionDirection,
-        previewContainerMotionAmount,
-      );
-
-      return {
-        opacity: 0,
-        x: prefersReducedMotion ? 0 : xOffset,
-        y: prefersReducedMotion ? 0 : yOffset,
-        scale: prefersReducedMotion ? 1 : 0.98,
-      };
-    },
-    animate: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      scale: 1,
-    },
-    exit: (previewMotion: PreviewMotion) => {
-      const { xOffset, yOffset } = getAdjustedPreviewMotion(
-        previewMotion,
-        previewContainerMotionDirection,
-        previewContainerMotionAmount,
-      );
-
-      return {
-        opacity: 0,
-        x: prefersReducedMotion ? 0 : xOffset,
-        y: prefersReducedMotion ? 0 : yOffset,
-        scale: prefersReducedMotion ? 1 : 0.98,
-      };
-    },
-  };
-  const previewImageVariants: Variants = {
-    initial: ({ contentMotion }: HoveredProject) => {
-      const { xOffset, yOffset } = getAdjustedPreviewMotion(
-        contentMotion,
-        previewContentMotionDirection,
-        previewContentMotionAmount,
-      );
-
-      return {
-        opacity: 0,
-        x: prefersReducedMotion ? 0 : xOffset,
-        y: prefersReducedMotion ? 0 : yOffset,
-      };
-    },
-    animate: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-    },
-    exit: ({ contentMotion }: HoveredProject) => {
-      const { xOffset, yOffset } = getAdjustedPreviewMotion(
-        contentMotion,
-        previewContentMotionDirection,
-        previewContentMotionAmount,
-      );
-
-      return {
-        opacity: 0,
-        x: prefersReducedMotion ? 0 : xOffset,
-        y: prefersReducedMotion ? 0 : yOffset,
-      };
-    },
-  };
 
   function setPreviewPosition(x: number, y: number) {
-    const previewWidth = 350;
-    const previewHeight = 195;
+    const previewWidth = PREVIEW_CELL_WIDTH;
+    const previewHeight = previewWidth * 0.75;
 
     const prevX = Math.min(
       x + previewCursorOffset,
@@ -401,7 +275,7 @@ export default function ProjectsList({ projects }: Props) {
       activeIndexRef.current = nextIndex;
       setHoveredProject({
         project,
-        contentMotion,
+        index: nextIndex,
       });
     },
     onLeave(event) {
@@ -483,7 +357,7 @@ export default function ProjectsList({ projects }: Props) {
   );
 
   return (
-    <div className="relative max-w-full min-w-0 overflow-hidden px-5 py-10">
+    <div className="relative max-w-full min-w-0 px-5 py-10">
       <div className="scroll-fade-x scrollbar-thumb-theme-2 max-w-full scrollbar-thin scrollbar-track-transparent overflow-x-auto overflow-y-hidden overscroll-x-contain">
         <ul className="w-full md:min-w-[900px]" ref={setListRef} onPointerMove={handlePointerMove}>
           {listProjects.map((project, i) => (
@@ -533,48 +407,13 @@ export default function ProjectsList({ projects }: Props) {
         </ul>
       </div>
 
-      <AnimatePresence initial={false} custom={previewMotion}>
-        {hoveredProject && (
-          <motion.div
-            key="project-preview"
-            className="pointer-events-none fixed z-20 hidden w-[350px] md:block"
-            style={{ left: previewX, top: previewY }}
-            custom={previewMotion}
-            variants={previewVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={previewMotionTransition}
-          >
-            <Card
-              containerClassName="h-full w-full md:rounded"
-              className="aspect-4/3 overflow-hidden p-0 md:rounded"
-            >
-              <AnimatePresence initial={false} custom={hoveredProject}>
-                <motion.div
-                  key={hoveredProject.project.slug ?? hoveredProject.project.title}
-                  custom={hoveredProject}
-                  className="absolute inset-0"
-                  variants={previewImageVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  transition={previewMotionTransition}
-                >
-                  <Image
-                    alt={hoveredProject.project.title}
-                    src={hoveredProject.project.preview}
-                    quality={90}
-                    fill
-                    className="object-cover object-top duration-0"
-                    sizes="350px"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <ProjectHoverPreview
+        projects={listProjects}
+        hoveredIndex={hoveredProject?.index ?? null}
+        previewX={previewX}
+        previewY={previewY}
+        previewMotion={previewMotion}
+      />
     </div>
   );
 }
