@@ -56,7 +56,7 @@ const PreviewItem = memo(function PreviewItem({
           quality={90}
           sizes="350px"
           transition={false}
-          className="object-cover object-top"
+          className="object-cover object-center"
         />
       </div>
     </div>

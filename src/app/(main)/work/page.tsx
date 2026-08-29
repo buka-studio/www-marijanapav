@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 
+import { preloadImage } from '~/src/util';
+
+import { previewAtlas } from './components/ProjectHoverPreview/atlas';
 import Projects from './components/Projects';
 import { Filter, projects } from './constants';
 
@@ -11,6 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Work({ searchParams }: { searchParams: Promise<{ f?: Filter }> }) {
+  preloadImage(previewAtlas.src);
+
   const params = await searchParams;
   const filteredProjects = projects.filter((p) => {
     if (p.hidden) {

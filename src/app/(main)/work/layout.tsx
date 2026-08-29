@@ -2,11 +2,7 @@ import { getImageProps } from 'next/image';
 import { Suspense } from 'react';
 
 import Header from './components/Header';
-import { projectGridPreviewSizes, projects, type StaticProject } from './constants';
-
-function isVisibleStaticProject(project: (typeof projects)[number]): project is StaticProject {
-  return project.type !== 'component' && !project.hidden;
-}
+import { isVisibleStaticProject, projectGridPreviewSizes, projects } from './constants';
 
 const gridPreviewPreloads = projects
   .filter(isVisibleStaticProject)

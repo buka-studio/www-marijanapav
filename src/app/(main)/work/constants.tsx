@@ -159,6 +159,10 @@ export type Project = (StaticProject | ComponentProject) & {
   hidden?: boolean;
 };
 
+export function isVisibleStaticProject(project: Project): project is StaticProject {
+  return project.type !== 'component' && !project.hidden;
+}
+
 // aspect - width/height - for grid layout
 // todo: consider contentlayer or some other lightweight cms
 export const projects: Project[] = [

@@ -1,14 +1,21 @@
 'use client';
 
 import { shaderMaterial } from '@react-three/drei/core/shaderMaterial';
-import { Canvas, extend, useFrame, useThree, type ThreeElement } from '@react-three/fiber';
+import {
+  Canvas,
+  extend,
+  useFrame,
+  useLoader,
+  useThree,
+  type ThreeElement,
+} from '@react-three/fiber';
 import { useReducedMotion } from 'framer-motion';
-import { useEffect, useMemo, useRef } from 'react';
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
-import ImageTextureLoader from '~/src/lib/three/ImageTextureLoader';
-
 import type { StaticProject } from '../../constants';
+import { previewAtlas } from './atlas';
+import { bindAtlasRect } from './atlasRect';
 import { gridMetrics, projectAt, type HoverPreviewRendererProps } from './grid';
 import fragmentShader from './HoverPreview.frag';
 import vertexShader from './HoverPreview.vert';
@@ -27,38 +34,18 @@ const CANVAS_GL = {
   powerPreference: 'high-performance' as const,
 };
 const CANVAS_CAMERA = { position: [0, 0, 100] as [number, number, number], zoom: 1 };
-const SCROLL_IDLE_MS = 140;
 
-function scheduleIdle(callback: IdleRequestCallback, timeout = 800) {
-  if (typeof requestIdleCallback === 'function') {
-    return requestIdleCallback(callback, { timeout });
-  }
-
-  return window.setTimeout(() => {
-    callback({ didTimeout: true, timeRemaining: () => 8 });
-  }, 32);
-}
-
-function cancelIdle(handle: number) {
-  if (typeof cancelIdleCallback === 'function') {
-    cancelIdleCallback(handle);
-    return;
-  }
-
-  window.clearTimeout(handle);
-}
+useLoader.preload(THREE.TextureLoader, previewAtlas.src);
 
 const HoverPreviewMaterial = shaderMaterial(
   {
-    uTexture: null as THREE.Texture | null,
-    uTexturePrev: null as THREE.Texture | null,
-    uTextureNext: null as THREE.Texture | null,
+    uAtlas: null as THREE.Texture | null,
     uHasTexture: 0,
     uHasTexturePrev: 0,
     uHasTextureNext: 0,
-    uCoverTransform: new THREE.Vector4(1, 1, 0, 0),
-    uCoverTransformPrev: new THREE.Vector4(1, 1, 0, 0),
-    uCoverTransformNext: new THREE.Vector4(1, 1, 0, 0),
+    uAtlasRect: new THREE.Vector4(1, 1, 0, 0),
+    uAtlasRectPrev: new THREE.Vector4(1, 1, 0, 0),
+    uAtlasRectNext: new THREE.Vector4(1, 1, 0, 0),
     uBlur: 0,
     uGap: 0,
   },
@@ -85,60 +72,37 @@ declare module '@react-three/fiber' {
 
 type HoverPreviewMatImpl = InstanceType<typeof HoverPreviewMaterial>;
 
-function setCoverTransform(
-  target: THREE.Vector4,
-  image: { width: number; height: number },
-  planeWidth: number,
-  planeHeight: number,
-) {
-  const planeAspect = planeWidth / Math.max(planeHeight, 1e-5);
-  const imageAspect = image.width / Math.max(image.height, 1e-5);
-  const scaleX = Math.min(planeAspect / imageAspect, 1);
-  const scaleY = Math.min(imageAspect / planeAspect, 1);
-  target.set(scaleX, scaleY, 0.5 * (1 - scaleX), 1 - scaleY);
+function configureAtlasTexture(texture: THREE.Texture) {
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = false;
+  texture.anisotropy = 1;
+  texture.flipY = true;
+  texture.needsUpdate = true;
 }
 
-function bindSlotTextures(
+function bindSlotRects(
   material: HoverPreviewMatImpl,
-  loader: ImageTextureLoader,
+  atlas: THREE.Texture,
   projects: StaticProject[],
   index: number,
-  cellWidth: number,
-  cellHeight: number,
 ) {
-  const dummy = loader.getFallback();
   const project = projectAt(projects, index);
   const prev = projectAt(projects, index - 1);
   const next = projectAt(projects, index + 1);
-  const texture = project ? loader.get(index) : null;
-  const prevTexture = prev ? loader.get(index - 1) : null;
-  const nextTexture = next ? loader.get(index + 1) : null;
 
-  material.uTexture = texture ?? dummy;
-  material.uTexturePrev = prevTexture ?? dummy;
-  material.uTextureNext = nextTexture ?? dummy;
-  material.uHasTexture = texture ? 1 : 0;
-  material.uHasTexturePrev = prevTexture ? 1 : 0;
-  material.uHasTextureNext = nextTexture ? 1 : 0;
-
-  if (project) {
-    setCoverTransform(material.uCoverTransform, project.preview, cellWidth, cellHeight);
-  }
-  if (prev) {
-    setCoverTransform(material.uCoverTransformPrev, prev.preview, cellWidth, cellHeight);
-  }
-  if (next) {
-    setCoverTransform(material.uCoverTransformNext, next.preview, cellWidth, cellHeight);
-  }
+  material.uAtlas = atlas;
+  material.uHasTexture = bindAtlasRect(material.uAtlasRect, project?.slug);
+  material.uHasTexturePrev = bindAtlasRect(material.uAtlasRectPrev, prev?.slug);
+  material.uHasTextureNext = bindAtlasRect(material.uAtlasRectNext, next?.slug);
 }
 
-function PreviewScene({
-  projects,
-  centerIndex,
-  loader,
-  active = true,
-}: HoverPreviewRendererProps & { loader: ImageTextureLoader }) {
+function PreviewScene({ projects, centerIndex, active = true }: HoverPreviewRendererProps) {
   const { cellWidth, cellHeight, strideY, gap } = gridMetrics(PREVIEW_CELL_WIDTH, PREVIEW_GAP);
+  const atlas = useLoader(THREE.TextureLoader, previewAtlas.src);
   const center = usePreviewCenter(centerIndex);
   const reduceMotion = Boolean(useReducedMotion());
   const groupRef = useRef<THREE.Group>(null);
@@ -146,9 +110,6 @@ function PreviewScene({
   const materialRefs = useRef<HoverPreviewMatImpl[]>([]);
   const speedRef = useRef(0);
   const previousCenterRef = useRef(center.get());
-  const slotIndexRef = useRef<number[]>([-1, -1, -1]);
-  const boundTextureVersionRef = useRef(-1);
-  const requestedOriginRef = useRef<number | null>(null);
   const compiledRef = useRef(false);
   const invalidate = useThree((state) => state.invalidate);
   const geometry = useMemo(
@@ -163,9 +124,10 @@ function PreviewScene({
     };
   }, [geometry]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    configureAtlasTexture(atlas);
     invalidate();
-  }, [invalidate]);
+  }, [atlas, invalidate]);
 
   useFrame((state, delta) => {
     if (!compiledRef.current) {
@@ -183,23 +145,13 @@ function PreviewScene({
     const velocity = (Math.abs(centerValue - previousCenterRef.current) * strideY) / dt;
     previousCenterRef.current = centerValue;
 
-    loader.requestAround(origin, SLOT_OFFSET);
-    if (requestedOriginRef.current !== origin) {
-      requestedOriginRef.current = origin;
-      loader.prioritizeAround(origin, SLOT_OFFSET);
-    }
-
-    const visibleNeedsUpload = SLOT_INDICES.some((slot) => {
-      const index = origin + slot - SLOT_OFFSET;
-      return Boolean(projectAt(projects, index) && loader.needsGpuUpload(index));
-    });
-    const uploaded = loader.uploadPending(visibleNeedsUpload ? 1 : 0);
-
     if (reduceMotion || velocity <= MOTION_STOP_PX_PER_S) {
       speedRef.current = 0;
     } else {
       const easing =
-        velocity > speedRef.current ? defaultMotionBlurParams.attack : defaultMotionBlurParams.release;
+        velocity > speedRef.current
+          ? defaultMotionBlurParams.attack
+          : defaultMotionBlurParams.release;
       speedRef.current += (velocity - speedRef.current) * (1 - Math.exp(-dt * easing));
     }
 
@@ -207,15 +159,12 @@ function PreviewScene({
       groupRef.current.position.y = centerValue * strideY;
     }
 
-    const skipBlur = uploaded > 0;
-    const amount =
-      reduceMotion || skipBlur
-        ? 0
-        : 1 - Math.exp(-speedRef.current / Math.max(defaultMotionBlurParams.speedRef, 1));
+    const amount = reduceMotion
+      ? 0
+      : 1 - Math.exp(-speedRef.current / Math.max(defaultMotionBlurParams.speedRef, 1));
     const blurSpan = Math.max(1 - defaultMotionBlurParams.blurThreshold, 1e-5);
     const blurT = Math.max(0, (amount - defaultMotionBlurParams.blurThreshold) / blurSpan);
     const blur = blurT * blurT * defaultMotionBlurParams.maxBlur;
-    const texturesChanged = boundTextureVersionRef.current !== loader.version;
 
     for (let slot = 0; slot < VISIBLE_SLOTS; slot += 1) {
       const material = materialRefs.current[slot];
@@ -233,16 +182,10 @@ function PreviewScene({
         continue;
       }
 
-      if (texturesChanged || slotIndexRef.current[slot] !== index) {
-        slotIndexRef.current[slot] = index;
-        bindSlotTextures(material, loader, projects, index, cellWidth, cellHeight);
-      }
-
+      bindSlotRects(material, atlas, projects, index);
       material.uBlur = blur;
       material.uGap = gapUv;
     }
-
-    boundTextureVersionRef.current = loader.version;
   });
 
   return (
@@ -263,6 +206,7 @@ function PreviewScene({
                 materialRefs.current[slot] = material as HoverPreviewMatImpl;
               }
             }}
+            uAtlas={atlas}
             transparent
             depthWrite={false}
             toneMapped={false}
@@ -280,14 +224,6 @@ export default function WebglGridPreview({
   active = true,
 }: HoverPreviewRendererProps) {
   const { cellWidth, cellHeight } = gridMetrics(PREVIEW_CELL_WIDTH, PREVIEW_GAP);
-  const loader = useMemo(
-    () =>
-      new ImageTextureLoader(
-        projects.map((project) => project.preview.src),
-        { width: 640, quality: 80 },
-      ),
-    [projects],
-  );
   const canvasStyle = useMemo(
     () => ({
       position: 'absolute' as const,
@@ -297,63 +233,6 @@ export default function WebglGridPreview({
     }),
     [cellHeight, cellWidth],
   );
-
-  useEffect(() => {
-    loader.retain();
-    return () => {
-      loader.detachRenderer();
-      loader.release();
-    };
-  }, [loader]);
-
-  useEffect(() => {
-    if (active) {
-      return;
-    }
-
-    let idleHandle = 0;
-    let scrollTimeout = 0;
-    let scrolling = false;
-    let requestedAll = false;
-
-    const pump = () => {
-      idleHandle = 0;
-      if (scrolling) {
-        return;
-      }
-
-      if (!requestedAll) {
-        requestedAll = true;
-        loader.requestAll();
-      }
-
-      loader.uploadPending(1);
-
-      if (loader.isWarming) {
-        idleHandle = scheduleIdle(pump, 1000);
-      }
-    };
-
-    const onScroll = () => {
-      scrolling = true;
-      window.clearTimeout(scrollTimeout);
-      scrollTimeout = window.setTimeout(() => {
-        scrolling = false;
-        if (loader.isWarming) {
-          idleHandle = scheduleIdle(pump, 1000);
-        }
-      }, SCROLL_IDLE_MS);
-    };
-
-    window.addEventListener('scroll', onScroll, { capture: true, passive: true });
-    idleHandle = scheduleIdle(pump, 1200);
-
-    return () => {
-      window.removeEventListener('scroll', onScroll, { capture: true });
-      window.clearTimeout(scrollTimeout);
-      cancelIdle(idleHandle);
-    };
-  }, [active, loader]);
 
   return (
     <div className="relative" style={{ width: cellWidth, height: cellHeight }}>
@@ -377,15 +256,11 @@ export default function WebglGridPreview({
             style={canvasStyle}
             onCreated={({ gl }) => {
               gl.setClearColor(0x000000, 0);
-              loader.attachRenderer(gl);
             }}
           >
-            <PreviewScene
-              projects={projects}
-              centerIndex={centerIndex}
-              loader={loader}
-              active={active}
-            />
+            <Suspense fallback={null}>
+              <PreviewScene projects={projects} centerIndex={centerIndex} active={active} />
+            </Suspense>
           </Canvas>
         </div>
       </div>

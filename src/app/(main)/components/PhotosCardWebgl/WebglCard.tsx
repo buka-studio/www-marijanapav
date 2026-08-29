@@ -1,14 +1,16 @@
 'use client';
 
 import { shaderMaterial } from '@react-three/drei/core/shaderMaterial';
-import { Canvas, extend, ThreeElement, useFrame } from '@react-three/fiber';
+import { Canvas, extend, ThreeElement, useFrame, useLoader, useThree } from '@react-three/fiber';
 import { converter, parse } from 'culori';
 import type Lenis from 'lenis';
 import { ReactLenis, useLenis } from 'lenis/react';
 import {
   memo,
+  Suspense,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -23,16 +25,16 @@ import { cn } from '~/src/util';
 
 import Card from '../Card';
 import { photos } from '../photos';
+import { photosAtlas } from './atlas';
+import { setPhotoAtlasRect } from './atlasRect';
 import { defaultPhotoDistortParams, type PhotoDistortParams } from './params';
 import fragmentShader from './PhotoDistort.frag';
 import vertexShader from './PhotoDistort.vert';
-import ImageTextureLoader from '~/src/lib/three/ImageTextureLoader';
 import PhotoPlaceholder from './PhotoPlaceholder';
 
 const GAP_PX = 16;
 const RADIUS_PX = 6;
 const VISIBLE_SLOTS = 3;
-const PRELOAD_RADIUS = 2;
 const PHOTO_COUNT = photos.length;
 const SNAP_SETTLE_MS = 160;
 const SNAP_DURATION_S = 0.32;
@@ -53,6 +55,8 @@ const CANVAS_GL = {
 };
 const CANVAS_CAMERA = { position: [0, 0, 100] as [number, number, number], zoom: 1 };
 const CAPTURE_PASSIVE = { capture: true, passive: true } as const;
+
+useLoader.preload(THREE.TextureLoader, photosAtlas.src);
 
 function easeOutCubic(t: number) {
   return 1 - (1 - t) ** 3;
@@ -91,19 +95,12 @@ const LENIS_OPTIONS = {
   },
 };
 
-const photoImageSizes: THREE.Vector2[] = [];
-for (const photo of photos) {
-  photoImageSizes.push(new THREE.Vector2(photo.width, photo.height));
-}
-const photoLoader = new ImageTextureLoader(
-  photos.map((photo) => photo.src),
-  { width: 1080, quality: 80 },
-);
-
 const PhotoDistortMaterial = shaderMaterial(
   {
-    uTexture: null as THREE.Texture | null,
-    uCoverTransform: new THREE.Vector4(1, 1, 0, 0),
+    uAtlas: null as THREE.Texture | null,
+    uAtlasRect: new THREE.Vector4(1, 1, 0, 0),
+    uAtlasRectPrev: new THREE.Vector4(1, 1, 0, 0),
+    uAtlasRectNext: new THREE.Vector4(1, 1, 0, 0),
     uPlaneSize: new THREE.Vector2(1, 1),
     uSquash: 0,
     uEnvelope: 0,
@@ -111,13 +108,9 @@ const PhotoDistortMaterial = shaderMaterial(
     uGap: 0,
     uRadius: 6,
     uOverlay: new THREE.Vector4(0, 0, 0, 0.1),
-    uTexturePrev: null as THREE.Texture | null,
-    uTextureNext: null as THREE.Texture | null,
-    uHasTexture: 0,
-    uHasTexturePrev: 0,
-    uHasTextureNext: 0,
-    uCoverTransformPrev: new THREE.Vector4(1, 1, 0, 0),
-    uCoverTransformNext: new THREE.Vector4(1, 1, 0, 0),
+    uHasTexture: 1,
+    uHasTexturePrev: 1,
+    uHasTextureNext: 1,
   },
   vertexShader,
   fragmentShader,
@@ -146,17 +139,16 @@ function wrapIndex(index: number) {
   return ((index % PHOTO_COUNT) + PHOTO_COUNT) % PHOTO_COUNT;
 }
 
-function setCoverTransform(
-  target: THREE.Vector4,
-  imageSize: THREE.Vector2,
-  width: number,
-  height: number,
-) {
-  const planeAspect = width / Math.max(height, 1e-5);
-  const imageAspect = imageSize.x / Math.max(imageSize.y, 1e-5);
-  const scaleX = Math.min(planeAspect / imageAspect, 1);
-  const scaleY = Math.min(imageAspect / planeAspect, 1);
-  target.set(scaleX, scaleY, 0.5 * (1 - scaleX), 0.5 * (1 - scaleY));
+function configureAtlasTexture(texture: THREE.Texture) {
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = false;
+  texture.anisotropy = 1;
+  texture.flipY = true;
+  texture.needsUpdate = true;
 }
 
 const toRgb = converter('rgb');
@@ -187,37 +179,22 @@ function usePanelOverlay(overlayRef: React.MutableRefObject<THREE.Vector4>) {
   }, [overlayRef, rootClass]);
 }
 
-function bindSlotTextures(
-  material: PhotoDistortMatImpl,
-  photoIndex: number,
-  width: number,
-  height: number,
-) {
-  const dummy = photoLoader.getFallback();
+function bindSlotRects(material: PhotoDistortMatImpl, atlas: THREE.Texture, photoIndex: number) {
   const prevIndex = wrapIndex(photoIndex - 1);
   const nextIndex = wrapIndex(photoIndex + 1);
-  const texture = photoLoader.get(photoIndex);
-  const prev = photoLoader.get(prevIndex);
-  const next = photoLoader.get(nextIndex);
 
-  material.uTexture = texture ?? dummy;
-  material.uTexturePrev = prev ?? dummy;
-  material.uTextureNext = next ?? dummy;
-  material.uHasTexture = texture ? 1 : 0;
-  material.uHasTexturePrev = prev ? 1 : 0;
-  material.uHasTextureNext = next ? 1 : 0;
-  setCoverTransform(material.uCoverTransform, photoImageSizes[photoIndex], width, height);
-  setCoverTransform(material.uCoverTransformPrev, photoImageSizes[prevIndex], width, height);
-  setCoverTransform(material.uCoverTransformNext, photoImageSizes[nextIndex], width, height);
-}
-
-if (typeof window !== 'undefined') {
-  photoLoader.getFallback();
-  photoLoader.request(0);
+  material.uAtlas = atlas;
+  material.uHasTexture = 1;
+  material.uHasTexturePrev = 1;
+  material.uHasTextureNext = 1;
+  setPhotoAtlasRect(material.uAtlasRect, photoIndex);
+  setPhotoAtlasRect(material.uAtlasRectPrev, prevIndex);
+  setPhotoAtlasRect(material.uAtlasRectNext, nextIndex);
 }
 
 function PhotoPlane({
   slot,
+  atlas,
   width,
   height,
   spacing,
@@ -226,6 +203,7 @@ function PhotoPlane({
   meshRefs,
 }: {
   slot: number;
+  atlas: THREE.Texture;
   width: number;
   height: number;
   spacing: number;
@@ -235,12 +213,6 @@ function PhotoPlane({
 }) {
   const worldIndex = slot - Math.floor(VISIBLE_SLOTS / 2);
   const photoIndex = wrapIndex(worldIndex);
-  const prevIndex = wrapIndex(photoIndex - 1);
-  const nextIndex = wrapIndex(photoIndex + 1);
-  const dummy = photoLoader.getFallback();
-  const texture = photoLoader.get(photoIndex) ?? dummy;
-  const prev = photoLoader.get(prevIndex) ?? dummy;
-  const next = photoLoader.get(nextIndex) ?? dummy;
 
   return (
     <mesh
@@ -256,14 +228,13 @@ function PhotoPlane({
         ref={(material) => {
           if (material) {
             materialRefs.current[slot] = material as PhotoDistortMatImpl;
+            bindSlotRects(material as PhotoDistortMatImpl, atlas, photoIndex);
           }
         }}
-        uTexture={texture}
-        uTexturePrev={prev}
-        uTextureNext={next}
-        uHasTexture={photoLoader.get(photoIndex) ? 1 : 0}
-        uHasTexturePrev={photoLoader.get(prevIndex) ? 1 : 0}
-        uHasTextureNext={photoLoader.get(nextIndex) ? 1 : 0}
+        uAtlas={atlas}
+        uHasTexture={1}
+        uHasTexturePrev={1}
+        uHasTextureNext={1}
         uPlaneSize={[width, height]}
         uSquash={0}
         uEnvelope={0}
@@ -300,6 +271,8 @@ const CarouselScene = memo(function CarouselScene({
   overlayRef: React.MutableRefObject<THREE.Vector4>;
   onFirstPhotoDrawn: () => void;
 }) {
+  const atlas = useLoader(THREE.TextureLoader, photosAtlas.src);
+  const invalidate = useThree((state) => state.invalidate);
   const groupRef = useRef<THREE.Group>(null);
   const materialRefs = useRef<PhotoDistortMatImpl[]>([]);
   const meshRefs = useRef<THREE.Mesh[]>([]);
@@ -307,10 +280,6 @@ const CarouselScene = memo(function CarouselScene({
   const speedRef = useRef(0);
   const firstPhotoDrawnRef = useRef(false);
   const slotPhotoRef = useRef<number[]>(Array.from({ length: VISIBLE_SLOTS }, () => -1));
-  const boundTextureVersionRef = useRef(-1);
-  const boundPlaneSizeRef = useRef({ width: 0, height: 0 });
-  const requestedOriginRef = useRef<number | null>(null);
-  const retryAroundAtRef = useRef(0);
   const spacing = stride > 1 ? stride : width + GAP_PX;
   const cycle = loopWidth > 0 ? loopWidth : PHOTO_COUNT * spacing;
   const slotOffset = Math.floor(VISIBLE_SLOTS / 2);
@@ -324,6 +293,11 @@ const CarouselScene = memo(function CarouselScene({
       geometry.dispose();
     };
   }, [geometry]);
+
+  useLayoutEffect(() => {
+    configureAtlasTexture(atlas);
+    invalidate();
+  }, [atlas, invalidate]);
 
   useFrame((_, delta) => {
     const lenis = lenisRef.current;
@@ -369,24 +343,6 @@ const CarouselScene = memo(function CarouselScene({
     const blurT = Math.max(0, (amount - params.blurThreshold) / blurSpan);
     const blur = blurT * blurT * params.maxBlur;
     const origin = Math.round(scroll / Math.max(spacing, 1));
-    const texturesChanged = boundTextureVersionRef.current !== photoLoader.version;
-    const coverTransformsChanged =
-      boundPlaneSizeRef.current.width !== width || boundPlaneSizeRef.current.height !== height;
-    if (photoLoader.get(0)) {
-      const now = Date.now();
-      if (
-        requestedOriginRef.current !== origin ||
-        texturesChanged ||
-        (retryAroundAtRef.current > 0 && now >= retryAroundAtRef.current)
-      ) {
-        retryAroundAtRef.current = photoLoader.requestAround(origin, PRELOAD_RADIUS);
-        requestedOriginRef.current = origin;
-      }
-    } else {
-      requestedOriginRef.current = null;
-      retryAroundAtRef.current = 0;
-      photoLoader.request(0);
-    }
     const overlay = overlayRef.current;
     const materials = materialRefs.current;
     const meshes = meshRefs.current;
@@ -401,9 +357,9 @@ const CarouselScene = memo(function CarouselScene({
       const worldIndex = origin + slot - slotOffset;
       const photoIndex = wrapIndex(worldIndex);
       mesh.position.x = worldIndex * spacing;
-      if (texturesChanged || coverTransformsChanged || slotPhotoRef.current[slot] !== photoIndex) {
+      if (slotPhotoRef.current[slot] !== photoIndex) {
         slotPhotoRef.current[slot] = photoIndex;
-        bindSlotTextures(material, photoIndex, width, height);
+        bindSlotRects(material, atlas, photoIndex);
       }
 
       material.uSquash = squash;
@@ -411,11 +367,8 @@ const CarouselScene = memo(function CarouselScene({
       material.uBlur = blur;
       material.uOverlay.copy(overlay);
     }
-    boundTextureVersionRef.current = photoLoader.version;
-    boundPlaneSizeRef.current.width = width;
-    boundPlaneSizeRef.current.height = height;
 
-    if (!firstPhotoDrawnRef.current && photoLoader.get(0)) {
+    if (!firstPhotoDrawnRef.current) {
       firstPhotoDrawnRef.current = true;
       requestAnimationFrame(() => {
         requestAnimationFrame(onFirstPhotoDrawn);
@@ -429,6 +382,7 @@ const CarouselScene = memo(function CarouselScene({
         <PhotoPlane
           key={slot}
           slot={slot}
+          atlas={atlas}
           width={width}
           height={height}
           spacing={spacing}
@@ -803,17 +757,19 @@ const PhotosStage = memo(function PhotosStage({
         style={canvasStyle}
         onCreated={handleCreated}
       >
-        <CarouselScene
-          lenisRef={lenisRef}
-          stride={stride}
-          loopWidth={loopWidth}
-          width={width}
-          height={height}
-          reduceMotion={reduceMotion}
-          paramsRef={paramsRef}
-          overlayRef={overlayRef}
-          onFirstPhotoDrawn={onFirstPhotoDrawn}
-        />
+        <Suspense fallback={null}>
+          <CarouselScene
+            lenisRef={lenisRef}
+            stride={stride}
+            loopWidth={loopWidth}
+            width={width}
+            height={height}
+            reduceMotion={reduceMotion}
+            paramsRef={paramsRef}
+            overlayRef={overlayRef}
+            onFirstPhotoDrawn={onFirstPhotoDrawn}
+          />
+        </Suspense>
       </Canvas>
 
       <ReactLenis
@@ -856,13 +812,6 @@ export default function PhotosCardWebgl({
   const reduceMotion = useMatchMedia('(prefers-reduced-motion: reduce)');
   reduceMotionRef.current = reduceMotion;
   usePanelOverlay(overlayRef);
-
-  useEffect(() => {
-    photoLoader.retain();
-    return () => {
-      photoLoader.release();
-    };
-  }, []);
 
   const width = Math.round(dimensions.width);
   const height = Math.round(dimensions.height);
