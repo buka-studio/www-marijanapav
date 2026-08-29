@@ -13,6 +13,9 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit --pretty false",
+    "atlas": "npx tsx scripts/build-work-preview-atlas.ts && npx tsx scripts/build-photos-atlas.ts",
+    "atlas:work-preview": "npx tsx scripts/build-work-preview-atlas.ts",
+    "atlas:photos": "npx tsx scripts/build-photos-atlas.ts",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
     "db:migrate:local": "wrangler d1 migrations apply marijana-site-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply marijana-site-db --remote"
@@ -48,6 +51,7 @@
     "react-focus-lock": "~2.13.7",
     "react-responsive-masonry": "~2.7.2",
     "sharp": "~0.34.5",
+    "super-hover": "~0.1.2",
     "tailwind-merge": "~3.6.0",
     "three": "~0.184.0",
     "typescript": "6.0.3",

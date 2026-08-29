@@ -62,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       suppressHydrationWarning
       className={`${inter.variable} ${archivo.variable} ${ibmPlexMono.variable} ${libertinusSerif.variable} font-sans`}
+      data-scroll-behavior="smooth"
     >
       <head>
         <script

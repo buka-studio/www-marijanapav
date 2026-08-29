@@ -26,7 +26,9 @@ import './page.css';
 import { Metadata } from 'next';
 
 import SystemMetricsCollector from '~/src/lib/SystemMetricsCollector';
+import { preloadImage } from '~/src/util';
 
+import { photosAtlas } from './components/PhotosCardWebgl/atlas';
 import { Filter } from './work/constants';
 
 type FilterHref = `/work?f=${Filter}`;
@@ -60,6 +62,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  preloadImage(photosAtlas.src);
   const metrics = await SystemMetricsCollector.collect();
 
   return (

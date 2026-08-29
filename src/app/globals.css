@@ -15,6 +15,89 @@
   }
 }
 
+@property --scroll-fade-left {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+
+@property --scroll-fade-right {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+
+@property --scroll-fade-top {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+
+@property --scroll-fade-bottom {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+
+.scroll-fade-x,
+.scroll-fade-y {
+  --fade-size: 56px;
+}
+
+.scroll-fade-x {
+  --scroll-fade-left: 0%;
+  --scroll-fade-right: 0%;
+
+  animation: scroll-fade-x linear both;
+  animation-timeline: scroll(self x);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black min(var(--scroll-fade-left), var(--fade-size)),
+    black calc(100% - min(var(--scroll-fade-right), var(--fade-size))),
+    transparent
+  );
+}
+
+.scroll-fade-y {
+  --scroll-fade-top: 0%;
+  --scroll-fade-bottom: 0%;
+
+  animation: scroll-fade-y linear both;
+  animation-timeline: scroll(self y);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black min(var(--scroll-fade-top), var(--fade-size)),
+    black calc(100% - min(var(--scroll-fade-bottom), var(--fade-size))),
+    transparent
+  );
+}
+
+@keyframes scroll-fade-x {
+  0% {
+    --scroll-fade-left: 0%;
+    --scroll-fade-right: 100%;
+  }
+
+  100% {
+    --scroll-fade-left: 100%;
+    --scroll-fade-right: 0%;
+  }
+}
+
+@keyframes scroll-fade-y {
+  0% {
+    --scroll-fade-top: 0%;
+    --scroll-fade-bottom: 100%;
+  }
+
+  100% {
+    --scroll-fade-top: 100%;
+    --scroll-fade-bottom: 0%;
+  }
+}
+
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
