@@ -11,6 +11,8 @@ import useMatchMedia from '~/src/hooks/useMatchMedia';
 import { useFeedbackMutation } from '~/src/lib/query/api';
 import { cn, preloadImage } from '~/src/util';
 
+import { useStampStore } from '../../../store';
+
 import FeedbackForm from './FeedbackForm';
 import FlipCard, { FlipCardBack, FlipCardFront, FlipCardTrigger } from './FlipCard';
 import {
@@ -133,8 +135,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
             }),
             genieTimeoutMs,
           );
-        } catch (e) {
-          // pass
+        } catch {
         } finally {
           updateState({ isOpen: false, isRevealed: false });
 
@@ -171,8 +172,7 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
         }),
         genieTimeoutMs,
       );
-    } catch (e) {
-      // pass
+    } catch {
     } finally {
       updateState({ isRevealed: true });
       isPlayingRef.current = false;
@@ -205,6 +205,13 @@ export default function FeedbackDialog({ containerRef, trigger }: Props) {
 
     preloadImage(isMobileSmall ? '/stamps/postcard_lg_vertical.png' : '/stamps/postcard_lg.png');
   }, [prefersReduced, isMobileSmall]);
+
+  useEffect(() => {
+    useStampStore.getState().setOverlayOpen(state.isOpen);
+    return () => {
+      useStampStore.getState().setOverlayOpen(false);
+    };
+  }, [state.isOpen]);
 
   useEffect(() => {
     if (state.isOpen) {

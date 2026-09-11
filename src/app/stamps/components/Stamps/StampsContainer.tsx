@@ -11,7 +11,6 @@ import { useIsMobile } from './util';
 
 export default function StampsContainer() {
   const stampsDrawerOpen = useStampStore((s) => s.stampsDrawerOpen);
-  const setStampsDrawerOpen = useStampStore((s) => s.setStampsDrawerOpen);
 
   const desktopStampsProps: MotionProps = {
     initial: { opacity: 0 },
@@ -26,7 +25,7 @@ export default function StampsContainer() {
       {isMobile ? (
         <Drawer
           open={stampsDrawerOpen}
-          onOpenChange={setStampsDrawerOpen}
+          onOpenChange={(open) => useStampStore.getState().setStampsDrawerOpen(open)}
           autoFocus={false}
           shouldScaleBackground={false}
         >

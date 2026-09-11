@@ -20,8 +20,6 @@ export default function EmptyState({
   shouldAnimate,
   children,
 }: Props) {
-  const setStampsDrawerOpen = useStampStore((s) => s.setStampsDrawerOpen);
-
   return (
     <div className={cn('relative block', className)}>
       <Background className="mask-[linear-gradient(90deg,transparent_0%,black_5%,black_95%,transparent_100%)] text-stone-300" />
@@ -41,7 +39,7 @@ export default function EmptyState({
       <Sun className="absolute top-5 right-[50px] hidden w-10 text-stone-400 lg:block xl:top-10 xl:right-[150px] xl:w-14" />
       {children}
       <button
-        onClick={() => setStampsDrawerOpen(true)}
+        onClick={() => useStampStore.getState().setStampsDrawerOpen(true)}
         className="absolute inset-0 lg:hidden"
         aria-label="Open stamps drawer"
       />

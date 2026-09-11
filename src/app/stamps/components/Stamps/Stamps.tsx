@@ -1,236 +1,219 @@
 'use client';
 
-import { AnimatePresence, motion, MotionProps, PanInfo, Transition } from 'framer-motion';
-import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import React, {
   ComponentProps,
   CSSProperties,
-  memo,
   useCallback,
   useEffect,
-  useMemo,
+  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
 import FocusLock from 'react-focus-lock';
 import colors from 'tailwindcss/colors';
 
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '~/src/components/ui/Drawer';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
-import { randInt } from '~/src/math';
 import { cn, preloadImage } from '~/src/util';
 
+import { ensureStampAtlas, getStampAtlas, preloadStampAtlases } from '../../atlas-utils';
 import { collections, CollectionType } from '../../constants';
 import { Stamp } from '../../models';
 import { usePlayLoupeActivationSound, usePlayLoupeDeactivationSound } from '../../sounds';
 import { useStampStore } from '../../store';
 import CanvasGrid from '../CanvasGrid';
 import CollectionsList from '../CollectionsList';
-import MetadataTable from '../MetadataTable';
 import { DrawnActionButton } from './ActionButton';
-import DrawnInfo from './actions/info.svg';
 import DrawnOrganize from './actions/organize.svg';
 import DrawnShuffle from './actions/shuffle.svg';
-import DrawnZoom from './actions/zoom.svg';
-import Draggable, { DraggableController } from './Draggable';
 import { FeedbackDialog } from './Feedback';
 import { Footer } from './Footer';
-import Loupe from './Loupe';
+import LoupeSource from './Loupe/LoupeSource';
 import { PunchPattern } from './PunchPattern';
-import { computeGridArrangement, useIsMobile } from './util';
+import StampBoard from './StampBoard';
+import StampCard from './StampCard';
+import StampMotionController, { FOCUS_MS } from './StampMotionController';
+import { getStampId, getStampIdFromEvent, stampFadeInProps, useIsMobile, whenElementSized } from './util';
 
-interface DragContainerRef {
-  e: HTMLElement;
-  z: number;
-  dragging: boolean;
-}
+const dismissPad = { x: 56, top: 24, bottom: 112 };
 
-const stampInitial = {
-  opacity: 0,
-  z: 1,
-};
-
-const invertScale = (scale: number) => {
-  return 1 / scale;
-};
-
-const stampDefaultDimensions = { width: 160, height: 220 };
-const dragContainerPadding = { top: 70, right: 20 };
-
-const fadeInProps: MotionProps = {
-  initial: 'initial',
-  animate: 'animate',
-  exit: 'exit',
-  variants: {
-    initial: ({ i = 0 } = {}) => ({
-      opacity: 0,
-      filter: 'blur(4px)',
-      y: 10,
-      transition: { delay: i * 0.05 },
-    }),
-    animate: ({ i = 0, scale = 1 } = {}) => ({
-      opacity: 1,
-      filter: 'blur(0px)',
-      y: 0,
-      scale,
-      transition: { delay: i * 0.05 },
-    }),
-    exit: ({ i = 0 } = {}) => ({
-      opacity: 0,
-      filter: 'blur(4px)',
-      y: -10,
-      transition: { delay: i * 0.05 },
-    }),
-  },
-};
-
-const MemoizedDraggable = memo(Draggable);
-
-const stampTransition: Transition = { type: 'spring', stiffness: 500, damping: 80 };
-const stampDragTransition: Transition = { bounceStiffness: 100, bounceDamping: 10, power: 0.4 };
-
-const getAttribute = (e: { dataset: DOMStringMap } | null, attribute: string) => {
-  if (!e) {
-    return null;
-  }
-
-  const value = e.dataset[attribute];
-
-  return value || null;
-};
-
-const getIndexAttribute = (e: { dataset: DOMStringMap } | null) => {
-  const index = getAttribute(e, 'index');
-  const n = Number(index);
-  if (!Number.isFinite(n)) {
-    return null;
-  }
-
-  return n;
-};
-
-const getIdAttribute = (e: { dataset: DOMStringMap } | null) => getAttribute(e, 'id');
+const Loupe = dynamic(() => import('./Loupe'), { ssr: false });
 
 const directionKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
 
+function LoupeHost({
+  stamp,
+  atlas,
+  sizeScale,
+  centerScale,
+  gridCellSize,
+  isMobile,
+  containerRef,
+  board,
+}: {
+  stamp?: Stamp;
+  atlas?: ReturnType<typeof getStampAtlas>;
+  sizeScale: number;
+  centerScale: number;
+  gridCellSize: number;
+  isMobile: boolean;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  board: StampBoard;
+}) {
+  const isZoomed = useStampStore((s) => s.isZoomed);
+  const overlayOpen = useStampStore((s) => s.overlayOpen);
+  const [warmedStampId, setWarmedStampId] = useState<string | null>(null);
+
+  useEffect(() => {
+    board.setInert(stamp?.id ?? null, isZoomed);
+  }, [board, isZoomed, stamp?.id]);
+
+  useEffect(() => {
+    setWarmedStampId(null);
+    if (!stamp) {
+      return;
+    }
+
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    let cancelled = false;
+    const startedAt = performance.now();
+
+    const run = async () => {
+      try {
+        const { width, height } = await whenElementSized(container);
+        if (cancelled) {
+          return;
+        }
+
+        await LoupeSource.prepare(
+          LoupeSource.request({
+            stamp,
+            atlas,
+            sizeScale,
+            centerScale,
+            cssWidth: width,
+            cssHeight: height,
+            gridCellSize,
+            isMobile,
+          }),
+        );
+      } catch {}
+
+      if (cancelled) {
+        return;
+      }
+
+      const wait = Math.max(0, FOCUS_MS - (performance.now() - startedAt));
+      window.setTimeout(() => {
+        if (!cancelled) {
+          setWarmedStampId(stamp.id);
+        }
+      }, wait);
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [atlas, centerScale, containerRef, gridCellSize, isMobile, sizeScale, stamp]);
+
+  if (!stamp || !(isZoomed || warmedStampId === stamp.id)) {
+    return null;
+  }
+
+  return (
+    <FocusLock
+      disabled={!isZoomed || overlayOpen}
+      returnFocus={false}
+      className={cn({ 'pointer-events-none': !isZoomed })}
+    >
+      <Loupe
+        gridCellSize={gridCellSize}
+        centerScale={centerScale}
+        sizeScale={sizeScale}
+        atlas={atlas}
+        key={stamp.id}
+        selectedStamp={stamp}
+        dragConstraints={containerRef}
+      />
+    </FocusLock>
+  );
+}
+
+function shouldIgnoreStampHotkeys(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+  if (target.closest('[data-slot="dialog-content"], [role="dialog"]')) {
+    return true;
+  }
+  if (target.isContentEditable) {
+    return true;
+  }
+  const tag = target.tagName;
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+}
+
 export default function Stamps({ className, ...props }: ComponentProps<typeof motion.div>) {
-  const store = useStampStore();
   const selectedStampId = useStampStore((s) => s.selectedStampId);
   const collectionKey = useStampStore((s) => s.collection);
-  const setZoomEnabled = useStampStore((s) => s.setZoomEnabled);
-  const setSelectedStampId = useStampStore((s) => s.setSelectedStampId);
   const playLoupeActivationSound = usePlayLoupeActivationSound();
   const playLoupeDeactivationSound = usePlayLoupeDeactivationSound();
 
   const collection = collections[collectionKey];
   const stamps: Stamp[] = collection.stamps;
+  const atlas = getStampAtlas(collectionKey);
 
   const isMobile = useIsMobile(false);
   const isMobileSmall = useMatchMedia('(max-width: 639px)', false);
 
   const centerScale = isMobile ? 2 : 1.5;
+  const sizeScale = isMobileSmall ? 0.6 : isMobile ? 0.8 : 1;
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const selectedStamp = stamps.find((stamp) => stamp.id === selectedStampId);
 
-  const selectedStamp = useMemo(
-    () => stamps.find((stamp) => stamp.id === selectedStampId) as Stamp,
-    [stamps, selectedStampId],
-  );
+  useEffect(() => {
+    preloadStampAtlases();
+  }, []);
 
   useEffect(() => {
     if (selectedStamp?.srcLg) {
       preloadImage(selectedStamp.srcLg);
+      void LoupeSource.prefetch(selectedStamp.srcLg, selectedStamp.src).catch(() => undefined);
     }
-  }, [selectedStamp?.srcLg]);
+  }, [selectedStamp?.src, selectedStamp?.srcLg]);
 
-  const draggableContainerRefs = useRef(new Map<string, DragContainerRef>());
-  const draggableControllerRefs = useRef(new Map<string, DraggableController>());
+  const boardRef = useRef<StampBoard | null>(null);
+  if (boardRef.current === null) {
+    boardRef.current = new StampBoard();
+  }
+  const board = boardRef.current;
 
   const focusedStampIdRef = useRef<string | null>(null);
-  const selectedStampIdRef = useRef<string | null>(null);
-  const selectedStampContainerRef = useRef<HTMLElement | null>(null);
+  const collectionRequestRef = useRef(0);
   const stampsContainerRef = useRef<HTMLDivElement>(null);
   const stampsDragContainerRef = useRef<HTMLDivElement>(null);
-
-  // const { ref: containerRef, dimensions } = useResizeRef<HTMLDivElement>();
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const getMaxZ = useCallback(() => {
-    return Math.max(...Array.from(draggableContainerRefs.current.values()).map(({ z }) => z)) + 1;
-  }, [draggableContainerRefs]);
-
-  const compactZIndices = useCallback(
-    (activeId?: string) => {
-      const entries = Array.from(draggableContainerRefs.current.entries());
-      if (!entries.length) return;
-
-      entries.sort(([, a], [, b]) => a.z - b.z);
-
-      let nextZ = 1;
-      for (const [id, target] of entries) {
-        if (activeId && id === activeId) {
-          continue;
-        }
-        target.z = nextZ;
-        target.e?.style.setProperty('--z', String(nextZ));
-        nextZ++;
-      }
-
-      if (activeId) {
-        const active = draggableContainerRefs.current.get(activeId);
-        if (active) {
-          const topZ = entries.length + 1;
-          active.z = topZ;
-          active.e?.style.setProperty('--z', String(topZ));
-        }
-      }
-    },
-    [draggableContainerRefs],
-  );
-
-  const placeOnTop = useCallback(
-    (id: string, forceZ?: number) => {
-      const target = draggableContainerRefs.current.get(id);
-      if (!target?.e) {
-        return;
-      }
-
-      const newZ = forceZ ?? getMaxZ();
-
-      target.e.style.setProperty('--z', newZ.toString());
-      target.z = newZ;
-
-      const maxZ = draggableContainerRefs.current.size + 1;
-
-      if (newZ > maxZ) {
-        compactZIndices(id);
-      }
-
-      return newZ;
-    },
-    [draggableContainerRefs, getMaxZ, compactZIndices],
-  );
 
   const focusById = useCallback((id: string | null) => {
     if (!id) {
       return;
     }
 
-    const el = draggableContainerRefs.current.get(id)?.e;
+    const el = board.getElement(id);
     if (!el) {
       return;
     }
 
     el.focus();
     focusedStampIdRef.current = id;
-  }, []);
+  }, [board]);
 
   const getIndexById = useCallback(
     (id: string | null | undefined) => {
@@ -260,297 +243,189 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
   const handleOrganize = useCallback(() => {
     const container = stampsDragContainerRef.current;
-    if (!container) {
+    const parent = stampsContainerRef.current;
+    if (!container || !parent) {
       return;
     }
 
-    const childrenById = Object.fromEntries(
-      stamps.flatMap((stamp) => {
-        const e = draggableContainerRefs.current.get(stamp.id)?.e;
-        return e
-          ? [[stamp.id, { width: e.clientWidth, height: e.clientHeight, id: stamp.id }]]
-          : [];
-      }),
-    );
-
-    const paddingX = 12;
-    const paddingY = 12;
-    const gap = 12;
-
-    const positions = computeGridArrangement({
+    board.organize({
       container,
-      children: Object.values(childrenById),
-      paddingX,
-      paddingY,
-      gap,
+      parent,
+      ids: stamps.map((stamp) => stamp.id),
     });
-
-    let i = 0;
-    const maxZ = getMaxZ();
-
-    for (const pos of positions.values()) {
-      const draggable = draggableControllerRefs.current.get(pos.id);
-      const container = draggableContainerRefs.current.get(pos.id);
-      if (!draggable || !container) {
-        continue;
-      }
-
-      const { width, height } = childrenById[pos.id]!;
-      const left = pos.x - width / 2;
-      const top = pos.y - height / 2;
-
-      placeOnTop(pos.id, maxZ + i);
-      i++;
-
-      draggable.controls.start({
-        x: left,
-        y: top + dragContainerPadding.top,
-        rotate: pos.fit ? randInt(-5, 5) : randInt(-35, 35),
-        transition: { type: 'spring', stiffness: 500, damping: 80 },
-      });
-    }
-  }, [
-    draggableContainerRefs,
-    draggableControllerRefs,
-    stampsDragContainerRef,
-    stamps,
-    getMaxZ,
-    placeOnTop,
-  ]);
+  }, [board, stamps]);
 
   const handleDragStart = useCallback(
-    (e: MouseEvent | PointerEvent | TouchEvent, info: PanInfo) => {
-      const id = getIdAttribute(e.target as HTMLElement);
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      const id = getStampIdFromEvent(event);
       if (id === null) {
         return;
       }
 
-      const target = draggableContainerRefs.current.get(id);
-      if (!target) {
+      if (!board.getEntry(id)) {
         return;
       }
 
-      const newMaxI = placeOnTop(id);
-
-      draggableContainerRefs.current.set(id, {
-        ...target,
-        z: newMaxI || 1,
-        dragging: true,
-      });
+      board.placeOnTop(id);
+      board.setDragging(id, true);
     },
-    [placeOnTop],
+    [board],
   );
 
-  const handleDragEnd = useCallback(
-    (e: MouseEvent | PointerEvent | TouchEvent, info: PanInfo) => {
-      const id = getIdAttribute(e.target as HTMLElement);
-      if (id === null) {
-        return;
-      }
-
-      const target = draggableContainerRefs.current.get(id);
-      if (!target) {
-        return;
-      }
-
-      draggableContainerRefs.current.set(id, {
-        ...target,
-        dragging: false,
-      });
-    },
-    [draggableContainerRefs],
-  );
-
-  const handleDragTransitionEnd = useCallback(() => {
-    for (const [index, target] of draggableContainerRefs.current.entries()) {
-      if (target.dragging) {
-        draggableContainerRefs.current.set(index, {
-          ...target,
-          dragging: false,
-        });
-      }
+  const handleDragEnd = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const id = getStampIdFromEvent(event);
+    if (id === null) {
+      return;
     }
-  }, []);
+
+    board.setDragging(id, false);
+  }, [board]);
 
   const handleSpreadOut = useCallback(
-    async ({ stagger = 5 }: { stagger?: number }) => {
+    ({ stagger = 5 }: { stagger?: number } = {}) => {
       let i = 0;
 
       for (const stamp of stamps) {
-        const draggable = draggableControllerRefs.current.get(stamp.id);
-        if (!draggable) {
+        const controller = board.getController(stamp.id);
+        if (!controller || controller.id === useStampStore.getState().selectedStampId) {
           continue;
         }
 
-        if (draggable.id === selectedStampIdRef.current) {
-          continue;
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, i * stagger));
-        draggable.spreadOut({
+        controller.spreadOut({
           container: stampsDragContainerRef.current!,
           dist: 500,
           padding: 50,
+          delay: i * stagger,
         });
-
         i++;
       }
     },
-    [draggableControllerRefs, stampsDragContainerRef, stamps],
+    [board, stamps],
   );
 
-  useEffect(() => {
-    if (!containerRef.current) {
-      return;
-    }
-
-    handleSpreadOut({ stagger: 5 });
-  }, [collectionKey, containerRef, handleSpreadOut]);
+  useLayoutEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (!stampsDragContainerRef.current) {
+        return;
+      }
+      handleSpreadOut({ stagger: 5 });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [collectionKey, handleSpreadOut]);
 
   const handleSelectStamp = useCallback(
     (id: string) => {
-      const target = draggableContainerRefs.current.get(id);
-      if (target?.dragging) {
+      const entry = board.getEntry(id);
+      if (entry?.dragging) {
         return;
       }
 
-      const focusedId = selectedStampIdRef.current;
+      const { selectedStampId: focusedId, selectStamp } = useStampStore.getState();
       if (focusedId && focusedId !== id) {
-        draggableControllerRefs.current.get(focusedId!)?.unfocus();
+        board.getController(focusedId)?.unfocus();
       }
 
-      placeOnTop(id);
-      draggableControllerRefs.current.get(id)?.center(containerRef.current!, centerScale);
-
-      if (!target?.dragging) {
-        setZoomEnabled(true);
-        setSelectedStampId(id);
-
-        selectedStampIdRef.current = id;
-        selectedStampContainerRef.current = target?.e ?? null;
-
-        draggableContainerRefs.current.get(id)?.e?.focus();
-      }
+      board.placeOnTop(id);
+      board.getController(id)?.focusInContainer(containerRef.current!, centerScale);
+      selectStamp(id);
     },
-    [
-      draggableContainerRefs,
-      draggableControllerRefs,
-      containerRef,
-      setZoomEnabled,
-      setSelectedStampId,
-      centerScale,
-      placeOnTop,
-    ],
+    [board, centerScale],
   );
 
   const handleDeselectStamp = useCallback(() => {
-    const focused = selectedStampIdRef.current;
+    const { selectedStampId: focused, isZoomed: zoomed, deselectStamp } = useStampStore.getState();
     if (!focused) {
       return;
     }
 
-    if (store.isZoomed) {
+    if (zoomed) {
       playLoupeDeactivationSound();
     }
 
-    store.reset();
-
-    draggableControllerRefs.current.get(focused)?.unfocus();
-    selectedStampIdRef.current = null;
-
-    placeOnTop(focused);
-  }, [store, draggableControllerRefs, placeOnTop, playLoupeDeactivationSound]);
+    deselectStamp();
+  }, [playLoupeDeactivationSound]);
 
   const handleDeactivateZoom = useCallback(() => {
-    if (!store.isZoomed) {
+    const { isZoomed: zoomed, setZoomed } = useStampStore.getState();
+    if (!zoomed) {
       return;
     }
 
     playLoupeDeactivationSound();
-    store.setZoomed(false);
-  }, [playLoupeDeactivationSound, store]);
+    setZoomed(false);
+  }, [playLoupeDeactivationSound]);
 
   const handleToggleZoom = useCallback(() => {
-    if (store.isZoomed) {
+    if (useStampStore.getState().isZoomed) {
       handleDeactivateZoom();
       return;
     }
 
     playLoupeActivationSound();
-    store.setZoomed(true);
-  }, [handleDeactivateZoom, playLoupeActivationSound, store]);
+    useStampStore.getState().setZoomed(true);
+  }, [handleDeactivateZoom, playLoupeActivationSound]);
 
   useEffect(() => {
-    const focusWithinRef = containerRef.current?.contains(document.activeElement);
-    if (!focusWithinRef) {
-      return;
-    }
+    return useStampStore.subscribe((state, prev) => {
+      if (state.selectedStampId || !prev.selectedStampId) {
+        return;
+      }
 
+      board.getController(prev.selectedStampId)?.unfocus();
+      board.placeOnTop(prev.selectedStampId);
+    });
+  }, [board]);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedStampId) {
-        if (e.key === 'Escape') {
-          if (store.isZoomed) {
-            handleDeactivateZoom();
-          } else {
-            handleDeselectStamp();
-          }
+      const { selectedStampId: selectedId, isZoomed: zoomed } = useStampStore.getState();
+      if (!selectedId || shouldIgnoreStampHotkeys(e.target)) {
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (zoomed) {
+          handleDeactivateZoom();
           return;
         }
 
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-          const direction = e.key === 'ArrowLeft' ? -1 : 1;
-          const selectedIndex = stamps.findIndex((stamp) => stamp.id === selectedStampId);
-          const nextIndex = (selectedIndex + direction + stamps.length) % stamps.length;
-          const nextId = stamps[nextIndex].id;
+        handleDeselectStamp();
+        return;
+      }
 
-          handleSelectStamp(nextId);
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        if (zoomed) {
+          return;
         }
+        const direction = e.key === 'ArrowLeft' ? -1 : 1;
+        const selectedIndex = stamps.findIndex((stamp) => stamp.id === selectedId);
+        const nextIndex = (selectedIndex + direction + stamps.length) % stamps.length;
+        handleSelectStamp(stamps[nextIndex].id);
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [
-    selectedStampId,
-    handleDeselectStamp,
-    handleDeactivateZoom,
-    handleSpreadOut,
-    store,
-    containerRef,
-    stamps,
-    handleSelectStamp,
-  ]);
+    window.addEventListener('keydown', handleKeyDown, true);
+    return () => window.removeEventListener('keydown', handleKeyDown, true);
+  }, [handleDeselectStamp, handleDeactivateZoom, handleSelectStamp, stamps]);
 
-  const handleDragContainerRef = useCallback(
-    (e: HTMLElement | null) => {
-      const id = getIdAttribute(e);
-      if (id === null) {
+  const handleControllerRef = useCallback(
+    (controller: StampMotionController | null, id?: string) => {
+      if (controller) {
+        board.register(controller);
         return;
       }
-
-      draggableContainerRefs.current.set(id, {
-        z: 1,
-        e: e!,
-        dragging: false,
-      });
+      board.unregister(id);
     },
-    [draggableContainerRefs],
-  );
-
-  const handleDraggableControllerRef = useCallback(
-    (e: DraggableController) => {
-      if (!e) {
-        return;
-      }
-      draggableControllerRefs.current.set(e.id!, e);
-    },
-    [draggableControllerRefs],
+    [board],
   );
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
-      const id = getIdAttribute(e.currentTarget);
-      if (id === null || id === selectedStampId) {
+      const id = getStampId(e.currentTarget);
+      if (id === null || id === useStampStore.getState().selectedStampId) {
         return;
       }
 
@@ -562,58 +437,79 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         handleSelectStamp(id);
       }
     },
-    [handleSelectStamp, selectedStampId],
+    [handleSelectStamp],
   );
 
   const handleStampClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      const id = getIdAttribute(e.currentTarget);
-      if (id === null || id === selectedStampId) {
+      const id = getStampId(e.currentTarget);
+      if (id === null || id === useStampStore.getState().selectedStampId) {
         return;
       }
 
-      if (e.target !== e.currentTarget) {
+      if ((e.target as HTMLElement).closest('button, a, [data-slot="dialog-content"]')) {
         return;
       }
 
       e.stopPropagation();
-
       handleSelectStamp(id);
-
       handleDeactivateZoom();
     },
-    [handleDeactivateZoom, handleSelectStamp, selectedStampId],
+    [handleDeactivateZoom, handleSelectStamp],
   );
 
   const handleContainerClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget) {
-        handleDeselectStamp();
-      }
-    },
-    [handleDeselectStamp],
-  );
-
-  const handlePreloadCollection = useCallback((c: CollectionType) => {
-    const collection = collections[c];
-    for (const stamp of collection.stamps) {
-      preloadImage(stamp.src);
-    }
-  }, []);
-
-  const handleSelectCollection = useCallback(
-    (c: CollectionType) => {
-      if (c === collectionKey) {
+      if (e.target !== e.currentTarget) {
         return;
       }
 
-      handlePreloadCollection(c);
-      if (selectedStampId) {
+      const selected = board.getElement(useStampStore.getState().selectedStampId);
+      const artwork = selected?.querySelector('[data-slot="stamp-image"]');
+      const target = artwork instanceof HTMLElement ? artwork : selected;
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        if (
+          e.clientX >= rect.left - dismissPad.x &&
+          e.clientX <= rect.right + dismissPad.x &&
+          e.clientY >= rect.top - dismissPad.top &&
+          e.clientY <= rect.bottom + dismissPad.bottom
+        ) {
+          return;
+        }
+      }
+
+      handleDeselectStamp();
+    },
+    [board, handleDeselectStamp],
+  );
+
+  const handlePreloadCollection = useCallback((c: CollectionType) => {
+    void ensureStampAtlas(c).catch(() => {});
+  }, []);
+
+  const handleSelectCollection = useCallback(
+    async (c: CollectionType) => {
+      if (c === collectionKey) {
+        collectionRequestRef.current += 1;
+        return;
+      }
+
+      const request = ++collectionRequestRef.current;
+      try {
+        await ensureStampAtlas(c);
+      } catch {
+        return;
+      }
+      if (request !== collectionRequestRef.current) {
+        return;
+      }
+      if (useStampStore.getState().selectedStampId) {
         handleDeselectStamp();
       }
-      store.setCollection(c as CollectionType);
+      useStampStore.getState().setCollection(c);
     },
-    [collectionKey, handlePreloadCollection, handleDeselectStamp, store, selectedStampId],
+    [collectionKey, handleDeselectStamp],
   );
 
   const handleListKeyDown = useCallback(
@@ -679,17 +575,11 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   }, []);
 
   const handleStampFocusReturn = useCallback(() => {
-    if (!focusedStampIdRef.current || selectedStampIdRef.current) {
-      return;
-    }
-    setTimeout(() => {
-      focusById(focusedStampIdRef.current);
-    }, 0);
-  }, [focusById]);
+    stampsContainerRef.current?.focus({ preventScroll: true });
+  }, []);
 
   const gridCellSize = isMobile ? 16 : 32;
-
-  const showCollectionActions = Boolean(!selectedStampId);
+  const hasSelection = Boolean(selectedStampId);
 
   return (
     <motion.div
@@ -703,18 +593,16 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       {...props}
     >
       <div className="col-[1/3] row-1 flex-col items-center justify-center border-b border-dashed border-stone-300 lg:col-1 lg:flex lg:border-b-0">
-        <PunchPattern className={cn('flex-row px-2 py-4 lg:flex-col lg:px-0 lg:py-0')} />
+        <PunchPattern className="flex-row px-2 py-4 lg:flex-col lg:px-0 lg:py-0" />
       </div>
       <div
         data-vaul-no-drag
-        className={cn('relative row-3 flex h-full items-start lg:row-1')}
+        className="relative row-3 flex h-full items-start lg:row-1"
         ref={containerRef}
         onClick={handleContainerClick}
       >
         <div
-          className={cn(
-            'pointer-events-none absolute inset-0 top-1/2 left-1/2 z-0 h-full w-full -translate-x-1/2 -translate-y-1/2 overflow-clip border border-solid border-stone-300 duration-500 select-none',
-          )}
+          className="pointer-events-none absolute inset-0 top-1/2 left-1/2 z-0 h-full w-full -translate-x-1/2 -translate-y-1/2 overflow-clip border border-solid border-stone-300 duration-500 select-none"
         >
           <CanvasGrid
             background={colors.stone[100]}
@@ -722,22 +610,22 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             cellWidth={gridCellSize}
             cellHeight={gridCellSize}
             align="top"
-            className={cn('absolute inset-0 opacity-40 lg:opacity-100')}
+            className="absolute inset-0 opacity-40 lg:opacity-100"
           />
         </div>
         <div
-          className="pointer-events-none absolute inset-0 transform-gpu focus-visible:outline-none"
+          className="stamps-list pointer-events-none absolute inset-0 focus-visible:outline-none"
           ref={stampsContainerRef}
           role="list"
           tabIndex={0}
           aria-label={`${collectionKey} Stamps List`}
+          data-has-selection={hasSelection ? 'true' : undefined}
           onFocus={handleListFocus}
           onBlur={handleListBlur}
           onKeyDown={handleListKeyDown}
         >
           <div
-            className="stamp-drag-container pointer-events-none absolute bottom-0 left-0"
-            style={dragContainerPadding}
+            className="stamp-drag-container pointer-events-none absolute inset-0 top-[70px] right-5"
             ref={stampsDragContainerRef}
             role="presentation"
             aria-hidden="true"
@@ -745,147 +633,40 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
 
           {stamps.map((stamp, index) => {
             return (
-              <MemoizedDraggable
+              <StampCard
                 key={stamp.id}
-                dragDisabled={Boolean(selectedStampId)}
-                ref={handleDragContainerRef}
-                data-index={index}
-                data-id={stamp.id}
+                stamp={stamp}
                 index={index}
-                id={stamp.id}
-                initial={stampInitial}
-                transition={stampTransition}
-                draggableControllerRef={handleDraggableControllerRef}
-                role="listitem"
-                aria-current={selectedStampId === stamp.id ? 'true' : undefined}
-                tabIndex={-1}
-                inert={store.isZoomed && selectedStampId !== stamp.id}
+                atlas={atlas}
+                centerScale={centerScale}
+                onControllerRef={handleControllerRef}
                 onKeyDown={handleKeyDown}
+                onClick={handleStampClick}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
-                onDragTransitionEnd={handleDragTransitionEnd}
-                dragTransition={stampDragTransition}
                 dragConstraints={stampsDragContainerRef}
-                onClick={handleStampClick}
-                data-slot="stamp-container"
-                className={cn(
-                  'focus-dashed group pointer-events-auto absolute z-(--z) flex items-center justify-center outline-offset-4 transition-[filter] duration-200 will-change-transform',
-                  {
-                    'opacity-40 blur-lg': selectedStampId && selectedStampId !== stamp.id,
-                    'pointer-events-none': selectedStampId,
-                  },
-                )}
-              >
-                <FocusLock
-                  disabled={selectedStampId !== stamp.id}
-                  group={`stamp-${stamp.id}`}
-                  onDeactivation={handleStampFocusReturn}
-                >
-                  <AnimatePresence>
-                    {selectedStampId === stamp.id && (
-                      <motion.div
-                        {...fadeInProps}
-                        key="stamp-actions"
-                        custom={{
-                          scale: invertScale(centerScale),
-                        }}
-                        className="pointer-events-auto absolute top-full flex w-full items-center justify-center gap-5 lg:top-[calc(100%+8px)]"
-                      >
-                        <motion.div {...fadeInProps} key="info-button" className="lg:hidden">
-                          <Drawer
-                            shouldScaleBackground={false}
-                            onOpenChange={(open) => {
-                              setDrawerOpen(open);
-                              if (open) {
-                                handleDeactivateZoom();
-                              }
-                            }}
-                            open={drawerOpen}
-                          >
-                            <AnimatePresence>
-                              <DrawerTrigger asChild>
-                                <DrawnActionButton disabled={!selectedStamp}>
-                                  <DrawnInfo className="w-[55px]" aria-label="Stamp Info" />
-                                </DrawnActionButton>
-                              </DrawerTrigger>
-                            </AnimatePresence>
-
-                            <DrawerContent
-                              className="max-w-[100vw] rounded-none! border-none! bg-stone-100 shadow-[0_-2px_10px_0_rgba(0,0,0,0.05),0_-1px_6px_0_rgba(0,0,0,0.05)]"
-                              handle={false}
-                              overlayClassName="opacity-0!"
-                            >
-                              <div className="font-libertinus flex-1 overflow-y-auto pb-10">
-                                <DrawerHeader className="sr-only">
-                                  <DrawerTitle>{selectedStamp?.title || 'Stamp Info'}</DrawerTitle>
-                                  <DrawerDescription>
-                                    {selectedStamp?.country || ''}
-                                  </DrawerDescription>
-                                </DrawerHeader>
-                                <PunchPattern className="sticky top-0 z-1 flex flex-row bg-stone-100 px-4 py-4" />
-                                <div className="w-full border-b border-dashed border-stone-300"></div>
-                                <div className="max-w-[100vw] p-5">
-                                  {selectedStamp && <MetadataTable />}
-                                </div>
-                              </div>
-                            </DrawerContent>
-                          </Drawer>
-                        </motion.div>
-                        <DrawnActionButton
-                          disabled={!store.zoomEnabled}
-                          onClick={handleToggleZoom}
-                          {...fadeInProps}
-                          key="toggle-zoom-button"
-                          custom={{ i: 1 }}
-                        >
-                          <DrawnZoom
-                            className={cn('w-[60px]', {
-                              '[&_.plus-vertical]:hidden': store.isZoomed,
-                            })}
-                            aria-label="Toggle Zoom"
-                          />
-                        </DrawnActionButton>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </FocusLock>
-                <Image
-                  src={stamp.src}
-                  alt={stamp.country || ''}
-                  width={stamp.width || stampDefaultDimensions.width}
-                  height={stamp.height || stampDefaultDimensions.height}
-                  priority
-                  loading="eager"
-                  style={
-                    {
-                      '--width': stamp.width || stampDefaultDimensions.width,
-                      '--height': stamp.height || stampDefaultDimensions.height,
-                      '--size-scale': isMobileSmall ? 0.6 : isMobile ? 0.8 : 1,
-                    } as CSSProperties
-                  }
-                  data-slot="stamp-image"
-                  className={cn(
-                    'pointer-events-none h-auto w-[calc(var(--size-scale)*var(--width)*1px)] object-contain object-center drop-shadow transition-all duration-200',
-                  )}
-                />
-              </MemoizedDraggable>
+                sizeScale={sizeScale}
+                onToggleZoom={handleToggleZoom}
+                onDeactivateZoom={handleDeactivateZoom}
+                onFocusReturn={handleStampFocusReturn}
+              />
             );
           })}
         </div>
         <div
-          className={cn('absolute top-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-5')}
+          className="absolute top-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-5"
         >
           <AnimatePresence mode="wait">
-            {showCollectionActions && (
+            {!hasSelection ? (
               <motion.div
-                {...fadeInProps}
+                {...stampFadeInProps}
                 key="collection-actions"
                 className="flex items-center gap-5"
               >
                 <DrawnActionButton
                   onClick={handleOrganize}
                   disabled={Boolean(selectedStampId)}
-                  {...fadeInProps}
+                  {...stampFadeInProps}
                   key="organize-button"
                 >
                   <DrawnOrganize className="w-[95px]" aria-label="Organize Stamps" />
@@ -895,30 +676,25 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                   onClick={() => handleSpreadOut({ stagger: 3 })}
                   disabled={Boolean(selectedStampId)}
                   custom={{ i: 1 }}
-                  {...fadeInProps}
+                  {...stampFadeInProps}
                   key="shuffle-button"
                 >
                   <DrawnShuffle className="w-[90px]" aria-label="Shuffle Stamps" />
                 </DrawnActionButton>
               </motion.div>
-            )}
+            ) : null}
           </AnimatePresence>
         </div>
-        {selectedStamp && (
-          <FocusLock disabled={!store.isZoomed} returnFocus>
-            <Loupe
-              gridCellSize={gridCellSize}
-              className={cn({
-                'pointer-events-none': !store.isZoomed,
-              })}
-              baseScale={centerScale}
-              key={selectedStamp.id}
-              selectedStamp={selectedStamp as unknown as Stamp}
-              dragConstraints={containerRef}
-              activeStampContainerRef={selectedStampContainerRef}
-            />
-          </FocusLock>
-        )}
+        <LoupeHost
+          stamp={selectedStamp}
+          atlas={atlas}
+          sizeScale={sizeScale}
+          centerScale={centerScale}
+          gridCellSize={gridCellSize}
+          isMobile={isMobile}
+          containerRef={containerRef}
+          board={board}
+        />
       </div>
       <p id="stamps-navigation-help" className="sr-only">
         Use Left/Right/Up/Down to move focus between stamps. Home jumps to the first, End to the
@@ -928,12 +704,12 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       <div className="absolute top-[165px] right-0 row-3 w-8 lg:static lg:right-auto lg:row-1 lg:w-10">
         <CollectionsList
           className={cn(
-            'absolute origin-bottom-left -translate-x-px -translate-y-8 rotate-90 group-[:has(div[data-state=open][data-slot=dialog-content])]/stamps-container:blur-sm lg:-translate-y-10',
+            'absolute origin-bottom-left -translate-x-px -translate-y-8 rotate-90 group-[:has(div[data-state=open][data-slot=dialog-content])]/stamps-container:opacity-40 lg:-translate-y-10',
             {
-              'blur-sm': selectedStampId,
+              'opacity-40': selectedStampId,
             },
           )}
-          collection={store.collection}
+          collection={collectionKey}
           onCollectionClick={handleSelectCollection}
           onCollectionMouseOver={(c) => handlePreloadCollection(c)}
           onCollectionFocus={(c) => handlePreloadCollection(c)}
@@ -945,7 +721,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       >
         <FeedbackDialog
           containerRef={containerRef}
-          // todo(rpavlini): make this composable
           trigger={
             <button
               style={
