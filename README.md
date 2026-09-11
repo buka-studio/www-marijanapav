@@ -28,6 +28,8 @@ A space for loose unformed ideas, early tests, and small visual explorations.
 
 ## Deployment
 
+This app uses **pnpm** (see `packageManager` in `package.json`). Alchemy deploy must be run as `pnpm run deploy` — `pnpm deploy` is a different built-in command.
+
 This app deploys to Cloudflare Workers through Alchemy and OpenNext.
 
 Alchemy provisions the Worker, D1 database, R2 sketch bucket, and Cloudflare Images binding. The
@@ -37,20 +39,20 @@ must be enabled on the Cloudflare account before deploying.
 Install the Cloudflare deployment dependencies after pulling migration changes:
 
 ```sh
-npm install
+pnpm install
 ```
 
 Run the local Cloudflare dev environment:
 
 ```sh
-npm run dev
+pnpm dev
 ```
 
 Build and deploy:
 
 ```sh
-npm run build
-npm run deploy
+pnpm build
+pnpm run deploy
 ```
 
 ## Database migrations
@@ -58,17 +60,17 @@ npm run deploy
 D1 schema changes are defined in `src/db/schema.ts` and generated with Drizzle Kit:
 
 ```sh
-npm run db:generate
+pnpm db:generate
 ```
 
 Apply migrations locally:
 
 ```sh
-npm run db:migrate:local
+pnpm db:migrate:local
 ```
 
 Apply migrations to Cloudflare:
 
 ```sh
-npm run db:migrate:remote
+pnpm db:migrate:remote
 ```

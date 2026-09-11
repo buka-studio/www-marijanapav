@@ -23,8 +23,6 @@
         "name": "next"
       }
     ],
-    "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
     "types": [
       "@cloudflare/workers-types",
       "./types/env.d.ts"
