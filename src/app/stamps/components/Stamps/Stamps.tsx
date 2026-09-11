@@ -165,11 +165,16 @@ function shouldIgnoreStampHotkeys(target: EventTarget | null) {
   return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
 }
 
-function shouldIgnoreDismiss(target: EventTarget | null) {
-  if (!(target instanceof HTMLElement)) {
+function shouldIgnoreDismiss(target: EventTarget | null, boardRoot: HTMLElement) {
+  if (!(target instanceof Element)) {
     return true;
   }
-  if (shouldIgnoreStampHotkeys(target)) {
+  if (target.closest('button, a, input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+    return true;
+  }
+  // The mobile board itself lives in a dialog; only ignore nested dialogs.
+  const dialogSelector = '[data-slot="dialog-content"], [role="dialog"]';
+  if (target.closest(dialogSelector) !== boardRoot.closest(dialogSelector)) {
     return true;
   }
   if (target.closest('[data-slot="stamp-container"][data-selected="true"]')) {
@@ -459,6 +464,15 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     deselectStamp();
   }, [playLoupeDeactivationSound]);
 
+  const handleNavigateStamp = useCallback((direction: -1 | 1) => {
+    const { selectedStampId, isZoomed, overlayOpen } = useStampStore.getState();
+    const index = stamps.findIndex((stamp) => stamp.id === selectedStampId);
+    if (index < 0 || isZoomed || overlayOpen) {
+      return;
+    }
+    handleSelectStamp(stamps[(index + direction + stamps.length) % stamps.length].id);
+  }, [handleSelectStamp, stamps]);
+
   const handleDeactivateZoom = useCallback(() => {
     const { isZoomed: zoomed, setZoomed } = useStampStore.getState();
     if (!zoomed) {
@@ -516,21 +530,19 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         if (zoomed) {
           return;
         }
-        const direction = e.key === 'ArrowLeft' ? -1 : 1;
-        const selectedIndex = stamps.findIndex((stamp) => stamp.id === selectedId);
-        const nextIndex = (selectedIndex + direction + stamps.length) % stamps.length;
-        handleSelectStamp(stamps[nextIndex].id);
+        handleNavigateStamp(e.key === 'ArrowLeft' ? -1 : 1);
       }
     };
 
     const handlePointerDown = (event: PointerEvent) => {
-      if (!(event.target instanceof Node) || !containerRef.current?.contains(event.target)) {
+      const boardRoot = containerRef.current;
+      if (!(event.target instanceof Node) || !boardRoot?.contains(event.target)) {
         return;
       }
       if (!useStampStore.getState().selectedStampId || useStampStore.getState().overlayOpen) {
         return;
       }
-      if (shouldIgnoreDismiss(event.target)) {
+      if (shouldIgnoreDismiss(event.target, boardRoot)) {
         return;
       }
       if (isInsideDismissPad(event, board.getElement(useStampStore.getState().selectedStampId))) {
@@ -545,7 +557,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
       window.removeEventListener('keydown', handleKeyDown, true);
       window.removeEventListener('pointerdown', handlePointerDown, true);
     };
-  }, [board, dismissSelected, handleSelectStamp, stamps]);
+  }, [board, dismissSelected, handleNavigateStamp]);
 
   const handleControllerRef = useCallback(
     (controller: StampMotionController | null, id?: string) => {
@@ -758,6 +770,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
                 onToggleZoom={handleToggleZoom}
                 onDeactivateZoom={handleDeactivateZoom}
                 onFocusReturn={handleStampFocusReturn}
+                onNavigate={handleNavigateStamp}
               />
             );
           })}

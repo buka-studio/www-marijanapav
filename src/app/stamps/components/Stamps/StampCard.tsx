@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { ComponentProps, KeyboardEvent, memo, MouseEvent, RefObject, useState } from 'react';
+import { ComponentProps, KeyboardEvent, memo, MouseEvent, PointerEvent, RefObject, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock';
 
 import {
@@ -46,6 +46,7 @@ interface Props {
   onToggleZoom: () => void;
   onDeactivateZoom: () => void;
   onFocusReturn: () => void;
+  onNavigate: (direction: -1 | 1) => void;
 }
 
 function StampCard({
@@ -63,11 +64,54 @@ function StampCard({
   onToggleZoom,
   onDeactivateZoom,
   onFocusReturn,
+  onNavigate,
 }: Props) {
   const isSelected = useStampStore((s) => s.selectedStampId === stamp.id);
   const isZoomed = useStampStore((s) => s.isZoomed && s.selectedStampId === stamp.id);
   const trapActive = useStampStore((s) => s.selectedStampId === stamp.id && !s.overlayOpen);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const swipe = useRef<{ pointerId: number; x: number; y: number } | null>(null);
+  const suppressClick = useRef(false);
+
+  const handleSwipeStart = (event: PointerEvent<HTMLDivElement>) => {
+    suppressClick.current = false;
+    if (event.pointerType !== 'touch') {
+      return;
+    }
+    swipe.current = null;
+    if (!event.isPrimary || !trapActive || isZoomed || drawerOpen) {
+      return;
+    }
+    if (event.target instanceof Element) {
+      const target = event.target;
+      if (target.closest('button, a') || target.closest('[role="dialog"]') !== event.currentTarget.closest('[role="dialog"]')) {
+        return;
+      }
+    }
+    swipe.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleSwipeEnd = (event: PointerEvent<HTMLDivElement>) => {
+    const start = swipe.current;
+    swipe.current = null;
+    if (!start || start.pointerId !== event.pointerId) {
+      return;
+    }
+    const state = useStampStore.getState();
+    if (state.selectedStampId !== stamp.id || state.isZoomed || state.overlayOpen || drawerOpen) {
+      return;
+    }
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.5) {
+      return;
+    }
+    suppressClick.current = true;
+    event.preventDefault();
+    event.stopPropagation();
+    onNavigate(dx < 0 ? 1 : -1);
+  };
 
   return (
     <Draggable
@@ -86,6 +130,17 @@ function StampCard({
       onDragEnd={onDragEnd}
       dragConstraints={dragConstraints}
       onClick={onClick}
+      onPointerDownCapture={handleSwipeStart}
+      onPointerUpCapture={handleSwipeEnd}
+      onPointerCancelCapture={() => { swipe.current = null; }}
+      onLostPointerCapture={() => { swipe.current = null; }}
+      onClickCapture={(event) => {
+        if (suppressClick.current) {
+          suppressClick.current = false;
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }}
       data-slot="stamp-container"
       className="focus-dashed group pointer-events-auto absolute z-(--z) flex items-center justify-center outline-offset-4"
     >
