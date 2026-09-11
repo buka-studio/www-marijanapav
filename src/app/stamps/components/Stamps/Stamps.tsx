@@ -313,6 +313,54 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     return () => cancelAnimationFrame(frame);
   }, [collectionKey, handleSpreadOut]);
 
+  const constrainToBoard = useCallback(() => {
+    const container = stampsDragContainerRef.current;
+    if (!container) {
+      return;
+    }
+
+    board.constrainTo(container);
+
+    const selectedId = useStampStore.getState().selectedStampId;
+    const focusRoot = containerRef.current;
+    if (selectedId && focusRoot) {
+      board.getController(selectedId)?.focusInContainer(focusRoot, centerScale, false);
+    }
+  }, [board, centerScale]);
+
+  useEffect(() => {
+    const container = stampsDragContainerRef.current;
+    if (!container) {
+      return;
+    }
+
+    let width = 0;
+    let height = 0;
+    const observer = new ResizeObserver((entries) => {
+      const next = entries[0]?.contentRect;
+      if (!next) {
+        return;
+      }
+      if (width === 0 && height === 0) {
+        width = next.width;
+        height = next.height;
+        return;
+      }
+      if (next.width === width && next.height === height) {
+        return;
+      }
+      width = next.width;
+      height = next.height;
+      constrainToBoard();
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [constrainToBoard, collectionKey]);
+
+  useLayoutEffect(() => {
+    constrainToBoard();
+  }, [sizeScale, constrainToBoard]);
+
   const handleSelectStamp = useCallback(
     (id: string) => {
       const entry = board.getEntry(id);

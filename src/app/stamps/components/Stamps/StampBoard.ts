@@ -175,6 +175,19 @@ export default class StampBoard {
     }
   }
 
+  constrainTo(container: HTMLElement) {
+    if (container.clientWidth < 2 || container.clientHeight < 2) {
+      return;
+    }
+
+    for (const entry of this.#items.values()) {
+      if (entry.dragging) {
+        continue;
+      }
+      entry.controller.constrainTo(container);
+    }
+  }
+
   setInert(zoomedId: string | null, zoomed: boolean) {
     for (const [id, entry] of this.#items) {
       if (entry.controller.placementEl) {

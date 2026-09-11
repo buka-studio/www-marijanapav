@@ -157,6 +157,23 @@ function getRelativeBox(container: HTMLElement, parent: HTMLElement) {
   };
 }
 
+function clampToConstraints(
+  pose: { x: number; y: number },
+  placementEl: HTMLElement,
+  parent: HTMLElement,
+  constraints: HTMLElement,
+) {
+  const box = getRelativeBox(constraints, parent);
+  const minX = box.x;
+  const maxX = box.x + box.width - placementEl.offsetWidth;
+  const minY = box.y;
+  const maxY = box.y + box.height - placementEl.offsetHeight;
+  return {
+    x: clamp(Math.min(minX, maxX), Math.max(minX, maxX), pose.x),
+    y: clamp(Math.min(minY, maxY), Math.max(minY, maxY), pose.y),
+  };
+}
+
 function getOffsetParent(el: HTMLElement) {
   const parent = el.offsetParent ?? el.parentElement;
   return parent instanceof HTMLElement ? parent : null;
@@ -211,7 +228,7 @@ export default class StampMotionController {
     this.focusEl = node;
   }
 
-  focusInContainer(container: HTMLElement, scale = 1.5) {
+  focusInContainer(container: HTMLElement, scale = 1.5, animate = true) {
     const placementEl = this.placementEl;
     const focusEl = this.focusEl;
     if (!placementEl || !focusEl) {
@@ -230,7 +247,7 @@ export default class StampMotionController {
     );
 
     this.#focused = true;
-    this.#animateFocusTo({ x: local.x, y: local.y, rotate: -this.#placement.rotate, scale }, true);
+    this.#animateFocusTo({ x: local.x, y: local.y, rotate: -this.#placement.rotate, scale }, animate);
   }
 
   unfocus() {
@@ -296,6 +313,29 @@ export default class StampMotionController {
     this.#showOnBoard();
   }
 
+  constrainTo(constraints: HTMLElement) {
+    const placementEl = this.placementEl;
+    const parent = placementEl ? getOffsetParent(placementEl) : null;
+    if (!placementEl || !parent || this.#drag) {
+      return false;
+    }
+    if (!placementEl.classList.contains('is-placed')) {
+      return false;
+    }
+    if (constraints.clientWidth < 2 || constraints.clientHeight < 2) {
+      return false;
+    }
+
+    const live = this.#focused ? this.#placement : this.#stopPlacementAndRead();
+    const next = clampToConstraints(live, placementEl, parent, constraints);
+    if (next.x === live.x && next.y === live.y) {
+      return false;
+    }
+
+    this.#setPlacement({ ...live, ...next });
+    return true;
+  }
+
   pointerDown(event: PointerEvent<HTMLDivElement>) {
     if (this.dragDisabled || event.button !== 0) {
       return;
@@ -342,9 +382,9 @@ export default class StampMotionController {
     let nextY = drag.poseY + dy;
 
     if (placementEl && parent && constraints) {
-      const box = getRelativeBox(constraints, parent);
-      nextX = clamp(box.x, box.x + box.width - placementEl.offsetWidth, nextX);
-      nextY = clamp(box.y, box.y + box.height - placementEl.offsetHeight, nextY);
+      const clamped = clampToConstraints({ x: nextX, y: nextY }, placementEl, parent, constraints);
+      nextX = clamped.x;
+      nextY = clamped.y;
     }
 
     this.#setPlacement({ ...this.#placement, x: nextX, y: nextY });
@@ -570,16 +610,10 @@ export default class StampMotionController {
     let bounced = false;
 
     if (placementEl && parent && constraints) {
-      const box = getRelativeBox(constraints, parent);
-      const minX = box.x;
-      const maxX = box.x + box.width - placementEl.offsetWidth;
-      const minY = box.y;
-      const maxY = box.y + box.height - placementEl.offsetHeight;
-      const clampedX = clamp(Math.min(minX, maxX), Math.max(minX, maxX), nextX);
-      const clampedY = clamp(Math.min(minY, maxY), Math.max(minY, maxY), nextY);
-      bounced = clampedX !== nextX || clampedY !== nextY;
-      nextX = clampedX;
-      nextY = clampedY;
+      const clamped = clampToConstraints({ x: nextX, y: nextY }, placementEl, parent, constraints);
+      bounced = clamped.x !== nextX || clamped.y !== nextY;
+      nextX = clamped.x;
+      nextY = clamped.y;
     }
 
     const amplitude = Math.hypot(nextX - from.x, nextY - from.y);
