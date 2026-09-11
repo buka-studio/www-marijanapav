@@ -87,8 +87,8 @@ html.is-stamp-dragging [data-slot='stamp-drag-cursor'] {
 .stamps-list[data-has-selection='true']
   [data-slot='stamp-container']:not([data-selected='true'])
   [data-slot='stamp-image'] {
-  opacity: 0.4;
-  filter: blur(10px) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+  opacity: 0.5;
+  filter: blur(12px) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
 }
 
 .loupe {

@@ -41,7 +41,7 @@ export default class LoupeSourceCanvas {
     board.height = Math.max(1, Math.round(cssHeight * dpr));
 
     const ctx = this.#context2d(board);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.setTransform(dpr, 0, 0, -dpr, 0, board.height);
     drawGrid(ctx, {
       width: cssWidth,
       height: cssHeight,
@@ -77,18 +77,10 @@ export default class LoupeSourceCanvas {
 
   async toFlippedBitmap() {
     const board = this.#board;
-    const width = board.width;
-    const height = board.height;
-    const flipped = createCanvas(width, height);
-    const ctx = this.#context2d(flipped);
-
-    ctx.scale(1, -1);
-    ctx.drawImage(board, 0, -height);
-
-    if ('transferToImageBitmap' in flipped) {
-      return (flipped as OffscreenCanvas).transferToImageBitmap();
+    if ('transferToImageBitmap' in board) {
+      return (board as OffscreenCanvas).transferToImageBitmap();
     }
 
-    return createImageBitmap(flipped as HTMLCanvasElement);
+    return createImageBitmap(board as HTMLCanvasElement);
   }
 }

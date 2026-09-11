@@ -237,6 +237,7 @@ export default class StampMotionController {
   #placementAnimation: Animation | null = null;
   #placementTarget: Placement | null = null;
   #focusAnimation: Animation | null = null;
+  #focusCompleteCallbacks = new Set<() => void>();
   #focusFrom: Focus = { ...REST_FOCUS };
   #focusTo: Focus = { ...REST_FOCUS };
   #fullFocus: Focus = { ...REST_FOCUS };
@@ -250,6 +251,17 @@ export default class StampMotionController {
 
   attachFocusEl(node: HTMLElement | null) {
     this.focusEl = node;
+  }
+
+  onFocusComplete(callback: () => void) {
+    if (this.#focused && !this.#focusAnimation) {
+      callback();
+    } else {
+      this.#focusCompleteCallbacks.add(callback);
+    }
+    return () => {
+      this.#focusCompleteCallbacks.delete(callback);
+    };
   }
 
   focusInContainer(container: HTMLElement, scale = 1.5, animate = true) {
@@ -416,7 +428,9 @@ export default class StampMotionController {
       drag.moved = true;
       this.#ignoreClick = true;
       this.#setFocus(REST_FOCUS);
-      this.#setDraggingCursor(true);
+      if (drag.pointerType === 'mouse') {
+        this.#setDraggingCursor(true);
+      }
       this.onDragStart?.(event);
     }
 
@@ -478,6 +492,7 @@ export default class StampMotionController {
   }
 
   dispose() {
+    this.#focusCompleteCallbacks.clear();
     window.clearTimeout(this.#ignoreClickTimer);
     this.#placementAnimation?.cancel();
     this.#focusAnimation?.cancel();
@@ -541,6 +556,11 @@ export default class StampMotionController {
       stopAnimations(el);
       el.style.transform = focusTransform(pose);
     }
+    if (this.#focused) {
+      const callbacks = [...this.#focusCompleteCallbacks];
+      this.#focusCompleteCallbacks.clear();
+      callbacks.forEach((callback) => callback());
+    }
   }
 
   #stopPlacementAndRead(): Placement {
@@ -559,7 +579,7 @@ export default class StampMotionController {
   }
 
   #afterCurrentAnimation(animation: Animation, isCurrent: () => boolean, apply: () => void) {
-    void animation.finished
+    animation.finished
       .then(() => {
         if (!isCurrent()) {
           return;

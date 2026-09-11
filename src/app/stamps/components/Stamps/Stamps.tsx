@@ -33,7 +33,7 @@ import LoupeSource from './Loupe/LoupeSource';
 import { PunchPattern } from './PunchPattern';
 import StampBoard from './StampBoard';
 import StampCard from './StampCard';
-import StampMotionController, { FOCUS_MS } from './StampMotionController';
+import StampMotionController from './StampMotionController';
 import { getStampId, getStampIdFromEvent, stampFadeInProps, useIsMobile, whenElementSized } from './util';
 
 const dismissPad = { x: 12, top: 12, bottom: 56 };
@@ -86,7 +86,6 @@ function LoupeHost({
     }
 
     let cancelled = false;
-    const startedAt = performance.now();
 
     const run = async () => {
       try {
@@ -113,20 +112,16 @@ function LoupeHost({
         return;
       }
 
-      const wait = Math.max(0, FOCUS_MS - (performance.now() - startedAt));
-      window.setTimeout(() => {
-        if (!cancelled) {
-          setWarmedStampId(stamp.id);
-        }
-      }, wait);
+      setWarmedStampId(stamp.id);
     };
 
-    void run();
+    const unsubscribe = board.getController(stamp.id)?.onFocusComplete(run);
 
     return () => {
       cancelled = true;
+      unsubscribe?.();
     };
-  }, [atlas, centerScale, containerRef, gridCellSize, isMobile, sizeScale, stamp]);
+  }, [atlas, board, centerScale, containerRef, gridCellSize, isMobile, sizeScale, stamp]);
 
   if (!stamp || !(isZoomed || warmedStampId === stamp.id)) {
     return null;
@@ -227,7 +222,6 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   useEffect(() => {
     if (selectedStamp?.srcLg) {
       preloadImage(selectedStamp.srcLg);
-      void LoupeSource.prefetch(selectedStamp.srcLg, selectedStamp.src).catch(() => undefined);
     }
   }, [selectedStamp?.src, selectedStamp?.srcLg]);
 
