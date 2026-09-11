@@ -42,6 +42,29 @@ const INERTIA_REST_DELTA = 1;
 const INERTIA_REST_SPEED = 10;
 const SUPPRESS_CLICK_MS = 50;
 const REST_FOCUS: Focus = { x: 0, y: 0, rotate: 0, scale: 1 };
+const DRAG_CURSOR_CLASS = 'is-stamp-dragging';
+
+let dragCursorOverlay: HTMLDivElement | null = null;
+
+function setStampDragCursor(active: boolean) {
+  document.documentElement.classList.toggle(DRAG_CURSOR_CLASS, active);
+  if (active) {
+    window.getSelection()?.removeAllRanges();
+  }
+
+  if (!active) {
+    dragCursorOverlay?.remove();
+    return;
+  }
+
+  if (!dragCursorOverlay) {
+    dragCursorOverlay = document.createElement('div');
+    dragCursorOverlay.setAttribute('aria-hidden', 'true');
+    dragCursorOverlay.setAttribute('data-slot', 'stamp-drag-cursor');
+  }
+
+  document.documentElement.appendChild(dragCursorOverlay);
+}
 
 const SPRING_STOPS = [
   0, 0.2266, 0.4544, 0.6162, 0.7301, 0.8102, 0.8665, 0.9061, 0.934, 0.9536, 0.9673, 0.977, 0.9838,
@@ -212,6 +235,7 @@ export default class StampMotionController {
   #placement: Placement = { x: 0, y: 0, rotate: 0 };
   #focused = false;
   #placementAnimation: Animation | null = null;
+  #placementTarget: Placement | null = null;
   #focusAnimation: Animation | null = null;
   #focusFrom: Focus = { ...REST_FOCUS };
   #focusTo: Focus = { ...REST_FOCUS };
@@ -250,12 +274,16 @@ export default class StampMotionController {
     this.#animateFocusTo({ x: local.x, y: local.y, rotate: -this.#placement.rotate, scale }, animate);
   }
 
-  unfocus() {
+  unfocus(animate = true) {
     if (!this.#focused) {
       return;
     }
     this.#focused = false;
-    this.#animateFocusTo(REST_FOCUS, true);
+    if (animate) {
+      this.#animateFocusTo(REST_FOCUS, true);
+      return;
+    }
+    this.#setFocus(REST_FOCUS);
   }
 
   spreadOut({
@@ -272,21 +300,29 @@ export default class StampMotionController {
     delay?: number;
   }) {
     const placementEl = this.placementEl;
-    const parent = placementEl ? getOffsetParent(placementEl) : null;
-    if (!placementEl || !parent) {
-      return;
+    if (!placementEl) {
+      return false;
+    }
+
+    const alreadyOnBoard = placementEl.classList.contains('is-placed');
+    this.#showOnBoard();
+    const parent = getOffsetParent(placementEl);
+    if (!parent) {
+      return false;
     }
 
     const width = placementEl.offsetWidth;
     const height = placementEl.offsetHeight;
     const box = getRelativeBox(container, parent);
+    if (box.width < 80 || box.height < 80) {
+      return false;
+    }
     const cx = box.x + box.width / 2 - width / 2;
     const cy = box.y + box.height / 2 - height / 2;
     const minX = box.x + padding;
     const maxX = box.x + box.width - width - padding;
     const minY = box.y + padding;
     const maxY = box.y + box.height - height - padding;
-    const alreadyOnBoard = placementEl.classList.contains('is-placed');
     const next: Placement = {
       x: clamp(Math.min(minX, maxX), Math.max(minX, maxX), cx + randInt(-dist, dist)),
       y: clamp(Math.min(minY, maxY), Math.max(minY, maxY), cy + randInt(-dist, dist)),
@@ -295,10 +331,10 @@ export default class StampMotionController {
 
     if (!alreadyOnBoard) {
       this.#setPlacement({ x: cx, y: cy, rotate: this.#placement.rotate });
-      this.#showOnBoard();
     }
 
     this.#animatePlacementTo(next, true, this.#placementAnimation ? 0 : delay);
+    return true;
   }
 
   placeAt(pose: Partial<Placement>) {
@@ -326,13 +362,18 @@ export default class StampMotionController {
       return false;
     }
 
-    const live = this.#focused ? this.#placement : this.#stopPlacementAndRead();
+    // Constrain the destination without stopping an animation that still fits.
+    const live = this.#placementTarget ?? this.#placement;
     const next = clampToConstraints(live, placementEl, parent, constraints);
     if (next.x === live.x && next.y === live.y) {
       return false;
     }
 
-    this.#setPlacement({ ...live, ...next });
+    if (this.#placementTarget) {
+      this.#animatePlacementTo({ ...live, ...next }, true);
+    } else {
+      this.#setPlacement({ ...live, ...next });
+    }
     return true;
   }
 
@@ -341,6 +382,8 @@ export default class StampMotionController {
       return;
     }
 
+    event.preventDefault();
+    window.getSelection()?.removeAllRanges();
     this.#drag = {
       pointerId: event.pointerId,
       pointerType: event.pointerType,
@@ -373,6 +416,7 @@ export default class StampMotionController {
       drag.moved = true;
       this.#ignoreClick = true;
       this.#setFocus(REST_FOCUS);
+      this.#setDraggingCursor(true);
       this.onDragStart?.(event);
     }
 
@@ -397,13 +441,22 @@ export default class StampMotionController {
       return;
     }
     this.#drag = null;
+    this.#setDraggingCursor(false);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
 
+    if (event.type === 'pointercancel') {
+      this.#suppressNextClick();
+      if (drag.moved) {
+        this.onDragEnd?.(event);
+      }
+      return;
+    }
+
     if (drag.moved) {
       this.#suppressNextClick();
-      if (event.type !== 'pointercancel' && !prefersReducedMotion()) {
+      if (!prefersReducedMotion()) {
         this.#applyInertia(event, drag, constraints);
       }
       this.onDragEnd?.(event);
@@ -429,8 +482,15 @@ export default class StampMotionController {
     this.#placementAnimation?.cancel();
     this.#focusAnimation?.cancel();
     this.#placementAnimation = null;
+    this.#placementTarget = null;
     this.#focusAnimation = null;
     this.#drag = null;
+    this.#setDraggingCursor(false);
+  }
+
+  #setDraggingCursor(active: boolean) {
+    this.placementEl?.toggleAttribute('data-dragging', active);
+    setStampDragCursor(active);
   }
 
   #showOnBoard() {
@@ -461,6 +521,7 @@ export default class StampMotionController {
     const el = this.placementEl;
     this.#placementAnimation?.cancel();
     this.#placementAnimation = null;
+    this.#placementTarget = null;
     this.#placement = pose;
     if (el) {
       stopAnimations(el);
@@ -488,6 +549,7 @@ export default class StampMotionController {
       return this.#placement;
     }
     this.#placementAnimation = null;
+    this.#placementTarget = null;
     stopAnimations(el);
     const { x, y, rotate } = getTransformFromElement(el);
     const pose = { x, y, rotate };
@@ -577,6 +639,7 @@ export default class StampMotionController {
       },
     );
     this.#placementAnimation = animation;
+    this.#placementTarget = pose;
     this.#afterCurrentAnimation(animation, () => this.#placementAnimation === animation, () =>
       this.#setPlacement(pose),
     );

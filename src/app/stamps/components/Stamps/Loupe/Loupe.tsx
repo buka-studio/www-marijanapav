@@ -12,7 +12,7 @@ import type { StampAtlas } from '../../../atlas';
 import { Stamp } from '../../../models';
 import { usePlayLoupeZoomClick } from '../../../sounds';
 import { useStampStore } from '../../../store';
-import { useIsMobile, whenElementSized } from '../util';
+import { useIsMobile } from '../util';
 import Dial from './Dial';
 import Lens from './Lens';
 import LoupeSource from './LoupeSource';
@@ -68,15 +68,6 @@ function getPointerOffsetFromElementCenter(point: Point, element?: HTMLElement |
 
   return { x: offsetX, y: offsetY };
 }
-
-const fadeInitial = {
-  opacity: 0,
-};
-
-const fadeTransition = {
-  duration: 0.18,
-  ease: [0.23, 1, 0.32, 1] as const,
-};
 
 const directionKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift'];
 const loupeScaleClickIncrement = 0.012;
@@ -179,6 +170,7 @@ export default function Loupe({
   const rafTimeRef = useRef<number | null>(null);
   const [source, setSource] = useState<LoupeSource | null>(null);
   const [lensReady, setLensReady] = useState(false);
+  const readySourceRef = useRef<LoupeSource | null>(null);
   const wasZoomedRef = useRef(false);
 
   useLayoutEffect(() => {
@@ -202,24 +194,9 @@ export default function Loupe({
       magnifierControls.set({
         x: x - radius,
         y: y - radius,
-        opacity: 0,
       });
     }
 
-    if (isZoomed && lensReady) {
-      void magnifierControls.start({
-        opacity: 1,
-        transition: fadeTransition,
-      });
-      return;
-    }
-
-    if (closing) {
-      void magnifierControls.start({
-        opacity: 0,
-        transition: fadeTransition,
-      });
-    }
   }, [dialSize, dragConstraints, isZoomed, lensReady, magnifierControls, selectedStamp.id]);
 
   useEffect(() => {
@@ -228,15 +205,13 @@ export default function Loupe({
       return;
     }
 
-    let cancelled = false;
+    let requestId = 0;
+    let timer = 0;
+    let width = 0;
+    let height = 0;
 
-    const run = async () => {
+    const run = async (id: number, cssWidth: number, cssHeight: number) => {
       try {
-        const { width: cssWidth, height: cssHeight } = await whenElementSized(container);
-        if (cancelled) {
-          return;
-        }
-
         const next = await LoupeSource.prepare(
           LoupeSource.request({
             stamp: selectedStamp,
@@ -249,23 +224,53 @@ export default function Loupe({
             isMobile,
           }),
         );
-        if (!cancelled) {
-          setLensReady(false);
+        if (id === requestId) {
+          const { loupeCoords, isZoomed: zoomed, setLoupeCoords } = useStampStore.getState();
+          if (zoomed) {
+            const radius = dialSize / 2;
+            const x = clamp(radius, cssWidth - radius, loupeCoords.x);
+            const y = clamp(radius, cssHeight - radius, loupeCoords.y);
+            setLoupeCoords({ x, y });
+            magnifierControls.set({ x: x - radius, y: y - radius });
+          }
+          if (next === readySourceRef.current) {
+            setLensReady(true);
+          }
           setSource(next);
         }
       } catch {
-        if (!cancelled) {
+        if (id === requestId) {
           setSource(null);
         }
       }
     };
 
-    void run();
+    const observer = new ResizeObserver(() => {
+      const nextWidth = container.offsetWidth;
+      const nextHeight = container.offsetHeight;
+      if (nextWidth === width && nextHeight === height) {
+        return;
+      }
+      const initial = width === 0 && height === 0;
+      width = nextWidth;
+      height = nextHeight;
+      const id = ++requestId;
+      window.clearTimeout(timer);
+      setLensReady(false);
+      if (width < 2 || height < 2) {
+        return;
+      }
+      // Avoid building full-board textures for every intermediate resize size.
+      timer = window.setTimeout(() => void run(id, nextWidth, nextHeight), initial ? 0 : 120);
+    });
+    observer.observe(container);
 
     return () => {
-      cancelled = true;
+      requestId += 1;
+      window.clearTimeout(timer);
+      observer.disconnect();
     };
-  }, [atlas, centerScale, dragConstraints, gridCellSize, isMobile, selectedStamp, sizeScale]);
+  }, [atlas, centerScale, dialSize, dragConstraints, gridCellSize, isMobile, magnifierControls, selectedStamp, sizeScale]);
 
   const handlePointerDown = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
@@ -422,14 +427,14 @@ export default function Loupe({
     <motion.div
       drag
       data-zoomed={isZoomed}
-      initial={fadeInitial}
+      initial={false}
       dragElastic={0.01}
       dragListener={false}
       dragControls={dialDragControls}
       dragMomentum={false}
       dragConstraints={dragConstraints!}
       animate={magnifierControls}
-      style={style}
+      style={{ ...style, opacity: isZoomed && lensReady ? 1 : 0 }}
       className={cn(
         'loupe absolute top-0 left-0 z-100 flex aspect-square w-(--dial-size) items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30 outline-offset-8 [&:has(.loupe-trigger:focus-visible)]:outline-stone-400 [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&[data-zoomed="false"]_.loupe-lens]:pointer-events-none!',
         isZoomed ? 'pointer-events-auto' : 'pointer-events-none',
@@ -469,7 +474,10 @@ export default function Loupe({
           chromaticAberration={0.01}
           className="loupe-lens"
           live={isZoomed}
-          onReady={() => setLensReady(true)}
+          onReady={() => {
+            readySourceRef.current = source;
+            setLensReady(true);
+          }}
         />
       ) : null}
       <LoupeDial isMobile={isMobile} isZoomed={isZoomed} dialSize={dialSize} />

@@ -281,6 +281,7 @@ function Lens({
         onBound={() => setBound(true)}
       />
       <WaitForPaint
+        key={texture.uuid}
         bound={bound}
         onReady={() => {
           setReady(true);

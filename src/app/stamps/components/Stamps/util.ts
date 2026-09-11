@@ -7,9 +7,9 @@ export const stampFadeInProps: MotionProps = {
   animate: 'animate',
   exit: 'exit',
   variants: {
-    initial: ({ i = 0 } = {}) => ({
+    initial: ({ i = 0, scale = 1 } = {}) => ({
       opacity: 0,
-      transform: 'translateY(8px) scale(0.97)',
+      transform: `translateY(8px) scale(${scale * 0.97})`,
       transition: { delay: i * 0.04, duration: 0.2, ease: [0.22, 1, 0.36, 1] },
     }),
     animate: ({ i = 0, scale = 1 } = {}) => ({
@@ -17,9 +17,9 @@ export const stampFadeInProps: MotionProps = {
       transform: `translateY(0px) scale(${scale})`,
       transition: { delay: i * 0.04, duration: 0.2, ease: [0.22, 1, 0.36, 1] },
     }),
-    exit: ({ i = 0 } = {}) => ({
+    exit: ({ i = 0, scale = 1 } = {}) => ({
       opacity: 0,
-      transform: 'translateY(-8px) scale(0.97)',
+      transform: `translateY(-8px) scale(${scale * 0.97})`,
       transition: { delay: i * 0.04, duration: 0.16, ease: [0.22, 1, 0.36, 1] },
     }),
   },
