@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "src": "/stamps/atlases/typographic.webp",
+    "width": 1950,
+    "height": 1264,
+    "scale": 3
+  },
+  "items": {
+    "typographic-4": {
+      "x": 6,
+      "y": 6,
+      "w": 480,
+      "h": 624
+    },
+    "typographic-5": {
+      "x": 492,
+      "y": 6,
+      "w": 480,
+      "h": 624
+    },
+    "typographic-6": {
+      "x": 978,
+      "y": 6,
+      "w": 480,
+      "h": 624
+    },
+    "typographic-7": {
+      "x": 1464,
+      "y": 6,
+      "w": 480,
+      "h": 624
+    },
+    "typographic-0": {
+      "x": 6,
+      "y": 636,
+      "w": 480,
+      "h": 621
+    },
+    "typographic-1": {
+      "x": 492,
+      "y": 636,
+      "w": 480,
+      "h": 621
+    },
+    "typographic-2": {
+      "x": 978,
+      "y": 636,
+      "w": 480,
+      "h": 621
+    },
+    "typographic-3": {
+      "x": 1464,
+      "y": 636,
+      "w": 480,
+      "h": 621
+    }
+  }
+}

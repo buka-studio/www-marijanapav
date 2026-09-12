@@ -19,6 +19,20 @@ export type NoiseOpts = {
   composite: GlobalCompositeOperation;
 };
 
+export type Canvas = HTMLCanvasElement | OffscreenCanvas;
+type GridContext = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
+
+export function createCanvas(width = 1, height = 1): Canvas {
+  if (typeof OffscreenCanvas !== 'undefined') {
+    return new OffscreenCanvas(width, height);
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  return canvas;
+}
+
 export function setupHiDPICtx(canvas: HTMLCanvasElement, width: number, height: number, dpr = 1) {
   canvas.width = Math.round(width * dpr);
   canvas.height = Math.round(height * dpr);
@@ -32,7 +46,7 @@ export function setupHiDPICtx(canvas: HTMLCanvasElement, width: number, height: 
   return { ctx, dpr };
 }
 
-export function drawGrid(ctx: CanvasRenderingContext2D, opts: GridOptions) {
+export function drawGrid(ctx: GridContext, opts: GridOptions) {
   const { width, height, cellWidth, cellHeight, lineWidth, background, foreground, align } = opts;
 
   const offsetX = (width % cellWidth) / 2;
@@ -79,16 +93,8 @@ export function createGaussianBoxMuller(rand: () => number) {
   };
 }
 
-export type Canvas = HTMLCanvasElement | OffscreenCanvas;
-
 export function createNoiseTileCanvas(size: number, density: number, seed: number): Canvas {
-  const canvas: Canvas =
-    typeof OffscreenCanvas !== 'undefined'
-      ? new OffscreenCanvas(size, size)
-      : document.createElement('canvas');
-
-  canvas.width = size;
-  canvas.height = size;
+  const canvas = createCanvas(size, size);
 
   const ctx = (canvas as any).getContext('2d') as CanvasRenderingContext2D;
   const img = ctx.createImageData(size, size);

@@ -32,14 +32,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22.20.0
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Guard preview stage
         run: |
@@ -52,4 +55,4 @@ jobs:
           esac
 
       - name: Destroy preview
-        run: npm run destroy -- --stage "$ALCHEMY_STAGE"
+        run: pnpm run destroy --stage "$ALCHEMY_STAGE"

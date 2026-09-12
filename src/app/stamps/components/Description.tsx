@@ -70,8 +70,8 @@ const AnimatedText = ({ text, className }: { text: string; className?: string })
   return displayedText.map((text, i) => (
     <motion.span
       key={i}
-      initial={{ opacity: 0, filter: 'blur(6px)' }}
-      animate={{ opacity: 1, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, transform: 'translateY(6px)' }}
+      animate={{ opacity: 1, transform: 'translateY(0px)' }}
       className={className}
     >
       {text}
@@ -80,20 +80,19 @@ const AnimatedText = ({ text, className }: { text: string; className?: string })
 };
 
 const slideInVariants: Variants = {
-  hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
+  hidden: { opacity: 0, transform: 'translateY(10px)' },
   show: {
     opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.5 },
+    transform: 'translateY(0px)',
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const fadeInProps: MotionProps = {
-  initial: { opacity: 0, filter: 'blur(4px)' },
-  animate: { opacity: 1, filter: 'blur(0px)' },
-  exit: { opacity: 0, filter: 'blur(4px)' },
-  transition: { duration: 0.35 },
+  initial: { opacity: 0, transform: 'translateY(8px)' },
+  animate: { opacity: 1, transform: 'translateY(0px)' },
+  exit: { opacity: 0, transform: 'translateY(-8px)' },
+  transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
 };
 
 export default function Description({ className }: { className?: string }) {

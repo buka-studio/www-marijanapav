@@ -205,7 +205,7 @@ export const baseCollections = {
         year: '1991-08-26',
         country: 'Falkland Islands',
         width: 130,
-        height: 190,
+        height: 203,
         src: '/stamps/textured/falkland-islands.webp',
         srcLg: '/stamps/textured/lg/falkland-islands.webp',
         srcOriginal: '/stamps/reference/falkland-islands.webp',
@@ -476,7 +476,7 @@ export const baseCollections = {
         srcLg: '/stamps/monoline/lg/australia.webp',
         srcOriginal: '/stamps/reference/australia.webp',
         width: 170,
-        height: 134,
+        height: 216,
         catalogCodes: [
           'Michel AU 391A',
           'Stamp Number AU 399',
