@@ -42,8 +42,8 @@ importers:
         specifier: ~0.2.0
         version: 0.2.0(react@19.3.0)
       '@zumer/snapdom':
-        specifier: ~2.24.18
-        version: 2.24.18
+        specifier: ~3.0.0
+        version: 3.0.0
       class-variance-authority:
         specifier: ~0.7.1
         version: 0.7.1
@@ -4095,8 +4095,8 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
-  '@zumer/snapdom@2.24.18':
-    resolution: {integrity: sha512-wMw8lNY5l0pyarAv8jbe5ayOmrR2OUnK5KLtCwuhcLhFv88d2Y38Sertb+d9pn5g20Cet4eLCRXd3yFHcWiDIQ==}
+  '@zumer/snapdom@3.0.0':
+    resolution: {integrity: sha512-O+gqKYz+7545JNgG4Hzdy9/i+7/H38bDpF6tUOCJBqAUTm9npbaE3ZxuevFBcRi6cBLpvMqVYIjtywAZIP6OFQ==}
 
   abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
@@ -11283,7 +11283,7 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
-  '@zumer/snapdom@2.24.18': {}
+  '@zumer/snapdom@3.0.0': {}
 
   abort-controller@3.0.0:
     dependencies:

@@ -31,7 +31,7 @@
     "@react-three/fiber": "~9.7.0",
     "@tanstack/react-query": "5.101.0",
     "@web-kits/audio": "~0.2.0",
-    "@zumer/snapdom": "~2.24.18",
+    "@zumer/snapdom": "~3.0.0",
     "class-variance-authority": "~0.7.1",
     "clsx": "~2.1.1",
     "culori": "~4.0.2",
