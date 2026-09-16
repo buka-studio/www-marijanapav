@@ -22,6 +22,7 @@ import { useSuperHoverRef } from 'super-hover/react';
 
 import Image from '~/src/components/ui/Image';
 import LinkBox, { LinkBoxLink } from '~/src/components/ui/LinkBox';
+import { cn } from '~/src/util';
 
 import { Project, StaticProject } from '../constants';
 import Card from './Card';
@@ -244,7 +245,10 @@ function getItemEntryMotion({
 }
 
 function hostname(url: string): string {
-  return new URL(url).hostname;
+  const { hostname, pathname } = new URL(url);
+  const path = pathname === '/' ? '' : pathname.replace(/\/$/, '');
+
+  return `${hostname}${path}`;
 }
 
 export default function ProjectsList({ projects }: Props) {
@@ -554,7 +558,10 @@ export default function ProjectsList({ projects }: Props) {
                 <motion.div
                   key={hoveredProject.project.slug ?? hoveredProject.project.title}
                   custom={hoveredProject}
-                  className="absolute inset-0"
+                  className={cn(
+                    'absolute inset-0',
+                    hoveredProject.project.previewPadded && 'bg-black px-10 py-6',
+                  )}
                   variants={previewImageVariants}
                   initial="initial"
                   animate="animate"
@@ -566,7 +573,12 @@ export default function ProjectsList({ projects }: Props) {
                     src={hoveredProject.project.preview}
                     quality={90}
                     fill
-                    className="object-cover object-top duration-0"
+                    className={cn(
+                      'duration-0',
+                      hoveredProject.project.previewPadded
+                        ? 'object-contain'
+                        : 'object-cover object-top',
+                    )}
                     sizes="350px"
                   />
                 </motion.div>

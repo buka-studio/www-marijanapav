@@ -1,17 +1,32 @@
-import { ArrowLeftIcon } from '@phosphor-icons/react/ssr';
-import { StaticImageData } from 'next/image';
+import { ArrowLeftIcon, ArrowUpRightIcon } from '@phosphor-icons/react/ssr';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import DynamicVHVarsSetter from '~/src/components/DynamicVHVarsSetter';
-import { LinkIcon } from '~/src/components/icons';
-import Heading from '~/src/components/ui/Heading';
 import Image from '~/src/components/ui/Image';
 
-import { projects, StaticProject } from '../constants';
+import {
+  projects,
+  ProjectMedia,
+  ProjectMediaItem,
+  StaticProject,
+} from '../constants';
 
 function hostname(url: string): string {
-  return new URL(url).hostname;
+  const { hostname, pathname } = new URL(url);
+  const path = pathname === '/' ? '' : pathname.replace(/\/$/, '');
+
+  return `${hostname}${path}`;
+}
+
+function normalizeProjectLink(
+  link: string | { href: string; label: string },
+): { href: string; label: string } {
+  if (typeof link === 'string') {
+    return { href: link, label: hostname(link) };
+  }
+
+  return link;
 }
 
 function intersection<T>(a: T[] = [], b: T[] = []): T[] {
@@ -20,12 +35,72 @@ function intersection<T>(a: T[] = [], b: T[] = []): T[] {
   return a.filter((x) => s1.has(x));
 }
 
-function genImageSizes(length: number): string {
-  return `(max-width: 1360px) ${Math.round(100 / length)}vw, ${Math.round(1360 / length)}px`;
-}
-
 function getWorkHref(view: string | undefined): string {
   return `/work?view=${view === 'list' ? 'list' : 'grid'}`;
+}
+
+function isProjectRow(media: ProjectMedia): media is Extract<ProjectMedia, { type: 'row' }> {
+  return typeof media === 'object' && 'type' in media && media.type === 'row';
+}
+
+function isProjectVideo(
+  media: ProjectMediaItem,
+): media is Extract<ProjectMediaItem, { type: 'video' }> {
+  return typeof media === 'object' && 'type' in media && media.type === 'video';
+}
+
+function isProjectImage(
+  media: ProjectMediaItem,
+): media is Extract<ProjectMediaItem, { type: 'image' }> {
+  return typeof media === 'object' && 'type' in media && media.type === 'image';
+}
+
+function ProjectMediaFigure({
+  item,
+  priority = false,
+}: {
+  item: ProjectMediaItem;
+  priority?: boolean;
+}) {
+  if (isProjectVideo(item)) {
+    return (
+      <figure className="flex min-w-0 flex-col gap-2">
+        <video
+          src={item.src}
+          className="max-h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        {item.caption && (
+          <figcaption className="text-text-secondary text-center text-xs text-pretty">
+            {item.caption}
+          </figcaption>
+        )}
+      </figure>
+    );
+  }
+
+  const image = isProjectImage(item) ? item.src : item;
+  const caption = isProjectImage(item) ? item.caption : undefined;
+
+  return (
+    <figure className="flex min-w-0 flex-col gap-2">
+      <Image
+        priority={priority}
+        src={image}
+        alt={caption ?? ''}
+        quality={100}
+        className="focus-within:outline-theme-1 max-h-full w-full object-cover"
+      />
+      {caption && (
+        <figcaption className="text-text-secondary text-center text-xs text-pretty">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
 }
 
 export default async function Work({
@@ -53,53 +128,61 @@ export default async function Work({
     notFound();
   }
 
-  const allImages = project.images?.flat().filter((e) => 'src' in (e as any)) as StaticImageData[];
+  const media = project.images ?? [];
+  const projectLinks = [
+    ...(project.link ? [project.link] : []),
+    ...(project.links ?? []),
+  ].map(normalizeProjectLink);
 
   return (
     <>
       <DynamicVHVarsSetter />
       <div className="grid flex-1 grid-cols-1 gap-8 px-5 py-10 pb-[200px] lg:grid-cols-[400px_1fr] [html:has(&)_footer>*:not(.nav)]:invisible">
-        <div className="top-[100px] flex h-full max-h-[calc(100dvh-200px)] gap-3 lg:sticky">
-          <Link href={workHref} className="mt-1.5">
-            <ArrowLeftIcon className="size-5" />
-          </Link>
-
-          <div className="flex flex-col">
-            <Heading className="mb-1 max-w-xl text-left text-lg text-pretty">
+        <div className="top-[100px] flex h-full max-h-[calc(100dvh-200px)] flex-col lg:sticky">
+          <div className="flex items-center gap-3">
+            <Link href={workHref} className="shrink-0">
+              <ArrowLeftIcon className="size-5" />
+            </Link>
+            <h1 className="max-w-xl text-left text-sm font-medium text-pretty text-white">
               {project.title}
-            </Heading>
-            <div className="scroll-fade-y scrollbar-thumb-theme-2 min-h-0 scrollbar-thin scrollbar-track-transparent overflow-x-hidden overflow-y-auto">
-              <p className="text-text-secondary max-w-xl text-left text-sm text-pretty">
-                {project.description}
-              </p>
+            </h1>
+          </div>
+          <div className="scroll-fade-y scrollbar-thumb-theme-2 mt-1 flex min-h-0 flex-col gap-3 overflow-x-hidden overflow-y-auto pl-8 scrollbar-thin scrollbar-track-transparent">
+            <div className="text-text-secondary max-w-xl space-y-3 text-left text-sm text-pretty">
+              {project.description}
             </div>
-            <div className="mt-auto flex flex-col items-start justify-between gap-3 pt-5 sm:flex-row sm:items-center">
-              {project.link && (
-                <a
-                  className="flex items-center gap-2 text-sm"
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  {hostname(project.link)}
-                  <LinkIcon className="h-5 w-5" />
-                </a>
-              )}
-            </div>
+            {projectLinks.length > 0 && (
+              <div className="border-theme-3 divide-theme-3 divide-y border-y">
+                {projectLinks.map(({ href, label }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="group/link hover:bg-theme-4 focus-visible:bg-theme-4 relative z-20 flex w-full items-center justify-between gap-3 py-1.5 pr-2 pl-0 text-sm text-white outline-offset-2 transition-[padding,background-color] duration-150 hover:pl-1 hover:text-white focus-visible:pl-1 focus-visible:text-white focus-visible:outline-none!"
+                  >
+                    <span className="truncate">{label}</span>
+                    <ArrowUpRightIcon className="size-3 shrink-0 translate-x-1 opacity-0 blur-[2px] transition-all duration-150 group-hover/link:translate-x-0 group-hover/link:opacity-100 group-hover/link:blur-none group-focus-visible/link:translate-x-0 group-focus-visible/link:opacity-100 group-focus-visible/link:blur-none" />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         <div className="flex flex-col gap-5">
-          {allImages.map((e, i) => {
-            return (
-              <Image
-                key={i}
-                priority={i === 0}
-                src={e}
-                alt=""
-                className="focus-within:outline-theme-1 max-h-full w-full object-cover"
-              />
-            );
+          {media.map((item, i) => {
+            if (isProjectRow(item)) {
+              return (
+                <div key={i} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  {item.items.map((rowItem, rowIndex) => (
+                    <ProjectMediaFigure key={rowIndex} item={rowItem} />
+                  ))}
+                </div>
+              );
+            }
+
+            return <ProjectMediaFigure key={i} item={item} priority={i === 0} />;
           })}
         </div>
       </div>

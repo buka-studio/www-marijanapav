@@ -66,7 +66,7 @@ export default function BioCard() {
         , working across brand, web, and code in the devtools space. Before that, I was at{' '}
         <TextLink
           className="font-semibold underline decoration-from-font underline-offset-2 hover:text-theme-1"
-          href="https://livekit.io"
+          href="https://livekit.com"
         >
           LiveKit
         </TextLink>{' '}

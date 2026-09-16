@@ -1,20 +1,9 @@
 import { StaticImageData } from 'next/image';
 import { ReactNode } from 'react';
 
-import BukaBranding01 from '~/public/work/buka-branding/bukabrand.png';
-import BukaBrandingPreview from '~/public/work/buka-branding/preview.png';
-import BukaWeb from '~/public/work/buka-studio-web/buka-web.png';
-import DatabaseBuildPreview from '~/public/work/database-build/database-build-preview.png';
 import DatabaseBuild from '~/public/work/database-build/database-build.png';
-import DorsclucMerchPreview from '~/public/work/dorscluc-merch/dorscluc_merch_preview.png';
-import DorsclucMerch01 from '~/public/work/dorscluc-merch/dorscluc_merch1.png';
-import DorsclucPreview from '~/public/work/dorscluc/dorscluc_preview.png';
-import DorsclucPreview1 from '~/public/work/dorscluc/dorscluc1.png';
-import DorsclucPreview2 from '~/public/work/dorscluc/dorscluc2.png';
 import EchoTabLanding01 from '~/public/work/echo-tab-landing-page/echo-tab-landing page_01.png';
-import EchoTabLanding02 from '~/public/work/echo-tab-landing-page/echo-tab-landing page_02.png';
 import EchoTabLandingPreview from '~/public/work/echo-tab-landing-page/preview.png';
-import EchoTab from '~/public/work/echo-tab/echo-tab.webp';
 import ElizabethsFlowers01 from '~/public/work/elizabeths-flowers/elizabethsflowers_01.png';
 import ElizabethsFlowers02 from '~/public/work/elizabeths-flowers/elizabethsflowers_02.png';
 import ElizabethsFlowers03 from '~/public/work/elizabeths-flowers/elizabethsflowers_03.png';
@@ -32,71 +21,48 @@ import HighRoads03 from '~/public/work/high-roads/highroads_03.jpg';
 import HighRoads04 from '~/public/work/high-roads/highroads_04.jpg';
 import HighRoads05 from '~/public/work/high-roads/highroads_05.jpg';
 import HighRoadsPreview from '~/public/work/high-roads/preview.png';
-import IllustratedCardsPreview from '~/public/work/illustrated-cards/preview.png';
 import InfinumBeer00 from '~/public/work/infinum-beer/infinumbeer_00.png';
 import InfinumBeer01 from '~/public/work/infinum-beer/infinumbeer_01.png';
 import InfinumBeerPreview from '~/public/work/infinum-beer/preview.png';
-import Honey00 from '~/public/work/infinum-honey/honey_00.jpg';
-import Honey01 from '~/public/work/infinum-honey/honey_01.jpg';
-import Honey02 from '~/public/work/infinum-honey/honey_02.jpg';
-import Honey03 from '~/public/work/infinum-honey/honey_03.jpg';
-import InfinumHoneyPreview from '~/public/work/infinum-honey/preview.png';
 import InfinumMerch00 from '~/public/work/infinum-merch/infinum_merch_00.jpg';
 import InfinumMerch01 from '~/public/work/infinum-merch/infinum_merch_01.jpg';
 import InfinumMerch02 from '~/public/work/infinum-merch/infinum_merch_02.jpg';
 import InfinumMerch03 from '~/public/work/infinum-merch/infinum_merch_03.png';
 import InfinumMerch04 from '~/public/work/infinum-merch/infinum_merch_04.png';
 import InfinumMerch05 from '~/public/work/infinum-merch/infinum_merch_05.png';
-import InfinumSwagPreview from '~/public/work/infinum-merch/preview.png';
-import InfinumPosters0 from '~/public/work/infinum-posters/infinum-posters_0.png';
-import InfinumPosters00 from '~/public/work/infinum-posters/infinum-posters_00.png';
-import InfinumPosters01 from '~/public/work/infinum-posters/infinum-posters_01.png';
-import InfinumPosters02 from '~/public/work/infinum-posters/infinum-posters_02.png';
-import InfinumPosters03 from '~/public/work/infinum-posters/infinum-posters_03.png';
-import InfinumPostersPreview from '~/public/work/infinum-posters/preview.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
 import LiveKit01 from '~/public/work/livekit/livekit_1.png';
 import LiveKit02 from '~/public/work/livekit/livekit_2.png';
 import LiveKit03 from '~/public/work/livekit/livekit_3.png';
 import LiveKit04 from '~/public/work/livekit/livekit_4.png';
+import LiveKitLayers from '~/public/work/livekit/livekit-layers.jpg';
 import LiveKitPreview from '~/public/work/livekit/livekit_preview.png';
-import MemoriesPoster00 from '~/public/work/memories-poster/memories-poster_00.png';
-import MemoriesPosterPreview from '~/public/work/memories-poster/preview.png';
+import LiveKitWebsitePreview from '~/public/work/livekit-website/livekit-enterprise-scale.jpg';
+import LiveKitWebsite01 from '~/public/work/livekit-website/livekit-features-grid.jpg';
+import LiveKitWebsite02 from '~/public/work/livekit-website/livekit-explorations.png';
+import LiveKitWebsite03 from '~/public/work/livekit-website/livekit-voice-ai-hero.jpg';
+import LiveKitWebsite04 from '~/public/work/livekit-website/livekit-sdk-features.jpg';
+import LiveKitWebsite05 from '~/public/work/livekit-website/livekit-values.jpg';
 import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.png';
 import MidnightStudio01 from '~/public/work/midnight-studio/midnight-studio_01.png';
 import MidnightStudio02 from '~/public/work/midnight-studio/midnight-studio_02.png';
 import MidnightStudioPreview from '~/public/work/midnight-studio/midnight-studio_preview.png';
-import OperaPosters0 from '~/public/work/opera-posters/posters_0.png';
-import OperaPosters00 from '~/public/work/opera-posters/posters_00.png';
-import OperaPosters01 from '~/public/work/opera-posters/posters_01.png';
-import OperaPosters02 from '~/public/work/opera-posters/posters_02.png';
-import OperaPostersPreview from '~/public/work/opera-posters/preview.png';
-import SignOffPreview from '~/public/work/program-end/sign-off_preview.png';
-import SignOff01 from '~/public/work/program-end/sign-off01.png';
-import SignOff02 from '~/public/work/program-end/sign-off02.png';
-import SignOff03 from '~/public/work/program-end/sign-off03.png';
-import SignOff04 from '~/public/work/program-end/sign-off04.png';
-import rpavlini from '~/public/work/rpavlini/rpavlini.png';
 import Sketchbook01 from '~/public/work/sketchbook/sketchbook_1.png';
 import Sketchbook02 from '~/public/work/sketchbook/sketchbook_2.png';
 import Sketchbook02a from '~/public/work/sketchbook/sketchbook_2a.png';
 import Sketchbook03 from '~/public/work/sketchbook/sketchbook_3.png';
-import SketchbookPreview from '~/public/work/sketchbook/sketchbook_preview.png';
-import StampsPreview from '~/public/work/stamps/preview.png';
-import Stamps00 from '~/public/work/stamps/stamps_00.png';
-import Stamps01 from '~/public/work/stamps/stamps_01.png';
-import Stamps07 from '~/public/work/stamps/stamps_07.png';
-import Stamps08 from '~/public/work/stamps/stamps_08.png';
-import Stamps10 from '~/public/work/stamps/stamps_10.png';
+import SketchbookPreview from '~/public/work/sketchbook/sketchbook_main.png';
 import Stars from '~/public/work/stamps/stars.gif';
-import SupabaseHomepagePreview from '~/public/work/supabase-homepage/preview.png';
+import SupabaseHomepagePreview from '~/public/work/supabase-homepage/supabase-homepage-hero.png';
 import SupabaseHomepage01 from '~/public/work/supabase-homepage/supabase01.png';
 import SupabaseHomepage02 from '~/public/work/supabase-homepage/supabase02.png';
 import SupabaseHomepage03 from '~/public/work/supabase-homepage/supabase03.png';
+import SupabaseHomepageOverview from '~/public/work/supabase-homepage/supabase-homepage-overview.png';
+import SupabaseCareers from '~/public/work/supabase-homepage/supabase-careers.png';
+import SupabaseOpenSource from '~/public/work/supabase-homepage/supabase-open-source.png';
+import SupabaseDashboardMigrations from '~/public/work/supabase-homepage/supabase-dashboard-migrations.png';
+import SupabaseArchitectureDiagrams from '~/public/work/supabase-homepage/supabase-architecture-diagrams.jpg';
 import SupabaseIcons00 from '~/public/work/supabase-icons/supabase-icons_00.png';
-import SupabaseIcons01 from '~/public/work/supabase-icons/supabase-icons_01.png';
-import SupabaseIcons02 from '~/public/work/supabase-icons/supabase-icons_02.png';
-import SupabaseIcons03 from '~/public/work/supabase-icons/supabase-icons_03.png';
 import SupabaseIconsGif from '~/public/work/supabase-icons/supabase-icons.webp';
 import SupabaseLW6 from '~/public/work/supabase-lw6/preview.png';
 import SupabaseLW71 from '~/public/work/supabase-lw7/lw7-01.png';
@@ -110,13 +76,34 @@ import SupabaseLW8 from '~/public/work/supabase-lw8/supabase0.png';
 import SupabaseLW81 from '~/public/work/supabase-lw8/supabase1.png';
 import SupabaseLW82 from '~/public/work/supabase-lw8/supabase2.png';
 import SupabaseLW83 from '~/public/work/supabase-lw8/supabase3.png';
+import SupabaseLW8OgDay2 from '~/public/work/supabase-lw8/supabase-lw8-og-day2.jpg';
+import SupabaseLW8OgDay3 from '~/public/work/supabase-lw8/supabase-lw8-og-day3.jpg';
+import SupabaseLW8OgDay4 from '~/public/work/supabase-lw8/supabase-lw8-og-day4.jpg';
+import SupabaseLW8OgDay5 from '~/public/work/supabase-lw8/supabase-lw8-og-day5.jpg';
+import SupabaseLW8PostLaunch from '~/public/work/supabase-lw8/supabase-lw8-post-launch.png';
 import SupabaseLW12Preview from '~/public/work/supabase-lw12/preview.png';
+import SupabaseLW12Grid from '~/public/work/supabase-lw12/supabase-launch-week-12-grid.png';
+import SupabaseLW12Tickets from '~/public/work/supabase-lw12/supabase-launch-week-12-tickets.jpg';
 import SupabaseLW1201 from '~/public/work/supabase-lw12/supabase01.png';
 import SupabaseLW1202 from '~/public/work/supabase-lw12/supabase02.png';
 import SupabaseLW1203 from '~/public/work/supabase-lw12/supabase03.png';
 import SupabaseLW1204 from '~/public/work/supabase-lw12/supabase04.png';
 import SupabaseLW1205 from '~/public/work/supabase-lw12/supabase05.png';
 import SupabaseLW1206 from '~/public/work/supabase-lw12/supabase06.png';
+import VercelStartups from '~/public/work/vercel-startups/vercel-startups-hero.png';
+import VercelStartupsLogo from '~/public/work/vercel-startups/vercel-startups-logo.png';
+import VercelStartupsCap from '~/public/work/vercel-startups/vercel-startups-cap.jpg';
+import VercelStartupsWovenLabel from '~/public/work/vercel-startups/vercel-startups-woven-label.jpg';
+import VercelDiagramLibraryPreview from '~/public/work/vercel-diagram-library/vercel-diagram-library-overview.jpg';
+import VercelDiagramLibrary01 from '~/public/work/vercel-diagram-library/vercel-diagram-reason.png';
+import VercelDiagramLibrary02 from '~/public/work/vercel-diagram-library/vercel-diagram-cache-miss.png';
+import GeistImpactPreview from '~/public/work/geist-impact/preview.jpg';
+import GeistImpactSprites from '~/public/work/geist-impact/geist-impact-sprites.png';
+import WeightOfPaperPreview from '~/public/work/the-weight-of-paper/weight-of-paper-loupe.png';
+import WeightOfPaper01 from '~/public/work/the-weight-of-paper/weight-of-paper-stamps.png';
+import WeightOfPaper02 from '~/public/work/the-weight-of-paper/weight-of-paper-moodboard.png';
+import WeightOfPaper03 from '~/public/work/the-weight-of-paper/weight-of-paper-loupe-ui.png';
+import WeightOfPaperDesk from '~/public/work/the-weight-of-paper/weight-of-paper-desk.jpg';
 import FeedbackPostcards00 from '~/public/work/postcard/feedback-postcard_00.png';
 
 import FeedbackPostcards01 from '~/public/work/postcard/feedback-postcard_01.png';
@@ -124,7 +111,9 @@ import FeedbackPostcards02 from '~/public/work/postcard/feedback-postcard_02.png
 import FeedbackPostcards03 from '~/public/work/postcard/feedback-postcard_03.png';
 import FeedbackPostcards04 from '~/public/work/postcard/feedback-postcard_04.png';
 import FeedbackPostcards05 from '~/public/work/postcard/feedback-postcard_05.png';
-import FeedbackPostcards06 from '~/public/work/postcard/feedback-postcard_06.png';
+import FeedbackPostcards07 from '~/public/work/postcard/feedback-postcard_07.png';
+import FeedbackPostcards08 from '~/public/work/postcard/feedback-postcard_08.png';
+import FeedbackPostcards09 from '~/public/work/postcard/feedback-postcard_09.jpg';
 
 import SupabaseCard from './components/SupabaseCard';
 
@@ -134,6 +123,27 @@ export const projectGridPreviewSizes = '(max-width: 639px) 100vw, 50vw';
 
 export type Filter = (typeof filters)[number];
 
+export type ProjectImage = {
+  type: 'image';
+  src: StaticImageData;
+  caption?: string;
+};
+
+export type ProjectVideo = {
+  type: 'video';
+  src: string;
+  caption?: string;
+};
+
+export type ProjectMediaItem = StaticImageData | ProjectImage | ProjectVideo;
+
+export type ProjectMediaRow = {
+  type: 'row';
+  items: ProjectMediaItem[];
+};
+
+export type ProjectMedia = ProjectMediaItem | ProjectMediaRow;
+
 export type StaticProject = {
   type?: 'project';
   title: string;
@@ -142,11 +152,13 @@ export type StaticProject = {
   filters: Filter[];
   preview: StaticImageData;
   aspect?: number;
+  previewPadded?: boolean;
   blocks?: Array<Array<StaticImageData | ReactNode>>;
-  images?: StaticImageData[];
+  images?: ProjectMedia[];
   dynamic?: boolean;
   tags?: string[];
   link?: string;
+  links?: Array<string | { href: string; label: string }>;
   publishedAt?: string;
 };
 
@@ -160,72 +172,226 @@ export type Project = (StaticProject | ComponentProject) & {
   hidden?: boolean;
 };
 
+const stampsCodropsLink = {
+  href: 'https://tympanus.net/codrops/2026/06/09/building-an-interactive-digital-stamp-collection-with-shaders-postcards-and-playful-inspection/',
+  label: 'Read blog post on codrops.com',
+} as const;
+
 // aspect - width/height - for grid layout
 // todo: consider contentlayer or some other lightweight cms
 export const projects: Project[] = [
   {
     type: 'project',
+    title: 'Vercel for Startups',
+    slug: 'vercel-startups',
+    preview: VercelStartups,
+    images: [
+      VercelStartups,
+      { type: 'video', src: '/work/vercel-startups/vercel-startups.mp4' },
+      VercelStartupsLogo,
+      {
+        type: 'row',
+        items: [VercelStartupsCap, VercelStartupsWovenLabel],
+      },
+    ],
+    filters: ['digital', 'branding'],
+    description:
+      'Branding for Vercel for Startups. Built a compact mark and visual system that sits cleanly within the Vercel brand while giving the program its own identity across the site, launch assets, and product touchpoints.',
+    link: 'https://vercel.com/startups',
+    tags: ['Figma', '© 2025'],
+    aspect: 1,
+  },
+  {
+    hidden: true,
+    type: 'project',
+    title: 'Vercel Diagram Library',
+    slug: 'vercel-diagram-library',
+    preview: VercelDiagramLibraryPreview,
+    images: [VercelDiagramLibraryPreview, VercelDiagramLibrary01, VercelDiagramLibrary02],
+    filters: ['digital', 'branding'],
+    description:
+      'A dark-mode diagram system for explaining Vercel architecture: caches, routers, security, and AI workflows, with a consistent, monospaced, high-contrast visual language.',
+    tags: ['Figma', '© 2025'],
+    aspect: 1.4,
+  },
+  {
+    type: 'project',
+    title: 'Geist Impact',
+    slug: 'geist-impact',
+    preview: GeistImpactPreview,
+    images: [
+      { type: 'video', src: '/work/geist-impact/geist-impact-01.mp4' },
+      {
+        type: 'image',
+        src: GeistImpactSprites,
+        caption: 'Sprite sheets for the geist character states used in-game.',
+      },
+      { type: 'video', src: '/work/geist-impact/geist-impact-02.mp4' },
+    ],
+    filters: ['digital'],
+    description: (
+      <>
+        Geist Impact is a browser game inspired by Space Impact, made to accompany the release of{' '}
+        <a
+          href="https://vercel.com/font"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="text-text-primary underline underline-offset-2"
+        >
+          Geist Pixel
+        </a>{' '}
+        by Vercel. Instead of alien invaders, a geist (ghost) appears, and Geist Pixel letters advance
+        toward you in place of the usual enemy waves.
+      </>
+    ),
+    link: 'https://geist-impact.vercel.app',
+    tags: ['v0', '© 2026'],
+    aspect: 1.2,
+    previewPadded: true,
+  },
+  {
+    type: 'project',
     title: 'Feedback postcards on the web',
     slug: 'feedback-postcards',
     preview: FeedbackPostcards00,
-    images: [FeedbackPostcards01, FeedbackPostcards02, FeedbackPostcards03, FeedbackPostcards04, FeedbackPostcards05, FeedbackPostcards06],
+    images: [
+      { type: 'video', src: '/work/postcard/feedback-postcard-demo.mp4' },
+      FeedbackPostcards01,
+      FeedbackPostcards02,
+      FeedbackPostcards03,
+      FeedbackPostcards04,
+      FeedbackPostcards05,
+      FeedbackPostcards07,
+      FeedbackPostcards08,
+      FeedbackPostcards09,
+    ],
     filters: ['illustration'],
-    description: `Illustrations for the digital postcard component, where users can send feedback or request new stamp designs. Each scene captures familiar moments of writing, desktop or mobile — each scene reflects the quiet, everyday contexts in which we send messages. The postcard’s stamp pays homage to the first issue, Queen Victoria’s Penny Black, reimagined as a portrait of the two of us who built this project.`,
-     link: 'https://marijanapav.com/stamps',
+    description: (
+      <>
+        <p>
+          Illustrations for the digital postcard component, where users can send feedback or request
+          new stamp designs. I imagined the person writing the feedback and tried to capture them in
+          the moment of writing it. This is why the illustration changes based on screen size: on
+          mobile, the person is holding a phone; on desktop, they are typing on a keyboard.
+        </p>
+        <p>
+          Made with my partner as part of our digital stamp collection. The postage mark is a nod to
+          Queen Victoria’s Penny Black, the first stamp ever issued, redrawn as a portrait of the
+          two of us behind the project.
+        </p>
+      </>
+    ),
+    link: 'https://marijanapav.com/stamps',
+    links: [stampsCodropsLink],
     tags: ['Figma', '© 2025'],
     aspect: 1.1,
+  },
+  {
+    type: 'project',
+    title: 'The Weight of Paper',
+    slug: 'the-weight-of-paper',
+    preview: WeightOfPaperPreview,
+    images: [
+      { type: 'video', src: '/work/the-weight-of-paper/weight-of-paper-demo.mp4' },
+      { type: 'video', src: '/work/the-weight-of-paper/handwriting.mp4' },
+      WeightOfPaperDesk,
+      WeightOfPaper01,
+      WeightOfPaper02,
+      WeightOfPaper03,
+    ],
+    filters: ['illustration', 'digital'],
+    description: (
+      <>
+        <p>
+          What started in 2020 as a lockdown drawing practice, recreating stamps from my grandpa’s
+          album, grew into a digital collection of almost a hundred vector illustrations, made by
+          hand with no AI. In 2025, my partner and I turned a shortlist of those stamps into an
+          online philately experience.
+        </p>
+        <p>
+          The goal was not another image gallery, but something that kept the calm, tactile feel of
+          a real album: a loose field of stamps to browse, a glass loupe for close inspection, and
+          a postcard for sending feedback back.
+        </p>
+      </>
+    ),
+    link: 'https://marijanapav.com/stamps',
+    links: [stampsCodropsLink],
+    tags: ['Figma', 'Adobe Illustrator', 'Procreate', '© 2025'],
+    aspect: 0.7,
+  },
+  {
+    hidden: true,
+    type: 'project',
+    title: 'LiveKit Brand and Website',
+    slug: 'livekit-website',
+    preview: LiveKitWebsitePreview,
+    images: [
+      LiveKitWebsite05,
+      LiveKitWebsitePreview,
+      LiveKitWebsite01,
+      LiveKitWebsite02,
+      LiveKitWebsite03,
+      LiveKitWebsite04,
+    ],
+    filters: ['digital', 'branding'],
+    description:
+      'Website design for LiveKit Voice AI, covering hero, ecosystem, agent framework, and enterprise-scale infrastructure visuals that make real-time voice feel tangible, global, and built for developers.',
+    link: 'https://livekit.com/',
+    tags: ['Figma', '© 2025'],
+    aspect: 0.7,
   },
   {
     type: 'project',
     title: 'An overview of how LiveKit works',
     slug: 'how-livekit-works',
     preview: LiveKitPreview,
-    images: [LiveKit01, LiveKit02, LiveKit03, LiveKit04],
+    images: [
+      { type: 'video', src: '/work/livekit/how-livekit-works.mp4' },
+      LiveKit01,
+      LiveKit02,
+      LiveKit03,
+      LiveKit04,
+      LiveKitLayers,
+    ],
     filters: ['digital', 'branding', 'illustration'],
     description:
-      '“How it works” component from the LiveKit site aims to make the invisible infrastructure feel tangible. It illustrates the end-to-end flow of a voice agent interaction, breaking it into four clear steps that show 5 layers and their constant interaction. ',
-    link: 'https://livekit.io/',
+      'Homepage “How it works” component for LiveKit, designed to make invisible infrastructure feel tangible. It walks through the end-to-end flow of a voice agent interaction, layering the system so you can interact with it and get a clearer feel for how these elements connect.',
+    link: 'https://livekit.com/',
     tags: ['Figma', '© 2024'],
     aspect: 0.9,
   },
   {
     type: 'project',
-    title: 'EchoTab Chrome Extension Landing page',
+    title: 'EchoTab Chrome Extension',
     slug: 'echo-tab-landing',
     preview: EchoTabLandingPreview,
-    images: [EchoTabLanding01, EchoTabLanding02],
+    images: [
+      { type: 'video', src: '/work/echo-tab-landing-page/echotab-genie.mp4' },
+      {
+        type: 'row',
+        items: [
+          { type: 'video', src: '/work/echo-tab-landing-page/echotab-bookmarks.mp4' },
+          { type: 'video', src: '/work/echo-tab-landing-page/echo-tab.mp4' },
+        ],
+      },
+      EchoTabLanding01,
+    ],
     filters: ['digital', 'branding'],
     description:
-      'Landing page design for a clean and simple browser extension, that helps you manage thousands of saved tabs, with multi-select, smart AI tagging and Cmd+K command menu for an efficient workflow.',
+      'Product and landing page design for EchoTab, a clean and simple browser extension that helps you manage thousands of saved tabs, with multi-select, smart AI tagging, and a Cmd+K command menu for an efficient workflow.',
     link: 'https://echotab.buka.studio/',
+    links: [
+      {
+        href: 'https://chromewebstore.google.com/detail/echotab/cnhamlcjfdekdinhkfmllfdjamcncbkl',
+        label: 'Get the extension at Chrome Web Store',
+      },
+    ],
     tags: ['Figma', '© 2024', 'In Progress'],
     aspect: 1.1,
   },
   {
-    type: 'project',
-    title: 'Branding for Croatian Open Source Conference',
-    slug: 'dorscluc-branding',
-    preview: DorsclucPreview,
-    images: [DorsclucPreview1, DorsclucPreview2],
-    filters: ['digital', 'branding'],
-    description:
-      'After three decades, DORS/CLUC (Dani otvorenih računalnih sustava / Croatian Linux Users’ Conference) still reigns as Europe’s open-source hub. As the oldest, largest event on free software, open standards, and Linux, it hosts top FOSS names in Croatia and the wider region. For its 30th edition, I designed a dark-mode, CLI inspired brand that is deeply connected with the audience. Come see the new look on the stage in May where 500+ attendees connect and shape the future of tech. ',
-    tags: ['Figma', '© 2025', 'In Progress'],
-    aspect: 0.9,
-  },
-  {
-    type: 'project',
-    title: 'Merch for Croatian Open Source Conference',
-    slug: 'dorscluc-merch',
-    preview: DorsclucMerchPreview,
-    images: [DorsclucMerch01],
-    filters: ['merch', 'branding'],
-    description:
-      'After three decades, DORS/CLUC (Dani otvorenih računalnih sustava / Croatian Linux Users’ Conference) still reigns as Europe’s open-source hub. As the oldest, largest event on free software, open standards, and Linux, it hosts top FOSS names in Croatia and the wider region. For its 30th edition, I designed a dark-mode, CLI inspired merch that is deeply connected with the audience. Come grab the merch in May where 500+ attendees connect and shape the future of tech. ',
-    tags: ['Figma', '© 2025', 'In Progress'],
-    aspect: 1,
-  },
-  {
+    hidden: true,
     type: 'project',
     title: 'Digital Sketchbook',
     slug: 'sketchbook',
@@ -233,59 +399,33 @@ export const projects: Project[] = [
     images: [Sketchbook01, Sketchbook02, Sketchbook02a, Sketchbook03],
     filters: ['illustration'],
     description:
-      'A personal collection of sketches made in Procreate—just for fun. I’m planning on adding a lot more sketches and turning them into a showcase site, presented inside a lifelike 3D sketchbook (WIP). ',
+      'A personal collection of sketches made in Procreate, just for fun. I’m planning on adding a lot more sketches and turning them into a showcase site, presented inside a lifelike 3D sketchbook (WIP). ',
     tags: ['Procreate', 'In Progress'],
     aspect: 1.4,
   },
   {
     type: 'project',
-    title: 'Robert Pavlinić Personal Website',
-    slug: 'rpavlini',
-    preview: rpavlini,
-    images: [rpavlini],
-    filters: ['digital', 'branding'],
-    description:
-      'I designed a simple personal website for my partner, drawing inspiration from the minimalist aesthetic that mirrors the simplicity of a markdown file. Next up, we are focused on adding a few components to provide a more personal touch. More on that soon.',
-    link: 'https://rpavlini.com',
-    tags: ['Figma', '© 2024'],
-    aspect: 1.3,
-  },
-  {
-    type: 'project',
-    title: 'EchoTab Chrome Extension',
-    slug: 'echo-tab',
-    preview: EchoTab,
-    images: [EchoTab],
-    filters: ['digital'],
-    description:
-      'A clean and simple browser extension, that helps you manage thousands of saved tabs, with multi-select, smart AI tagging and CmdK command menu for an efficient workflow.',
-    link: 'https://echotab.buka.studio/',
-    tags: ['Figma', '© 2024'],
-    aspect: 1.5,
-  },
-  {
-    type: 'project',
-    title: 'Buka Studio Branding',
-    slug: 'buka-studio',
-    preview: BukaBrandingPreview,
-    images: [BukaBranding01, BukaWeb],
-    filters: ['digital', 'branding'],
-    description: 'Branding for Buka Studio, design and development company I run with my husband.',
-    link: 'https://buka.studio',
-    tags: ['Figma', '© 2024'],
-    aspect: 0.7,
-  },
-  {
-    type: 'project',
-    title: 'Supabase Bento Grid',
-    slug: 'supabase-hero',
+    title: 'Supabase Branding and Website',
+    slug: 'supabase-branding',
     preview: SupabaseHomepagePreview,
-    images: [SupabaseHomepage01, SupabaseHomepage02, SupabaseHomepage03],
-    filters: ['digital', 'illustration'],
+    images: [
+      SupabaseHomepageOverview,
+      SupabaseDashboardMigrations,
+      SupabaseHomepage01,
+      SupabaseHomepage02,
+      SupabaseHomepage03,
+      SupabaseCareers,
+      SupabaseOpenSource,
+      SupabaseArchitectureDiagrams,
+      DatabaseBuild,
+      SupabaseIcons00,
+      SupabaseIconsGif,
+    ],
+    filters: ['digital', 'branding', 'illustration'],
     description:
-      'Design for Supabase hero section that showcases all of Supabase products in a bento grid.',
+      'I joined Supabase in 2022 as the sole brand designer, defining the brand across all touchpoints for more than two years as the company grew from about 40 to 150 people. Designed across the full site, from homepage and product pages to careers and Launch Week pages 5 through 12, alongside product diagrams, iconography, merch for Launch Week and company offsites, and sales decks and company pitches. Essentially I designed whatever was needed to support the team, land each release, and keep the brand moving forward.',
     link: 'https://supabase.com',
-    tags: ['Figma', '© 2023'],
+    tags: ['Figma', '© 2022–2023'],
     aspect: 0.45,
   },
   {
@@ -294,8 +434,15 @@ export const projects: Project[] = [
     slug: 'supabase-launch-week-12',
     preview: SupabaseLW12Preview,
     images: [
-      SupabaseLW1201,
       SupabaseLW1202,
+      SupabaseLW12Grid,
+      {
+        type: 'image',
+        src: SupabaseLW12Tickets,
+        caption:
+          'Screenshot from Figma exploring different takes for the Supabase Launch Week ticket.',
+      },
+      SupabaseLW1201,
       SupabaseLW1203,
       SupabaseLW1204,
       SupabaseLW1205,
@@ -303,8 +450,14 @@ export const projects: Project[] = [
     ],
     filters: ['digital', 'branding'],
     description:
-      'Another Supabase Launch Week, a week of announcing new features. Each day we unlock new features that the team has been working on for the last few months. Each day is accompanied with visuals, diagrams, blog posts, merch and community meetups.',
-    link: 'https://supabase.com/launch-week',
+      'Supabase Launch Week 12 was a week of product announcements, with each day unlocking new features the team had been building for months, accompanied by visuals, diagrams, blog posts, merch, and community meetups.',
+    link: 'https://supabase.com',
+    links: [
+      {
+        href: 'https://web.archive.org/web/20240823175303/https://supabase.com/launch-week',
+        label: 'Web Archive for supabase.com/launch-week',
+      },
+    ],
     tags: ['Figma', '© 2024'],
     aspect: 0.7,
   },
@@ -313,40 +466,29 @@ export const projects: Project[] = [
     title: 'Supabase Launch Week 8',
     slug: 'supabase-launch-week-8',
     preview: Stars,
-    images: [SupabaseLW8, SupabaseLW81, SupabaseLW82, SupabaseLW83],
+    images: [
+      SupabaseLW8PostLaunch,
+      SupabaseLW8,
+      SupabaseLW81,
+      SupabaseLW82,
+      SupabaseLW83,
+      {
+        type: 'row',
+        items: [SupabaseLW8OgDay2, SupabaseLW8OgDay5],
+      },
+      {
+        type: 'row',
+        items: [SupabaseLW8OgDay3, SupabaseLW8OgDay4],
+      },
+    ],
     filters: ['digital', 'branding'],
     description:
-      "Supabase Launch Week is week-long event packed with product updates, community announcements, meetups, daily video announcements, and live Discord hangouts. It's a showcase of what the Supabase team has been working on in the past few months, and on the design front it's an opportunity to push our brand's boundaries.",
-    link: 'https://supabase.com/launch-week/8',
+      'Supabase Launch Week 8 was a week-long event packed with product updates, community announcements, meetups, daily video drops, and live Discord hangouts, a showcase of recent work and a chance to push the brand’s visual boundaries.',
+    link: 'https://supabase.com',
     tags: ['Figma', '© 2023'],
     aspect: 0.7,
   },
 
-  {
-    type: 'project',
-    title: 'Interactive Illustrated Cards',
-    slug: 'illustrated-cards',
-    preview: IllustratedCardsPreview,
-    filters: ['digital'],
-    aspect: 0.7,
-    description:
-      'Exploration for a landing page with holographic cards linking to various pages in a developer portfolio. Cards explore a monoline and monochromatic approach with holographic elements and various interactive games.',
-    tags: ['Figma', '© 2023'],
-    dynamic: true,
-  },
-  {
-    type: 'project',
-    title: 'Postgres sandbox favicon',
-    slug: 'database-build',
-    preview: DatabaseBuildPreview,
-    filters: ['digital'],
-    aspect: 1.2,
-    description:
-      'Icon design for the in-browser Postgres sandbox tool, previously called postgres.new — the icon is a playful take on the recognizable Postgres elephant icon.',
-    tags: ['Figma', '© 2023'],
-    images: [DatabaseBuild],
-    link: 'https://www.producthunt.com/products/supabase#postgres-new',
-  },
   {
     type: 'project',
     title: 'Supabase Launch Week 7 Branding',
@@ -355,34 +497,10 @@ export const projects: Project[] = [
     preview: SupabaseLW7,
     filters: ['branding', 'digital'],
     description:
-      "Supabase Launch Week is week-long event where we announce updates and new features. It's a showcase of what the Supabase team has been working on in the past few months, and on the design front it's an opportunity to push our brand's boundaries. For Launch Week 7 I created many visuals with Midjourney which we later used to spin off 400+ unique visuals for each Launch Week ticket. ",
+      'Supabase Launch Week 7 was a week of product updates and new feature announcements. For this edition I created Midjourney visuals that were later spun into 400+ unique designs for each Launch Week ticket.',
+    link: 'https://supabase.com',
     aspect: 1,
     tags: ['Figma', 'Midjourney', '© 2023'],
-  },
-
-  {
-    type: 'project',
-    title: 'Supabase Icons',
-    slug: 'supabase-icons',
-    preview: SupabaseIcons01,
-    images: [SupabaseIcons00, SupabaseIconsGif, SupabaseIcons01, SupabaseIcons02, SupabaseIcons03],
-    filters: ['branding', 'digital'],
-    tags: ['Figma', '© 2022'],
-
-    aspect: 1,
-  },
-
-  {
-    type: 'project',
-    title: 'Digital Stamp Collection',
-    slug: 'stamp-collection',
-    preview: StampsPreview,
-    filters: ['illustration'],
-    description:
-      "This is my personal project of digitally recreating my grandpa's stamps. It's a homage to his philatelic journey, brought online when I started my own philately collection, but in a different format. Through this collection I've set myself a goal to publish new stamp daily for a year, and learn different drawing softwares in the process.",
-    images: [Stamps00, Stamps01, Stamps10, Stamps07, Stamps08],
-    tags: ['Adobe Illustrator', 'Procreate', '© 2022'],
-    aspect: 0.7,
   },
 
   {
@@ -395,21 +513,10 @@ export const projects: Project[] = [
     description:
       'In collaboration with Infinum and Lepidečki Brewery, I designed a label for a refreshing lager beer aimed at developers, nudging users to think of Github PRs. The "Pour Request" beer comes in all-black cans with an eye-catching white label featuring an oversized Neue Haas Grotesk typography that will make you want to spin the bottle and take a sip.',
     images: [InfinumBeer00, InfinumBeer01],
+    link: 'https://infinum.com',
     tags: ['Adobe Illustrator', '© 2022'],
   },
 
-  {
-    type: 'project',
-    title: 'Memories Poster',
-    slug: 'memories-poster',
-    preview: MemoriesPosterPreview,
-    filters: ['illustration'],
-    description:
-      'I collected tons of tickets, stickers, papers, and generally memories that I shared with my husband over the years. These are some of them but made digital.',
-    aspect: 0.75,
-    images: [MemoriesPoster00],
-    tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2021'],
-  },
   {
     hidden: true,
     type: 'project',
@@ -421,25 +528,6 @@ export const projects: Project[] = [
   },
 
   {
-    type: 'project',
-    title: 'Infinum Posters',
-    slug: 'infinum-posters',
-    preview: InfinumPostersPreview,
-    filters: ['branding'],
-    description:
-      "Typography exploration I worked on as part of Infinum's refreshed branding brought to life through a collection of large B2 office posters inspired by iconic Vignelli type compositions. Each layout pays homage to the power of the bold Neue Haas Grotesk typeface, aligning with Infinum's brand ethos.",
-    images: [
-      InfinumPosters0,
-      InfinumPosters00,
-      InfinumPosters01,
-      InfinumPosters02,
-      InfinumPosters03,
-    ],
-    tags: ['Figma', '© 2022'],
-    link: 'https://infinum.com/brand',
-    aspect: 1.1,
-  },
-  {
     hidden: true,
     type: 'component',
     content: <SupabaseCard />,
@@ -450,7 +538,7 @@ export const projects: Project[] = [
     type: 'project',
     title: 'Infinum Merch',
     slug: 'infinum-swag',
-    preview: InfinumSwagPreview,
+    preview: InfinumMerch00,
     filters: ['branding', 'merch'],
     description:
       'Design for Infinum merch, a well known Croatian software agency, known for its light, clean, and bold aesthetic. The merchandise was designed to reflect these qualities and use signature red color as an accent.',
@@ -465,17 +553,6 @@ export const projects: Project[] = [
     ],
     link: 'https://infinum.com/brand',
     tags: ['Adobe Illustrator', 'Adobe Photoshop', '© 2022'],
-  },
-  {
-    type: 'project',
-    title: 'Series of Royal Opera Posters',
-    slug: 'opera-posters',
-    preview: OperaPostersPreview,
-    filters: ['illustration'],
-    description: 'Series of posters taking a refreshing perspective on these well-known stories.',
-    aspect: 0.73,
-    images: [OperaPosters0, OperaPosters00, OperaPosters01, OperaPosters02],
-    tags: ['Adobe Illustrator', 'Procreate', '© 2021'],
   },
   {
     hidden: true,
@@ -499,18 +576,6 @@ export const projects: Project[] = [
     filters: ['illustration'],
     description: 'Remember when TV programs ended at 00:00?',
     aspect: 1,
-    tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
-  },
-  {
-    type: 'project',
-    title: 'Packaging for Croatian honey collection ',
-    slug: 'infinum-honey',
-    preview: InfinumHoneyPreview,
-    filters: ['branding', 'merch'],
-    description:
-      'Packaging and label design I did for Infinum, Croatian software agency. In the midst of a worldwide quarantine, Christmas 2020 called for a touch of sweetness to uplift spirits. We answered the call by curating a three-pack of Croatian honey, as a heartfelt gift for Infinum clients. With over 500 gifts shipped, we aimed to bring a taste of warmth and indulgence to homes during these challenging times.',
-    aspect: 1,
-    images: [Honey00, Honey01, Honey02, Honey03],
     tags: ['Adobe Illustrator', 'Adobe Lightroom', '© 2020'],
   },
   {
@@ -557,17 +622,5 @@ export const projects: Project[] = [
       'Nestled in the captivating landscapes of the Faroe Islands, the Havgrim Hotel branding captures the essence of tradition and timeless elegance. With its classic light color palette and refined typography, it evokes a sense of heritage.',
     images: [HavgrimPreview00, HavgrimPreview01, HavgrimPreview02, HavgrimPreview03],
     tags: ['Adobe Illustrator', '© 2019'],
-  },
-  {
-    type: 'project',
-    title: 'Sign-off Poster Series',
-    slug: 'program-end',
-    preview: SignOffPreview,
-    filters: ['illustration'],
-    description:
-      'Remember when TV programs used to end at midnight? What did you imagine happens after clock runs 00:00? These series of nostalgic posters takes you back to the days when the familiar image signaled the end of late-night programming. Posters showcase gradual deconstruction of the well known visual, from its structured grid to an explosion of colors and forms.',
-    images: [SignOff01, SignOff02, SignOff03, SignOff04],
-    tags: ['Adobe Illustrator', '© 2021'],
-    aspect: 0.7,
   },
 ];

@@ -67,13 +67,21 @@ export default function ProjectsGrid({ projects }: Props) {
               className="h-full w-full overflow-hidden"
             >
               <div className="h-full w-full translate-y-0 overflow-hidden rounded transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*-1px)] group-focus-visible:translate-y-[calc(var(--title-height)*-1px)] md:rounded-lg">
-                <div className="relative h-full w-full translate-y-0 overflow-hidden rounded transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-hover/hidden:blur-[2px] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] group-focus-visible/hidden:blur-[2px] md:rounded-xl">
+                <div
+                  className={cn(
+                    'relative h-full w-full translate-y-0 overflow-hidden rounded transition-all duration-300 group-hover:translate-y-[calc(var(--title-height)*1px)] group-hover/hidden:blur-[2px] group-focus-visible:translate-y-[calc(var(--title-height)*1px)] group-focus-visible/hidden:blur-[2px] md:rounded-xl',
+                    project.previewPadded && 'bg-black px-10 py-6',
+                  )}
+                >
                   <Image
                     alt={project.title}
                     src={project.preview}
                     quality={100}
                     fill
-                    className="object-cover object-top group-hover/hidden:opacity-50 group-focus-visible/hidden:opacity-50"
+                    className={cn(
+                      'group-hover/hidden:opacity-50 group-focus-visible/hidden:opacity-50',
+                      project.previewPadded ? 'object-contain' : 'object-cover object-top',
+                    )}
                     sizes={projectGridPreviewSizes}
                     priority={i < 3}
                   />
