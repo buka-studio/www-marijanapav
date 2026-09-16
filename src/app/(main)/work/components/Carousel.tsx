@@ -99,7 +99,7 @@ export default function Carousel({
     <div className={cn('group/card relative h-full w-full', className)}>
       <div className="h-full w-full px-3">
         <div
-          className="snap flex h-full snap-x snap-mandatory gap-4 overflow-x-auto rounded-lg scrollbar-none focus-visible:outline-none"
+          className="snap flex h-full snap-x snap-mandatory scrollbar-none gap-4 overflow-x-auto rounded-lg focus-visible:outline-none"
           ref={scrollAreaRef}
         >
           {sources.map((src, i) => (
@@ -124,7 +124,7 @@ export default function Carousel({
         </div>
       </div>
 
-      <div className="header fixed left-5 right-5 top-5 z-11 flex items-center justify-between">
+      <div className="header fixed top-5 right-5 left-5 z-11 flex items-center justify-between">
         <div className="counter bg-theme-3 rounded-full px-3 py-1 text-xs opacity-50 transition-opacity duration-200 group-hover/card:opacity-100">
           {index + 1} / {sources.length}
         </div>

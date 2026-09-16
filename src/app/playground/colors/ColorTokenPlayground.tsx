@@ -47,16 +47,15 @@ function TokenSwatch({
   className?: string;
 }) {
   const isShadow = name === '--panel-shadow';
-  const rowBorder = { borderBottomColor: 'color-mix(in oklab, var(--text-primary) 14%, transparent)' } as const;
+  const rowBorder = {
+    borderBottomColor: 'color-mix(in oklab, var(--text-primary) 14%, transparent)',
+  } as const;
   const swatchOutline = {
     border: '1px solid color-mix(in oklab, var(--text-primary) 22%, transparent)',
   } as const;
 
   return (
-    <div
-      className={cn('flex gap-2 border-b py-2 last:border-b-0', className)}
-      style={rowBorder}
-    >
+    <div className={cn('flex gap-2 border-b py-2 last:border-b-0', className)} style={rowBorder}>
       <div
         className="size-10 shrink-0 rounded"
         style={
@@ -87,13 +86,7 @@ function TokenSwatch({
   );
 }
 
-function ThemeColumn({
-  label,
-  className,
-}: {
-  label: string;
-  className: string;
-}) {
+function ThemeColumn({ label, className }: { label: string; className: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [resolved, setResolved] = useState<Partial<Record<ThemeTokenName, string>>>({});
 
@@ -118,19 +111,28 @@ function ThemeColumn({
   return (
     <div
       ref={rootRef}
-      className={cn('flex min-w-[200px] flex-1 flex-col overflow-hidden rounded-lg border', className)}
+      className={cn(
+        'flex min-w-[200px] flex-1 flex-col overflow-hidden rounded-lg border',
+        className,
+      )}
       style={{ borderColor: 'color-mix(in oklab, var(--text-primary) 18%, transparent)' }}
     >
       <div className="border-b px-3 py-2" style={headerStyle}>
         <h2 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
           {label}
         </h2>
-        <p className="mt-0.5 font-mono text-[10px] break-all" style={{ color: 'var(--text-muted)' }}>
+        <p
+          className="mt-0.5 font-mono text-[10px] break-all"
+          style={{ color: 'var(--text-muted)' }}
+        >
           {className}
         </p>
       </div>
 
-      <div className="flex flex-1 flex-col px-3 pb-3" style={{ backgroundColor: 'var(--main-background)' }}>
+      <div
+        className="flex flex-1 flex-col px-3 pb-3"
+        style={{ backgroundColor: 'var(--main-background)' }}
+      >
         <div
           className="border-b py-3"
           style={{ borderBottomColor: 'color-mix(in oklab, var(--text-primary) 12%, transparent)' }}
@@ -154,7 +156,10 @@ function ThemeColumn({
         </div>
 
         <div className="pt-2">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+          <p
+            className="mb-2 font-mono text-[10px] tracking-wide uppercase"
+            style={{ color: 'var(--text-muted)' }}
+          >
             Tokens
           </p>
           {THEME_TOKEN_NAMES.map((name) => (
@@ -169,19 +174,19 @@ function ThemeColumn({
 export default function ColorTokenPlayground() {
   /* Shell uses fixed neutrals so copy stays readable regardless of html theme (next-themes). */
   return (
-    <div
-      className="mx-auto max-w-[1600px] rounded-xl border border-neutral-200 bg-white p-4 text-neutral-950 shadow-sm md:p-6 [color-scheme:light]"
-    >
+    <div className="mx-auto max-w-[1600px] rounded-xl border border-neutral-200 bg-white p-4 text-neutral-950 [color-scheme:light] shadow-sm md:p-6">
       <header className="mb-6">
         <h1 className="text-xl font-semibold text-neutral-950">Color token playground</h1>
         <p className="mt-1 text-sm text-neutral-700">
-          Eight theme stacks side by side (same class composition as production). Resolved values are read from the browser
-          after paint.
+          Eight theme stacks side by side (same class composition as production). Resolved values
+          are read from the browser after paint.
         </p>
       </header>
 
       <section className="mb-10">
-        <h2 className="mb-3 text-xs font-semibold tracking-wide text-neutral-800 uppercase">Light mode themes</h2>
+        <h2 className="mb-3 text-xs font-semibold tracking-wide text-neutral-800 uppercase">
+          Light mode themes
+        </h2>
         <div className="flex gap-3 overflow-x-auto pb-2">
           {LIGHT_COLUMNS.map((col) => (
             <ThemeColumn key={col.id} label={col.label} className={col.className} />
@@ -190,7 +195,9 @@ export default function ColorTokenPlayground() {
       </section>
 
       <section>
-        <h2 className="mb-3 text-xs font-semibold tracking-wide text-neutral-800 uppercase">Dark mode themes</h2>
+        <h2 className="mb-3 text-xs font-semibold tracking-wide text-neutral-800 uppercase">
+          Dark mode themes
+        </h2>
         <div className="flex gap-3 overflow-x-auto pb-2">
           {DARK_COLUMNS.map((col) => (
             <ThemeColumn key={col.id} label={col.label} className={col.className} />

@@ -109,7 +109,7 @@ export default function Description({ className }: { className?: string }) {
   }, [selectedStampId]);
 
   return (
-    <div className={cn('flex flex-col gap-5 font-libertinus text-stone-700 lg:gap-9', className)}>
+    <div className={cn('font-libertinus flex flex-col gap-5 text-stone-700 lg:gap-9', className)}>
       <motion.nav
         {...fadeInProps}
         transition={{ duration: 0.35, delay: 1.5 }}

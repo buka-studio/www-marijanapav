@@ -325,14 +325,14 @@ export const baseCollections = {
           printRun: '3,610,200',
         },
       },
-        {
+      {
         year: '1989-08-04',
         country: 'Great Britain',
         src: '/stamps/monoline/great-britain.svg',
         srcLg: '/stamps/monoline/lg/great-britain.webp',
         srcOriginal: '/stamps/reference/great-britain.webp',
         width: 185,
-      catalogCodes: [
+        catalogCodes: [
           'Michel GB —',
           'Stamp Number GB —',
           'Yvert et Tellier GB —',
@@ -420,12 +420,12 @@ export const baseCollections = {
         ],
         meta: {
           category: 'Animals (Fauna) | Elections',
-          designers: ['B. Hyde', 'N. Todhunter', 'Arthur W. Dintaman'],          
+          designers: ['B. Hyde', 'N. Todhunter', 'Arthur W. Dintaman'],
           faceValue: '6 United States cent',
           printRun: '159,000,000',
         },
       },
-    
+
       {
         year: '1964-05-19',
         country: 'Monaco',

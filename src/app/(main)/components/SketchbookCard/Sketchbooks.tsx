@@ -167,7 +167,7 @@ export default function Sketchbooks({
           }}
         >
           <Sketchbook
-            className="absolute bg-panel-background text-theme-2"
+            className="bg-panel-background text-theme-2 absolute"
             line={index === count - 1}
           />
         </SketchbookContainer>

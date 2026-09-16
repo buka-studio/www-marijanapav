@@ -1,8 +1,7 @@
+import { and, count, eq, gte } from 'drizzle-orm';
 import { cookies, headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-
-import { and, count, eq, gte } from 'drizzle-orm';
 
 import { getDb } from '~/src/db/client';
 import { feedback } from '~/src/db/schema';
@@ -52,14 +51,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Too many requests.' }, { status: 429 });
     }
 
-    await db
-      .insert(feedback)
-      .values({
-        feedbackId,
-        message: parsed.data.message,
-        ua,
-        meta: JSON.stringify({}),
-      });
+    await db.insert(feedback).values({
+      feedbackId,
+      message: parsed.data.message,
+      ua,
+      meta: JSON.stringify({}),
+    });
 
     const res = NextResponse.json({ ok: true }, { status: 201 });
     if (!cookieStore.get(COOKIE)?.value) {

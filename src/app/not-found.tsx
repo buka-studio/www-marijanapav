@@ -9,7 +9,7 @@ export default function NotFound() {
     <>
       <Header />
       <main className="flex flex-1 flex-col items-center px-11 py-10">
-        <Heading className="mb-6 text-6xl  md:mb-10 md:text-9xl">404</Heading>
+        <Heading className="mb-6 text-6xl md:mb-10 md:text-9xl">404</Heading>
         <p className="mb-4 md:mb-6">Oops! Page not found.</p>
         <Button asChild>
           <Link href="/">Go Back to Home</Link>

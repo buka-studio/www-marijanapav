@@ -42,7 +42,7 @@ export default function ToolsCreatedCard() {
           {tools.map((tool) => (
             <Tooltip key={tool.href ?? tool.label}>
               {tool.placeholder ? (
-                <TooltipTrigger className="group rounded-[15px] focus-visible:ring-2 focus-visible:ring-theme-1 focus-visible:outline-none">
+                <TooltipTrigger className="group focus-visible:ring-theme-1 rounded-[15px] focus-visible:ring-2 focus-visible:outline-none">
                   <ToolItem tool={tool} />
                 </TooltipTrigger>
               ) : (
@@ -51,7 +51,7 @@ export default function ToolsCreatedCard() {
                     href={tool.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group rounded-[15px] focus-visible:ring-2 focus-visible:ring-theme-1 focus-visible:outline-none"
+                    className="group focus-visible:ring-theme-1 rounded-[15px] focus-visible:ring-2 focus-visible:outline-none"
                     aria-label={tool.label}
                   >
                     <ToolItem tool={tool} />
@@ -75,14 +75,14 @@ function ToolItem({ tool }: { tool: Tool }) {
       className={cn(
         'relative flex aspect-square h-[72px] shrink-0 items-center justify-center overflow-hidden rounded-[15px] border p-2 transition-colors duration-200 ease-out',
         {
-          'border-theme-2 border-dashed bg-transparent group-hover:border-theme-1 group-focus-visible:border-theme-1':
+          'border-theme-2 group-hover:border-theme-1 group-focus-visible:border-theme-1 border-dashed bg-transparent':
             tool.placeholder,
           'border-theme-2 bg-panel-background group-hover:border-theme-1 group-hover:bg-main-background':
             !tool.placeholder,
         },
       )}
     >
-      {tool.Icon ? <tool.Icon className="h-full w-full text-text-primary" aria-hidden /> : null}
+      {tool.Icon ? <tool.Icon className="text-text-primary h-full w-full" aria-hidden /> : null}
     </span>
   );
 }

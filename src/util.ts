@@ -40,21 +40,8 @@ export function supportsHtmlInCanvas() {
     return false;
   }
 
-  const canvas = document.createElement('canvas') as HTMLCanvasElement & {
-    requestPaint?: () => void;
-  };
-  const gl = canvas.getContext('webgl') as
-    | (WebGLRenderingContext & {
-        texElementImage2D?: (
-          target: number,
-          level: number,
-          internalformat: number,
-          format: number,
-          type: number,
-          element: Element,
-        ) => void;
-      })
-    | null;
+  const canvas = document.createElement('canvas');
+  const gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl');
 
   return typeof canvas.requestPaint === 'function' && typeof gl?.texElementImage2D === 'function';
 }

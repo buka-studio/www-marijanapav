@@ -1,7 +1,6 @@
+import { and, eq, sql } from 'drizzle-orm';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-
-import { eq, and, sql } from 'drizzle-orm';
 
 import { getDb } from '~/src/db/client';
 import { stats } from '~/src/db/schema';

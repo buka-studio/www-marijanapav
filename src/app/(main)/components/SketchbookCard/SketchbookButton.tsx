@@ -100,7 +100,7 @@ export default function SketchbookButton({
       onClick={onClick}
       layout
       disabled={disabled}
-      className="flex items-center gap-2 overflow-hidden rounded-full px-2 text-text-primary disabled:opacity-50"
+      className="text-text-primary flex items-center gap-2 overflow-hidden rounded-full px-2 disabled:opacity-50"
     >
       <AnimatePresence mode="wait">
         {(state === 'initial' || (state === 'drawing' && !hasDrawn)) && (

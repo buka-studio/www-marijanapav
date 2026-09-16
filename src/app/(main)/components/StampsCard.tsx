@@ -36,14 +36,14 @@ export default function StampsCard() {
               Digital Stamp Collection&nbsp;
               <Tag
                 variant="dashed"
-                className="ml-1 inline align-middle font-mono text-xs text-text-muted"
+                className="text-text-muted ml-1 inline align-middle font-mono text-xs"
               >
                 Coming&nbsp;soon
               </Tag>
             </Link>
           </CardTitle>
         </div>
-        <p className="text-sm  text-text-primary">
+        <p className="text-text-primary text-sm">
           Paying homage to my grandpa&apos;s lifelong passion for philately, by recreating his
           stamps in a digital form, exploring the blend of art, history, and typography and bringing
           it online for a new audience to enjoy.

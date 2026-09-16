@@ -15,9 +15,9 @@ function Tag({ asChild, className, variant = 'filled', ...rest }: Props & Compon
     <Component
       {...rest}
       className={cn(
-        'ui-tag flex items-center justify-center whitespace-nowrap rounded-lg px-2 py-1 text-text-primary',
+        'ui-tag text-text-primary flex items-center justify-center rounded-lg px-2 py-1 whitespace-nowrap',
         variant === 'filled' && 'bg-theme-3',
-        variant === 'dashed' && 'border border-dashed border-text-muted',
+        variant === 'dashed' && 'border-text-muted border border-dashed',
         className,
       )}
     />

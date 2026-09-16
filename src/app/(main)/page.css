@@ -18,6 +18,7 @@
 .home-cards > *,
 .ui-card,
 .card {
+  min-width: 0;
   height: 100%;
 }
 

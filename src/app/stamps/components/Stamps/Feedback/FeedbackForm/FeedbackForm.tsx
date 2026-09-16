@@ -56,7 +56,9 @@ export default function FeedbackForm({
             aria-label="Postcard message"
             maxLength={MAX_CHARS}
             id="message"
-            className={cn("absolute inset-0 h-full w-full resize-none bg-transparent font-[cursive] text-lg leading-relaxed caret-gray-700 placeholder:text-stone-400 focus:outline-none placeholder-shown:text-stone-400 text-stone-700")}
+            className={cn(
+              'absolute inset-0 h-full w-full resize-none bg-transparent font-[cursive] text-lg leading-relaxed text-stone-700 caret-gray-700 placeholder:text-stone-400 placeholder-shown:text-stone-400 focus:outline-none',
+            )}
             placeholder={placeholder}
             autoFocus
           />

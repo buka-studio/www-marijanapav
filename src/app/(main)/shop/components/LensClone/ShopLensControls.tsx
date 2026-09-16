@@ -33,7 +33,7 @@ export default function ShopLensControls() {
             aria-pressed={enabled}
             aria-label={enabled ? 'Disable magnifier' : 'Enable magnifier'}
             onClick={() => setEnabled((current) => !current)}
-            className="border-panel-border bg-panel-background shadow-card rounded-full border p-1 transition-transform duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-theme-1 active:scale-95"
+            className="border-panel-border bg-panel-background shadow-card focus-visible:outline-theme-1 rounded-full border p-1 transition-transform duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 active:scale-95"
           >
             <span
               className={cn(

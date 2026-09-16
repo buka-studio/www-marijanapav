@@ -3,7 +3,11 @@ import 'react';
 export {};
 
 declare global {
-  interface ElementImage {}
+  interface ElementImage {
+    readonly width: number;
+    readonly height: number;
+    close(): void;
+  }
 
   interface PaintEvent extends Event {
     readonly changedElements: readonly Element[];
@@ -83,7 +87,25 @@ declare global {
     ): DOMMatrix;
   }
 
-  interface WebGLRenderingContext {
+  interface WebGLCopyElementImageConfig {
+    sx?: number;
+    sy?: number;
+    swidth?: number;
+    sheight?: number;
+    width?: number;
+    height?: number;
+  }
+
+  // lib.dom models WebGL1 and WebGL2 as sibling interfaces, so this has to
+  // be merged onto both. Chrome 150+ signature:
+  // https://github.com/WICG/html-in-canvas/issues/132
+  interface WebGLTexElementImage2D {
+    texElementImage2D(
+      target: number,
+      internalformat: number,
+      element: Element | ElementImage,
+      config?: WebGLCopyElementImageConfig,
+    ): void;
     texElementImage2D(
       target: number,
       level: number,
@@ -93,6 +115,9 @@ declare global {
       element: Element | ElementImage,
     ): void;
   }
+
+  interface WebGLRenderingContext extends WebGLTexElementImage2D {}
+  interface WebGL2RenderingContext extends WebGLTexElementImage2D {}
 }
 
 declare module 'react' {

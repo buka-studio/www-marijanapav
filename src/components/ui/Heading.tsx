@@ -26,7 +26,7 @@ function Heading({
       className={cn(
         'ui-heading text-text-primary',
         variant === 'default' && 'font-archivo',
-        variant === 'mono' && 'font-mono uppercase tracking-[0.2em]',
+        variant === 'mono' && 'font-mono tracking-[0.2em] uppercase',
         className,
       )}
       ref={ref}

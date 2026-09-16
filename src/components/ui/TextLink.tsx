@@ -11,7 +11,7 @@ function TextLink({ asChild, className, ...rest }: Props & ComponentProps<'a'>) 
   const Component = asChild ? Slot.Root : ('a' as any);
 
   return (
-    <Component {...rest} className={cn('text-text-primary hover:text-main-accent ', className)} />
+    <Component {...rest} className={cn('text-text-primary hover:text-main-accent', className)} />
   );
 }
 

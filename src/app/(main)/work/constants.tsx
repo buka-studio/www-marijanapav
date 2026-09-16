@@ -172,6 +172,10 @@ export type Project = (StaticProject | ComponentProject) & {
   hidden?: boolean;
 };
 
+export function isVisibleStaticProject(project: Project): project is StaticProject {
+  return project.type !== 'component' && !project.hidden;
+}
+
 const stampsCodropsLink = {
   href: 'https://tympanus.net/codrops/2026/06/09/building-an-interactive-digital-stamp-collection-with-shaders-postcards-and-playful-inspection/',
   label: 'Read blog post on codrops.com',

@@ -16,8 +16,8 @@ export default function useResizeRef<T extends HTMLElement>(once?: boolean) {
 
     if (ref.current) {
       setDimensions({
-        width: ref.current.clientWidth,
-        height: ref.current.clientHeight,
+        width: Math.round(ref.current.clientWidth),
+        height: Math.round(ref.current.clientHeight),
       });
 
       measured.current = true;
@@ -29,10 +29,12 @@ export default function useResizeRef<T extends HTMLElement>(once?: boolean) {
         return;
       }
 
-      setDimensions({
-        width: entry.contentRect.width,
-        height: entry.contentRect.height,
-      });
+      const width = Math.round(entry.contentRect.width);
+      const height = Math.round(entry.contentRect.height);
+
+      setDimensions((current) =>
+        current.width === width && current.height === height ? current : { width, height },
+      );
     });
 
     observer.observe(ref.current);

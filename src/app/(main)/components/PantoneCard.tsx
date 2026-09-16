@@ -11,7 +11,6 @@ import CardTitle from '~/src/components/ui/CardTitle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/src/components/ui/Tooltip';
 
 import Card from './Card';
-
 import useColorTheme from './useColorTheme';
 
 type Pantone = {
