@@ -2,7 +2,15 @@
 
 import { motion, Point, useAnimation, useAnimationFrame, useDragControls } from 'framer-motion';
 import type React from 'react';
-import { CSSProperties, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  CSSProperties,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import colors from 'tailwindcss/colors';
 
 import { clamp } from '~/src/math';
@@ -31,7 +39,9 @@ function getPointerLocalCoords(point: Point, constraint?: HTMLElement | null) {
 
 function getStampCenterInContainer(container: HTMLElement, stampId: string) {
   const stamp =
-    (container.querySelector(`[data-id="${stampId}"] [data-slot="stamp-image"]`) as HTMLElement | null) ||
+    (container.querySelector(
+      `[data-id="${stampId}"] [data-slot="stamp-image"]`,
+    ) as HTMLElement | null) ||
     (container.querySelector(`[data-id="${stampId}"]`) as HTMLElement | null);
   const fallback = {
     x: container.offsetWidth / 2,
@@ -196,7 +206,6 @@ export default function Loupe({
         y: y - radius,
       });
     }
-
   }, [dialSize, dragConstraints, isZoomed, lensReady, magnifierControls, selectedStamp.id]);
 
   useEffect(() => {
@@ -270,7 +279,17 @@ export default function Loupe({
       window.clearTimeout(timer);
       observer.disconnect();
     };
-  }, [atlas, centerScale, dialSize, dragConstraints, gridCellSize, isMobile, magnifierControls, selectedStamp, sizeScale]);
+  }, [
+    atlas,
+    centerScale,
+    dialSize,
+    dragConstraints,
+    gridCellSize,
+    isMobile,
+    magnifierControls,
+    selectedStamp,
+    sizeScale,
+  ]);
 
   const handlePointerDown = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {

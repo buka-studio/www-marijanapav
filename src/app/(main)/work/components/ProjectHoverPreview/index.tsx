@@ -103,9 +103,7 @@ export default function ProjectHoverPreview({
         >
           <Card containerClassName={previewContainerClass} className={previewCardClass}>
             <ErrorBoundary
-              fallback={
-                <CssGridPreview projects={projects} centerIndex={centerIndex} />
-              }
+              fallback={<CssGridPreview projects={projects} centerIndex={centerIndex} />}
               onError={(error, errorInfo) => {
                 console.error('WebGL hover preview failed to render.', error, errorInfo);
               }}

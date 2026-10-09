@@ -14,14 +14,13 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit --pretty false",
-    "atlas": "npx tsx scripts/build-work-preview-atlas.ts && npx tsx scripts/build-photos-atlas.ts",
-    "atlas:work-preview": "npx tsx scripts/build-work-preview-atlas.ts",
-    "atlas:photos": "npx tsx scripts/build-photos-atlas.ts",
+    "atlas": "pnpm atlas:stamps && pnpm atlas:work-preview && pnpm atlas:photos",
+    "atlas:stamps": "tsx scripts/build-stamps-atlas.ts",
+    "atlas:work-preview": "tsx scripts/build-work-preview-atlas.ts",
+    "atlas:photos": "tsx scripts/build-photos-atlas.ts",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
     "db:migrate:local": "wrangler d1 migrations apply marijana-site-db --local",
-    "db:migrate:remote": "wrangler d1 migrations apply marijana-site-db --remote",
-    "atlas": "pnpm atlas:stamps",
-    "atlas:stamps": "tsx scripts/build-stamps-atlas.ts"
+    "db:migrate:remote": "wrangler d1 migrations apply marijana-site-db --remote"
   },
   "dependencies": {
     "@phosphor-icons/react": "~2.1.10",

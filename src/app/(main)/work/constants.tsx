@@ -39,17 +39,25 @@ import LiveKitWebsite01 from '~/public/work/livekit-website/livekit-features-gri
 import LiveKitWebsite04 from '~/public/work/livekit-website/livekit-sdk-features.jpg';
 import LiveKitWebsite05 from '~/public/work/livekit-website/livekit-values.jpg';
 import LiveKitWebsite03 from '~/public/work/livekit-website/livekit-voice-ai-hero.jpg';
-import LiveKitLayers from '~/public/work/livekit/livekit-layers.jpg';
 import LiveKit01 from '~/public/work/livekit/livekit_1.png';
 import LiveKit02 from '~/public/work/livekit/livekit_2.png';
 import LiveKit03 from '~/public/work/livekit/livekit_3.png';
 import LiveKit04 from '~/public/work/livekit/livekit_4.png';
 import LiveKitPreview from '~/public/work/livekit/livekit_preview.png';
+import LiveKitLayers from '~/public/work/livekit/livekit-layers.jpg';
 import MidnightStudio00 from '~/public/work/midnight-studio/midnight-studio_00.png';
 import MidnightStudio01 from '~/public/work/midnight-studio/midnight-studio_01.png';
 import MidnightStudio02 from '~/public/work/midnight-studio/midnight-studio_02.png';
 import MidnightStudioPreview from '~/public/work/midnight-studio/midnight-studio_preview.png';
 import FeedbackPostcards00 from '~/public/work/postcard/feedback-postcard_00.png';
+import FeedbackPostcards01 from '~/public/work/postcard/feedback-postcard_01.png';
+import FeedbackPostcards02 from '~/public/work/postcard/feedback-postcard_02.png';
+import FeedbackPostcards03 from '~/public/work/postcard/feedback-postcard_03.png';
+import FeedbackPostcards04 from '~/public/work/postcard/feedback-postcard_04.png';
+import FeedbackPostcards05 from '~/public/work/postcard/feedback-postcard_05.png';
+import FeedbackPostcards07 from '~/public/work/postcard/feedback-postcard_07.png';
+import FeedbackPostcards08 from '~/public/work/postcard/feedback-postcard_08.png';
+import FeedbackPostcards09 from '~/public/work/postcard/feedback-postcard_09.jpg';
 import Sketchbook01 from '~/public/work/sketchbook/sketchbook_1.png';
 import Sketchbook02 from '~/public/work/sketchbook/sketchbook_2.png';
 import Sketchbook02a from '~/public/work/sketchbook/sketchbook_2a.png';
@@ -65,17 +73,8 @@ import SupabaseOpenSource from '~/public/work/supabase-homepage/supabase-open-so
 import SupabaseHomepage01 from '~/public/work/supabase-homepage/supabase01.png';
 import SupabaseHomepage02 from '~/public/work/supabase-homepage/supabase02.png';
 import SupabaseHomepage03 from '~/public/work/supabase-homepage/supabase03.png';
-import SupabaseIconsGif from '~/public/work/supabase-icons/supabase-icons.webp';
 import SupabaseIcons00 from '~/public/work/supabase-icons/supabase-icons_00.png';
-import SupabaseLW12Preview from '~/public/work/supabase-lw12/preview.png';
-import SupabaseLW12Grid from '~/public/work/supabase-lw12/supabase-launch-week-12-grid.png';
-import SupabaseLW12Tickets from '~/public/work/supabase-lw12/supabase-launch-week-12-tickets.jpg';
-import SupabaseLW1201 from '~/public/work/supabase-lw12/supabase01.png';
-import SupabaseLW1202 from '~/public/work/supabase-lw12/supabase02.png';
-import SupabaseLW1203 from '~/public/work/supabase-lw12/supabase03.png';
-import SupabaseLW1204 from '~/public/work/supabase-lw12/supabase04.png';
-import SupabaseLW1205 from '~/public/work/supabase-lw12/supabase05.png';
-import SupabaseLW1206 from '~/public/work/supabase-lw12/supabase06.png';
+import SupabaseIconsGif from '~/public/work/supabase-icons/supabase-icons.webp';
 import SupabaseLW6 from '~/public/work/supabase-lw6/preview.png';
 import SupabaseLW71 from '~/public/work/supabase-lw7/lw7-01.png';
 import SupabaseLW72 from '~/public/work/supabase-lw7/lw7-02.png';
@@ -93,6 +92,15 @@ import SupabaseLW8 from '~/public/work/supabase-lw8/supabase0.png';
 import SupabaseLW81 from '~/public/work/supabase-lw8/supabase1.png';
 import SupabaseLW82 from '~/public/work/supabase-lw8/supabase2.png';
 import SupabaseLW83 from '~/public/work/supabase-lw8/supabase3.png';
+import SupabaseLW12Preview from '~/public/work/supabase-lw12/preview.png';
+import SupabaseLW12Grid from '~/public/work/supabase-lw12/supabase-launch-week-12-grid.png';
+import SupabaseLW12Tickets from '~/public/work/supabase-lw12/supabase-launch-week-12-tickets.jpg';
+import SupabaseLW1201 from '~/public/work/supabase-lw12/supabase01.png';
+import SupabaseLW1202 from '~/public/work/supabase-lw12/supabase02.png';
+import SupabaseLW1203 from '~/public/work/supabase-lw12/supabase03.png';
+import SupabaseLW1204 from '~/public/work/supabase-lw12/supabase04.png';
+import SupabaseLW1205 from '~/public/work/supabase-lw12/supabase05.png';
+import SupabaseLW1206 from '~/public/work/supabase-lw12/supabase06.png';
 import WeightOfPaperDesk from '~/public/work/the-weight-of-paper/weight-of-paper-desk.jpg';
 import WeightOfPaper03 from '~/public/work/the-weight-of-paper/weight-of-paper-loupe-ui.png';
 import WeightOfPaperPreview from '~/public/work/the-weight-of-paper/weight-of-paper-loupe.png';
@@ -105,15 +113,6 @@ import VercelStartupsCap from '~/public/work/vercel-startups/vercel-startups-cap
 import VercelStartups from '~/public/work/vercel-startups/vercel-startups-hero.png';
 import VercelStartupsLogo from '~/public/work/vercel-startups/vercel-startups-logo.png';
 import VercelStartupsWovenLabel from '~/public/work/vercel-startups/vercel-startups-woven-label.jpg';
-
-import FeedbackPostcards01 from '~/public/work/postcard/feedback-postcard_01.png';
-import FeedbackPostcards02 from '~/public/work/postcard/feedback-postcard_02.png';
-import FeedbackPostcards03 from '~/public/work/postcard/feedback-postcard_03.png';
-import FeedbackPostcards04 from '~/public/work/postcard/feedback-postcard_04.png';
-import FeedbackPostcards05 from '~/public/work/postcard/feedback-postcard_05.png';
-import FeedbackPostcards07 from '~/public/work/postcard/feedback-postcard_07.png';
-import FeedbackPostcards08 from '~/public/work/postcard/feedback-postcard_08.png';
-import FeedbackPostcards09 from '~/public/work/postcard/feedback-postcard_09.jpg';
 
 import SupabaseCard from './components/SupabaseCard';
 
@@ -244,8 +243,8 @@ export const projects: Project[] = [
         >
           Geist Pixel
         </a>{' '}
-        by Vercel. Instead of alien invaders, a geist (ghost) appears, and Geist Pixel letters advance
-        toward you in place of the usual enemy waves.
+        by Vercel. Instead of alien invaders, a geist (ghost) appears, and Geist Pixel letters
+        advance toward you in place of the usual enemy waves.
       </>
     ),
     link: 'https://geist-impact.vercel.app',
@@ -314,8 +313,8 @@ export const projects: Project[] = [
         </p>
         <p>
           The goal was not another image gallery, but something that kept the calm, tactile feel of
-          a real album: a loose field of stamps to browse, a glass loupe for close inspection, and
-          a postcard for sending feedback back.
+          a real album: a loose field of stamps to browse, a glass loupe for close inspection, and a
+          postcard for sending feedback back.
         </p>
       </>
     ),

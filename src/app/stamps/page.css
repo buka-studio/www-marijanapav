@@ -71,7 +71,9 @@ html.is-stamp-dragging [data-slot='stamp-drag-cursor'] {
   opacity: 1;
   filter: blur(0) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
   transform: translateZ(0);
-  transition: filter 200ms ease, opacity 200ms ease;
+  transition:
+    filter 200ms ease,
+    opacity 200ms ease;
 }
 
 .stamps-list [data-slot='stamp-container'] {
@@ -88,7 +90,8 @@ html.is-stamp-dragging [data-slot='stamp-drag-cursor'] {
   [data-slot='stamp-container']:not([data-selected='true'])
   [data-slot='stamp-image'] {
   opacity: 0.5;
-  filter: blur(12px) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+  filter: blur(12px) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1))
+    drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
 }
 
 .loupe {

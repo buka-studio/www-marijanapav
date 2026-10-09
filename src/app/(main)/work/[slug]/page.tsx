@@ -5,12 +5,7 @@ import { notFound } from 'next/navigation';
 import DynamicVHVarsSetter from '~/src/components/DynamicVHVarsSetter';
 import Image from '~/src/components/ui/Image';
 
-import {
-  projects,
-  ProjectMedia,
-  ProjectMediaItem,
-  StaticProject,
-} from '../constants';
+import { ProjectMedia, ProjectMediaItem, projects, StaticProject } from '../constants';
 
 function hostname(url: string): string {
   const { hostname, pathname } = new URL(url);
@@ -19,9 +14,10 @@ function hostname(url: string): string {
   return `${hostname}${path}`;
 }
 
-function normalizeProjectLink(
-  link: string | { href: string; label: string },
-): { href: string; label: string } {
+function normalizeProjectLink(link: string | { href: string; label: string }): {
+  href: string;
+  label: string;
+} {
   if (typeof link === 'string') {
     return { href: link, label: hostname(link) };
   }
@@ -129,10 +125,9 @@ export default async function Work({
   }
 
   const media = project.images ?? [];
-  const projectLinks = [
-    ...(project.link ? [project.link] : []),
-    ...(project.links ?? []),
-  ].map(normalizeProjectLink);
+  const projectLinks = [...(project.link ? [project.link] : []), ...(project.links ?? [])].map(
+    normalizeProjectLink,
+  );
 
   return (
     <>
@@ -147,7 +142,7 @@ export default async function Work({
               {project.title}
             </h1>
           </div>
-          <div className="scroll-fade-y scrollbar-thumb-theme-2 mt-1 flex min-h-0 flex-col gap-3 overflow-x-hidden overflow-y-auto pl-8 scrollbar-thin scrollbar-track-transparent">
+          <div className="scroll-fade-y scrollbar-thumb-theme-2 mt-1 flex min-h-0 scrollbar-thin scrollbar-track-transparent flex-col gap-3 overflow-x-hidden overflow-y-auto pl-8">
             <div className="text-text-secondary max-w-xl space-y-3 text-left text-sm text-pretty">
               {project.description}
             </div>

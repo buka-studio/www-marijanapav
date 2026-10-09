@@ -22,7 +22,12 @@ import {
   visibleIndexRange,
   type HoverPreviewRendererProps,
 } from './grid';
-import { defaultMotionBlurParams, isMotionSettled, motionBlurT, stepSmoothedSpeed } from './motionBlur';
+import {
+  defaultMotionBlurParams,
+  isMotionSettled,
+  motionBlurT,
+  stepSmoothedSpeed,
+} from './motionBlur';
 import { PREVIEW_CELL_WIDTH, PREVIEW_GAP } from './params';
 import { usePreviewCenter } from './usePreviewCenter';
 
@@ -102,7 +107,13 @@ export default function CssGridPreview({ projects, centerIndex }: HoverPreviewRe
         speedRef.current = 0;
       }
     } else {
-      speedRef.current = stepSmoothedSpeed(speedRef.current, velocity, dt, defaultMotionBlurParams, false);
+      speedRef.current = stepSmoothedSpeed(
+        speedRef.current,
+        velocity,
+        dt,
+        defaultMotionBlurParams,
+        false,
+      );
     }
 
     if (speedRef.current === 0 && !blurActiveRef.current) {
@@ -153,7 +164,13 @@ export default function CssGridPreview({ projects, centerIndex }: HoverPreviewRe
             const col = i % GRID_SIZE;
             const isCenter = row === CENTER_ROW && col === CENTER_COL;
 
-            return <div key={`${row}-${col}`} className="bg-theme-4" style={{ opacity: isCenter ? 1 : 0 }} />;
+            return (
+              <div
+                key={`${row}-${col}`}
+                className="bg-theme-4"
+                style={{ opacity: isCenter ? 1 : 0 }}
+              />
+            );
           })}
         </div>
 
