@@ -37,8 +37,7 @@ export default function Projects({ projects }: Props) {
     <div className="min-w-0 overflow-hidden">
       <div className="mt-8 flex items-start justify-between gap-5 px-5">
         <p className="text-theme-1 max-w-[500px] text-sm">
-          I shape brands through thoughtful craft, scalable systems, and distinctive details that
-          make every expression feel part of the same world.
+          I shape brands through thoughtful craft, systems and details that make every expression feel part of the same world.
         </p>
         <Button
           type="button"
