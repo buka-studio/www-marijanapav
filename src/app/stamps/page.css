@@ -11,6 +11,8 @@
   opacity: 20%;
   filter: url(#paperFilter);
   pointer-events: none;
+  isolation: isolate;
+  transform: translateZ(0);
 }
 
 .stamps-layout ::selection {
@@ -19,18 +21,92 @@
 }
 
 .stamps-layout ::-moz-selection {
-  background: #f6deb6;
-  color: #2d1c00;
+  background: var(--color-stone-300);
+  color: var(--color-stone-600);
 }
 
 .focus-dashed {
   @apply rounded-[2px] focus-visible:outline-1 focus-visible:outline-stone-500 focus-visible:outline-dashed;
 }
 
-.stamps-list[data-has-selection='true'] [data-slot='stamp-container']:not([data-selected='true']) {
-  opacity: 0.4;
-  filter: blur(16px);
+html.is-stamp-dragging,
+html.is-stamp-dragging * {
+  cursor: grabbing !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+html.is-stamp-dragging [data-slot='stamp-drag-cursor'] {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  cursor: grabbing;
+}
+
+.stamps-list[data-has-selection='true'] [data-slot='stamp-container'] {
   pointer-events: none;
+}
+
+.stamps-list[data-has-selection='true']
+  [data-slot='stamp-container'][data-selected='true']
+  [data-slot='stamp-focus'] {
+  pointer-events: auto;
+}
+
+.stamps-copy {
+  isolation: isolate;
+  transform: translateZ(0);
+}
+
+.stamps-list [data-slot='stamp-container'][data-selected='true'] {
+  isolation: isolate;
+}
+
+.stamps-list [data-slot='stamp-container'].is-select-moving {
+  isolation: isolate;
+  will-change: transform;
+}
+
+.stamps-list [data-slot='stamp-image'] {
+  opacity: 1;
+  filter: blur(0) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+  transform: translateZ(0);
+  transition: filter 200ms ease, opacity 200ms ease;
+}
+
+.stamps-list [data-slot='stamp-container'] {
+  opacity: 0;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.stamps-list [data-slot='stamp-container'].is-placed {
+  opacity: 1;
+}
+
+.stamps-list[data-has-selection='true']
+  [data-slot='stamp-container']:not([data-selected='true'])
+  [data-slot='stamp-image'] {
+  opacity: 0.5;
+  filter: blur(12px) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+}
+
+.loupe {
+  transition: opacity 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (width < 576px) {
+  .stamps-list [data-slot='stamp-image'] {
+    transition: opacity 200ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loupe,
+  .stamps-list [data-slot='stamp-container'].is-placed,
+  .stamps-list [data-slot='stamp-image'] {
+    transition: none;
+  }
 }
 
 .shimmer-text {

@@ -1,71 +1,29 @@
-import { motion, MotionProps, useAnimation } from 'framer-motion';
-import { ComponentProps, useCallback, useImperativeHandle, useRef } from 'react';
+'use client';
 
-import { clamp, randInt } from '~/src/math';
+import type React from 'react';
+import { useLayoutEffect, useRef } from 'react';
+
 import { cn } from '~/src/util';
+
+import StampMotionController from './StampMotionController';
 
 interface Props {
   dragDisabled?: boolean;
   children: React.ReactNode;
   index?: number;
-  className?: string;
-  draggableControllerRef?:
-    | React.RefObject<DraggableController>
-    | ((e: DraggableController) => void);
-}
-
-export interface DraggableController {
   id?: string;
-  index?: number;
-  center: (container: HTMLElement, scale: number) => Promise<void>;
-  spreadOut: ({
-    container,
-    dist,
-    rotate,
-    padding,
-  }: {
-    container: HTMLElement;
-    dist: number;
-    rotate?: number;
-    padding?: number;
-  }) => void;
-  unfocus: () => void;
-  controls: ReturnType<typeof useAnimation>;
+  className?: string;
+  dragConstraints?: React.RefObject<HTMLDivElement | null>;
+  draggableControllerRef?:
+    | React.RefObject<StampMotionController | null>
+    | ((controller: StampMotionController | null, id?: string) => void);
+  onDragStart?: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onDragEnd?: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
-type InitialPosition<T = string | number | any> = {
-  x: T;
-  y: T;
-  z: T;
-  scale: T;
-  rotate: T;
-};
-
-const draggableProps: MotionProps = {
-  whileDrag: { scale: 1.1, transition: { duration: 0.1 } },
-  dragElastic: 0.1,
-  dragTransition: { bounceStiffness: 100, bounceDamping: 10, power: 0.4 },
-  transition: { type: 'spring', stiffness: 500, damping: 80 },
-};
-
-function calcTransformToCenter(container: HTMLElement, element: HTMLElement) {
-  const containerRect = container.getBoundingClientRect();
-
-  if (!(containerRect && element)) {
-    return { x: 0, y: 0, z: 1 };
-  }
-
-  const x = (containerRect.width - element.clientWidth) / 2;
-  const y = (containerRect.height - element.clientHeight) / 2;
-
-  return {
-    x,
-    y,
-    z: 1,
-  };
-}
-
-function Draggable({
+export default function Draggable({
   children,
   draggableControllerRef,
   dragDisabled = false,
@@ -73,138 +31,67 @@ function Draggable({
   ref,
   index,
   id,
+  dragConstraints,
+  onDragStart,
+  onDragEnd,
+  onClick,
   ...props
-}: Props & ComponentProps<typeof motion.div>) {
-  const controls = useAnimation();
+}: Props & Omit<React.ComponentProps<'div'>, keyof Props>) {
+  const controllerRef = useRef<StampMotionController | null>(null);
+  if (controllerRef.current === null) {
+    controllerRef.current = new StampMotionController();
+  }
+  const controller = controllerRef.current;
 
-  const innerRef = useRef<HTMLDivElement | null>(null);
+  controller.id = id;
+  controller.index = index;
+  controller.dragDisabled = dragDisabled;
+  controller.onDragStart = onDragStart;
+  controller.onDragEnd = onDragEnd;
+  controller.onClick = onClick;
 
-  const beforeFocus = useRef<InitialPosition>({
-    scale: 1,
-    x: 0,
-    y: 0,
-    rotate: 0,
-    z: 1,
-  });
+  useLayoutEffect(() => {
+    if (typeof draggableControllerRef === 'function') {
+      draggableControllerRef(controller, id);
+    } else if (draggableControllerRef) {
+      draggableControllerRef.current = controller;
+    }
 
-  const isFocused = useRef(false);
-
-  useImperativeHandle(draggableControllerRef, () => ({
-    center: (container: HTMLElement, scale: number = 1.5) => {
-      if (isFocused.current) {
-        return Promise.resolve();
+    return () => {
+      if (typeof draggableControllerRef === 'function') {
+        draggableControllerRef(null, id);
+      } else if (draggableControllerRef) {
+        draggableControllerRef.current = null;
       }
-
-      return controls
-        .start((_, current) => {
-          beforeFocus.current = {
-            scale: current.scale ?? 1,
-            x: current.x ?? 0,
-            y: current.y ?? 0,
-            rotate: current.rotate ?? 0,
-            z: current.z ?? 1,
-          };
-
-          isFocused.current = true;
-
-          return {
-            scale: scale,
-            ...calcTransformToCenter(container, innerRef.current!),
-            z: 1,
-            rotate: 0,
-          };
-        })
-        .then(() => undefined);
-    },
-    spreadOut: ({
-      container,
-      dist,
-      rotate,
-      padding = 0,
-    }: {
-      container: HTMLElement;
-      dist: number;
-      rotate?: number;
-      padding?: number;
-    }) => {
-      if (isFocused.current) {
-        return;
-      }
-
-      const containerRect = container.getBoundingClientRect();
-      const elRect = innerRef.current?.getBoundingClientRect();
-
-      const elWidth = elRect?.width ?? 0;
-      const elHeight = elRect?.height ?? 0;
-
-      const centerX = containerRect.width / 2 - elWidth / 2;
-      const centerY = containerRect.height / 2 - elHeight / 2;
-
-      controls
-        .start({
-          x: centerX,
-          y: centerY,
-          z: 1,
-          transition: {
-            duration: 0,
-          },
-        })
-        .then(() => {
-          controls.start((_, current) => {
-            const x = (current.x as number) || 0;
-            const y = (current.y as number) || 0;
-
-            const minX = padding + elWidth / 2;
-            const maxX = containerRect.width - elWidth - padding;
-            const minY = padding + elHeight / 2;
-            const maxY = containerRect.height - elHeight - padding;
-
-            return {
-              rotate: rotate ?? randInt(-35, 35),
-              x: clamp(minX, maxX, x + randInt(-dist, dist)),
-              y: clamp(minY, maxY, y + randInt(-dist, dist)),
-              z: 1,
-              opacity: 1,
-            };
-          });
-        });
-    },
-    unfocus: () => {
-      if (!isFocused.current) {
-        return;
-      }
-
-      controls.start(beforeFocus.current);
-      isFocused.current = false;
-    },
-    controls,
-    index,
-    id,
-  }));
-
-  const handleRef = useCallback(
-    (e: HTMLDivElement) => {
-      innerRef.current = e;
-      if (typeof ref === 'function') {
-        ref(e);
-      } else if (ref) {
-        ref.current = e;
-      }
-    },
-    [ref],
-  );
+      controller.dispose();
+    };
+  }, [controller, draggableControllerRef, id, index]);
 
   return (
-    <motion.div
-      ref={handleRef}
-      className={cn('absolute flex origin-center cursor-pointer', className)}
-      animate={controls}
-      drag={!dragDisabled}
-      {...draggableProps}
+    <div
       {...props}
+      ref={(node) => {
+        controller.attachPlacementEl(node);
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
+      className={cn('absolute top-0 left-0 origin-center cursor-pointer touch-none', className)}
+      onPointerDown={(event) => controller.pointerDown(event)}
+      onPointerMove={(event) => controller.pointerMove(event, dragConstraints?.current ?? null)}
+      onPointerUp={(event) => controller.pointerUp(event, dragConstraints?.current ?? null)}
+      onPointerCancel={(event) => controller.pointerUp(event, dragConstraints?.current ?? null)}
+      onClick={(event) => controller.click(event)}
     >
-      {children}
-    </motion.div>
+      <div
+        ref={(node) => controller.attachFocusEl(node)}
+        data-slot="stamp-focus"
+        className="flex origin-center items-center justify-center"
+      >
+        {children}
+      </div>
+    </div>
   );
 }
-export default Draggable;

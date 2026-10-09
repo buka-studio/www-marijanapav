@@ -142,7 +142,13 @@ export default function MetadataTable({ className }: { className?: string }) {
             <div className="flex items-center gap-1">
               This stamp was inspired by an{' '}
               <PopoverOrHoverCard className="group/hovercard hidden lg:block">
-                <Image src={stamp.srcOriginal} alt="Original stamp" width={200} height={200} />
+                <Image
+                  src={stamp.srcOriginal}
+                  alt="Original stamp"
+                  width={200}
+                  height={200}
+                  fade={false}
+                />
               </PopoverOrHoverCard>
               <span className="lg:hidden">existing stamp.</span>
             </div>
@@ -152,6 +158,7 @@ export default function MetadataTable({ className }: { className?: string }) {
                 alt="Original stamp"
                 width={200}
                 height={200}
+                fade={false}
                 className="h-full w-full object-contain object-center"
               />
             </div>

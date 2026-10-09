@@ -1,3 +1,5 @@
+export const stampDefaultDimensions = { width: 160, height: 220 };
+
 export type Stamp = {
   id: string;
   title?: string;

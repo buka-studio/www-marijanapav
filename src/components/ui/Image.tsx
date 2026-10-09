@@ -8,9 +8,10 @@ import { cn } from '~/src/util';
 function Image({
   className,
   ref,
+  fade = true,
   ...props
-}: ComponentProps<typeof NextImage> & { ref?: React.Ref<HTMLImageElement> }) {
-  const [loaded, setLoaded] = useState(false);
+}: ComponentProps<typeof NextImage> & { fade?: boolean; ref?: React.Ref<HTMLImageElement> }) {
+  const [loaded, setLoaded] = useState(!fade);
   return (
     <NextImage
       {...props}
@@ -20,8 +21,8 @@ function Image({
         setLoaded(true);
       }}
       className={cn(
-        'transition-all duration-500',
-        {
+        fade && 'transition-all duration-500',
+        fade && {
           'scale-95 blur-md': !loaded,
           'blur-0 scale-100': loaded,
         },
