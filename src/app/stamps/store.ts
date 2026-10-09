@@ -2,52 +2,63 @@ import { create } from 'zustand';
 
 import { CollectionType } from './constants';
 
+function restLoupe() {
+  return {
+    loupeCoords: { x: 0, y: 0 },
+    loupeScale: 2,
+  };
+}
+
+function clearedSelection() {
+  return {
+    selectedStampId: '',
+    isZoomed: false,
+    ...restLoupe(),
+  };
+}
+
 interface StampStore {
   selectedStampId: string;
   collection: CollectionType;
   isZoomed: boolean;
-  zoomEnabled: boolean;
-  toggleZoomed: (force?: boolean) => void;
-  setZoomed: (zoomed: boolean) => void;
-  setSelectedStampId: (selectedStampId: string) => void;
-  selectStamp: (
-    selectedStampId: string,
-    options?: { isZoomed?: boolean; zoomEnabled?: boolean },
-  ) => void;
-  setZoomEnabled: (zoomEnabled: boolean) => void;
-  setCollection: (collection: CollectionType) => void;
-  reset: () => void;
+  loupeCoords: { x: number; y: number };
+  loupeScale: number;
   stampsDrawerOpen: boolean;
+  overlayOpen: boolean;
+  selectStamp: (selectedStampId: string) => void;
+  deselectStamp: () => void;
+  setZoomed: (isZoomed: boolean) => void;
+  setLoupeCoords: (loupeCoords: { x: number; y: number }) => void;
+  setLoupeScale: (loupeScale: number) => void;
+  setCollection: (collection: CollectionType) => void;
   setStampsDrawerOpen: (stampsDrawerOpen: boolean) => void;
+  setOverlayOpen: (overlayOpen: boolean) => void;
 }
 
 export const useStampStore = create<StampStore>((set) => ({
   selectedStampId: '',
   collection: 'typographic' as CollectionType,
   isZoomed: false,
-  zoomEnabled: false,
-  toggleZoomed: (force?: boolean) => {
-    set((state) => ({ isZoomed: force !== undefined ? force : !state.isZoomed }));
-  },
-  setZoomed: (zoomed: boolean) => set({ isZoomed: zoomed }),
-  setSelectedStampId: (selectedStampId: string) => set({ selectedStampId }),
-  selectStamp: (selectedStampId: string, options) =>
-    set((state) => ({
-      selectedStampId,
-      zoomEnabled: options?.zoomEnabled ?? false,
-      isZoomed: options?.isZoomed ?? state.isZoomed,
-    })),
-  setZoomEnabled: (zoomEnabled: boolean) => set({ zoomEnabled }),
-  setCollection: (collection: CollectionType) => {
-    set({ collection, selectedStampId: '' });
-  },
-  reset: () => set({ isZoomed: false, zoomEnabled: false, selectedStampId: '' }),
+  ...restLoupe(),
   stampsDrawerOpen: false,
-  setStampsDrawerOpen: (state: boolean) => {
-    if (!state) {
-      set({ stampsDrawerOpen: false, isZoomed: false, zoomEnabled: false, selectedStampId: '' });
-    } else {
+  overlayOpen: false,
+  selectStamp: (selectedStampId) =>
+    set({
+      selectedStampId,
+      isZoomed: false,
+      ...restLoupe(),
+    }),
+  deselectStamp: () => set(clearedSelection()),
+  setZoomed: (isZoomed) => set({ isZoomed }),
+  setLoupeCoords: (loupeCoords) => set({ loupeCoords }),
+  setLoupeScale: (loupeScale) => set({ loupeScale }),
+  setCollection: (collection) => set({ collection, ...clearedSelection() }),
+  setStampsDrawerOpen: (stampsDrawerOpen) => {
+    if (stampsDrawerOpen) {
       set({ stampsDrawerOpen: true });
+      return;
     }
+    set({ stampsDrawerOpen: false, ...clearedSelection() });
   },
+  setOverlayOpen: (overlayOpen) => set({ overlayOpen }),
 }));

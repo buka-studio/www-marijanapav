@@ -940,7 +940,8 @@ export default function PhotosCardWebgl({
           setLiveText('');
         }}
         onMouseDown={(event) => {
-          event.currentTarget.focus({ preventScroll: true });
+          event.preventDefault();
+          event.currentTarget.focus({ preventScroll: true, focusVisible: false });
         }}
         onKeyDown={(event) => {
           if (event.key === 'ArrowRight') {

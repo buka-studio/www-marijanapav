@@ -2,10 +2,10 @@
 
 import { ScreenQuad, shaderMaterial } from '@react-three/drei';
 import { Canvas, extend, ThreeElement, useFrame } from '@react-three/fiber';
-import { useEffect, useMemo, useRef } from 'react';
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-import { useLoupeStore } from '../store';
+import { useStampStore } from '../../../../store';
 import fragmentShader from './Lens.frag';
 import vertexShader from './Lens.vert';
 
@@ -17,7 +17,7 @@ declare module '@react-three/fiber' {
 
 type ImageSource = HTMLImageElement | HTMLCanvasElement | ImageBitmap;
 
-interface LensProps {
+interface Props {
   image: ImageSource;
   width: number;
   height: number;
@@ -30,6 +30,10 @@ interface LensProps {
   bevelStart?: number;
   oblateZScale?: number;
   refractionScale?: number;
+  className?: string;
+  style?: React.CSSProperties;
+  live?: boolean;
+  onReady?: () => void;
 }
 
 const LensMaterial = shaderMaterial(
@@ -70,10 +74,12 @@ type LensMatImpl = THREE.ShaderMaterial & {
 };
 
 function imageToTexture(image: ImageSource) {
-  const texture = (image as HTMLCanvasElement).getContext
-    ? new THREE.CanvasTexture(image as HTMLCanvasElement)
-    : new THREE.Texture(image as any);
-  texture.flipY = true;
+  const isCanvas =
+    typeof HTMLCanvasElement !== 'undefined' && image instanceof HTMLCanvasElement;
+  const texture = isCanvas
+    ? new THREE.CanvasTexture(image)
+    : new THREE.Texture(image);
+  texture.flipY = !(typeof ImageBitmap !== 'undefined' && image instanceof ImageBitmap);
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
   texture.minFilter = THREE.LinearFilter;
@@ -81,6 +87,28 @@ function imageToTexture(image: ImageSource) {
   texture.generateMipmaps = false;
   texture.needsUpdate = true;
   return texture;
+}
+
+function WaitForPaint({ bound, onReady }: { bound: boolean; onReady: () => void }) {
+  const frames = useRef(0);
+  const onReadyRef = useRef(onReady);
+  onReadyRef.current = onReady;
+
+  if (!bound) {
+    frames.current = 0;
+  }
+
+  useFrame(() => {
+    if (!bound || frames.current >= 2) {
+      return;
+    }
+    frames.current += 1;
+    if (frames.current >= 2) {
+      onReadyRef.current();
+    }
+  });
+
+  return null;
 }
 
 function LensScene({
@@ -97,13 +125,16 @@ function LensScene({
   sourceWidth: sourceWidthOverride,
   sourceHeight: sourceHeightOverride,
   texture,
-}: LensProps & { texture: THREE.Texture }) {
+  onBound,
+}: Props & { texture: THREE.Texture; onBound?: () => void }) {
   const matRef = useRef<LensMatImpl>(null!);
+  const onBoundRef = useRef(onBound);
+  onBoundRef.current = onBound;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!matRef.current) return;
-    const sourceWidth = sourceWidthOverride ?? (image as any).width;
-    const sourceHeight = sourceHeightOverride ?? (image as any).height;
+    const sourceWidth = sourceWidthOverride ?? image.width;
+    const sourceHeight = sourceHeightOverride ?? image.height;
 
     const u = matRef.current.uniforms;
     u.uSourceTex.value = texture;
@@ -118,6 +149,7 @@ function LensScene({
     u.uLensRadiusPx.value = Math.min(width, height) * 0.5;
     u.uLensOblateness.value = oblateZScale;
     u.uRefractionDisplacementScale.value = refractionScale;
+    onBoundRef.current?.();
   }, [
     image,
     texture,
@@ -134,13 +166,17 @@ function LensScene({
     sourceHeightOverride,
   ]);
 
-  const scaleRef = useRef(useLoupeStore.getState().scale);
-  const coordsRef = useRef(useLoupeStore.getState().coords);
+  const scaleRef = useRef(useStampStore.getState().loupeScale);
+  const coordsRef = useRef(useStampStore.getState().loupeCoords);
 
   useEffect(() => {
-    const unsub = useLoupeStore.subscribe((v) => {
-      scaleRef.current = v.scale;
-      coordsRef.current = v.coords;
+    const unsub = useStampStore.subscribe((state, prev) => {
+      if (state.loupeScale !== prev.loupeScale) {
+        scaleRef.current = state.loupeScale;
+      }
+      if (state.loupeCoords !== prev.loupeCoords) {
+        coordsRef.current = state.loupeCoords;
+      }
     });
 
     return unsub;
@@ -167,7 +203,7 @@ function LensScene({
   );
 }
 
-export default function Lens({
+function Lens({
   image,
   width,
   height,
@@ -181,38 +217,79 @@ export default function Lens({
   sourceHeight,
   className,
   style,
-  ...props
-}: any) {
+  live = true,
+  onReady,
+}: Props) {
+  const [bound, setBound] = useState(false);
+  const [ready, setReady] = useState(false);
   const texture = useMemo(() => (image ? imageToTexture(image) : null), [image]);
+  const glRef = useRef<THREE.WebGLRenderer | null>(null);
+  const onReadyRef = useRef(onReady);
+  onReadyRef.current = onReady;
+
+  useLayoutEffect(() => {
+    setBound(false);
+    setReady(false);
+    if (texture && glRef.current) {
+      glRef.current.initTexture(texture);
+      texture.needsUpdate = false;
+    }
+    return () => {
+      texture?.dispose();
+    };
+  }, [texture]);
+
+  if (!image || !texture) {
+    return null;
+  }
 
   return (
     <Canvas
       className={className}
-      style={{ width, height, borderRadius: 9999, ...style }}
-      gl={{ alpha: true, antialias: false, preserveDrawingBuffer: true, premultipliedAlpha: true }}
+      style={{
+        width,
+        height,
+        borderRadius: 9999,
+        opacity: ready ? 1 : 0,
+        ...style,
+      }}
+      gl={{ alpha: true, antialias: false, preserveDrawingBuffer: false, premultipliedAlpha: true }}
+      frameloop={live || !ready ? 'always' : 'demand'}
       orthographic
       camera={{ position: [0, 0, 1], zoom: 1 }}
+      dpr={typeof window !== 'undefined' ? Math.min(2, window.devicePixelRatio || 1) : 1}
       onCreated={({ gl }) => {
-        gl.setPixelRatio(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1);
+        gl.setClearColor('#f5f5f4', 1);
+        glRef.current = gl;
+        gl.initTexture(texture);
+        texture.needsUpdate = false;
       }}
-      {...props}
     >
-      {texture && (
-        <LensScene
-          image={image}
-          width={width}
-          height={height}
-          ior={ior}
-          chromaticAberration={chromaticAberration}
-          lensThickness={lensThickness}
-          bevelStart={bevelStart}
-          oblateZScale={oblateZScale}
-          refractionScale={refractionScale}
-          sourceWidth={sourceWidth}
-          sourceHeight={sourceHeight}
-          texture={texture}
-        />
-      )}
+      <LensScene
+        image={image}
+        width={width}
+        height={height}
+        ior={ior}
+        chromaticAberration={chromaticAberration}
+        lensThickness={lensThickness}
+        bevelStart={bevelStart}
+        oblateZScale={oblateZScale}
+        refractionScale={refractionScale}
+        sourceWidth={sourceWidth}
+        sourceHeight={sourceHeight}
+        texture={texture}
+        onBound={() => setBound(true)}
+      />
+      <WaitForPaint
+        key={texture.uuid}
+        bound={bound}
+        onReady={() => {
+          setReady(true);
+          onReadyRef.current?.();
+        }}
+      />
     </Canvas>
   );
 }
+
+export default memo(Lens);

@@ -121,20 +121,7 @@ export function GenieBackdrop({
         return;
       }
 
-      const snap = await snapdom(target, {
-        // todo: look into why this takes forever on safari
-        // embedFonts: true,
-        // excludeFonts: {
-        //   families: [
-        //     'Inter',
-        //     'Inter Fallback',
-        //     'Archivo',
-        //     'Archivo Fallback',
-        //     'IBM Plex Mono Fallback',
-        //     'Libertinus Serif',
-        //   ],
-        // },
-      });
+      const snap = await snapdom(target);
       const img = await snap.toPng();
 
       if (!img) {
@@ -223,7 +210,7 @@ export function GenieBackdrop({
           texture={snapshot.texture}
           width={dimensions.width}
           height={dimensions.height}
-          warpRange={{ left: 47.5, right: 52.5 }} // todo: calculate from DialogTrigger bounding rect
+          warpRange={{ left: 47.5, right: 52.5 }}
           warpRef={warpRef}
           duration={duration}
           motionBlur={1}

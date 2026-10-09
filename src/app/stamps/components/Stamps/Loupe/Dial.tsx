@@ -84,9 +84,7 @@ export default function Dial({
       const x = clientX - (rect.left + center);
       const y = clientY - (rect.top + center);
       let angle = Math.atan2(y, x) * (180 / Math.PI);
-      angle = (angle + 360) % 360; // Normalize to 0-360
-
-      // Snap to nearest multiple of snapAngle
+      angle = (angle + 360) % 360;
       return Math.round(angle / snapAngle) * snapAngle;
     },
     [center, snapAngle],
@@ -119,8 +117,6 @@ export default function Dial({
 
       const currentAngle = calculateAngle(e.clientX, e.clientY);
       let deltaAngle = currentAngle - lastAngle.current;
-
-      // Adjust for crossing 0/360 boundary
       if (deltaAngle > 180) deltaAngle -= 360;
       if (deltaAngle < -180) deltaAngle += 360;
 

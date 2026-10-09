@@ -1,20 +1,21 @@
+'use client';
+
 import { motion, Point, useAnimation, useAnimationFrame, useDragControls } from 'framer-motion';
-import { CSSProperties, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type React from 'react';
+import { CSSProperties, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import colors from 'tailwindcss/colors';
 
 import { clamp } from '~/src/math';
 import { cn } from '~/src/util';
 
+import type { StampAtlas } from '../../../atlas';
 import { Stamp } from '../../../models';
 import { usePlayLoupeZoomClick } from '../../../sounds';
 import { useStampStore } from '../../../store';
-import { drawGrid, setupHiDPICtx } from '../../CanvasGrid/util';
 import { useIsMobile } from '../util';
 import Dial from './Dial';
 import Lens from './Lens';
-import { useLoupeStore } from './store';
-
-const MemoizedLens = memo(Lens);
+import LoupeSource from './LoupeSource';
 
 function getPointerLocalCoords(point: Point, constraint?: HTMLElement | null) {
   if (!constraint) {
@@ -25,6 +26,30 @@ function getPointerLocalCoords(point: Point, constraint?: HTMLElement | null) {
   return {
     x: point.x - rect.left,
     y: point.y - rect.top,
+  };
+}
+
+function getStampCenterInContainer(container: HTMLElement, stampId: string) {
+  const stamp =
+    (container.querySelector(`[data-id="${stampId}"] [data-slot="stamp-image"]`) as HTMLElement | null) ||
+    (container.querySelector(`[data-id="${stampId}"]`) as HTMLElement | null);
+  const fallback = {
+    x: container.offsetWidth / 2,
+    y: container.offsetHeight / 2,
+  };
+  if (!stamp) {
+    return fallback;
+  }
+
+  const containerRect = container.getBoundingClientRect();
+  const stampRect = stamp.getBoundingClientRect();
+  if (stampRect.width < 1 || stampRect.height < 1) {
+    return fallback;
+  }
+
+  return {
+    x: stampRect.left - containerRect.left + stampRect.width / 2,
+    y: stampRect.top - containerRect.top + stampRect.height / 2,
   };
 }
 
@@ -44,120 +69,27 @@ function getPointerOffsetFromElementCenter(point: Point, element?: HTMLElement |
   return { x: offsetX, y: offsetY };
 }
 
-export function loadImage(src: string) {
-  return new Promise<HTMLImageElement>((resolve, reject) => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      resolve(img);
-    };
-    img.onerror = () => {
-      reject(new Error('Failed to load image'));
-    };
-  });
-}
-
-async function loadFirstImage(srcs: string[]) {
-  for (const src of srcs) {
-    const img = await loadImage(src);
-    if (img) {
-      return img;
-    }
-  }
-  return null;
-}
-
-const initial = {
-  opacity: 0,
-};
-
 const directionKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Shift'];
 const loupeScaleClickIncrement = 0.012;
 const loupeScaleClickMinIntervalMs = 20;
 
-function Loupe({
-  selectedStamp,
-  dragConstraints,
-  className,
-  baseScale,
-  gridCellSize,
-  activeStampContainerRef,
-  onReady,
+function LoupeDial({
+  isMobile,
+  isZoomed,
+  dialSize,
 }: {
-  selectedStamp: Stamp;
-  dragConstraints: React.RefObject<HTMLElement | null>;
-  className?: string;
-  baseScale: number;
-  gridCellSize: number;
-  activeStampContainerRef: React.RefObject<HTMLElement | null>;
-  onReady?: (stampId: string) => void;
+  isMobile: boolean;
+  isZoomed: boolean;
+  dialSize: number;
 }) {
-  const setCoords = useLoupeStore((s) => s.setCoords);
-  const setScale = useLoupeStore((s) => s.setScale);
-  const scale = useLoupeStore((s) => s.scale);
+  const scale = useStampStore((s) => s.loupeScale);
   const playLoupeZoomClick = usePlayLoupeZoomClick();
-
-  const isMobile = useIsMobile();
-  const isZoomed = useStampStore((s) => s.isZoomed);
-
-  const lensSize = isMobile ? 135 : 300;
-  const dialSize = isMobile ? 190 : 400;
-
-  const magnifierControls = useAnimation();
-  const dialDragControls = useDragControls();
-
-  const draggingMagnifier = useRef(false);
-  const draggingMagnifierRefOffset = useRef<{ x: number; y: number } | null>({ x: 0, y: 0 });
-  const triggerRef = useRef<HTMLDivElement>(null);
-
-  const pressedKeysRef = useRef<Set<string>>(new Set());
-  const rafTimeRef = useRef<number | null>(null);
   const lastScaleClickStepRef = useRef(Math.round(scale / loupeScaleClickIncrement));
   const lastScaleClickAtRef = useRef(0);
 
-  useEffect(() => {
-    if (!dragConstraints?.current) {
-      return;
-    }
-
-    if (isZoomed) {
-      setCoords({
-        x: dragConstraints.current.offsetWidth / 2,
-        y: dragConstraints.current.offsetHeight / 2,
-      });
-
-      magnifierControls
-        .start({
-          x: dragConstraints.current.offsetWidth / 2 - dialSize / 2,
-          y: dragConstraints.current.offsetHeight / 2 - dialSize / 2,
-          transition: {
-            duration: 0,
-          },
-        })
-        .then(() => {
-          magnifierControls.start({
-            opacity: 1,
-
-            filter: 'blur(0px)',
-          });
-        });
-    } else {
-      magnifierControls.start({
-        opacity: 0,
-        filter: 'blur(10px)',
-      });
-    }
-  }, [isZoomed, magnifierControls, dragConstraints, setCoords, dialSize]);
-
-  const [canvasData, setCanvasData] = useState<{
-    canvas: HTMLCanvasElement;
-    cssWidth: number;
-    cssHeight: number;
-  } | null>(null);
-
   const handleScaleChange = useCallback(
     (nextScale: number) => {
-      setScale(nextScale);
+      useStampStore.getState().setLoupeScale(nextScale);
 
       const nextStep = Math.round(nextScale / loupeScaleClickIncrement);
       if (nextStep === lastScaleClickStepRef.current) {
@@ -174,8 +106,98 @@ function Loupe({
       lastScaleClickAtRef.current = now;
       playLoupeZoomClick();
     },
-    [playLoupeZoomClick, setScale],
+    [playLoupeZoomClick],
   );
+
+  return (
+    <Dial
+      key={isMobile ? 'mobile' : 'desktop'}
+      className="loupe-dial pointer-events-none absolute inset-0 z-50"
+      inscription="PEAK 1983  ⎟  10× Measuring Loupe  ⎟  Digital Stamp Collection · @marijanapav"
+      size={dialSize}
+      tickCount={isMobile ? 120 : 180}
+      tickLength={isMobile ? 4 : 8}
+      tickWidth={1}
+      tickColor={colors.stone[200]}
+      snapAngle={10}
+      stiffness={500}
+      damping={50}
+      value={scale}
+      step={0.01}
+      onChange={handleScaleChange}
+      minAngle={0}
+      minValue={1}
+      maxValue={3}
+      maxAngle={360}
+      disabled={!isZoomed}
+    />
+  );
+}
+
+interface Props {
+  selectedStamp: Stamp;
+  dragConstraints: React.RefObject<HTMLElement | null>;
+  className?: string;
+  centerScale: number;
+  gridCellSize: number;
+  sizeScale: number;
+  atlas?: StampAtlas;
+}
+
+export default function Loupe({
+  selectedStamp,
+  dragConstraints,
+  className,
+  centerScale,
+  gridCellSize,
+  sizeScale,
+  atlas,
+}: Props) {
+  const isMobile = useIsMobile();
+  const isZoomed = useStampStore((s) => s.isZoomed);
+
+  const lensSize = isMobile ? 135 : 300;
+  const dialSize = isMobile ? 190 : 400;
+
+  const magnifierControls = useAnimation();
+  const dialDragControls = useDragControls();
+
+  const draggingMagnifier = useRef(false);
+  const draggingMagnifierRefOffset = useRef<{ x: number; y: number } | null>({ x: 0, y: 0 });
+  const triggerRef = useRef<HTMLDivElement>(null);
+
+  const pressedKeysRef = useRef<Set<string>>(new Set());
+  const rafTimeRef = useRef<number | null>(null);
+  const [source, setSource] = useState<LoupeSource | null>(null);
+  const [lensReady, setLensReady] = useState(false);
+  const readySourceRef = useRef<LoupeSource | null>(null);
+  const wasZoomedRef = useRef(false);
+
+  useLayoutEffect(() => {
+    const container = dragConstraints.current;
+    if (!container) {
+      return;
+    }
+
+    const wasZoomed = wasZoomedRef.current;
+    const opening = isZoomed && !wasZoomed;
+    const closing = !isZoomed && wasZoomed;
+    wasZoomedRef.current = isZoomed;
+
+    if (opening || (!isZoomed && !closing)) {
+      const center = getStampCenterInContainer(container, selectedStamp.id);
+      const radius = dialSize / 2;
+      const x = clamp(radius, container.offsetWidth - radius, center.x);
+      const y = clamp(radius, container.offsetHeight - radius, center.y);
+
+      useStampStore.getState().setLoupeCoords({ x, y });
+      magnifierControls.set({
+        x: x - radius,
+        y: y - radius,
+      });
+    }
+
+  }, [dialSize, dragConstraints, isZoomed, lensReady, magnifierControls, selectedStamp.id]);
 
   useEffect(() => {
     const container = dragConstraints.current;
@@ -183,94 +205,72 @@ function Loupe({
       return;
     }
 
-    const canvas = document.createElement('canvas');
-    canvas.width = container.offsetWidth;
-    canvas.height = container.offsetHeight;
+    let requestId = 0;
+    let timer = 0;
+    let width = 0;
+    let height = 0;
 
-    const { ctx } = setupHiDPICtx(
-      canvas,
-      container.offsetWidth,
-      container.offsetHeight,
-      typeof window !== 'undefined' ? window.devicePixelRatio : 1,
-    );
-    if (!ctx) {
-      return;
-    }
-
-    const stampImgEl =
-      activeStampContainerRef.current?.querySelector(`[data-slot="stamp-image"]`) ||
-      document.querySelector(`[data-id="${selectedStamp.id}"] [data-slot="stamp-image"]`);
-    if (!stampImgEl) {
-      return;
-    }
-
-    drawGrid(ctx, {
-      width: container.offsetWidth,
-      height: container.offsetHeight,
-      align: 'top',
-      cellWidth: gridCellSize,
-      cellHeight: gridCellSize,
-      background: colors.stone[100],
-      foreground: isMobile ? colors.stone[200] : colors.stone[300],
-      lineWidth: 1,
-    });
-
-    loadFirstImage([selectedStamp.srcLg, selectedStamp.src])
-      .then((img) => {
-        if (!img) {
-          return;
+    const run = async (id: number, cssWidth: number, cssHeight: number) => {
+      try {
+        const next = await LoupeSource.prepare(
+          LoupeSource.request({
+            stamp: selectedStamp,
+            atlas,
+            sizeScale,
+            centerScale,
+            cssWidth,
+            cssHeight,
+            gridCellSize,
+            isMobile,
+          }),
+        );
+        if (id === requestId) {
+          const { loupeCoords, isZoomed: zoomed, setLoupeCoords } = useStampStore.getState();
+          if (zoomed) {
+            const radius = dialSize / 2;
+            const x = clamp(radius, cssWidth - radius, loupeCoords.x);
+            const y = clamp(radius, cssHeight - radius, loupeCoords.y);
+            setLoupeCoords({ x, y });
+            magnifierControls.set({ x: x - radius, y: y - radius });
+          }
+          if (next === readySourceRef.current) {
+            setLensReady(true);
+          }
+          setSource(next);
         }
+      } catch {
+        if (id === requestId) {
+          setSource(null);
+        }
+      }
+    };
 
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowColor = 'rgba(0,0,0,0.25)';
-        ctx.shadowBlur = 20;
-
-        const imgWidth = stampImgEl.clientWidth * baseScale;
-        const imgHeight = stampImgEl.clientHeight * baseScale;
-
-        const centerX = container.offsetWidth / 2;
-        const centerY = container.offsetHeight / 2;
-
-        ctx.drawImage(img, centerX - imgWidth / 2, centerY - imgHeight / 2, imgWidth, imgHeight);
-      })
-      .finally(() => {
-        // todo: error handling
-        setCanvasData({
-          canvas,
-          cssWidth: container.offsetWidth,
-          cssHeight: container.offsetHeight,
-        });
-      });
-  }, [
-    isMobile,
-    lensSize,
-    selectedStamp,
-    dragConstraints,
-    baseScale,
-    gridCellSize,
-    activeStampContainerRef,
-  ]);
-
-  useEffect(() => {
-    if (!canvasData) {
-      return;
-    }
-
-    let firstFrame = 0;
-    let secondFrame = 0;
-
-    firstFrame = requestAnimationFrame(() => {
-      secondFrame = requestAnimationFrame(() => {
-        onReady?.(selectedStamp.id);
-      });
+    const observer = new ResizeObserver(() => {
+      const nextWidth = container.offsetWidth;
+      const nextHeight = container.offsetHeight;
+      if (nextWidth === width && nextHeight === height) {
+        return;
+      }
+      const initial = width === 0 && height === 0;
+      width = nextWidth;
+      height = nextHeight;
+      const id = ++requestId;
+      window.clearTimeout(timer);
+      setLensReady(false);
+      if (width < 2 || height < 2) {
+        return;
+      }
+      // Avoid building full-board textures for every intermediate resize size.
+      timer = window.setTimeout(() => void run(id, nextWidth, nextHeight), initial ? 0 : 120);
     });
+    observer.observe(container);
 
     return () => {
-      cancelAnimationFrame(firstFrame);
-      cancelAnimationFrame(secondFrame);
+      requestId += 1;
+      window.clearTimeout(timer);
+      observer.disconnect();
     };
-  }, [canvasData, onReady, selectedStamp.id]);
+  }, [atlas, centerScale, dialSize, dragConstraints, gridCellSize, isMobile, magnifierControls, selectedStamp, sizeScale]);
 
   const handlePointerDown = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
@@ -278,7 +278,6 @@ function Loupe({
       dialDragControls.start(event);
       triggerRef.current?.setAttribute('data-dragging', 'true');
 
-      // fixes shift from clicks away from the center of the lens
       const draggableCoords = getPointerOffsetFromElementCenter(
         {
           x: event.clientX,
@@ -305,7 +304,7 @@ function Loupe({
           x: event.clientX,
           y: event.clientY,
         },
-        dragConstraints?.current!,
+        container,
       );
 
       if (draggingMagnifier.current && dragConstraints.current) {
@@ -319,13 +318,13 @@ function Loupe({
         const clampedX = clamp(radius, container.offsetWidth - radius, coords.x);
         const clampedY = clamp(radius, container.offsetHeight - radius, coords.y);
 
-        setCoords({
+        useStampStore.getState().setLoupeCoords({
           x: clampedX,
           y: clampedY,
         });
       }
     },
-    [dragConstraints, draggingMagnifier, draggingMagnifierRefOffset, dialSize, setCoords],
+    [dragConstraints, draggingMagnifier, draggingMagnifierRefOffset, dialSize],
   );
 
   const handlePointerUp = useCallback(() => {
@@ -404,7 +403,7 @@ function Loupe({
     vx /= len;
     vy /= len;
 
-    const { x: cx, y: cy } = useLoupeStore.getState().coords;
+    const { x: cx, y: cy } = useStampStore.getState().loupeCoords;
     const newX = cx + vx * speed * dt;
     const newY = cy + vy * speed * dt;
 
@@ -413,7 +412,7 @@ function Loupe({
     const clampedX = clamp(radius, container.offsetWidth - radius, newX);
     const clampedY = clamp(radius, container.offsetHeight - radius, newY);
 
-    useLoupeStore.setState({ coords: { x: clampedX, y: clampedY } });
+    useStampStore.getState().setLoupeCoords({ x: clampedX, y: clampedY });
 
     magnifierControls.start({
       x: clampedX - radius,
@@ -428,19 +427,20 @@ function Loupe({
     <motion.div
       drag
       data-zoomed={isZoomed}
-      initial={initial}
+      initial={false}
       dragElastic={0.01}
       dragListener={false}
       dragControls={dialDragControls}
       dragMomentum={false}
       dragConstraints={dragConstraints!}
       animate={magnifierControls}
-      style={style}
+      style={{ ...style, opacity: isZoomed && lensReady ? 1 : 0 }}
       className={cn(
-        'loupe absolute z-100 flex aspect-square w-(--dial-size) items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30 outline-offset-8 [&:has(.loupe-trigger:focus-visible)]:outline-stone-400 [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&[data-zoomed="false"]_.loupe-lens]:pointer-events-none!',
-        'shadow-md',
+        'loupe absolute top-0 left-0 z-100 flex aspect-square w-(--dial-size) items-center justify-center rounded-full bg-stone-400 shadow-md shadow-black/30 outline-offset-8 [&:has(.loupe-trigger:focus-visible)]:outline-stone-400 [&:has(.loupe-trigger:focus-visible)]:outline-dashed [&[data-zoomed="false"]_.loupe-lens]:pointer-events-none!',
+        isZoomed ? 'pointer-events-auto' : 'pointer-events-none',
         className,
       )}
+      aria-hidden={!isZoomed}
     >
       <div
         ref={triggerRef}
@@ -451,7 +451,7 @@ function Loupe({
           },
         )}
         role="region"
-        tabIndex={0}
+        tabIndex={isZoomed ? 0 : -1}
         aria-label="Stamps Loupe"
         aria-describedby="stamps-loupe-description"
         aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown"
@@ -463,42 +463,27 @@ function Loupe({
         onKeyUp={handleTriggerKeyUp}
         onBlur={onBlur}
       />
-      <MemoizedLens
-        image={canvasData?.canvas}
-        width={lensSize}
-        height={lensSize}
-        sourceWidth={canvasData?.cssWidth}
-        sourceHeight={canvasData?.cssHeight}
-        ior={1.4}
-        chromaticAberration={0.01}
-        className={cn('loupe-lens')}
-      />
-      <Dial
-        key={isMobile ? 'mobile' : 'desktop'}
-        className="loupe-dial pointer-events-none absolute inset-0 z-50"
-        inscription="PEAK 1983  ⎟  10× Measuring Loupe  ⎟  Digital Stamp Collection · @marijanapav"
-        size={dialSize}
-        tickCount={isMobile ? 120 : 180}
-        tickLength={isMobile ? 4 : 8}
-        tickWidth={1}
-        tickColor={colors.stone[200]}
-        snapAngle={10}
-        stiffness={500}
-        damping={50}
-        value={scale}
-        step={0.01}
-        onChange={handleScaleChange}
-        minAngle={0}
-        minValue={1}
-        maxValue={3}
-        maxAngle={360}
-        disabled={!isZoomed}
-      />
+      {source ? (
+        <Lens
+          image={source.bitmap}
+          width={lensSize}
+          height={lensSize}
+          sourceWidth={source.cssWidth}
+          sourceHeight={source.cssHeight}
+          ior={1.4}
+          chromaticAberration={0.01}
+          className="loupe-lens"
+          live={isZoomed}
+          onReady={() => {
+            readySourceRef.current = source;
+            setLensReady(true);
+          }}
+        />
+      ) : null}
+      <LoupeDial isMobile={isMobile} isZoomed={isZoomed} dialSize={dialSize} />
       <p id="stamps-loupe-description" className="sr-only">
         Use arrow keys to move the loupe. Press Tab to switch between local controls.
       </p>
     </motion.div>
   );
 }
-
-export default Loupe;

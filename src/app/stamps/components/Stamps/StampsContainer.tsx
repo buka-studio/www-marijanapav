@@ -1,6 +1,6 @@
 'use client';
 
-import { MotionProps } from 'framer-motion';
+import { useEffect } from 'react';
 
 import ClientRendered from '~/src/components/ClientRendered';
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '~/src/components/ui/Drawer';
@@ -11,22 +11,21 @@ import { useIsMobile } from './util';
 
 export default function StampsContainer() {
   const stampsDrawerOpen = useStampStore((s) => s.stampsDrawerOpen);
-  const setStampsDrawerOpen = useStampStore((s) => s.setStampsDrawerOpen);
-
-  const desktopStampsProps: MotionProps = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    transition: { duration: 0.5 },
-  };
-
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1023px)');
+    const onChange = () => useStampStore.getState().deselectStamp();
+    media.addEventListener('change', onChange);
+    return () => media.removeEventListener('change', onChange);
+  }, []);
 
   return (
     <ClientRendered>
       {isMobile ? (
         <Drawer
           open={stampsDrawerOpen}
-          onOpenChange={setStampsDrawerOpen}
+          onOpenChange={(open) => useStampStore.getState().setStampsDrawerOpen(open)}
           autoFocus={false}
           shouldScaleBackground={false}
         >
@@ -41,10 +40,7 @@ export default function StampsContainer() {
           </DrawerContent>
         </Drawer>
       ) : (
-        <Stamps
-          className="z-2 col-1 hidden border-l border-stone-300 pr-2 lg:col-2 lg:grid lg:min-w-[680px] lg:pr-8"
-          {...desktopStampsProps}
-        />
+        <Stamps className="z-2 col-1 hidden border-l border-stone-300 pr-2 lg:col-2 lg:grid lg:min-w-[680px] lg:pr-8" />
       )}
     </ClientRendered>
   );
