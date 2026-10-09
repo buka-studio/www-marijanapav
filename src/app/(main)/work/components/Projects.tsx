@@ -17,7 +17,7 @@ type Props = {
 type ViewMode = 'grid' | 'list';
 
 function getViewMode(view: string | null): ViewMode {
-  return view === 'list' ? 'list' : 'grid';
+  return view === 'grid' ? 'grid' : 'list';
 }
 
 export default function Projects({ projects }: Props) {
