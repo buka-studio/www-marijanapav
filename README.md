@@ -34,7 +34,8 @@ This app deploys to Cloudflare Workers through Alchemy and OpenNext.
 
 Alchemy provisions the Worker, D1 database, R2 sketch bucket, and Cloudflare Images binding. The
 `IMAGES` binding is required for OpenNext/Cloudflare `next/image` optimization, so Cloudflare Images
-must be enabled on the Cloudflare account before deploying.
+must be enabled on the Cloudflare account before deploying. `next/image` uses the default loader, so
+`/_next/image` is served by OpenNext through that binding, which also works on `workers.dev` preview URLs.
 
 Install the Cloudflare deployment dependencies after pulling migration changes:
 

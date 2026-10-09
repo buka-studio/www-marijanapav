@@ -76,7 +76,7 @@ export default function ProjectsGrid({ projects }: Props) {
                   <Image
                     alt={project.title}
                     src={project.preview}
-                    quality={100}
+                    quality={90}
                     fill
                     className={cn(
                       'group-hover/hidden:opacity-50 group-focus-visible/hidden:opacity-50',

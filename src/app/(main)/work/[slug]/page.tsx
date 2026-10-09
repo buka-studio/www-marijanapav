@@ -51,12 +51,19 @@ function isProjectImage(
   return typeof media === 'object' && 'type' in media && media.type === 'image';
 }
 
+const mediaSizes =
+  '(min-width: 1536px) 1064px, (min-width: 1024px) calc(100vw - 472px), calc(100vw - 40px)';
+const rowMediaSizes =
+  '(min-width: 1536px) 522px, (min-width: 1024px) calc((100vw - 492px) / 2), (min-width: 640px) calc((100vw - 60px) / 2), calc(100vw - 40px)';
+
 function ProjectMediaFigure({
   item,
   priority = false,
+  sizes = mediaSizes,
 }: {
   item: ProjectMediaItem;
   priority?: boolean;
+  sizes?: string;
 }) {
   if (isProjectVideo(item)) {
     return (
@@ -87,7 +94,9 @@ function ProjectMediaFigure({
         priority={priority}
         src={image}
         alt={caption ?? ''}
-        quality={100}
+        quality={90}
+        sizes={sizes}
+        placeholder={image.blurDataURL ? 'blur' : 'empty'}
         className="focus-within:outline-theme-1 max-h-full w-full object-cover"
       />
       {caption && (
@@ -171,7 +180,7 @@ export default async function Work({
               return (
                 <div key={i} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   {item.items.map((rowItem, rowIndex) => (
-                    <ProjectMediaFigure key={rowIndex} item={rowItem} />
+                    <ProjectMediaFigure key={rowIndex} item={rowItem} sizes={rowMediaSizes} />
                   ))}
                 </div>
               );

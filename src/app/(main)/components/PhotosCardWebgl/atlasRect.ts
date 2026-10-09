@@ -1,9 +1,8 @@
 import * as THREE from 'three';
 
-import { photos } from '../photos';
 import { photosAtlas } from './atlas';
 
-export const photosAtlasRows = Math.ceil(photos.length / photosAtlas.columns);
+export const photosAtlasRows = Math.ceil(photosAtlas.cells.length / photosAtlas.columns);
 
 const insetU = 1 / (photosAtlas.columns * photosAtlas.cellWidth);
 const insetV = 1 / (photosAtlasRows * photosAtlas.cellHeight);

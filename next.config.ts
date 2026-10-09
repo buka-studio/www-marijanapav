@@ -11,9 +11,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['@react-three/drei'],
   },
   images: {
-    loader: 'custom',
-    loaderFile: './image-loader.ts',
-    qualities: [80, 90, 100],
+    qualities: [80, 90],
   },
   turbopack: {
     rules: {

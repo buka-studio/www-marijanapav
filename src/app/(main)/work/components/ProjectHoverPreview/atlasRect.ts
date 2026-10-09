@@ -1,15 +1,12 @@
 import * as THREE from 'three';
 
-import { isVisibleStaticProject, projects } from '../../constants';
 import { previewAtlas } from './atlas';
 
-const atlasSlugs = projects
-  .filter(isVisibleStaticProject)
-  .flatMap((project) => (project.slug ? [project.slug] : []));
+export const atlasRows = Math.ceil(previewAtlas.cells.length / previewAtlas.columns);
 
-export const atlasRows = Math.ceil(atlasSlugs.length / previewAtlas.columns);
-
-const atlasIndexBySlug = new Map(atlasSlugs.map((slug, index) => [slug, index]));
+const atlasIndexBySlug = new Map<string, number>(
+  previewAtlas.cells.map((cell, index) => [cell.slug, index]),
+);
 
 const insetU = 1 / (previewAtlas.columns * previewAtlas.cellWidth);
 const insetV = 1 / (atlasRows * previewAtlas.cellHeight);
