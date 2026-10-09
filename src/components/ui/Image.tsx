@@ -5,26 +5,29 @@ import { ComponentProps, useState } from 'react';
 
 import { cn } from '~/src/util';
 
-function Image({
-  className,
-  ref,
-  fade = true,
-  ...props
-}: ComponentProps<typeof NextImage> & { fade?: boolean; ref?: React.Ref<HTMLImageElement> }) {
-  const [loaded, setLoaded] = useState(!fade);
+type ImageProps = ComponentProps<typeof NextImage> & {
+  ref?: React.Ref<HTMLImageElement>;
+  transition?: boolean;
+};
+
+function Image({ className, ref, transition = true, onLoad, ...props }: ImageProps) {
+  const [loaded, setLoaded] = useState(!transition);
+
   return (
     <NextImage
       {...props}
       ref={ref}
       onLoad={(e) => {
-        props.onLoad?.(e);
-        setLoaded(true);
+        onLoad?.(e);
+        if (transition) {
+          setLoaded(true);
+        }
       }}
       className={cn(
-        fade && 'transition-all duration-500',
-        fade && {
-          'scale-95 blur-md': !loaded,
-          'blur-0 scale-100': loaded,
+        {
+          'transition-all duration-500': transition,
+          'scale-95 blur-md': transition && !loaded,
+          'blur-0 scale-100': transition && loaded,
         },
         className,
       )}

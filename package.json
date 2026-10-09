@@ -14,11 +14,13 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit --pretty false",
+    "atlas": "pnpm atlas:stamps && pnpm atlas:work-preview && pnpm atlas:photos",
+    "atlas:stamps": "tsx scripts/build-stamps-atlas.ts",
+    "atlas:work-preview": "tsx scripts/build-work-preview-atlas.ts",
+    "atlas:photos": "tsx scripts/build-photos-atlas.ts",
     "db:generate": "drizzle-kit generate --config drizzle.config.ts",
     "db:migrate:local": "wrangler d1 migrations apply marijana-site-db --local",
-    "db:migrate:remote": "wrangler d1 migrations apply marijana-site-db --remote",
-    "atlas": "pnpm atlas:stamps",
-    "atlas:stamps": "tsx scripts/build-stamps-atlas.ts"
+    "db:migrate:remote": "wrangler d1 migrations apply marijana-site-db --remote"
   },
   "dependencies": {
     "@phosphor-icons/react": "~2.1.10",
@@ -54,6 +56,7 @@
     "react-error-boundary": "~6.1.5",
     "react-focus-lock": "~2.13.7",
     "react-responsive-masonry": "~2.7.2",
+    "super-hover": "~0.1.2",
     "sharp": "~0.35.4",
     "tailwind-merge": "~3.6.0",
     "three": "~0.186.0",

@@ -209,7 +209,9 @@ export default class LoupeSource {
         }
         LoupeSource.#pending.delete(event.data.id);
         if (event.data.type === 'result') {
-          job.resolve(new LoupeSource(event.data.bitmap, event.data.cssWidth, event.data.cssHeight));
+          job.resolve(
+            new LoupeSource(event.data.bitmap, event.data.cssWidth, event.data.cssHeight),
+          );
           return;
         }
         job.reject(new Error(event.data.error));

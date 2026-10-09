@@ -1,7 +1,16 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { ComponentProps, KeyboardEvent, memo, MouseEvent, PointerEvent, RefObject, useRef, useState } from 'react';
+import {
+  ComponentProps,
+  KeyboardEvent,
+  memo,
+  MouseEvent,
+  PointerEvent,
+  RefObject,
+  useRef,
+  useState,
+} from 'react';
 import FocusLock from 'react-focus-lock';
 
 import {
@@ -84,7 +93,10 @@ function StampCard({
     }
     if (event.target instanceof Element) {
       const target = event.target;
-      if (target.closest('button, a') || target.closest('[role="dialog"]') !== event.currentTarget.closest('[role="dialog"]')) {
+      if (
+        target.closest('button, a') ||
+        target.closest('[role="dialog"]') !== event.currentTarget.closest('[role="dialog"]')
+      ) {
         return;
       }
     }
@@ -132,8 +144,12 @@ function StampCard({
       onClick={onClick}
       onPointerDownCapture={handleSwipeStart}
       onPointerUpCapture={handleSwipeEnd}
-      onPointerCancelCapture={() => { swipe.current = null; }}
-      onLostPointerCapture={() => { swipe.current = null; }}
+      onPointerCancelCapture={() => {
+        swipe.current = null;
+      }}
+      onLostPointerCapture={() => {
+        swipe.current = null;
+      }}
       onClickCapture={(event) => {
         if (suppressClick.current) {
           suppressClick.current = false;

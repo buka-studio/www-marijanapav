@@ -147,7 +147,7 @@ export default function MetadataTable({ className }: { className?: string }) {
                   alt="Original stamp"
                   width={200}
                   height={200}
-                  fade={false}
+                  transition={false}
                 />
               </PopoverOrHoverCard>
               <span className="lg:hidden">existing stamp.</span>
@@ -158,7 +158,7 @@ export default function MetadataTable({ className }: { className?: string }) {
                 alt="Original stamp"
                 width={200}
                 height={200}
-                fade={false}
+                transition={false}
                 className="h-full w-full object-contain object-center"
               />
             </div>

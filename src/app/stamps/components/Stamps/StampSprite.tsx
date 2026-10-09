@@ -16,13 +16,7 @@ interface Props {
   style?: CSSProperties;
 }
 
-export default function StampSprite({
-  stamp,
-  atlas,
-  sizeScale = 1,
-  className,
-  style,
-}: Props) {
+export default function StampSprite({ stamp, atlas, sizeScale = 1, className, style }: Props) {
   const { width, height } = getStampSpriteSize(stamp, atlas, sizeScale);
   const item = atlas?.items[stamp.id];
 

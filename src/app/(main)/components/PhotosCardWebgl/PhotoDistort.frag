@@ -2,15 +2,13 @@ precision mediump float;
 
 varying highp vec2 vUv;
 
-uniform sampler2D uTexture;
-uniform sampler2D uTexturePrev;
-uniform sampler2D uTextureNext;
+uniform sampler2D uAtlas;
 uniform float uHasTexture;
 uniform float uHasTexturePrev;
 uniform float uHasTextureNext;
-uniform highp vec4 uCoverTransform;
-uniform highp vec4 uCoverTransformPrev;
-uniform highp vec4 uCoverTransformNext;
+uniform highp vec4 uAtlasRect;
+uniform highp vec4 uAtlasRectPrev;
+uniform highp vec4 uAtlasRectNext;
 uniform vec2 uPlaneSize;
 uniform float uBlur;
 uniform float uGap;
@@ -27,8 +25,8 @@ float interleavedGradientNoise(highp vec2 pixel) {
   return fract(52.9829189 * fract(dot(pixel, vec2(0.06711056, 0.00583715))));
 }
 
-highp vec2 objectCoverUv(highp vec2 uv, highp vec4 transform) {
-  return uv * transform.xy + transform.zw;
+highp vec2 atlasUv(highp vec2 uv, highp vec4 rect) {
+  return uv * rect.xy + rect.zw;
 }
 
 float roundedRectAlpha(highp vec2 uv) {
@@ -54,22 +52,22 @@ float roundedRectAlpha(highp vec2 uv) {
   return 1.0 - smoothstep(-0.75, 0.75, dist);
 }
 
-vec4 samplePhoto(sampler2D tex, highp vec4 coverTransform, highp vec2 uv, float hasTexture) {
+vec4 samplePhoto(highp vec4 rect, highp vec2 uv, float hasTexture) {
   if (hasTexture < 0.5) {
     return vec4(0.0);
   }
 
-  vec3 rgb = texture2D(tex, objectCoverUv(uv, coverTransform)).rgb;
+  vec3 rgb = texture2D(uAtlas, atlasUv(uv, rect)).rgb;
   return vec4(rgb, 1.0);
 }
 
-vec4 sampleCover(sampler2D tex, highp vec4 coverTransform, highp vec2 uv, float hasTexture) {
+vec4 sampleCover(highp vec4 rect, highp vec2 uv, float hasTexture) {
   float alpha = roundedRectAlpha(uv);
   if (alpha <= 0.0) {
     return vec4(0.0);
   }
 
-  vec4 photo = samplePhoto(tex, coverTransform, uv, hasTexture);
+  vec4 photo = samplePhoto(rect, uv, hasTexture);
   return vec4(photo.rgb, alpha * photo.a);
 }
 
@@ -77,15 +75,15 @@ vec4 sampleStrip(highp vec2 uv) {
   float stride = 1.0 + max(uGap, 0.0);
 
   if (uv.x >= 0.0 && uv.x <= 1.0) {
-    return samplePhoto(uTexture, uCoverTransform, uv, uHasTexture);
+    return samplePhoto(uAtlasRect, uv, uHasTexture);
   }
 
   if (uv.x >= stride && uv.x <= stride + 1.0) {
-    return samplePhoto(uTextureNext, uCoverTransformNext, vec2(uv.x - stride, uv.y), uHasTextureNext);
+    return samplePhoto(uAtlasRectNext, vec2(uv.x - stride, uv.y), uHasTextureNext);
   }
 
   if (uv.x >= -stride && uv.x <= -stride + 1.0) {
-    return samplePhoto(uTexturePrev, uCoverTransformPrev, vec2(uv.x + stride, uv.y), uHasTexturePrev);
+    return samplePhoto(uAtlasRectPrev, vec2(uv.x + stride, uv.y), uHasTexturePrev);
   }
 
   return vec4(0.0);
@@ -100,7 +98,7 @@ void main() {
       gl_FragColor = vec4(0.0);
       return;
     }
-    color = sampleCover(uTexture, uCoverTransform, photoUv, uHasTexture);
+    color = sampleCover(uAtlasRect, photoUv, uHasTexture);
   } else {
     vec3 rgb = vec3(0.0);
     float alpha = 0.0;

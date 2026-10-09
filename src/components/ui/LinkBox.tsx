@@ -8,6 +8,10 @@ interface Props extends ComponentProps<'div'> {
   asChild?: boolean;
 }
 
+interface LinkBoxLinkProps extends ComponentProps<'a'> {
+  asChild?: boolean;
+}
+
 function LinkBox({
   asChild,
   children,
@@ -31,13 +35,16 @@ function LinkBox({
 }
 
 export function LinkBoxLink({
+  asChild,
   children,
   className = '',
   ref,
   ...props
-}: ComponentProps<'a'> & { ref?: React.Ref<HTMLAnchorElement> }) {
+}: LinkBoxLinkProps & { ref?: React.Ref<HTMLAnchorElement> }) {
+  const Component = asChild ? Slot.Root : ('a' as any);
+
   return (
-    <a
+    <Component
       className={cn(
         'link-overlay before:absolute before:inset-0 before:block before:h-full before:w-full before:cursor-[inherit]',
         className,
@@ -46,7 +53,7 @@ export function LinkBoxLink({
       ref={ref}
     >
       {children}
-    </a>
+    </Component>
   );
 }
 

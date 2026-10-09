@@ -74,11 +74,8 @@ type LensMatImpl = THREE.ShaderMaterial & {
 };
 
 function imageToTexture(image: ImageSource) {
-  const isCanvas =
-    typeof HTMLCanvasElement !== 'undefined' && image instanceof HTMLCanvasElement;
-  const texture = isCanvas
-    ? new THREE.CanvasTexture(image)
-    : new THREE.Texture(image);
+  const isCanvas = typeof HTMLCanvasElement !== 'undefined' && image instanceof HTMLCanvasElement;
+  const texture = isCanvas ? new THREE.CanvasTexture(image) : new THREE.Texture(image);
   texture.flipY = !(typeof ImageBitmap !== 'undefined' && image instanceof ImageBitmap);
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;

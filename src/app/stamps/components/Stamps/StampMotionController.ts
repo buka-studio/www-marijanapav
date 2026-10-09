@@ -1,6 +1,15 @@
 import type { MouseEvent, PointerEvent } from 'react';
 
-import { clamp, degToRad, lerp, radToDeg, randInt, rotate2d, sampleStops, velocityFromSamples } from '~/src/math';
+import {
+  clamp,
+  degToRad,
+  lerp,
+  radToDeg,
+  randInt,
+  rotate2d,
+  sampleStops,
+  velocityFromSamples,
+} from '~/src/math';
 
 type Placement = {
   x: number;
@@ -283,7 +292,10 @@ export default class StampMotionController {
     );
 
     this.#focused = true;
-    this.#animateFocusTo({ x: local.x, y: local.y, rotate: -this.#placement.rotate, scale }, animate);
+    this.#animateFocusTo(
+      { x: local.x, y: local.y, rotate: -this.#placement.rotate, scale },
+      animate,
+    );
   }
 
   unfocus(animate = true) {
@@ -624,8 +636,10 @@ export default class StampMotionController {
       { duration, easing: SPRING_EASE, fill: 'forwards' },
     );
     this.#focusAnimation = animation;
-    this.#afterCurrentAnimation(animation, () => this.#focusAnimation === animation, () =>
-      this.#setFocus(pose),
+    this.#afterCurrentAnimation(
+      animation,
+      () => this.#focusAnimation === animation,
+      () => this.#setFocus(pose),
     );
   }
 
@@ -660,8 +674,10 @@ export default class StampMotionController {
     );
     this.#placementAnimation = animation;
     this.#placementTarget = pose;
-    this.#afterCurrentAnimation(animation, () => this.#placementAnimation === animation, () =>
-      this.#setPlacement(pose),
+    this.#afterCurrentAnimation(
+      animation,
+      () => this.#placementAnimation === animation,
+      () => this.#setPlacement(pose),
     );
   }
 

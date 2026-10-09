@@ -34,7 +34,13 @@ import { PunchPattern } from './PunchPattern';
 import StampBoard from './StampBoard';
 import StampCard from './StampCard';
 import StampMotionController from './StampMotionController';
-import { getStampId, getStampIdFromEvent, stampFadeInProps, useIsMobile, whenElementSized } from './util';
+import {
+  getStampId,
+  getStampIdFromEvent,
+  stampFadeInProps,
+  useIsMobile,
+  whenElementSized,
+} from './util';
 
 const dismissPad = { x: 12, top: 12, bottom: 56 };
 const BOARD_MIN_PX = 80;
@@ -164,7 +170,11 @@ function shouldIgnoreDismiss(target: EventTarget | null, boardRoot: HTMLElement)
   if (!(target instanceof Element)) {
     return true;
   }
-  if (target.closest('button, a, input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+  if (
+    target.closest(
+      'button, a, input, textarea, select, [contenteditable]:not([contenteditable="false"])',
+    )
+  ) {
     return true;
   }
   // The mobile board itself lives in a dialog; only ignore nested dialogs.
@@ -237,19 +247,22 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
   const stampsDragContainerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const focusById = useCallback((id: string | null) => {
-    if (!id) {
-      return;
-    }
+  const focusById = useCallback(
+    (id: string | null) => {
+      if (!id) {
+        return;
+      }
 
-    const el = board.getElement(id);
-    if (!el) {
-      return;
-    }
+      const el = board.getElement(id);
+      if (!el) {
+        return;
+      }
 
-    el.focus();
-    focusedStampIdRef.current = id;
-  }, [board]);
+      el.focus();
+      focusedStampIdRef.current = id;
+    },
+    [board],
+  );
 
   const getIndexById = useCallback(
     (id: string | null | undefined) => {
@@ -308,14 +321,17 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     [board],
   );
 
-  const handleDragEnd = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    const id = getStampIdFromEvent(event);
-    if (id === null) {
-      return;
-    }
+  const handleDragEnd = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      const id = getStampIdFromEvent(event);
+      if (id === null) {
+        return;
+      }
 
-    board.setDragging(id, false);
-  }, [board]);
+      board.setDragging(id, false);
+    },
+    [board],
+  );
 
   const handleSpreadOut = useCallback(
     ({ stagger = 5 }: { stagger?: number } = {}) => {
@@ -458,14 +474,17 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
     deselectStamp();
   }, [playLoupeDeactivationSound]);
 
-  const handleNavigateStamp = useCallback((direction: -1 | 1) => {
-    const { selectedStampId, isZoomed, overlayOpen } = useStampStore.getState();
-    const index = stamps.findIndex((stamp) => stamp.id === selectedStampId);
-    if (index < 0 || isZoomed || overlayOpen) {
-      return;
-    }
-    handleSelectStamp(stamps[(index + direction + stamps.length) % stamps.length].id);
-  }, [handleSelectStamp, stamps]);
+  const handleNavigateStamp = useCallback(
+    (direction: -1 | 1) => {
+      const { selectedStampId, isZoomed, overlayOpen } = useStampStore.getState();
+      const index = stamps.findIndex((stamp) => stamp.id === selectedStampId);
+      if (index < 0 || isZoomed || overlayOpen) {
+        return;
+      }
+      handleSelectStamp(stamps[(index + direction + stamps.length) % stamps.length].id);
+    },
+    [handleSelectStamp, stamps],
+  );
 
   const handleDeactivateZoom = useCallback(() => {
     const { isZoomed: zoomed, setZoomed } = useStampStore.getState();
@@ -716,9 +735,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
         className="relative row-3 flex h-full items-start lg:row-1"
         ref={containerRef}
       >
-        <div
-          className="pointer-events-none absolute inset-0 top-1/2 left-1/2 z-0 h-full w-full -translate-x-1/2 -translate-y-1/2 overflow-clip border border-solid border-stone-300 duration-500 select-none"
-        >
+        <div className="pointer-events-none absolute inset-0 top-1/2 left-1/2 z-0 h-full w-full -translate-x-1/2 -translate-y-1/2 overflow-clip border border-solid border-stone-300 duration-500 select-none">
           <CanvasGrid
             background={colors.stone[100]}
             foreground={colors.stone[300]}
@@ -769,9 +786,7 @@ export default function Stamps({ className, ...props }: ComponentProps<typeof mo
             );
           })}
         </div>
-        <div
-          className="absolute top-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-5"
-        >
+        <div className="absolute top-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-5">
           <AnimatePresence mode="wait">
             {!hasSelection ? (
               <motion.div

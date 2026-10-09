@@ -113,6 +113,9 @@ importers:
       sharp:
         specifier: ~0.35.4
         version: 0.35.4(@types/node@25.9.1)
+      super-hover:
+        specifier: ~0.1.2
+        version: 0.1.2(react@19.3.0)
       tailwind-merge:
         specifier: ~3.6.0
         version: 3.6.0
@@ -6827,6 +6830,17 @@ packages:
       '@babel/core':
         optional: true
       babel-plugin-macros:
+        optional: true
+
+  super-hover@0.1.2:
+    resolution: {integrity: sha512-4aZT3zUS3B8hPM3mQUPpRZZ0l10mLcSJV3k0lmABcaFU4A05DhcjdRj+r8qwjgQ2/vWvB3PMyuw4fU48PmYBkw==}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      vue: ^3.4.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      vue:
         optional: true
 
   supports-color@10.2.2:
@@ -14227,6 +14241,10 @@ snapshots:
       react: 19.3.0
     optionalDependencies:
       '@babel/core': 7.29.7
+
+  super-hover@0.1.2(react@19.3.0):
+    optionalDependencies:
+      react: 19.3.0
 
   supports-color@10.2.2: {}
 

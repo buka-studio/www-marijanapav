@@ -12,7 +12,6 @@ import { useFeedbackMutation } from '~/src/lib/query/api';
 import { cn, preloadImage } from '~/src/util';
 
 import { useStampStore } from '../../../store';
-
 import FeedbackForm from './FeedbackForm';
 import FlipCard, { FlipCardBack, FlipCardFront, FlipCardTrigger } from './FlipCard';
 import {

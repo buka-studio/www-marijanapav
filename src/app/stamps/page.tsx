@@ -11,9 +11,7 @@ export default function Page() {
   preloadImage(stampAtlases.typographic.metadata.src);
 
   return (
-    <div
-      className="stamps-page grain grid min-h-svh grid-cols-1 grid-rows-[auto_auto] gap-10 overflow-clip bg-stone-100 lg:h-screen lg:max-h-screen lg:grid-cols-[minmax(auto,600px)_1fr] lg:grid-rows-1 lg:gap-x-6 lg:pl-10 xl:gap-x-10"
-    >
+    <div className="stamps-page grain grid min-h-svh grid-cols-1 grid-rows-[auto_auto] gap-10 overflow-clip bg-stone-100 lg:h-screen lg:max-h-screen lg:grid-cols-[minmax(auto,600px)_1fr] lg:grid-rows-1 lg:gap-x-6 lg:pl-10 xl:gap-x-10">
       <style
         dangerouslySetInnerHTML={{
           __html: `:root{background:#f5f5f4 !important;}`,

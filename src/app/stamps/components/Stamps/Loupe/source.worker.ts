@@ -18,10 +18,9 @@ export type WorkerResponse =
   | { type: 'error'; id: number; error: string };
 
 function postResult(message: WorkerResponse, transfer?: Transferable[]) {
-  (self as unknown as { postMessage: (msg: WorkerResponse, transfer?: Transferable[]) => void }).postMessage(
-    message,
-    transfer,
-  );
+  (
+    self as unknown as { postMessage: (msg: WorkerResponse, transfer?: Transferable[]) => void }
+  ).postMessage(message, transfer);
 }
 
 self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
