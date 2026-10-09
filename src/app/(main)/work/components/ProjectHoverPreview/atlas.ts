@@ -14,7 +14,7 @@ export const previewAtlas = {
     { slug: 'echo-tab-landing', file: 'work/echo-tab-landing-page/preview.png' },
     { slug: 'supabase-branding', file: 'work/supabase-homepage/supabase-homepage-hero.png' },
     { slug: 'supabase-launch-week-12', file: 'work/supabase-lw12/preview.png' },
-    { slug: 'supabase-launch-week-8', file: 'work/stamps/stars.gif' },
+    { slug: 'supabase-launch-week-8', file: 'work/stamps/stars.webp' },
     { slug: 'supabase-lw7', file: 'work/supabase-lw7/preview.png' },
     { slug: 'infinum-beer', file: 'work/infinum-beer/preview.png' },
     { slug: 'infinum-swag', file: 'work/infinum-merch/infinum_merch_00.jpg' },

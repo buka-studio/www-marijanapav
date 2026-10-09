@@ -85,6 +85,7 @@ export const website = await Nextjs('website', {
     SKETCHES: sketches,
     IMAGES: images,
     NEXT_PUBLIC_HOST: isProduction ? (process.env.NEXT_PUBLIC_HOST ?? 'marijanapav.com') : '',
+    NEXT_PUBLIC_IMAGE_EDGE: isProduction ? '1' : '',
     NEXT_PUBLIC_BUILD_TIME: `${Math.floor(Date.now() / 1000)}`,
     NEXT_PUBLIC_UMAMI_WEBSITE_ID: isProduction
       ? (process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID ?? '')

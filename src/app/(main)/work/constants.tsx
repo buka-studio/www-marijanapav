@@ -63,7 +63,7 @@ import Sketchbook02 from '~/public/work/sketchbook/sketchbook_2.png';
 import Sketchbook02a from '~/public/work/sketchbook/sketchbook_2a.png';
 import Sketchbook03 from '~/public/work/sketchbook/sketchbook_3.png';
 import SketchbookPreview from '~/public/work/sketchbook/sketchbook_main.png';
-import Stars from '~/public/work/stamps/stars.gif';
+import Stars from '~/public/work/stamps/stars.webp';
 import SupabaseArchitectureDiagrams from '~/public/work/supabase-homepage/supabase-architecture-diagrams.jpg';
 import SupabaseCareers from '~/public/work/supabase-homepage/supabase-careers.png';
 import SupabaseDashboardMigrations from '~/public/work/supabase-homepage/supabase-dashboard-migrations.png';
