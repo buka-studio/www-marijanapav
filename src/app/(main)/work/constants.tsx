@@ -150,6 +150,7 @@ export type StaticProject = {
   slug?: string;
   filters: Filter[];
   preview: StaticImageData;
+  previewUnoptimized?: boolean;
   aspect?: number;
   previewPadded?: boolean;
   blocks?: Array<Array<StaticImageData | ReactNode>>;
@@ -469,6 +470,7 @@ export const projects: Project[] = [
     title: 'Supabase Launch Week 8',
     slug: 'supabase-launch-week-8',
     preview: Stars,
+    previewUnoptimized: true,
     images: [
       SupabaseLW8PostLaunch,
       SupabaseLW8,

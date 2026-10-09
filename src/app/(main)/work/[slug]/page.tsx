@@ -147,7 +147,7 @@ export default async function Work({
             <Link href={workHref} className="shrink-0">
               <ArrowLeftIcon className="size-5" />
             </Link>
-            <h1 className="max-w-xl text-left text-sm font-medium text-pretty text-white">
+            <h1 className="max-w-xl text-left text-sm font-medium text-pretty text-foreground">
               {project.title}
             </h1>
           </div>

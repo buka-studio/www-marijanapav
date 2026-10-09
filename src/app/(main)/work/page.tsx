@@ -43,6 +43,7 @@ export default async function Work({
             const { props } = getImageProps({
               alt: '',
               src: project.preview,
+              unoptimized: project.previewUnoptimized,
               quality: 90,
               sizes: projectGridPreviewSizes,
             });

@@ -76,6 +76,7 @@ export default function ProjectsGrid({ projects }: Props) {
                   <Image
                     alt={project.title}
                     src={project.preview}
+                    unoptimized={project.previewUnoptimized}
                     quality={90}
                     fill
                     className={cn(

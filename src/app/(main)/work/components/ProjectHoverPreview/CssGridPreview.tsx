@@ -57,6 +57,7 @@ const PreviewItem = memo(function PreviewItem({
         <Image
           alt=""
           src={project.preview}
+          unoptimized={project.previewUnoptimized}
           fill
           quality={90}
           sizes="350px"
