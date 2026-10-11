@@ -21,8 +21,6 @@ import * as THREE from 'three';
 import CardTitle from '~/src/components/ui/CardTitle';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 import useResizeRef from '~/src/hooks/useResizeRef';
-import { cn } from '~/src/util';
-
 import Card from '../Card';
 import { photos } from '../photos';
 import { photosAtlas } from './atlas';
@@ -55,6 +53,12 @@ const CANVAS_GL = {
 };
 const CANVAS_CAMERA = { position: [0, 0, 100] as [number, number, number], zoom: 1 };
 const CAPTURE_PASSIVE = { capture: true, passive: true } as const;
+const DOT_PX = 10;
+const DOT_ACTIVE_WIDTH_PX = 30;
+const DOT_ACTIVE_HEIGHT_PX = 6;
+const DOT_GAP_PX = 6;
+const INDICATORS_WIDTH =
+  PHOTO_COUNT * DOT_PX + (DOT_ACTIVE_WIDTH_PX - DOT_PX) + (PHOTO_COUNT - 1) * DOT_GAP_PX;
 
 useLoader.preload(THREE.TextureLoader, photosAtlas.src);
 
@@ -137,6 +141,33 @@ type PhotoDistortMatImpl = InstanceType<typeof PhotoDistortMaterial>;
 
 function wrapIndex(index: number) {
   return ((index % PHOTO_COUNT) + PHOTO_COUNT) % PHOTO_COUNT;
+}
+
+type DotLayout = { x: number; y: number; width: number; height: number; active: number };
+
+function layoutDots(position: number): DotLayout[] {
+  const wrapped = ((position % PHOTO_COUNT) + PHOTO_COUNT) % PHOTO_COUNT;
+  const dots: DotLayout[] = [];
+  let x = 0;
+  for (let index = 0; index < PHOTO_COUNT; index += 1) {
+    const offset = Math.abs(wrapped - index);
+    const active = Math.max(0, 1 - Math.min(offset, PHOTO_COUNT - offset));
+    const width = DOT_PX + (DOT_ACTIVE_WIDTH_PX - DOT_PX) * active;
+    const height = DOT_PX - (DOT_PX - DOT_ACTIVE_HEIGHT_PX) * active;
+    dots.push({ x, y: (DOT_PX - height) / 2, width, height, active });
+    x += width + DOT_GAP_PX;
+  }
+  return dots;
+}
+
+const INITIAL_DOTS = layoutDots(0);
+
+function applyDotRect(rect: SVGRectElement, dot: DotLayout) {
+  rect.setAttribute('x', String(dot.x));
+  rect.setAttribute('y', String(dot.y));
+  rect.setAttribute('width', String(dot.width));
+  rect.setAttribute('height', String(dot.height));
+  rect.setAttribute('rx', String(dot.height / 2));
 }
 
 function configureAtlasTexture(texture: THREE.Texture) {
@@ -259,6 +290,7 @@ const CarouselScene = memo(function CarouselScene({
   reduceMotion,
   paramsRef,
   overlayRef,
+  onScrollProgress,
   onFirstPhotoDrawn,
 }: {
   lenisRef: React.RefObject<Lenis | undefined>;
@@ -269,6 +301,7 @@ const CarouselScene = memo(function CarouselScene({
   reduceMotion: boolean;
   paramsRef: React.RefObject<PhotoDistortParams>;
   overlayRef: React.MutableRefObject<THREE.Vector4>;
+  onScrollProgress: (position: number) => void;
   onFirstPhotoDrawn: () => void;
 }) {
   const atlas = useLoader(THREE.TextureLoader, photosAtlas.src);
@@ -279,6 +312,7 @@ const CarouselScene = memo(function CarouselScene({
   const previousScrollRef = useRef(0);
   const speedRef = useRef(0);
   const firstPhotoDrawnRef = useRef(false);
+  const progressRef = useRef(Number.NaN);
   const slotPhotoRef = useRef<number[]>(Array.from({ length: VISIBLE_SLOTS }, () => -1));
   const spacing = stride > 1 ? stride : width + GAP_PX;
   const cycle = loopWidth > 0 ? loopWidth : PHOTO_COUNT * spacing;
@@ -343,6 +377,11 @@ const CarouselScene = memo(function CarouselScene({
     const blurT = Math.max(0, (amount - params.blurThreshold) / blurSpan);
     const blur = blurT * blurT * params.maxBlur;
     const origin = Math.round(scroll / Math.max(spacing, 1));
+    const position = scroll / Math.max(spacing, 1);
+    if (progressRef.current !== position) {
+      progressRef.current = position;
+      onScrollProgress(position);
+    }
     const overlay = overlayRef.current;
     const materials = materialRefs.current;
     const meshes = meshRefs.current;
@@ -716,6 +755,7 @@ const PhotosStage = memo(function PhotosStage({
   overlayRef,
   inView,
   onPhotoChange,
+  onScrollProgress,
   onFirstPhotoDrawn,
 }: {
   width: number;
@@ -728,6 +768,7 @@ const PhotosStage = memo(function PhotosStage({
   overlayRef: React.MutableRefObject<THREE.Vector4>;
   inView: boolean;
   onPhotoChange: (index: number) => void;
+  onScrollProgress: (position: number) => void;
   onFirstPhotoDrawn: () => void;
 }) {
   const canvasStyle = useMemo(
@@ -767,6 +808,7 @@ const PhotosStage = memo(function PhotosStage({
             reduceMotion={reduceMotion}
             paramsRef={paramsRef}
             overlayRef={overlayRef}
+            onScrollProgress={onScrollProgress}
             onFirstPhotoDrawn={onFirstPhotoDrawn}
           />
         </Suspense>
@@ -804,6 +846,10 @@ export default function PhotosCardWebgl({
   const carouselFocusedRef = useRef(false);
   const lenisRef = useRef<Lenis | undefined>(undefined);
   const photoRef = useRef(0);
+  const activePhotoRef = useRef(0);
+  const dotBaseRefs = useRef<(SVGRectElement | null)[]>([]);
+  const dotFillRefs = useRef<(SVGRectElement | null)[]>([]);
+  const dotLayoutRef = useRef(INITIAL_DOTS);
   const overlayRef = useRef(new THREE.Vector4(0, 0, 0, 0.1));
   const paramsRef = useRef(params);
   const reduceMotionRef = useRef(false);
@@ -845,9 +891,37 @@ export default function PhotosCardWebgl({
     }
 
     photoRef.current = index;
-    setPhoto(index);
     if (carouselFocusedRef.current) {
       setLiveText(`Photo ${index + 1} of ${PHOTO_COUNT}`);
+    }
+  }, []);
+
+  const handleScrollProgress = useCallback((position: number) => {
+    const previousDots = dotLayoutRef.current;
+    const dots = layoutDots(position);
+    dotLayoutRef.current = dots;
+    for (let index = 0; index < PHOTO_COUNT; index += 1) {
+      const dot = dots[index];
+      const previous = previousDots[index];
+      if (previous.x === dot.x && previous.active === dot.active) {
+        continue;
+      }
+
+      const base = dotBaseRefs.current[index];
+      const fill = dotFillRefs.current[index];
+      if (base) {
+        applyDotRect(base, dot);
+      }
+      if (fill) {
+        applyDotRect(fill, dot);
+        fill.setAttribute('opacity', String(dot.active));
+      }
+    }
+
+    const activePhoto = wrapIndex(Math.round(position));
+    if (activePhotoRef.current !== activePhoto) {
+      activePhotoRef.current = activePhoto;
+      setPhoto(activePhoto);
     }
   }, []);
 
@@ -882,12 +956,12 @@ export default function PhotosCardWebgl({
   );
 
   const handleIndicatorPointerDown = useCallback(
-    (event: React.PointerEvent<HTMLDivElement>) => {
+    (event: React.PointerEvent<SVGSVGElement>) => {
       if (event.button !== 0) {
         return;
       }
 
-      const target = (event.target as HTMLElement).closest<HTMLElement>('[data-photo-index]');
+      const target = (event.target as Element).closest<SVGElement>('[data-photo-index]');
       if (!target || !event.currentTarget.contains(target)) {
         return;
       }
@@ -907,22 +981,45 @@ export default function PhotosCardWebgl({
     <Card className="flex flex-col gap-5">
       <div className="xxs:flex-row xxs:items-center flex flex-col items-start justify-between gap-2">
         <CardTitle variant="mono">Camera roll</CardTitle>
-        <div
-          className="flex items-center justify-center gap-[6px]"
+        <svg
+          className="block shrink-0 overflow-visible"
+          width={INDICATORS_WIDTH}
+          height={DOT_PX}
+          viewBox={`0 0 ${INDICATORS_WIDTH} ${DOT_PX}`}
           aria-hidden
           onPointerDown={handleIndicatorPointerDown}
         >
-          {photos.map((item, index) => (
-            <span
-              key={item.src}
-              data-photo-index={index}
-              className={cn('h-[10px] rounded-full transition-all duration-150', {
-                'bg-panel-overlay w-[10px]': index !== photo,
-                'bg-theme-1 h-[6px] w-[30px]': index === photo,
-              })}
-            />
-          ))}
-        </div>
+          {photos.map((item, index) => {
+            const dot = INITIAL_DOTS[index];
+            return (
+              <g key={item.src} data-photo-index={index}>
+                <rect
+                  ref={(node) => {
+                    dotBaseRefs.current[index] = node;
+                  }}
+                  className="fill-panel-overlay"
+                  x={dot.x}
+                  y={dot.y}
+                  width={dot.width}
+                  height={dot.height}
+                  rx={dot.height / 2}
+                />
+                <rect
+                  ref={(node) => {
+                    dotFillRefs.current[index] = node;
+                  }}
+                  className="fill-theme-1"
+                  x={dot.x}
+                  y={dot.y}
+                  width={dot.width}
+                  height={dot.height}
+                  rx={dot.height / 2}
+                  opacity={dot.active}
+                />
+              </g>
+            );
+          })}
+        </svg>
       </div>
 
       <div
@@ -974,6 +1071,7 @@ export default function PhotosCardWebgl({
               overlayRef={overlayRef}
               inView={inView}
               onPhotoChange={handlePhotoChange}
+              onScrollProgress={handleScrollProgress}
               onFirstPhotoDrawn={handleFirstPhotoDrawn}
             />
           ) : null}

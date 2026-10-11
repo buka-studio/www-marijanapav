@@ -19,7 +19,7 @@ export const photoDistortDialConfig: Record<keyof PhotoDistortParams, Slider> = 
   blurThreshold: [0.55, 0, 0.95, 0.01],
   speedRef: [3200, 200, 10000, 50],
   attack: [14, 1, 40, 0.5],
-  release: [6, 1, 20, 0.5],
+  release: [10, 1, 20, 0.5],
 };
 
 export const defaultPhotoDistortParams: PhotoDistortParams = {
