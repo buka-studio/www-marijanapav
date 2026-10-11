@@ -1,4 +1,4 @@
-import { parseHex, Rgb } from 'culori';
+import { parseHex, type Rgb } from '~/src/lib/culori';
 
 import { BaseRenderer } from './BaseRenderer';
 import { MatrixFrameContext, Palette } from './MatrixRenderer';

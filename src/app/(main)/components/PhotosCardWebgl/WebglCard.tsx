@@ -2,7 +2,6 @@
 
 import { shaderMaterial } from '@react-three/drei/core/shaderMaterial';
 import { Canvas, extend, ThreeElement, useFrame, useLoader, useThree } from '@react-three/fiber';
-import { converter, parse } from 'culori';
 import type Lenis from 'lenis';
 import { ReactLenis, useLenis } from 'lenis/react';
 import {
@@ -21,6 +20,8 @@ import * as THREE from 'three';
 import CardTitle from '~/src/components/ui/CardTitle';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 import useResizeRef from '~/src/hooks/useResizeRef';
+import { converter, parse } from '~/src/lib/culori';
+
 import Card from '../Card';
 import { photos } from '../photos';
 import { photosAtlas } from './atlas';
@@ -44,6 +45,7 @@ const FLICK_VELOCITY_WINDOW_MS = 72;
 const FLICK_MOVE_EPS_PX = 6;
 const FLICK_MAX_STEPS = 8;
 const MOTION_STOP_PX_PER_S = 10;
+const PLACEHOLDER_FADE_MS = 150;
 const SLOT_INDICES = Array.from({ length: VISIBLE_SLOTS }, (_, slot) => slot);
 const CANVAS_DPR: [number, number] = [1, 2];
 const CANVAS_GL = {
@@ -57,6 +59,7 @@ const DOT_PX = 10;
 const DOT_ACTIVE_WIDTH_PX = 30;
 const DOT_ACTIVE_HEIGHT_PX = 6;
 const DOT_GAP_PX = 6;
+const DOT_HIT_HEIGHT_PX = 24;
 const INDICATORS_WIDTH =
   PHOTO_COUNT * DOT_PX + (DOT_ACTIVE_WIDTH_PX - DOT_PX) + (PHOTO_COUNT - 1) * DOT_GAP_PX;
 
@@ -225,7 +228,6 @@ function bindSlotRects(material: PhotoDistortMatImpl, atlas: THREE.Texture, phot
 
 function PhotoPlane({
   slot,
-  atlas,
   width,
   height,
   spacing,
@@ -234,7 +236,6 @@ function PhotoPlane({
   meshRefs,
 }: {
   slot: number;
-  atlas: THREE.Texture;
   width: number;
   height: number;
   spacing: number;
@@ -243,7 +244,6 @@ function PhotoPlane({
   meshRefs: React.RefObject<THREE.Mesh[]>;
 }) {
   const worldIndex = slot - Math.floor(VISIBLE_SLOTS / 2);
-  const photoIndex = wrapIndex(worldIndex);
 
   return (
     <mesh
@@ -259,10 +259,8 @@ function PhotoPlane({
         ref={(material) => {
           if (material) {
             materialRefs.current[slot] = material as PhotoDistortMatImpl;
-            bindSlotRects(material as PhotoDistortMatImpl, atlas, photoIndex);
           }
         }}
-        uAtlas={atlas}
         uHasTexture={1}
         uHasTexturePrev={1}
         uHasTextureNext={1}
@@ -310,6 +308,7 @@ const CarouselScene = memo(function CarouselScene({
   const materialRefs = useRef<PhotoDistortMatImpl[]>([]);
   const meshRefs = useRef<THREE.Mesh[]>([]);
   const previousScrollRef = useRef(0);
+  const previousSpacingRef = useRef(0);
   const speedRef = useRef(0);
   const firstPhotoDrawnRef = useRef(false);
   const progressRef = useRef(Number.NaN);
@@ -337,6 +336,14 @@ const CarouselScene = memo(function CarouselScene({
     const lenis = lenisRef.current;
     if (lenis) {
       lenis.raf(performance.now());
+
+      const previousSpacing = previousSpacingRef.current;
+      if (previousSpacing > 0 && previousSpacing !== spacing) {
+        const index = Math.round(lenis.animatedScroll / previousSpacing);
+        lenis.scrollTo(index * spacing, { immediate: true, force: true, programmatic: false });
+        previousScrollRef.current = lenis.animatedScroll;
+      }
+      previousSpacingRef.current = spacing;
     }
 
     const dt = Math.max(delta, 1 / 120);
@@ -421,7 +428,6 @@ const CarouselScene = memo(function CarouselScene({
         <PhotoPlane
           key={slot}
           slot={slot}
-          atlas={atlas}
           width={width}
           height={height}
           spacing={spacing}
@@ -513,7 +519,10 @@ function LenisSync({
         index = Math.round((scroll + direction * stopDistance) / stride);
         index = direction > 0 ? Math.max(index, startIndex + 1) : Math.min(index, startIndex - 1);
       } else if (peakSpeed >= FLICK_VELOCITY_PX_S && releaseSpeed >= FLICK_VELOCITY_PX_S * 0.3) {
-        index = startIndex + direction;
+        index =
+          direction > 0
+            ? Math.max(startIndex + 1, Math.ceil(scroll / stride))
+            : Math.min(startIndex - 1, Math.floor(scroll / stride));
       }
 
       const currentIndex = Math.round(scroll / stride);
@@ -840,7 +849,8 @@ export default function PhotosCardWebgl({
   const [photo, setPhoto] = useState(0);
   const [liveText, setLiveText] = useState('');
   const [inView, setInView] = useState(true);
-  const [showFallback, setShowFallback] = useState(true);
+  const [photoDrawn, setPhotoDrawn] = useState(false);
+  const [placeholderMounted, setPlaceholderMounted] = useState(true);
   const { ref: containerRef, dimensions } = useResizeRef<HTMLDivElement>();
   const stageRef = useRef<HTMLDivElement>(null);
   const carouselFocusedRef = useRef(false);
@@ -865,6 +875,19 @@ export default function PhotosCardWebgl({
   strideRef.current = stride;
   const loopWidth = PHOTO_COUNT * stride;
   const canRender = width > 0 && height > 0;
+
+  useEffect(() => {
+    if (!photoDrawn) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setPlaceholderMounted(false);
+    }, PLACEHOLDER_FADE_MS);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [photoDrawn]);
 
   useEffect(() => {
     const node = stageRef.current;
@@ -926,7 +949,7 @@ export default function PhotosCardWebgl({
   }, []);
 
   const handleFirstPhotoDrawn = useCallback(() => {
-    setShowFallback(false);
+    setPhotoDrawn(true);
   }, []);
 
   const scrollToPhoto = useCallback(
@@ -961,13 +984,11 @@ export default function PhotosCardWebgl({
         return;
       }
 
-      const target = (event.target as Element).closest<SVGElement>('[data-photo-index]');
-      if (!target || !event.currentTarget.contains(target)) {
-        return;
-      }
-
-      const index = Number(target.dataset.photoIndex);
-      if (!Number.isInteger(index)) {
+      const x = event.clientX - event.currentTarget.getBoundingClientRect().left;
+      const index = dotLayoutRef.current.findIndex(
+        (dot) => x >= dot.x - DOT_GAP_PX / 2 && x <= dot.x + dot.width + DOT_GAP_PX / 2,
+      );
+      if (index === -1) {
         return;
       }
 
@@ -982,17 +1003,24 @@ export default function PhotosCardWebgl({
       <div className="xxs:flex-row xxs:items-center flex flex-col items-start justify-between gap-2">
         <CardTitle variant="mono">Camera roll</CardTitle>
         <svg
-          className="block shrink-0 overflow-visible"
+          className="block shrink-0 cursor-pointer overflow-visible"
           width={INDICATORS_WIDTH}
           height={DOT_PX}
           viewBox={`0 0 ${INDICATORS_WIDTH} ${DOT_PX}`}
           aria-hidden
           onPointerDown={handleIndicatorPointerDown}
         >
+          <rect
+            x={-DOT_GAP_PX / 2}
+            y={(DOT_PX - DOT_HIT_HEIGHT_PX) / 2}
+            width={INDICATORS_WIDTH + DOT_GAP_PX}
+            height={DOT_HIT_HEIGHT_PX}
+            fill="transparent"
+          />
           {photos.map((item, index) => {
             const dot = INITIAL_DOTS[index];
             return (
-              <g key={item.src} data-photo-index={index}>
+              <g key={item.src}>
                 <rect
                   ref={(node) => {
                     dotBaseRefs.current[index] = node;
@@ -1076,7 +1104,7 @@ export default function PhotosCardWebgl({
             />
           ) : null}
         </div>
-        {showFallback ? <PhotoPlaceholder /> : null}
+        {placeholderMounted ? <PhotoPlaceholder hidden={photoDrawn} /> : null}
       </div>
     </Card>
   );

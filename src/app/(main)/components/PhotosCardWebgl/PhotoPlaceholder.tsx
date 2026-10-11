@@ -1,11 +1,16 @@
 import NextImage from 'next/image';
 
+import { cn } from '~/src/util';
+
 import { photos } from '../photos';
 
-export default function PhotoPlaceholder() {
+export default function PhotoPlaceholder({ hidden = false }: { hidden?: boolean }) {
   return (
     <div
-      className="pointer-events-none absolute inset-0 z-[1] overflow-hidden rounded-md"
+      className={cn(
+        'pointer-events-none absolute inset-0 z-[1] overflow-hidden rounded-md transition-opacity duration-150 ease-out',
+        { 'opacity-0': hidden },
+      )}
       aria-hidden
     >
       <NextImage

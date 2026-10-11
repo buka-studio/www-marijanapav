@@ -1,7 +1,8 @@
 import { ClassValue, clsx } from 'clsx';
-import { formatHex, parse } from 'culori';
 import ReactDOM from 'react-dom';
 import { twMerge } from 'tailwind-merge';
+
+import { formatHex, parse } from '~/src/lib/culori';
 
 export function cn(...classes: ClassValue[]) {
   return twMerge(clsx(classes));
