@@ -4,14 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import { CLOUDS, RECURSION, VERTEX } from './shaders';
 
-/**
- * Interactive "Gradation levels of imagery": two live WebGL sky panels (dusk, daylight) that
- * dissolve into a recursive grid as the slider moves from SKY to RECURSION.
- * Drifts gently on its own until the visitor touches the slider; holds still with reduced motion.
- */
 
-const AUTO_MAX = 0.7; // auto-drift stays in the gentler range; visitors can still drag to 1
-const AUTO_SPEED = 0.06; // slider units per second while drifting
+const AUTO_MAX = 0.7;
+const AUTO_SPEED = 0.06;
 const START = 0.25;
 
 type Panel = {
@@ -32,8 +27,6 @@ function composite(page: string, overlay: string): RGB {
   return [r / 255, g / 255, b / 255];
 }
 
-// The colour the section's backdrop actually shows (translucent overlay over the page). Light
-// themes draw the grid in exactly this colour, so it reads as cut-outs.
 function backdropColor(el: HTMLElement): RGB {
   let page = 'rgb(0,0,0)';
   for (let n = el.parentElement; n; n = n.parentElement) {
@@ -46,8 +39,6 @@ function backdropColor(el: HTMLElement): RGB {
   return composite(page, getComputedStyle(el).backgroundColor);
 }
 
-// The backdrop colour of the matching light theme (e.g. theme-red-dark -> theme-red-light),
-// resolved from the theme's own variables on a hidden probe element.
 function lightThemeBackdrop(): RGB | null {
   const dark = [...document.documentElement.classList].find((c) => /^theme-.*dark$/.test(c));
   if (!dark) return null;
@@ -66,12 +57,9 @@ function lightThemeBackdrop(): RGB | null {
 
 const luma = (c: RGB) => 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 
-/** Grid line colours per panel: [night sky, daylight sky]. */
 function lineColors(el: HTMLElement): [RGB, RGB] {
   const base = backdropColor(el);
-  if (luma(base) >= 0.5) return [base, base]; // light themes: exact backdrop colour
-  // Dark themes: night sky gets a mid grey (≈#686868) so the lines stay visible;
-  // the daylight sky uses the same colour as in light mode.
+  if (luma(base) >= 0.5) return [base, base];
   const mid = base.map((v) => v + (1 - v) * 0.33) as RGB;
   return [mid, lightThemeBackdrop() ?? mid];
 }
@@ -125,7 +113,6 @@ function makePanel(canvas: HTMLCanvasElement, theme: number): Panel {
       canvas.width = w;
       canvas.height = h;
     }
-    // clouds are soft: render them at a capped resolution
     const ntw = Math.min(w, 1152);
     const nth = Math.round((ntw * h) / w);
     if (ntw !== tw || nth !== th) {
@@ -148,7 +135,6 @@ function makePanel(canvas: HTMLCanvasElement, theme: number): Panel {
   return {
     draw(time, s, line) {
       const dpr = resize();
-      // pass 1: clouds -> texture
       gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
       gl.viewport(0, 0, tw, th);
       gl.useProgram(clouds.p);
@@ -159,7 +145,6 @@ function makePanel(canvas: HTMLCanvasElement, theme: number): Panel {
       gl.bindFramebuffer(gl.FRAMEBUFFER, null);
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.generateMipmap(gl.TEXTURE_2D);
-      // pass 2: dither + recursive grid
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.useProgram(recur.p);
       gl.activeTexture(gl.TEXTURE0);
@@ -222,12 +207,11 @@ export function SkyRecursion() {
         if (sliderRef.current) sliderRef.current.value = String(v);
       }
       const time = reduce.matches ? 0 : (now - t0) / 1000;
-      if (++frames % 30 === 0) lines = lineColors(rootRef.current!); // follow theme changes
+      if (++frames % 30 === 0) lines = lineColors(rootRef.current!);
       panels.forEach((p, i) => p.draw(time + 20, level.current, lines[i]));
       raf = visible ? requestAnimationFrame(frame) : 0;
     };
 
-    // only render while on screen
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       if (visible && !raf) {
@@ -244,8 +228,6 @@ export function SkyRecursion() {
     };
   }, []);
 
-  // Layout is plain CSS in the <style> block below (not Tailwind utilities), so it can't be lost
-  // to a stale or partially generated stylesheet.
   return (
     <div ref={rootRef} className="skyrec">
       <p className="skyrec-title">Gradation levels of imagery</p>
@@ -289,7 +271,8 @@ export function SkyRecursion() {
         .skyrec-row { display: flex; align-items: center; gap: 1.6cqw; margin-bottom: 2.4cqw; }
         .skyrec-label { flex: none; color: var(--text-secondary); font-family: var(--font-ibm-plex-mono), ui-monospace, monospace; font-size: clamp(9px, 1.05cqw, 11px); letter-spacing: 0.14em; text-transform: uppercase; user-select: none; }
         .skyrec-item { min-width: 0; }
-        .skyrec-cap { margin: 1cqw 0 0; color: var(--text-secondary); font-family: var(--font-ibm-plex-mono), ui-monospace, monospace; font-size: clamp(9px, 1.05cqw, 11px); letter-spacing: 0.02em; }
+        .skyrec-cap { margin: 1cqw 0 0; color: var(--text-secondary); font-family: inherit; font-size: 12px; line-height: 1.45; }
+        @media (max-width: 639px) { .skyrec-cap { font-size: 14px; } }
         .skyrec-fallback { margin: 0; color: var(--text-secondary); font-size: 14px; }
         .skyrec-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6cqw; }
         .skyrec-panel { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #050a0c; }
@@ -305,6 +288,7 @@ export function SkyRecursion() {
         .skyrec-slider:hover::-webkit-slider-thumb, .skyrec-slider:active::-webkit-slider-thumb { transform: scale(1.3); }
         .skyrec-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px color-mix(in oklab, var(--text-primary) 25%, transparent); }
         .skyrec-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px color-mix(in oklab, var(--text-primary) 25%, transparent); }
+        @container (max-width: 560px) { .skyrec-panels { grid-template-columns: 1fr; gap: 5cqw; } .skyrec-cap { margin-top: 2cqw; } }
       `}</style>
     </div>
   );

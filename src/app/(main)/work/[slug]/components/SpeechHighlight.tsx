@@ -2,13 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-/**
- * A looping clip next to a quote whose last line lights up word by word, like live captions.
- * The clip's own playback position drives the highlight, so the two never drift.
- * Colours are theme-aware: words are `text-primary` at varying strength over the backdrop.
- */
 
-// Timing (seconds) and falloff, ported from the LiveKit speech-highlight prototype.
 const LEAD_IN = 0.5; // first word reached
 const LEAD_START = 0.12; // all dim until here
 const PAUSE_COMMA = 0.16;
@@ -113,15 +107,12 @@ export function SpeechHighlight({ src, lines }: { src: string; lines: string[] }
       cancelAnimationFrame(raf);
       reduce.removeEventListener('change', start);
     };
-    // lastWords is derived from props; re-run only when the text changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lines.join('\n')]);
 
   return (
     <div className="bg-panel-overlay @container w-full p-[6.7%]">
       <div className="flex flex-col gap-[5cqw] @[560px]:flex-row @[560px]:items-center @[560px]:gap-[3cqw]">
-        {/* The video itself carries the 16:10 shape (cropping to fill), so the frame always
-            wraps it exactly — no stretching that some browsers ignore. */}
         <div className="border-theme-2 relative w-full shrink-0 overflow-hidden rounded-[1.2cqw] border @[560px]:w-[38%] @[560px]:rounded-[0.9cqw]">
           <video
             ref={videoRef}
@@ -133,14 +124,12 @@ export function SpeechHighlight({ src, lines }: { src: string; lines: string[] }
             playsInline
             autoPlay
           />
-          {/* Light themes: soften the dark footage so it sits on the light backdrop */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 [html[class*='-light']_&]:bg-white/30 [html[class*='theme-light']_&]:bg-white/30"
           />
         </div>
         <p className="text-[4.6cqw] leading-[1.25] text-pretty @[560px]:text-[2.75cqw]">
-          {/* One flowing paragraph: the animated sentence continues on the same line. */}
           {staticLines.map((line, i) => (
             <span key={i} style={{ color: mix(DIM) }}>
               {line}{' '}

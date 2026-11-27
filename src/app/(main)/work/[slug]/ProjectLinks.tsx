@@ -2,7 +2,6 @@ import { ArrowRightIcon } from '@phosphor-icons/react/ssr';
 
 type ProjectLink = { href: string; label: string };
 
-// External project links: "→ label" with a soft underline; the arrow slides right on hover.
 export function ProjectLinks({ links }: { links: ProjectLink[] }) {
   if (links.length === 0) return null;
 

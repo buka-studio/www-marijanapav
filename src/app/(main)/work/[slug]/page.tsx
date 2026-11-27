@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import DynamicVHVarsSetter from '~/src/components/DynamicVHVarsSetter';
 import Image from '~/src/components/ui/Image';
@@ -74,7 +74,6 @@ function isProjectImage(
   return typeof media === 'object' && 'type' in media && media.type === 'image';
 }
 
-// Justified rows: each column is as wide as its image's aspect ratio, so all items share one height.
 function rowColumns(items: ProjectMediaItem[]): string {
   const ratios = items.map((it) => {
     const img = isProjectImage(it) ? it.src : typeof it === 'object' && 'width' in it ? it : null;
@@ -91,28 +90,34 @@ const rowMediaSizes =
 function MediaCaption({ children }: { children: ReactNode }) {
   return (
     <figcaption className="pb-4">
-      <span className="border-text-muted text-text-secondary block border-l pl-2 text-left text-xs text-pretty">
+      <span className="media-caption border-text-muted text-text-secondary block border-l pl-2 text-left text-xs text-pretty">
         {children}
       </span>
     </figcaption>
   );
 }
 
-// Theme-aware backdrop drawn in code, so assets can ship without a baked-in background.
 function Backdrop({ backdrop, children }: { backdrop?: MediaBackdrop; children: ReactNode }) {
   if (!backdrop) return children;
 
   return (
     <div
-      className={`bg-panel-overlay flex w-full justify-center ${backdrop.align === 'end' ? 'items-end' : 'items-center'}`}
-      style={{ aspectRatio: backdrop.aspectRatio }}
+      className={`media-backdrop bg-panel-overlay flex w-full justify-center ${backdrop.align === 'end' ? 'items-end' : 'items-center'}`}
+      style={
+        {
+          aspectRatio: 'var(--bd-aspect-now)',
+          '--bd-aspect': backdrop.aspectRatio,
+          '--bd-width': backdrop.width,
+          '--bd-aspect-mobile': backdrop.mobile?.aspectRatio ?? backdrop.aspectRatio,
+          '--bd-width-mobile': backdrop.mobile?.width ?? backdrop.width,
+        } as CSSProperties
+      }
     >
       {children}
     </div>
   );
 }
 
-// Subtle hairline for dark assets that would otherwise bleed into the dark page.
 const darkBorder = 'border-[0.5px] border-theme-3/60';
 
 function ProjectMediaFigure({
@@ -149,7 +154,7 @@ function ProjectMediaFigure({
           <video
             src={item.src}
             className={`${item.backdrop ? 'h-auto' : 'max-h-full w-full object-cover'} ${item.border ? darkBorder : ''}`}
-            style={item.backdrop ? { width: item.backdrop.width } : undefined}
+            style={item.backdrop ? { width: 'var(--bd-width-now)' } : undefined}
             autoPlay
             muted
             loop
@@ -181,7 +186,7 @@ function ProjectMediaFigure({
               ? 'focus-within:outline-theme-1 h-auto'
               : 'focus-within:outline-theme-1 max-h-full w-full object-cover'
           } ${border}`}
-          style={backdrop ? { width: backdrop.width } : undefined}
+          style={backdrop ? { width: 'var(--bd-width-now)' } : undefined}
         />
       </Backdrop>
       {caption && <MediaCaption>{caption}</MediaCaption>}
@@ -222,6 +227,13 @@ export default async function Work({
   return (
     <>
       <DynamicVHVarsSetter />
+      <style>{`
+        .media-backdrop { --bd-aspect-now: var(--bd-aspect); --bd-width-now: var(--bd-width); }
+        @media (max-width: 639px) {
+          .media-backdrop { --bd-aspect-now: var(--bd-aspect-mobile); --bd-width-now: var(--bd-width-mobile); }
+          .media-caption { font-size: 14px; line-height: 1.45; }
+        }
+      `}</style>
       <div className="grid flex-1 grid-cols-1 gap-8 px-5 py-10 pb-[200px] lg:grid-cols-[400px_1fr] [html:has(&)_footer>*:not(.nav)]:invisible">
         <div className="top-[100px] flex h-full max-h-[calc(100dvh-200px)] flex-col lg:sticky">
           <ProjectHeader title={project.title} backHref={workHref} />
@@ -248,7 +260,6 @@ export default async function Work({
                       <ProjectMediaFigure key={rowIndex} item={rowItem} sizes={rowMediaSizes} />
                     ))}
                   </div>
-                  {/* Caption spanning the whole row */}
                   {item.caption && <MediaCaption>{item.caption}</MediaCaption>}
                 </figure>
               );

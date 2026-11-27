@@ -129,19 +129,18 @@ export const projectGridPreviewSizes = '(max-width: 639px) 100vw, 50vw';
 
 export type Filter = (typeof filters)[number];
 
-/**
- * Draw the backdrop in code (theme-aware) instead of baking it into the asset.
- * `aspectRatio` is the backdrop's shape, `width` how wide the media sits inside it,
- * `align` where it sits vertically (default centred; `end` for media cropped at the bottom).
- */
-export type MediaBackdrop = { aspectRatio: string; width: string; align?: 'center' | 'end' };
+export type MediaBackdrop = {
+  aspectRatio: string;
+  width: string;
+  align?: 'center' | 'end';
+  mobile?: { aspectRatio?: string; width?: string };
+};
 
 export type ProjectImage = {
   type: 'image';
   src: StaticImageData;
   caption?: string;
   backdrop?: MediaBackdrop;
-  /** Subtle 1px theme border, for dark assets that would otherwise bleed into the page. */
   border?: boolean;
 };
 
@@ -150,11 +149,9 @@ export type ProjectVideo = {
   src: string;
   caption?: ReactNode;
   backdrop?: MediaBackdrop;
-  /** Subtle 1px theme border, for dark assets that would otherwise bleed into the page. */
   border?: boolean;
 };
 
-/** A looping clip beside a quote; the last line lights up word by word (live-caption style). */
 export type ProjectSpeech = {
   type: 'speech';
   src: string;
@@ -162,7 +159,6 @@ export type ProjectSpeech = {
   caption?: ReactNode;
 };
 
-/** Interactive Sky → Recursion gradation (live WebGL panels with a slider). */
 export type ProjectSkyRecursion = {
   type: 'sky-recursion';
   caption?: ReactNode;
@@ -178,7 +174,6 @@ export type ProjectMediaItem =
 export type ProjectMediaRow = {
   type: 'row';
   items: ProjectMediaItem[];
-  /** One caption under the whole row (spans all items). */
   caption?: ReactNode;
 };
 
@@ -372,7 +367,6 @@ export const projects: Project[] = [
     slug: 'livekit-branding',
     preview: LiveKitBrandingPreview,
     images: [
-      // Website overview first.
       {
         type: 'image',
         src: LiveKitHomepageFrames,
@@ -390,7 +384,11 @@ export const projects: Project[] = [
       {
         type: 'video',
         src: '/work/livekit-website/livekit-brand-guidelines.mp4',
-        backdrop: { aspectRatio: '1402 / 1002', width: '68.5%' },
+        backdrop: {
+          aspectRatio: '1402 / 1002',
+          width: '68.5%',
+          mobile: { aspectRatio: '1402 / 860', width: '88%' },
+        },
       },
       {
         type: 'image',
@@ -412,7 +410,11 @@ export const projects: Project[] = [
       {
         type: 'video',
         src: '/work/livekit-website/livekit-og-images.mp4',
-        backdrop: { aspectRatio: '1402 / 1002', width: '68.5%' },
+        backdrop: {
+          aspectRatio: '1402 / 1002',
+          width: '68.5%',
+          mobile: { aspectRatio: '1402 / 860', width: '88%' },
+        },
         caption: 'The system applied to social and OG images, from launch posts to talks and demos.',
       },
       {
@@ -434,7 +436,11 @@ export const projects: Project[] = [
       {
         type: 'video',
         src: '/work/livekit-website/livekit-poster-colorways.mp4',
-        backdrop: { aspectRatio: '2128 / 1330', width: '37.5%' },
+        backdrop: {
+          aspectRatio: '2128 / 1330',
+          width: '37.5%',
+          mobile: { aspectRatio: '10 / 9', width: '60%' },
+        },
       },
     ],
     filters: ['digital', 'branding'],
