@@ -1,0 +1,232 @@
+src/app/(main)/components/CodeCard.tsx
+  s_fbe4591a5a6ed8::t_c2ca9e69c700df 160,176
+  s_fbe4591a5a6ed8::t_61dcb648f9522c 115-116,127
+src/app/(main)/components/SketchbookCard/pages.ts
+  s_fbe4591a5a6ed8::t_baafdc103b26fd 1-9
+src/components/page-turner/canvas/support.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-14
+src/components/page-turner/curl.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-2
+src/components/page-turner/book/gestures.ts
+  s_fbe4591a5a6ed8::t_6e2fb1fd2b237e 6,42-43,60,80-81,245-246,250-251,387-388,392-405,429,456-474,477-479
+  s_fbe4591a5a6ed8::t_92177d746ce00d 240-241,243-244
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-5,7-29,32-41,44-59,61-79,88-219,222-224,227-236,242,253,258,260-386,406-428,430-455,480-496
+  s_fbe4591a5a6ed8::t_5d67e38f51bf1d 237-239,247-249
+  s_fbe4591a5a6ed8::t_ba91c583c7061b 252
+  s_fbe4591a5a6ed8::t_562d8e1ca4869a 82-87,220-221,225-226,254-257,259
+  s_fbe4591a5a6ed8::t_20c83af6d42bfe 30-31,475-476
+  s_fbe4591a5a6ed8::t_2167ed421c32d8 389-391
+src/components/page-turner/snapshot/support.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-66
+src/components/page-turner/book/scene.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-45
+src/components/page-turner/takeover.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-77,79-105,107-137
+  s_fbe4591a5a6ed8::t_c491bcb89d836a 78,106
+src/app/(main)/components/SketchbookCard/Sketchbook.tsx
+  s_fbe4591a5a6ed8::t_88759b992a2afb 18,40
+  s_fbe4591a5a6ed8::t_7bd5e8400bc601 26,28,46
+  s_fbe4591a5a6ed8::t_ef3b54b59200dd 5,131-160,169,171,174,181-182
+  s_fbe4591a5a6ed8::t_f9127d63bf98aa 37,51,72
+  s_fbe4591a5a6ed8::t_70ff5e2e9c1abf 21-22,29,31-34,58-62,65-70,176
+  s_fbe4591a5a6ed8::t_aad13285715c71 20,23-24,30,35-36,52,104,167-168
+  s_fbe4591a5a6ed8::t_0b444e1154466d 27
+  s_fbe4591a5a6ed8::t_383b7a33847be4 81-90,92-95,97-99,101-103,105,109-130,170,172,175
+  s_fbe4591a5a6ed8::t_a6b16f21de801d 4,38-39,44-45
+  s_fbe4591a5a6ed8::t_f3a5b54ff3acf3 178-180
+  s_fbe4591a5a6ed8::t_938562141f81e4 73,164
+  s_fbe4591a5a6ed8::t_d6461f3728e3ae 1-3,6-17,19,25,41-43,47-50,53-57,63-64,71,74-78,161-163,165-166,173,177,183-185
+  s_fbe4591a5a6ed8::t_1089de4b9cb671 79-80,91,96,100,106-108
+src/components/page-turner/book/lamp.ts
+  s_fbe4591a5a6ed8::t_c491bcb89d836a 109,225,229,245-249
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-108,110-224,226-228,230-244,250-447
+src/app/(main)/components/SketchbookCard/SketchbookPocket.tsx
+  s_fbe4591a5a6ed8::t_429573a6a8e67e 1-2,4-10,12-16,18-31
+  s_fbe4591a5a6ed8::t_c6f41724053f32 3,11
+  s_fbe4591a5a6ed8::t_8582938edf1b8f 17
+src/components/page-turner/canvas/index.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-29
+src/components/page-turner/core/layout.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-46
+src/components/page-turner/book/ribbon.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-205
+src/components/page-turner/snapshot/render.ts
+  s_fbe4591a5a6ed8::t_cf61c244b7bbf6 270
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-13,15-178,181-208,215-269,271-517,519-1018,1023-1072,1074-1119,1121-1358
+  s_fbe4591a5a6ed8::t_fe26143b938c5b 1019-1022
+  s_fbe4591a5a6ed8::t_1ae0fe8c0f2690 179-180,213,518,1120
+  s_fbe4591a5a6ed8::t_6ebd09d5955670 14,1073
+  s_fbe4591a5a6ed8::t_32e4f08c19d712 209-212,214
+next.config.ts
+  s_fbe4591a5a6ed8::t_08e2698fd2aef5 13-14
+package.json
+  s_fbe4591a5a6ed8::t_b3aad46cc5632c 35-37,39,51,63
+src/components/page-turner/core/fold.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-131
+src/app/(main)/components/SketchbookCard/SketchbookCard.css
+  s_fbe4591a5a6ed8::t_9162be43f11fa2 1,18,23,40,52-59,66,69,71,83,89,91,93-94,109,140-141,184-188,241,246-249,256,264-269,273-276,284,300,305,309-310,350-354,364-365,372,379-382,389,392,415,428,435,441-442,460,519-520,525,540
+  s_fbe4591a5a6ed8::t_6c4da303ee54aa 74
+  s_fbe4591a5a6ed8::t_804ef6497fb15d 11,15-17
+  s_fbe4591a5a6ed8::t_cae4f2a3acffaf 180,373,383,395,405,410,416-417,497-499
+  s_fbe4591a5a6ed8::t_4c371f8acfe2b5 82,101-103,110,123-126,129-132,182-183,242-243,251-252,255,270,307-308,311-316,320-329,340-342,432
+  s_fbe4591a5a6ed8::t_b1f336e79cd1f5 67-68,70,72-73,75-77
+  s_fbe4591a5a6ed8::t_ae56a3871b09d1 2-4,8-10,19,21-22,24-39,41-51,63-65,127-128,133-139,142-144,149-150,152,154,177-179,181,244-245,250,258-259,263,271-272,293-299,301-304,306,332-339,343-349,355-363,366-371,374-378,384-388,390-391,393-394,396-404,406-409,411-414,418-427,429-431,433-434,436-440,443-459,461-496,500-518,521-524,526-539,541-547
+  s_fbe4591a5a6ed8::t_b3e2e582cc490e 228,233
+  s_fbe4591a5a6ed8::t_902e23761cecc4 201-227,229-232,253-254
+  s_fbe4591a5a6ed8::t_79cceb8ddd2c93 317-319
+  s_fbe4591a5a6ed8::t_f3a5b54ff3acf3 12-14
+  s_fbe4591a5a6ed8::t_e9b88bede4ab44 289-290
+  s_fbe4591a5a6ed8::t_fcee255a95b991 96
+  s_fbe4591a5a6ed8::t_a887cf8bed7d94 260-262
+  s_fbe4591a5a6ed8::t_88759b992a2afb 90,106
+  s_fbe4591a5a6ed8::t_450188da9eea6a 97-100
+  s_fbe4591a5a6ed8::t_da0609e84fa63a 277-283,285-288,291-292
+  s_fbe4591a5a6ed8::t_f1935f141e21c4 330-331
+  s_fbe4591a5a6ed8::t_0b444e1154466d 92,95,107-108,257
+  s_fbe4591a5a6ed8::t_e9d818439149f8 5-7,20,147
+  s_fbe4591a5a6ed8::t_e21b01ddbde912 60-62,78-81,145-146,148,151,153,155-176
+  s_fbe4591a5a6ed8::t_40f20c3be360d7 84-85,87-88,104-105,113-120
+  s_fbe4591a5a6ed8::t_f9127d63bf98aa 86,111-112,121-122
+  s_fbe4591a5a6ed8::t_037b3ac016e864 189-200,234-240
+src/components/page-turner/core/index.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-18
+src/components/page-turner/core/curl.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-98
+src/hooks/useIsInert.ts
+  s_fbe4591a5a6ed8::t_f3a5b54ff3acf3 1
+  s_fbe4591a5a6ed8::t_b789453f10ef95 2-21
+src/hooks/useInputSource.ts
+  s_fbe4591a5a6ed8::t_91e2b42c496c91 1-29
+src/components/page-turner/canvas/render.ts
+  s_fbe4591a5a6ed8::t_6ebd09d5955670 14,997
+  s_fbe4591a5a6ed8::t_fe26143b938c5b 935-938
+  s_fbe4591a5a6ed8::t_1ae0fe8c0f2690 185-186,219,449,1044
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-13,15-184,187-214,221-448,450-934,939-996,998-1043,1045-1269
+  s_fbe4591a5a6ed8::t_32e4f08c19d712 215-218,220
+src/app/(main)/components/SketchbookCard/SketchbookCard.tsx
+  s_fbe4591a5a6ed8::t_47bd548fdd5d2b 3,22,24,68,70-71
+  s_fbe4591a5a6ed8::t_eef84cba3d30c1 4-6,13,15,17-20,23,25,27-31,35-36,39,41-50,52-56,63-67,69,72,74-78,80,83-90
+  s_fbe4591a5a6ed8::t_60c80250799f57 51
+  s_fbe4591a5a6ed8::t_176db94d4bbe01 73,79
+  s_fbe4591a5a6ed8::t_dcbd608d4d5b93 60
+  s_fbe4591a5a6ed8::t_4ea1f12a810326 10,26,59,61
+  s_fbe4591a5a6ed8::t_f3a5b54ff3acf3 37-38
+src/components/page-turner/snapshot.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-2
+src/components/page-turner/book/textures.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-239
+src/app/globals.css
+  s_fbe4591a5a6ed8::t_ff19156e877149 1-3
+src/components/page-turner/core/turns.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-589
+src/hooks/useLocalStorage.ts
+  s_fbe4591a5a6ed8::t_62d21d2d133247 1-74
+src/app/(main)/components/index.ts
+  s_fbe4591a5a6ed8::t_ff19156e877149 11,29
+src/components/page-turner/styles.css
+  s_fbe4591a5a6ed8::t_2167ed421c32d8 88-112,114-159
+  s_fbe4591a5a6ed8::t_8934049376bfd4 113
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-87,160-1207
+src/components/page-turner/index.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-2
+src/app/(main)/components/PhotosCardWebgl/WebglCard.tsx
+  s_fbe4591a5a6ed8::t_b789453f10ef95 1102
+  s_fbe4591a5a6ed8::t_e9ae4797956391 21
+  s_fbe4591a5a6ed8::t_ea999a6da503d2 857
+src/components/page-turner/gl/shaders.ts
+  s_fbe4591a5a6ed8::t_1ae0fe8c0f2690 150-151,294
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-149,152-293,295-783
+src/components/page-turner/dom/index.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-2
+src/components/page-turner/dom/render.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-351,353-772
+  s_fbe4591a5a6ed8::t_c491bcb89d836a 352
+src/components/page-turner/book.ts
+  s_fbe4591a5a6ed8::t_2167ed421c32d8 669-673
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-17,19-326,335-424,427-428,430-499,506-511,515-654,660,674-977
+  s_fbe4591a5a6ed8::t_6e2fb1fd2b237e 18,327-334,425-426,429,500-505,512-514,655-659,661-668
+src/components/page-turner/controls.css
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-181
+src/components/page-turner/renderer.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-91
+src/components/MousePositionVarsSetter.tsx
+  s_fbe4591a5a6ed8::t_f05e40a8f343e8 10
+  s_fbe4591a5a6ed8::t_804ef6497fb15d 11-13
+src/app/(main)/components/SketchbookDrawCard/SketchbookDrawCard.tsx
+  s_fbe4591a5a6ed8::t_48f1e1367aa0ce 1-139
+src/components/page-turner/book/steady.ts
+  s_fbe4591a5a6ed8::t_5d67e38f51bf1d 14
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-13,15-52
+src/components/page-turner/react/index.tsx
+  s_fbe4591a5a6ed8::t_2167ed421c32d8 24,445-460,677,693
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-23,25-444,461-676,678-692,694-723
+src/components/page-turner/snapshot/focus.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-57
+src/components/page-turner/book/engine.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-71
+src/components/page-turner/snapshot/index.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-46
+src/hooks/useThemeKey.ts
+  s_fbe4591a5a6ed8::t_88759b992a2afb 1-2,4,6-9,13-15,17,19-26,28-30
+  s_fbe4591a5a6ed8::t_f9127d63bf98aa 3,5,12,16,18,27
+  s_fbe4591a5a6ed8::t_c6f41724053f32 10-11
+src/components/page-turner/book/host.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-211
+pnpm-lock.yaml
+  ai_agent 41-46,51-52,3918-3931,4121-4122,11156-11165,11330
+src/app/(main)/components/SketchbookCard/flight.ts
+  s_fbe4591a5a6ed8::t_ae56a3871b09d1 1-21,23,26,28,30-32,34,36,38-43,45-50,52,55-59,61,64,66-69,71-102,104-105,107,109-112,114-123,125-126,129-131,133,135,137,144,146,148,150-153,157,160,162,166-168,170-173,175-177,179-180,185,187,190,193,196,198,200,203,205-206,209,212-216,218-222,224-225,229-230,232-237,244-250,254,257-258,261-263,267-270,277,279-285,291-294,300,302,304,320,322-325,328-329,335,338,341-343,347-348,351-352,357-358,361-362,364,368-369,373-374,376-377,380-381,385,387,389,391,393-394,397,399-400,404-407,410,414-416,420-423,428-434,438,459,461-462,467,469,474,476-484,486,489,491-494,512,521-524,527,530,532-533,535
+  s_fbe4591a5a6ed8::t_cae4f2a3acffaf 22,24-25,27,29,33,35,37,44,51,53-54,60,62-63,65,70,103,106,108,113,124,127-128,132,134,136,138,145,147,149,154-156,158-159,161,163,169,174,178,181-182,186,188-189,191-192,194-195,197,199,201-202,204,207-208,210-211,217,223,226-228,231,238-243,251-252,255-256,259-260,264-266,271-276,278,286-288,290,295-299,301,303,305,313-319,321,327,330-331,337,339-340,344-346,349-350,353-356,359-360,363,365-367,370-372,378-379,382-384,386,388,390,392,395-396,398,401-403,408-409,411-413,417-419,424-427,435-437,446,460,463-466,468,470-473,475,485,487-488,490,495-497,501-511,513,515-517,519-520,525-526,528-529,531,534,536-537
+  s_fbe4591a5a6ed8::t_03cb95ec1cdcc7 164-165,183-184,289,306-307,309,326,498-500,514,518
+  s_fbe4591a5a6ed8::t_ddf79966825922 139-143,439-445,449-458
+  s_fbe4591a5a6ed8::t_bfd2908e953b9c 253,375,447-448
+  s_fbe4591a5a6ed8::t_bf2007bc10d68e 308,310-312
+  s_fbe4591a5a6ed8::t_ad5e626d13de13 332-334,336
+src/app/(main)/components/SketchbookCard/SketchbookPocket.css
+  s_fbe4591a5a6ed8::t_1e4937c48ad128 28,50,59,99,116,120,130,135,140
+  s_fbe4591a5a6ed8::t_12c2aa7021800c 1-27,29-49,51-58,60-98,100-115,117-119,121-129,131-134,136-139,141-151
+src/app/(main)/components/SketchbookCard/SketchbookDialog.tsx
+  s_fbe4591a5a6ed8::t_e21b01ddbde912 15,143-144,146-147,166,169
+  s_fbe4591a5a6ed8::t_573de3ebb9cf84 1-12,14,16,19-22,56,60-63,70,75-85,87-92,95-96,103-106,130,138-142,157,167-168,170,182-185
+  s_fbe4591a5a6ed8::t_9552e26eafad4f 148-156,158-165
+  s_fbe4591a5a6ed8::t_93dedf5099ad90 131-137
+  s_fbe4591a5a6ed8::t_17fbf631351d1b 17,24-29,57-58,64-69,86,97-102,108-115,118-129,171-181
+  s_fbe4591a5a6ed8::t_ddf79966825922 93-94
+  s_fbe4591a5a6ed8::t_9c870519c2b842 13,18,23,59,71-74,107,116-117
+  s_fbe4591a5a6ed8::t_ef3b54b59200dd 30-55,145
+src/components/page-turner/book/state.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-339
+src/components/page-turner/book/scroller.ts
+  s_fbe4591a5a6ed8::t_9235988178f001 1-97
+src/app/(main)/components/StatusCard/DotMatrixDisplay/DotMatrixDisplay.tsx
+  s_fbe4591a5a6ed8::t_f05e40a8f343e8 41-43,88-89,108-110,113,122-124,144
+  s_fbe4591a5a6ed8::t_f3a5b54ff3acf3 105-107
+src/app/(main)/components/SketchbookDrawCard/index.ts
+  s_fbe4591a5a6ed8::t_48f1e1367aa0ce 1
+src/components/page-turner/gl/mesh.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-279
+src/components/page-turner/snapshot/pictures.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-117,119-165
+  s_fbe4591a5a6ed8::t_cf61c244b7bbf6 118
+src/components/page-turner/gl/release.ts
+  s_fbe4591a5a6ed8::t_a6b16f21de801d 9-11
+  s_fbe4591a5a6ed8::t_6ebd09d5955670 1-8,12-15
+src/components/page-turner/core/ribbon.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-1145
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "543487b470e5fce80297c5bb1d86e27488ba2160",
+  "prompts": {},
+  "sessions": {
+    "s_fbe4591a5a6ed8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "83dcb6ae-4e26-41d7-afd0-98115846b0ae",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "rpavlini <rpavlinic@daytona.io>"
+    }
+  }
+}
