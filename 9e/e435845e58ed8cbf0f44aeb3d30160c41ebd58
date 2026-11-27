@@ -1,0 +1,33 @@
+src/app/globals.css
+  s_fbe4591a5a6ed8::t_66674c6e99de56 1
+src/app/(main)/components/StatusCard/DotMatrixDisplay/DotMatrixDisplay.tsx
+  s_fbe4591a5a6ed8::t_66674c6e99de56 105-106,121-122
+src/hooks/useInputSource.ts
+  s_fbe4591a5a6ed8::t_66674c6e99de56 7,10,16,21
+src/app/(main)/components/SketchbookCard/SketchbookDialog.tsx
+  s_fbe4591a5a6ed8::t_66674c6e99de56 23,31,34-35,40-41,107,131
+src/app/(main)/components/SketchbookCard/SketchbookCard.tsx
+  s_fbe4591a5a6ed8::t_66674c6e99de56 6,22,26,52-61
+src/hooks/useLocalStorage.ts
+  s_fbe4591a5a6ed8::t_66674c6e99de56 4-5,17-26,28,30,32,34-35,66
+src/app/(main)/components/SketchbookCard/Sketchbook.tsx
+  s_fbe4591a5a6ed8::t_66674c6e99de56 35,75,97-98,105,124,136-140,160
+src/app/(main)/components/SketchbookCard/pages.ts
+  s_fbe4591a5a6ed8::t_66674c6e99de56 3-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "9ee435845e58ed8cbf0f44aeb3d30160c41ebd58",
+  "prompts": {},
+  "sessions": {
+    "s_fbe4591a5a6ed8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "83dcb6ae-4e26-41d7-afd0-98115846b0ae",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "rpavlini <rpavlinic@daytona.io>"
+    }
+  }
+}
