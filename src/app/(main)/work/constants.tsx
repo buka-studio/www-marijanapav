@@ -35,7 +35,14 @@ import InfinumMerch05 from '~/public/work/infinum-merch/infinum_merch_05.png';
 import KettlePreview from '~/public/work/kettle/preview.png';
 import LiveKitWebsitePreview from '~/public/work/livekit-website/livekit-enterprise-scale.jpg';
 import LiveKitWebsite02 from '~/public/work/livekit-website/livekit-explorations.png';
+import LiveKitDocsAgents from '~/public/work/livekit-website/livekit-docs-agents.png';
 import LiveKitWebsite01 from '~/public/work/livekit-website/livekit-features-grid.jpg';
+import LiveKitHomepageFrames from '~/public/work/livekit-website/livekit-homepage-frames.png';
+import LiveKitMerchCap from '~/public/work/livekit-website/livekit-merch-cap.jpg';
+import LiveKitMerchStickers from '~/public/work/livekit-website/livekit-merch-stickers.jpg';
+import LiveKitWebsiteHomepage from '~/public/work/livekit-website/livekit-homepage.png';
+import LiveKitValuesCards from '~/public/work/livekit-website/livekit-values-cards.png';
+import LiveKitFeaturesCards from '~/public/work/livekit-website/livekit-features-cards.png';
 import LiveKitWebsite04 from '~/public/work/livekit-website/livekit-sdk-features.jpg';
 import LiveKitWebsite05 from '~/public/work/livekit-website/livekit-values.jpg';
 import LiveKitWebsite03 from '~/public/work/livekit-website/livekit-voice-ai-hero.jpg';
@@ -122,23 +129,46 @@ export const projectGridPreviewSizes = '(max-width: 639px) 100vw, 50vw';
 
 export type Filter = (typeof filters)[number];
 
+/**
+ * Draw the backdrop in code (theme-aware) instead of baking it into the asset.
+ * `aspectRatio` is the backdrop's shape, `width` how wide the media sits inside it,
+ * `align` where it sits vertically (default centred; `end` for media cropped at the bottom).
+ */
+export type MediaBackdrop = { aspectRatio: string; width: string; align?: 'center' | 'end' };
+
 export type ProjectImage = {
   type: 'image';
   src: StaticImageData;
   caption?: string;
+  backdrop?: MediaBackdrop;
+  /** Subtle 1px theme border, for dark assets that would otherwise bleed into the page. */
+  border?: boolean;
 };
 
 export type ProjectVideo = {
   type: 'video';
   src: string;
-  caption?: string;
+  caption?: ReactNode;
+  backdrop?: MediaBackdrop;
+  /** Subtle 1px theme border, for dark assets that would otherwise bleed into the page. */
+  border?: boolean;
 };
 
-export type ProjectMediaItem = StaticImageData | ProjectImage | ProjectVideo;
+/** A looping clip beside a quote; the last line lights up word by word (live-caption style). */
+export type ProjectSpeech = {
+  type: 'speech';
+  src: string;
+  lines: string[];
+  caption?: ReactNode;
+};
+
+export type ProjectMediaItem = StaticImageData | ProjectImage | ProjectVideo | ProjectSpeech;
 
 export type ProjectMediaRow = {
   type: 'row';
   items: ProjectMediaItem[];
+  /** One caption under the whole row (spans all items). */
+  caption?: ReactNode;
 };
 
 export type ProjectMedia = ProjectMediaItem | ProjectMediaRow;
@@ -228,7 +258,8 @@ export const projects: Project[] = [
       {
         type: 'image',
         src: GeistImpactSprites,
-        caption: 'Sprite sheets for the geist character states used in-game.',
+        caption:
+          'Pixel sprites for each of the geist’s in-game states, from sleepy and sad to angry and in love.',
       },
       { type: 'video', src: '/work/geist-impact/geist-impact-02.mp4' },
     ],
@@ -323,6 +354,106 @@ export const projects: Project[] = [
     links: [stampsCodropsLink],
     tags: ['Figma', 'Adobe Illustrator', 'Procreate', '© 2025'],
     aspect: 0.7,
+  },
+  {
+    type: 'project',
+    title: 'LiveKit branding',
+    slug: 'livekit-branding',
+    preview: LiveKitWebsiteHomepage,
+    images: [
+      // Website overview first.
+      {
+        type: 'image',
+        src: LiveKitHomepageFrames,
+        backdrop: { aspectRatio: '2820 / 2279', width: '85.25%', align: 'end' },
+      },
+      {
+        type: 'speech',
+        src: '/work/livekit-website/livekit-speech-clip.mp4',
+        lines: [
+          'If one day AI is as smart as a human,',
+          'we’ll interact with it like we do with each other.',
+          'Sometimes we text, but most times we talk.',
+        ],
+      },
+      {
+        type: 'video',
+        src: '/work/livekit-website/livekit-brand-guidelines.mp4',
+        backdrop: { aspectRatio: '1402 / 1002', width: '68.5%' },
+      },
+      {
+        type: 'image',
+        src: LiveKitValuesCards,
+        backdrop: { aspectRatio: '2400 / 2198', width: '83.33%' },
+        caption:
+          'Cards and visuals I created for the LiveKit brand values we defined as a team early on when design team was just assembled.',
+      },
+      {
+        type: 'image',
+        src: LiveKitFeaturesCards,
+        backdrop: { aspectRatio: '2400 / 1498', width: '84.6%' },
+      },
+      {
+        type: 'video',
+        src: '/work/livekit-website/livekit-gradation-levels.mp4',
+        border: true,
+        caption:
+          'Recursive structures symbolize resilient infrastructure, hinting at how fragmented data packets are organized into seamless real-time communication. Sky-inspired imagery adds a sense of scale, connectivity, and openness, balancing the precision of the technical visual language with organic elements.',
+      },
+      {
+        type: 'video',
+        src: '/work/livekit-website/livekit-og-images.mp4',
+        backdrop: { aspectRatio: '1402 / 1002', width: '68.5%' },
+        caption: 'The system applied to social and OG images, from launch posts to talks and demos.',
+      },
+      {
+        type: 'video',
+        src: '/work/livekit-website/livekit-logo-menu.mp4',
+        border: true,
+        caption:
+          'Clicking the logo opens quick access to brand assets: copy the icon or wordmark as SVG, or download the full kit.',
+      },
+      { type: 'video', src: '/work/livekit-website/livekit-enterprise-scale.mp4', border: true },
+      { type: 'image', src: LiveKitDocsAgents, border: true },
+      {
+        type: 'row',
+        items: [
+          { type: 'image', src: LiveKitMerchCap, border: true },
+          { type: 'image', src: LiveKitMerchStickers, border: true },
+        ],
+      },
+      {
+        type: 'video',
+        src: '/work/livekit-website/livekit-poster-colorways.mp4',
+        backdrop: { aspectRatio: '2128 / 1330', width: '37.5%' },
+      },
+    ],
+    filters: ['digital', 'branding'],
+    description: (
+      <>
+        <p>
+          My work at LiveKit focused on evolving its visual identity and establishing a cohesive
+          brand experience across the website, developer documentation, product launches, marketing
+          materials, and merchandise. This also included defining the color palette and typographic
+          pairings, as well as developing a system of visual assets.
+        </p>
+        <p>
+          The visual direction centered on giving form to the invisible world of infrastructure.
+          Through precise, expressive linework and technical minimalism, I explored ways to expose
+          the underlying structure of complex systems, translating technical concepts into a
+          distinctive visual language.
+        </p>
+        <p>
+          While redesigning the website, I worked closely with design engineers who also encouraged
+          me to push changes myself. This made me much more comfortable working with
+          code, and I ended up building a few pages on my own, as well as helped implement light
+          mode in the docs.
+        </p>
+      </>
+    ),
+    link: 'https://livekit.com/',
+    tags: ['Figma', '© 2025'],
+    aspect: 1.2,
   },
   {
     hidden: true,
@@ -444,7 +575,7 @@ export const projects: Project[] = [
         type: 'image',
         src: SupabaseLW12Tickets,
         caption:
-          'Screenshot from Figma exploring different takes for the Supabase Launch Week ticket.',
+          'Figma exploration of Launch Week 12 ticket colorways, each framed as a Supabase query and its response.',
       },
       SupabaseLW1201,
       SupabaseLW1203,

@@ -1,0 +1,30 @@
+# LiveKit brand guidelines slideshow — slide order
+# Source: Figma "Vercel stuff" → page "Livekit update on the web"
+# One slide per line: <figma node id>  <label>. Reorder, delete or comment out (#) lines.
+# Output: public/work/livekit-website/livekit-brand-guidelines.mp4 (+ a .gif copy)
+
+# — Cover (not in Figma copy; from ~/Downloads/livekit/brand guidelines.png, saved as cover.png)
+cover      Brand Guidelines — Cover
+
+# — Visual language & illustrations
+365:16504  Visual language 6.1 — Visual philosophy
+365:17164  Illustrations 7.2 — Layered stack
+365:19892  Illustrations 7.2 — Isometric perspective
+365:17823  Patterns 5.1 — Grid
+365:20562  Patterns 5.2 — Dither
+
+# — Aspirational (between)
+365:25203  Why LiveKit exists
+
+# — Typography
+365:21227  Typography 2.1 — TWK Everett
+365:23195  Typography 2.2 — Everett usage
+365:21883  Typography 3.1 — Public Sans
+365:23864  Typography 3.2 — Public Sans usage
+365:22539  Typography 4.1 — Commit Mono
+365:24530  Typography 4.2 — Commit Mono usage
+
+# — Aspirational (end)
+365:25199  Brand behaviour
+365:25198  Voice and style
+365:25201  Writing traits
