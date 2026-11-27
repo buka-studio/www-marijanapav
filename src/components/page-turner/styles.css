@@ -195,6 +195,19 @@
     translate: -100% 0;
   }
 
+  /* a swinging cover's soft edge lets the page under it show as a line along the hinge */
+  [data-slot='book-pages'][data-live]:has(> [data-slot='book-page-frame'][data-turning='hard'])
+    > [data-slot='book-page-frame'][data-under]
+    [data-slot='book-page'] {
+    clip-path: inset(0 0 0 1px);
+  }
+
+  [data-slot='book-pages'][data-live]:has(> [data-slot='book-page-frame'][data-turning='hard'])
+    > [data-slot='book-page-frame'][data-under][data-side='left']
+    [data-slot='book-page'] {
+    clip-path: inset(0 1px 0 0);
+  }
+
   [data-slot='book-page-clip'] {
     position: absolute;
     left: 0;

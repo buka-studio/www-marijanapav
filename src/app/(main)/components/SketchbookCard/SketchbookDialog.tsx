@@ -115,16 +115,15 @@ export default function SketchbookDialog({
           return;
         }
 
-        const sunk = !hasRestingBookRisen(rest) && !rest?.hasAttribute('data-raised');
-        if (sunk) {
-          // raise first: the rise runs off the main thread while the dialog mounts on it
+        const raising = rest && !rest.hasAttribute('data-raised');
+        if (raising) {
+          // reopened two frames on: the rise starts before the dialog mounts, and a tap's focus goes to the pages
           details.cancel();
-          rest?.setAttribute('data-raised', '');
+          rest.setAttribute('data-raised', '');
           requestAnimationFrame(() => requestAnimationFrame(() => dialog.open()));
           return;
         }
 
-        rest?.setAttribute('data-raised', '');
         flight.out();
       }}
     >

@@ -252,15 +252,7 @@
 
 .sketchbook-rest-book,
 .sketchbook-rest-button {
-  translate: 0 var(--sink);
   transition: translate 500ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-:root:not([data-input='pointer'])
-  .sketchbook-card:has(:focus-visible)
-  :is(.sketchbook-rest-book, .sketchbook-rest-button),
-.sketchbook-rest[data-raised] > * {
-  translate: 0 0;
 }
 
 .sketchbook-rest[data-raised] > * {
@@ -268,7 +260,16 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .sketchbook-card:hover :is(.sketchbook-rest-book, .sketchbook-rest-button) {
+  .sketchbook-rest-book,
+  .sketchbook-rest-button {
+    translate: 0 var(--sink);
+  }
+
+  :root:not([data-input='pointer'])
+    .sketchbook-card:has(:focus-visible)
+    :is(.sketchbook-rest-book, .sketchbook-rest-button),
+  .sketchbook-card:hover :is(.sketchbook-rest-book, .sketchbook-rest-button),
+  .sketchbook-rest[data-raised] > * {
     translate: 0 0;
   }
 }
