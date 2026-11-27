@@ -125,15 +125,17 @@
   }
 }
 
+/* not pointer-events: none: ios safari won't scroll such a box by touch (webkit 183870) */
 .sketchbook-scroller {
   position: absolute;
   inset: 0;
   align-items: center;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .sketchbook-slot {
   box-sizing: content-box;
+  pointer-events: none;
   width: var(--book-width);
   margin-inline: auto;
   padding-inline: 0;
@@ -259,6 +261,10 @@
   :is(.sketchbook-rest-book, .sketchbook-rest-button),
 .sketchbook-rest[data-raised] > * {
   translate: 0 0;
+}
+
+.sketchbook-rest[data-raised] > * {
+  transition-duration: 300ms;
 }
 
 @media (hover: hover) and (pointer: fine) {

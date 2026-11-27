@@ -449,10 +449,8 @@ const book = /* @__PURE__ */ definePrimitive({
       measure();
       arrange();
       const unscrolled = scroller.bind(el);
-      if (unscrolled) {
-        el.addEventListener('touchstart', gestures.touch, { passive: true });
-        el.addEventListener('touchmove', gestures.swipe, { passive: false });
-      }
+      el.addEventListener('touchstart', gestures.touch, { passive: true });
+      el.addEventListener('touchmove', gestures.swipe, { passive: false });
       store.set({ live: true });
 
       return () => {

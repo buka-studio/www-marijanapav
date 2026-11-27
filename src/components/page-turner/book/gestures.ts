@@ -14,6 +14,7 @@ const CATCH_TIME = 160;
 const PACE = 0.008;
 const PACE_TIME = 120;
 const HEADING = 3;
+const LIFTED_CORNER_SLANT = 2;
 const BEHIND = 0.02;
 const PEEK = { x: 0.09, y: 0.065, finger: 2.2, tap: 320 };
 
@@ -171,6 +172,12 @@ function createGestures({
     return { x, y: free.y + (point.y - drag.grip.y) * 2 };
   };
 
+  const pullsAtPage = (dx: number, dy: number) => {
+    if (Math.abs(dx) > Math.abs(dy)) return true;
+    const cornerLifted = peek.index >= 0 && peek.side === (dx < 0 ? 'right' : 'left');
+    return cornerLifted && Math.abs(dy) <= Math.abs(dx) * LIFTED_CORNER_SLANT;
+  };
+
   const begin = (event: PointerEvent, from: { x: number; y: number; point: Point }) => {
     const { turns, aspect } = scene;
     if (!turns) return false;
@@ -178,7 +185,7 @@ function createGestures({
     const dy = event.clientY - from.y;
     const mouse = event.pointerType === 'mouse';
     const across = Math.abs(dx) > Math.abs(dy);
-    if (!mouse && !across) return false;
+    if (!mouse && !pullsAtPage(dx, dy)) return false;
 
     const { columns } = state();
     const placed: Side = from.point.x >= (columns === 2 ? 0 : 0.5) ? 'right' : 'left';
@@ -312,7 +319,7 @@ function createGestures({
       : undefined;
 
   const finger = {
-    id: -1,
+    id: undefined as number | undefined,
     x: 0,
     y: 0,
     scrolls: undefined as Record<Side, boolean> | undefined,
@@ -367,9 +374,10 @@ function createGestures({
     },
 
     touch(event: TouchEvent) {
-      const first = event.touches[0];
-      finger.id = event.touches.length === 1 && first && state().drag ? first.identifier : -1;
-      if (finger.id < 0 || !first) return;
+      const [first] = event.touches;
+      finger.id = undefined;
+      if (event.touches.length !== 1 || !first || !state().drag) return;
+      finger.id = first.identifier;
       finger.x = first.clientX;
       finger.y = first.clientY;
       finger.scrolls = reach();
@@ -378,12 +386,13 @@ function createGestures({
 
     swipe(event: TouchEvent) {
       const moved = Array.from(event.touches).find((touch) => touch.identifier === finger.id);
-      if (!moved || !finger.scrolls || event.touches.length !== 1) return;
+      if (!moved || event.touches.length !== 1) return;
       if (finger.kept === undefined) {
         const dx = moved.clientX - finger.x;
         const dy = moved.clientY - finger.y;
         if (Math.hypot(dx, dy) < HEADING) return;
-        finger.kept = Math.abs(dx) > Math.abs(dy) && !finger.scrolls[dx < 0 ? 'right' : 'left'];
+        const scrollsThere = finger.scrolls?.[dx < 0 ? 'right' : 'left'] === true;
+        finger.kept = pullsAtPage(dx, dy) && !scrollsThere;
       }
       if ((finger.kept || drag.held >= 0) && event.cancelable) event.preventDefault();
     },

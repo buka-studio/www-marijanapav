@@ -17,13 +17,17 @@ import { leafCount, turnedFor } from '~/src/components/page-turner/core';
 import Button from '~/src/components/ui/Button';
 import useInputSource from '~/src/hooks/useInputSource';
 
-import { createFlight } from './flight';
+import Flight from './Flight';
 import Sketchbook from './Sketchbook';
 
-function raiseRestingBook(rest: HTMLElement | null) {
-  rest?.setAttribute('data-raised', '');
+function hasRestingBookRisen(rest: HTMLElement | null) {
+  const book = rest?.querySelector('.sketchbook-rest-book');
+  if (!book) {
+    return true;
+  }
+  const [, sunkBy = '0'] = getComputedStyle(book).translate.split(' ');
 
-  return rest?.querySelector('.sketchbook-rest-book')?.getAnimations() ?? [];
+  return Math.abs(parseFloat(sunkBy)) < 0.5;
 }
 
 const clamp = (min: number, value: number, max: number) => Math.min(max, Math.max(min, value));
@@ -72,47 +76,55 @@ export default function SketchbookDialog({
     count: leafCount(controller.getPageCount() ?? 0, columns()),
   });
 
-  const [flight] = useState(() =>
-    createFlight({
-      way: 'lifted',
-      from: () => lifted.current,
-      open: () => controller.goToBookmark(),
-      shut: () => {
-        const { turned } = leaves();
-        controller.first();
+  const [flight] = useState(
+    () =>
+      new Flight({
+        way: 'lifted',
+        from: () => lifted.current,
+        canLeave: () => hasRestingBookRisen(lifted.current),
+        open: () => controller.goToBookmark(),
+        shut: () => {
+          const { turned } = leaves();
+          controller.first();
 
-        return turned;
-      },
-      last: () => controller.last(),
-      front: () => controller.first({ instant: true }),
-      columns,
-      away: (away) => {
-        lifted.current?.toggleAttribute('data-away', away);
-        if (!away) {
-          lifted.current?.removeAttribute('data-raised');
-        }
-      },
-    }),
+          return turned;
+        },
+        last: () => controller.last(),
+        front: () => controller.first({ instant: true }),
+        columns,
+        away: (away) => {
+          lifted.current?.toggleAttribute('data-away', away);
+          if (!away) {
+            lifted.current?.removeAttribute('data-raised');
+          }
+        },
+      }),
   );
 
   return (
     <Dialog
       controller={dialog}
       onOpenChange={(open, details) => {
+        const rest = lifted.current;
         if (!open) {
+          const closedBeforeLeaving = !rest?.hasAttribute('data-away');
+          if (closedBeforeLeaving) {
+            rest?.removeAttribute('data-raised');
+          }
           flight.back();
           return;
         }
 
-        const rising = raiseRestingBook(lifted.current);
-        if (rising.length > 0) {
+        const sunk = !hasRestingBookRisen(rest) && !rest?.hasAttribute('data-raised');
+        if (sunk) {
+          // raise first: the rise runs off the main thread while the dialog mounts on it
           details.cancel();
-          void Promise.allSettled(rising.map((animation) => animation.finished)).then(() =>
-            dialog.open(),
-          );
+          rest?.setAttribute('data-raised', '');
+          requestAnimationFrame(() => requestAnimationFrame(() => dialog.open()));
           return;
         }
 
+        rest?.setAttribute('data-raised', '');
         flight.out();
       }}
     >
@@ -127,7 +139,15 @@ export default function SketchbookDialog({
           A sketchbook. Drag a page or press the arrow keys to turn it.
         </DialogDescription>
 
-        <BookScroller className="sketchbook-scroller">
+        <BookScroller
+          className="sketchbook-scroller"
+          onClick={(event) => {
+            const besideTheBook = event.target === event.currentTarget;
+            if (besideTheBook) {
+              dialog.close();
+            }
+          }}
+        >
           <div ref={measureCanvasBleed} className="sketchbook-slot">
             <div ref={flight.bind} className="sketchbook-flyer">
               <div data-flight="spinner" className="sketchbook-spinner">

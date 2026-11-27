@@ -1,6 +1,7 @@
 .sketchbook-pocket {
   --pocket-card: #ddd6c6;
   --pocket-ease: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --pocket-round: calc(var(--book-page-radius) * 100cqw);
 
   position: absolute;
   inset: 0 0 0 17cqw;
@@ -11,6 +12,12 @@
 .sketchbook-pocket-front > div {
   position: absolute;
   inset: 0;
+}
+
+/* safari doesn't clip these to the page's rounded corners */
+.sketchbook-pocket-inside,
+.sketchbook-pocket-front > div {
+  border-radius: 0 var(--pocket-round) var(--pocket-round) 0;
 }
 
 .sketchbook-pocket-inside {
