@@ -1,15 +1,8 @@
-/**
- * A focus ring over the canvas. A page under the canvas is invisible, and so is the browser's ring round whatever
- * in it has focus; a picture of the page doesn't always have the ring either, as WebKit leaves its own out. So it
- * is drawn again on an element over the canvas, whenever the browser would have shown one.
- */
-
 function createFocusRing(stage: HTMLElement) {
   const doc = stage.ownerDocument;
 
   const ring = () => stage.querySelector<HTMLElement>(':scope > [data-slot="book-focus"]');
 
-  /** Puts the ring round what has focus, or takes it away. */
   function place() {
     const el = ring();
     if (!el) return;
@@ -19,7 +12,6 @@ function createFocusRing(stage: HTMLElement) {
       held !== stage &&
       stage.contains(held) &&
       held.matches(':focus-visible') &&
-      // A page in the air is out of reach, and so is what is on it.
       held.closest('[data-slot="book-page-frame"][data-under]') !== null;
     if (!shown) {
       if (!el.hidden) el.hidden = true;
@@ -38,7 +30,6 @@ function createFocusRing(stage: HTMLElement) {
     if (el.hidden) el.hidden = false;
   }
 
-  // After the browser has moved focus, which it does after it says it is about to.
   const later = () => queueMicrotask(place);
   stage.addEventListener('focusin', later);
   stage.addEventListener('focusout', later);

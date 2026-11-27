@@ -1,54 +1,31 @@
-/* Layout and look of the book. Themed through custom properties; the whole sheet is in one layer so your styles
-   win. The controls' look is in `controls.css`, which is optional. */
-
 @layer page-turner {
-  /* The book is a container, so its layout can follow the width it has. */
   [data-slot='book'] {
-    /* Page height over page width. */
     --book-page-aspect: 1.4;
     --book-paper: #fdfcf9;
-    /* Default text colour on the paper: a book on a dark site is still dark ink on light paper. */
     --book-ink: #1c1b19;
-    /* Shadow colour, as three RGB channels. */
     --book-shade: 0 0 0;
-    /* A board's thickness and its overhang past the pages, in page widths. A canvas draws a stiff page as one. */
     --book-cover-depth: 0.014;
     --book-cover-overhang: 0.02;
-    /* Board covering, each 0 to 1: cloth weave, leather grain, shine under the pointer, how much of the print is
-       foil, how deep it is pressed in. The covering is the page's background colour; any other colour is print. */
     --book-cover-cloth: 0;
     --book-cover-leather: 0;
     --book-cover-sheen: 0;
     --book-cover-foil: 0;
     --book-cover-deboss: 0;
-    /* How strongly the paper's grain shows, 0 to 1. */
     --book-paper-grain: 0;
-    /* Radius of the pages' outer corners, in page widths. A board's corners are rounder by its overhang. */
     --book-page-radius: 0;
-    /* How much of the turned leaves shows left of a single page, in page widths: 0 is none (they lie outside the
-       page's box), 0.1 a sliver by the spine, 1 all of them, for the window or the book's container to cut off. */
     --book-verso: 0;
-    /* How much of a turned leaf's page shows through its paper from behind: 0 is none, 1 the page itself backward.
-       Nothing shows through a stiff page. */
     --book-show-through: 0.1;
-    /* Leather, cloth and paper grain where pages fold: small repeating pictures from an SVG filter, white where
-       light catches and black where it doesn't, so each suits any colour under it. Set your own to change one. */
     --book-cover-leather-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320'%3E%3Cfilter id='f' filterUnits='userSpaceOnUse' x='-8' y='-8' width='336' height='336' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='turbulence' baseFrequency='.16' numOctaves='2' seed='4' stitchTiles='stitch' width='320' height='320' x='0' y='0'/%3E%3CfeTile/%3E%3CfeDiffuseLighting surfaceScale='1.6' lighting-color='%23fff' result='lit'%3E%3CfeDistantLight azimuth='225' elevation='60'/%3E%3C/feDiffuseLighting%3E%3CfeColorMatrix in='lit' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.9 0 0 0 -0.779' result='light'/%3E%3CfeColorMatrix in='lit' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.9 0 0 0 0.779'/%3E%3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='light'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect x='-8' y='-8' width='336' height='336' filter='url(%23f)'/%3E%3C/svg%3E");
     --book-cover-cloth-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='f' filterUnits='userSpaceOnUse' x='-8' y='-8' width='256' height='256' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02 .55' numOctaves='2' seed='3' stitchTiles='stitch' width='240' height='240' x='0' y='0' result='warp'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55 .02' numOctaves='2' seed='8' stitchTiles='stitch' width='240' height='240' x='0' y='0'/%3E%3CfeBlend in2='warp' mode='lighten'/%3E%3CfeTile/%3E%3CfeDiffuseLighting surfaceScale='1.6' lighting-color='%23fff' result='lit'%3E%3CfeDistantLight azimuth='225' elevation='60'/%3E%3C/feDiffuseLighting%3E%3CfeColorMatrix in='lit' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.8 0 0 0 -0.693' result='light'/%3E%3CfeColorMatrix in='lit' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.8 0 0 0 0.693'/%3E%3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='light'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect x='-8' y='-8' width='256' height='256' filter='url(%23f)'/%3E%3C/svg%3E");
     --book-paper-grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320'%3E%3Cfilter id='f' filterUnits='userSpaceOnUse' x='0' y='0' width='320' height='320' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='3' seed='2' stitchTiles='stitch' result='n'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -.7' result='light'/%3E%3CfeColorMatrix in='n' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.4 .7'/%3E%3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='light'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect x='0' y='0' width='320' height='320' filter='url(%23f)'/%3E%3C/svg%3E");
-    /* How wide each is laid, in page widths. */
     --book-cover-leather-size: 30cqw;
     --book-cover-cloth-size: 24cqw;
     --book-paper-grain-size: 32cqw;
 
     container: book / inline-size;
-    /* Keeps what lies under the pages (a board's rim) above whatever the book lies on, and stops what reaches past
-       the book (a turning leaf, a canvas) giving the page around it anything to scroll to. */
     contain: layout;
   }
 
-  /* Whole px where the browser can round: Safari is shown a bitmap of each once the book starts (see
-     `book/textures.ts`), which matches the SVG pixel for pixel only if the SVG is a whole number of px wide. */
   @supports (width: round(1px, 1px)) {
     [data-slot='book'] {
       --book-cover-leather-size: round(30cqw, 1px);
@@ -58,7 +35,6 @@
   }
 
   [data-slot='book-pages'] {
-    /* Pages shown side by side: 2 for a spread, 1 for a single page. Set it from any query; the book follows. */
     --book-columns: 2;
 
     position: relative;
@@ -77,7 +53,6 @@
     }
   }
 
-  /* Holds the pages and the ribbon that lies on them; the size of the pages. */
   [data-slot='book-stage'] {
     --book-columns: 2;
 
@@ -85,12 +60,7 @@
     container-type: inline-size;
   }
 
-  /* A box around the book for a spread to scroll across in, where there isn't room for it: one page in view at a
-     time with a sliver of the other, and the box snapping to either. A swipe brings the other page into view, and
-     one that goes on the same way from there turns the leaf. Where the spread fits, the box does nothing. It cuts
-     off what leaves it above and below as well as at its sides, so give it the height a turning leaf needs. */
   [data-slot='book-scroller'] {
-    /* The room kept clear beside the page in view, and how much of the other page shows, in page widths. */
     --book-scroller-edge: 1.5rem;
     --book-scroller-peek: 0.1;
 
@@ -107,13 +77,11 @@
     display: none;
   }
 
-  /* A shut book is one cover, which stays in view. */
   [data-slot='book-scroller'][data-shut] {
     overflow-x: hidden;
     scroll-snap-type: none;
   }
 
-  /* Where it snaps: at either end of what it holds. They lie over its ends and take no room. */
   [data-slot='book-scroller']::before,
   [data-slot='book-scroller']::after {
     content: '';
@@ -145,22 +113,16 @@
     }
   }
 
-  /* In it a book is a spread however narrow the box is. */
   [data-slot='book-scroller']
     [data-slot='book'][data-layout='auto']
     :is([data-slot='book-pages'], [data-slot='book-stage']) {
     --book-columns: 2;
   }
 
-  /* While it scrolls, a swipe across is the browser's until the book says otherwise (see `book/scroller.ts`). */
   [data-slot='book-scroller'][data-scrolls] [data-slot='book-pages'] {
     touch-action: pan-x pan-y;
   }
 
-  /* Left of a single page, things show only as far as `--book-verso` says. Each is cut itself, not the pages as a
-     whole: a board at rest overhangs its page on the other three sides, and the pages' focus ring goes all the way
-     round. The cut is a board's overhang past what is asked, so asking for all cuts nothing. A leaf in the air and
-     a copy of the pages start at the spine; a leaf at rest on the left is moved a page that way. */
   [data-slot='book-pages'][data-columns='1']
     > :is([data-slot='book-page-frame'][data-turning], [data-slot='book-ghost']) {
     clip-path: inset(-100vmax -100vmax -100vmax calc(-106% * var(--book-verso)));
@@ -180,7 +142,6 @@
     -webkit-user-select: none;
   }
 
-  /* A page-sized box right of the spine. Lengths inside it can use cqw and cqh: 100cqw is one page width. */
   [data-slot='book-page-frame'] {
     position: absolute;
     top: 0;
@@ -190,8 +151,6 @@
     container-type: size;
   }
 
-  /* Before script runs, the server's attributes say which pages show. With one column both pages of a spread sit in
-     one place, the current one on top. */
   [data-slot='book-pages']:not([data-live]) > [data-slot='book-page-frame']:not([data-rest]) {
     visibility: hidden;
   }
@@ -204,8 +163,6 @@
     z-index: 1;
   }
 
-  /* A single page that shows what lies to its left has the page before it there, turned over, as when live. The
-     server can't know there is one column, so a style query does it. */
   @container style(--book-columns: 1) and (not style(--book-verso: 0)) {
     [data-slot='book-pages']:not([data-live])
       > [data-slot='book-page-frame']:has(+ [data-slot='book-page-frame'][data-current]) {
@@ -223,14 +180,12 @@
       transform: translate(100cqw, 0) scaleX(-1);
     }
 
-    /* The gutter between the two is as deep as it will be. */
     [data-slot='book-stage'] > [data-slot='book-pages']:not([data-live]) {
       --book-gutter-shade: 0.22;
       --book-gutter-width: 7cqw;
     }
   }
 
-  /* Once the book is live, it says which pages show. */
   [data-slot='book-pages'][data-live]
     > [data-slot='book-page-frame']:not([data-under], [data-turning]) {
     visibility: hidden;
@@ -240,7 +195,6 @@
     translate: -100% 0;
   }
 
-  /* Three page widths long, so it covers the page along any crease. Cuts only while its page is turning. */
   [data-slot='book-page-clip'] {
     position: absolute;
     left: 0;
@@ -255,7 +209,6 @@
     overflow: clip;
   }
 
-  /* A stiff page swings whole, towards the reader, so nothing cuts it. */
   [data-turning='hard'] > [data-slot='book-page-clip'] {
     overflow: visible;
   }
@@ -272,18 +225,14 @@
     pointer-events: auto;
     background: var(--book-paper);
     color: var(--book-ink);
-    /* Page content stacks within the page, above what the page is made of. */
     isolation: isolate;
     border-radius: 0 calc(var(--book-page-radius) * 100cqw) calc(var(--book-page-radius) * 100cqw) 0;
   }
 
-  /* The back of a leaf has its spine on the right. A blank side is a back. */
   [data-slot='book-page']:is([data-face='back'], [data-blank]) {
     border-radius: calc(var(--book-page-radius) * 100cqw) 0 0 calc(var(--book-page-radius) * 100cqw);
   }
 
-  /* A one-page leaf, turned: the book turns its page over; this is the paper over it, with the gutter's shade.
-     Until the book is live it shows only where `--book-rest-veil` says the previous page lies on the left. */
   [data-slot='book-page-frame'][data-verso] > [data-slot='book-page-clip']::after,
   [data-slot='book-pages']:not([data-live])
     > [data-slot='book-page-frame']:has(+ [data-slot='book-page-frame'][data-current])
@@ -306,7 +255,6 @@
     pointer-events: none;
   }
 
-  /* Nothing shows through a board: its inside is plain paper, pasted down. */
   [data-slot='book-page-frame'][data-verso='board'] > [data-slot='book-page-clip']::after,
   [data-slot='book-pages']:not([data-live])
     > [data-slot='book-page-frame']:has(> * > [data-slot='book-page'][data-hard]):has(
@@ -316,7 +264,6 @@
     opacity: var(--book-rest-veil, 1);
   }
 
-  /* In the air the page's own side shows too, so a backward copy of the page lies on the blank side of its leaf. */
   [data-slot='book-page-copy'] {
     position: absolute;
     left: 0;
@@ -331,12 +278,10 @@
     pointer-events: none;
   }
 
-  /* A board's corners are the canvas's to round: the page that covers it reaches past them. */
   [data-slot='book-canvas'] [data-slot='book-page'][data-hard] {
     border-radius: 0;
   }
 
-  /* Only pages in play get layers of their own. */
   [data-turning] > [data-slot='book-page-clip'],
   [data-turning] [data-slot='book-page'] {
     will-change: transform;
@@ -351,22 +296,18 @@
     will-change: transform;
   }
 
-  /* Where a folded-over page's shadow may fall: the pages of the spread and no further. Spread-sized, and stays
-     square to the spread while the box around it turns. */
   [data-slot='book-page-cast'] {
     position: absolute;
     left: -100cqw;
     top: calc(300cqw - 50cqh);
     width: 200cqw;
     height: 100cqh;
-    /* The top of the spine. */
     transform-origin: 100cqw 0;
     overflow: clip;
     opacity: 0;
     pointer-events: none;
   }
 
-  /* With no pages lying on one side, shadows fall on the other alone. */
   [data-slot='book-page-cast'][data-fall='left'] {
     width: 100cqw;
   }
@@ -377,8 +318,6 @@
     transform-origin: 0 0;
   }
 
-  /* Leaves in the air reach past the spread, and a page folded over them shadows them there: across the spine from
-     where they lifted, and past the end their corner was lifted towards. The window grows those two ways only. */
   [data-slot='book-page-cast'][data-fall^='air'] {
     --past: 300cqw;
     --past-left: 0cqw;
@@ -390,7 +329,6 @@
     top: calc(300cqw - 50cqh - var(--past-top));
     width: calc(200cqw + var(--past-left) + var(--past-right));
     height: calc(100cqh + var(--past-top) + var(--past-bottom));
-    /* Still the top of the spine. */
     transform-origin: calc(100cqw + var(--past-left)) var(--past-top);
   }
 
@@ -410,12 +348,8 @@
     --past-bottom: var(--past);
   }
 
-  /* The shadow: behind its page and a little past it on every side, fading out. Drawn at a tenth of its size and
-     stretched to save memory; a plain box faded by a mask, which every browser paints the same. */
   [data-slot='book-page-shadow'] {
-    /* How far the shadow reaches past the page, before it is stretched. */
     --reach: 0.9cqw;
-    /* Faint at the outside, full against the page's edge, like a blur. */
     --rise:
       transparent, rgb(0 0 0 / 0.06) calc(var(--reach) * 0.22),
       rgb(0 0 0 / 0.24) calc(var(--reach) * 0.5), rgb(0 0 0 / 0.58) calc(var(--reach) * 0.78),
@@ -426,7 +360,6 @@
       rgb(0 0 0 / 0.06) calc(100% - var(--reach) * 0.22), transparent;
 
     position: absolute;
-    /* Its page's top-left corner starts at the top of the spine. */
     left: calc(100cqw - var(--reach));
     top: calc(-1 * var(--reach));
     width: calc(10cqw + 2 * var(--reach));
@@ -448,12 +381,9 @@
     top: calc(var(--past-top) - var(--reach));
   }
 
-  /* What a page is made of, where pages fold (a canvas draws its own): a layer under the page's content, which
-     nothing can touch. On paper, the grain and the gutter's shade by the spine. */
   [data-slot='book-page-finish'] {
     position: absolute;
     inset: 0;
-    /* Which way the page runs from its spine. */
     --joint: to right;
 
     z-index: -1;
@@ -469,8 +399,6 @@
     --joint: to left;
   }
 
-  /* Beside a single page the turned leaves are a strip of the same paper, so the gutter is deeper and wider where
-     they show. `--book-gutter` is 1 where they show, 0 where they don't. */
   [data-slot='book-pages'][data-columns='1'] {
     --book-gutter: min(1, var(--book-verso) * 1000);
     --book-gutter-shade: calc(0.07 + 0.15 * var(--book-gutter));
@@ -489,7 +417,6 @@
     opacity: calc(0.22 * var(--book-paper-grain));
   }
 
-  /* A stiff page is a board: leather or cloth, the light across it, and the groove of the joint where it hinges. */
   [data-slot='book-page'][data-hard] > [data-slot='book-page-finish'] {
     background:
       linear-gradient(
@@ -517,8 +444,6 @@
     opacity: var(--book-cover-cloth);
   }
 
-  /* The lamp the book lays on a board that shines, while the pointer is near (see `book/lamp.ts`): the board's own
-     grain, throwing the lamp back. */
   [data-slot='book-lamp'] {
     position: absolute;
     inset: 0;
@@ -540,8 +465,6 @@
     }
   }
 
-  /* Print on a board is pressed in: dark along its upper edge, light along its lower, and with no foil nearly the
-     board's own colour. A filter can't be turned off by a number, so everything laid on a board has this one. */
   [data-slot='book-page-clip'] > [data-slot='book-page'][data-hard] > :not([data-slot]) {
     --press: var(--book-cover-deboss);
     --blind: calc(var(--book-cover-deboss) * (1 - var(--book-cover-foil)));
@@ -557,9 +480,6 @@
       );
   }
 
-  /* A board's rim, in the board's colour, round a page the book marks as lying on a board or being a side of one.
-     In the air the book says how dark it is and whether it throws a shadow (not over a pile: the board under it
-     does). `--rim-left` is how far the rim starts left of the page, so what is drawn across both meets. */
   [data-slot='book-page-frame'][data-board]::before,
   [data-slot='book-page-frame'][data-board][data-finish]::after {
     --rim: calc(var(--book-cover-overhang) * 100cqw);
@@ -591,8 +511,6 @@
     border-radius: var(--round) 0 0 var(--round);
   }
 
-  /* The covering turns in round a board's edges, so the rim is leather or cloth like the face: the same weave,
-     begun where the face begins it. */
   [data-slot='book-page-frame'][data-board][data-finish]::after {
     opacity: var(--book-board-finish, 0);
     pointer-events: none;
@@ -608,7 +526,6 @@
       var(--book-cover-cloth-size);
   }
 
-  /* Round a stiff page the rim is the board's own face: its joint and its light run on across the rim. */
   [data-slot='book-page-frame'][data-board='face']::before {
     --joint: to right;
     --rim-sheen: radial-gradient(
@@ -630,7 +547,6 @@
     --joint: to left;
   }
 
-  /* A board in the air takes its rim with it: the book says how far over the spine it has swung from the right. */
   [data-slot='book-page-frame'][data-board][data-turning='hard']::before,
   [data-slot='book-page-frame'][data-board][data-finish][data-turning='hard']::after {
     transform-origin: 0 50%;
@@ -638,15 +554,7 @@
     will-change: transform;
   }
 
-  /* Before the book is live nothing has marked which page lies on a board or read its colour, and the server can't,
-     so the stylesheet draws the boards: the server's HTML is then the shape and size the book will be. A cover
-     draws its own board, in a layer reaching past the page by the overhang; a cover that pages lie on is laid under
-     them, so its rim shows round them. Per frame, three numbers, each 0 or 1: whether a board shows round it,
-     whether the board stands out to its left and not its right, and whether it is in sight. A book the server took
-     for a spread may be a single page here: both marked pages lie in one place, the top one is a right-hand page,
-     and nothing lies to the left. */
   [data-slot='book-pages']:not([data-live]) {
-    /* A board under the pages is under them and nothing else. */
     isolation: isolate;
   }
 
@@ -666,7 +574,6 @@
     --book-rest-seen: calc(var(--book-columns) - 1);
   }
 
-  /* A stiff page of the first leaf or the last is the face of a board. */
   [data-slot='book-pages']:not([data-live])
     > [data-slot='book-page-frame'][data-rest]:is(
       :first-child,
@@ -680,7 +587,6 @@
     --book-rest-rim: 1;
   }
 
-  /* The back board, under the pages on the right. */
   [data-slot='book-pages']:not([data-live]):has(
       > [data-slot='book-page-frame'][data-rest='right']:not(:first-child)
     )
@@ -694,7 +600,6 @@
     pointer-events: none;
   }
 
-  /* The front board, under those on the left, where there is a left. */
   @container style(--book-columns: 2) {
     [data-slot='book-pages']:not([data-live]):has(
         > [data-slot='book-page-frame'][data-rest='left']:not(
@@ -714,7 +619,6 @@
     }
   }
 
-  /* The page is cut at the board's edge and not its own. */
   [data-slot='book-pages']:not([data-live]) [data-slot='book-page'][data-hard] {
     --book-rim: calc(
       var(--book-cover-overhang) * 100cqw * var(--book-rest-rim) * var(--book-rest-seen)
@@ -733,7 +637,6 @@
     );
   }
 
-  /* The cover's finish is in the cover's own colour, so it hides the board under it as the page will. */
   [data-slot='book-pages']:not([data-live])
     [data-slot='book-page'][data-hard]
     > [data-slot='book-page-finish'] {
@@ -750,8 +653,6 @@
     border-radius: inherit;
   }
 
-  /* The board, under all of that, drawn on the crease's shade strip, which has nothing to shade until a leaf turns.
-     Drawn as the live rim is, so the two are one picture. */
   [data-slot='book-pages']:not([data-live])
     [data-slot='book-page'][data-hard]
     > [data-slot='book-page-shade'] {
@@ -788,7 +689,6 @@
     --joint: to left;
   }
 
-  /* Under pages a board is only its rim, with no joint and no light of its own. */
   [data-slot='book-pages']:not([data-live])
     > [data-slot='book-page-frame']:not([data-rest])
     [data-slot='book-page'][data-hard]
@@ -823,7 +723,6 @@
     opacity: var(--book-cover-cloth);
   }
 
-  /* The board's shadow, drawn on the frame: what cuts the page would cut it too. */
   [data-slot='book-pages']:not([data-live])
     > [data-slot='book-page-frame']:has(> * > [data-slot='book-page'][data-hard])::before {
     --book-rim: calc(
@@ -846,7 +745,6 @@
       rgb(var(--book-shade) / calc(0.16 * var(--book-rest-rim) * var(--book-rest-seen)));
   }
 
-  /* On a single page every page is a leaf's front, spine on the left, whichever side the server took it for. */
   @container style(--book-columns: 1) {
     [data-slot='book-pages']:not([data-live]) [data-slot='book-page'][data-face='back'] {
       border-radius: 0 calc(var(--book-page-radius) * 100cqw) calc(var(--book-page-radius) * 100cqw)
@@ -863,7 +761,6 @@
     }
   }
 
-  /* A canvas over the pages draws all of this itself, from pictures of pages without it. */
   [data-slot='book-pages']:has(> [data-slot='book-canvas'][data-canvas='over'])
     [data-slot='book-page-finish'] {
     display: none;
@@ -882,9 +779,6 @@
     content: none;
   }
 
-  /* The canvas that draws the pages when they curl. Paper in the air looks larger, and a pulled corner can stand
-     well above or below the book, so the canvas reaches past it: a little at the sides, more at top and bottom, in
-     page widths. Only its pages take clicks; the room around them lets clicks through. */
   [data-slot='book-canvas'] {
     --book-bleed-inline: 0.06;
     --book-bleed-block: 0.5;
@@ -898,7 +792,6 @@
     pointer-events: none;
   }
 
-  /* Beside a single page it reaches as far left as the turned leaves show, and is cut where they are. */
   [data-slot='book-pages'][data-columns='1'] > [data-slot='book-canvas'] {
     --book-canvas-pages: calc(1 + var(--book-verso) + 2 * var(--book-bleed-inline));
 
@@ -910,8 +803,6 @@
     );
   }
 
-  /* In the canvas a frame is still one page wide and tall, so lengths inside it are unchanged. The canvas stacks
-     its children and draws the paper itself, so frames need no place of their own. */
   [data-slot='book-canvas'] > [data-slot='book-page-frame'] {
     position: static;
     width: calc(100% / (var(--book-columns) + 2 * var(--book-bleed-inline)));
@@ -929,13 +820,10 @@
     top: 0;
   }
 
-  /* A canvas laid over the pages instead, which stay as they are for folding while it draws pictures of them: the
-     snapshot renderer's, for browsers that can't draw elements into a canvas. It lets every click through. */
   [data-slot='book-canvas'][data-canvas='over'] {
     z-index: 1;
   }
 
-  /* A copy of the pages as they lay folding, covering a canvas that has just taken over until it has drawn them. */
   [data-slot='book-ghost'] {
     position: absolute;
     inset: 0;
@@ -943,12 +831,10 @@
     pointer-events: none;
   }
 
-  /* A canvas over the pages stays out of sight until it has pictures of them; they show themselves until then. */
   [data-slot='book-canvas'][data-canvas='over'][data-arriving] {
     opacity: 0;
   }
 
-  /* Under it every page is laid out so a picture can be taken, but none shows or can be touched. */
   [data-slot='book-pages'][data-live]:has(> [data-slot='book-canvas'][data-canvas='over'])
     > [data-slot='book-page-frame'] {
     visibility: visible;
@@ -963,7 +849,6 @@
     pointer-events: none;
   }
 
-  /* A page at rest shows itself until the canvas has drawn its picture, and while the canvas is still arriving. */
   [data-slot='book-pages'][data-live]:has(> [data-slot='book-canvas'][data-canvas='over'])
     > [data-slot='book-page-frame'][data-under]:not([data-drawn]),
   [data-slot='book-pages'][data-live]:has(
@@ -973,7 +858,6 @@
     opacity: 1;
   }
 
-  /* The ring round whatever has focus on a page under the canvas, where the browser's own can't be seen. */
   [data-slot='book-focus'] {
     position: absolute;
     z-index: 2;
@@ -987,13 +871,11 @@
     display: none;
   }
 
-  /* A board's corners are the canvas's to round here too. */
   [data-slot='book-pages']:has(> [data-slot='book-canvas'][data-canvas='over'])
     [data-slot='book-page'][data-hard] {
     border-radius: 0;
   }
 
-  /* Until the canvas is in sight the page still shows itself, so its frame keeps the corners it had. */
   [data-slot='book-pages']:has(> [data-slot='book-canvas'][data-canvas='over'][data-arriving])
     > [data-slot='book-page-frame'][data-under]:has(> * > [data-slot='book-page'][data-hard]) {
     --round-x: calc(var(--book-page-radius) * 100%);
@@ -1009,8 +891,6 @@
     clip-path: inset(0 round var(--round-x) 0 0 var(--round-x) / var(--round-y) 0 0 var(--round-y));
   }
 
-  /* A strip along a crease: shadow on the side the leaf has left, the dark of the fold, then a highlight where the
-     paper bends. Short and stretched, to save memory. */
   [data-slot='book-page-shade'] {
     position: absolute;
     left: -40cqw;
@@ -1032,7 +912,6 @@
     );
   }
 
-  /* A stiff page has no crease: it darkens all over as it swings. */
   [data-turning='hard'] [data-slot='book-page-shade'] {
     left: 0;
     top: 0;
@@ -1041,8 +920,6 @@
     background: rgb(var(--book-shade));
   }
 
-  /* Where a ribbon is drawn among folding pages: a path over the right-hand page, reaching wherever it goes. Its
-     place among the leaves is written on it as they turn. */
   [data-slot='book-strip'] {
     position: absolute;
     top: 0;
@@ -1060,7 +937,6 @@
     display: block;
   }
 
-  /* A shut book has a board over its ribbon, so the tail shows from the board's edge down, not the pages'. */
   [data-slot='book-strip'][data-covered] {
     clip-path: inset(
       calc(
@@ -1069,7 +945,6 @@
     );
   }
 
-  /* Beside a single page it is cut where everything else to the left is. */
   [data-slot='book-pages'][data-columns='1'] > [data-slot='book-strip'] {
     clip-path: inset(-100vmax -100vmax -100vmax calc(-106% * var(--book-verso)));
   }
@@ -1083,7 +958,6 @@
 
   [data-slot='book-strip'] [data-part='shadow'] {
     fill: rgb(var(--book-shade) / 0.15);
-    /* Just enough that its edge isn't a line. */
     filter: blur(0.7px);
   }
 
@@ -1095,13 +969,10 @@
     fill: rgb(255 255 255 / 0.14);
   }
 
-  /* Where it crosses itself, the part on top shades the part under it. */
   [data-slot='book-strip'] [data-part='under'] {
     fill: rgb(0 0 0 / 0.24);
   }
 
-  /* The ribbon's button lies over its tail, which the book draws: it is only somewhere to press, pull and show
-     focus. Until the book is live the tail is drawn here, flat, hanging below the pages by the spine. */
   [data-slot='book-ribbon'] {
     --book-page-width: calc(100cqw / var(--book-columns));
 
@@ -1131,12 +1002,10 @@
   }
 
   [data-slot='book-stage']:not(:has([data-live])) > [data-slot='book-ribbon'] {
-    /* Cut at an angle, as the book cuts it: the left edge runs on 0.45 of its width, the right as far short. */
     --book-ribbon-cut: calc(0.0144 * var(--book-page-width));
 
     height: calc(0.15 * var(--book-page-width) + var(--book-ribbon-cut));
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2 * var(--book-ribbon-cut)), 0 100%);
-    /* The light down the middle of its face. */
     background: linear-gradient(
         to right,
         rgb(255 255 255 / 0) 35%,
@@ -1146,7 +1015,6 @@
       currentColor;
   }
 
-  /* A shut book has a board over it, and the tail shows from the board's edge down. */
   [data-slot='book-stage']:not(:has([data-live])):has(
       > [data-slot='book-pages']
         > [data-slot='book-page-frame'][data-current]:is(
@@ -1162,27 +1030,21 @@
     height: calc(0.15 * var(--book-page-width) + var(--book-ribbon-cut) - var(--book-rim));
   }
 
-  /* On a single page it hangs right of the spine, whatever the server took the book for. */
   @container style(--book-columns: 1) {
     [data-slot='book-stage']:not(:has([data-live])) > [data-slot='book-ribbon'][data-side='left'] {
       left: calc(100cqw - 0.994 * var(--book-page-width));
     }
   }
 
-  /* The button that moves the ribbon is hidden on a shut book, which has nowhere for a ribbon, and while leaves in
-     the air would pass under it. */
   [data-slot='book-stage'] > [data-slot='book-ribbon-mark'][data-closed] {
     visibility: hidden;
   }
 
-  /* Also hidden over a page that isn't one to mark, wherever the button is put. Pages out of view are inert, so
-     this is one in view. */
   [data-slot='book']:has([data-slot='book-page'][data-unmarkable]:not([inert]))
     [data-slot='book-ribbon-mark'] {
     visibility: hidden;
   }
 
-  /* A thumbnail's button lies over the small page rather than holding it, so the page's text is no part of it. */
   [data-slot='book-thumbnail-frame'] {
     position: relative;
   }
@@ -1194,7 +1056,6 @@
     block-size: 100%;
   }
 
-  /* A page in miniature: a container like a real page, so content sized in cqw shrinks with it. */
   [data-slot='book-thumbnail-page'] {
     display: block;
     aspect-ratio: 1 / var(--book-page-aspect);

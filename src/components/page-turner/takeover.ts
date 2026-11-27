@@ -1,23 +1,11 @@
-/**
- * Covers the moment a canvas takes the pages over. The server's HTML is pages that fold; a canvas can't draw them
- * at once (one that draws its own children has no picture until the next paint, one that draws from pictures must
- * take them first), and when it does the book looks different. So a copy of the pages as they lay stays over the
- * canvas until it has drawn, then they cross-fade: the canvas comes up round the copy, then the copy goes.
- */
-
-/** Canvas fade-in, copy fade-out, and the copy's delay after the canvas starts, in ms. */
 const ARRIVE = 200;
 const LEAVE = 240;
 const WAIT = 100;
-/** How long the copy waits for the canvas to draw before it gives up and goes, in ms. */
 const LATEST = 1500;
-/** Fast at first, then settling: what suits something coming in. */
 const EASE = 'cubic-bezier(0.215, 0.61, 0.355, 1)';
 
-/** What a copy mustn't bring with it: these load, play or run. */
 const LIVELY = 'iframe, video, audio, object, embed, script';
 
-/** Makes a copy for looking at only: aria-hidden, inert, no ids or names, nothing that loads, plays or runs. */
 function quieten(copy: HTMLElement) {
   copy.setAttribute('aria-hidden', 'true');
   copy.inert = true;
@@ -31,20 +19,12 @@ function quieten(copy: HTMLElement) {
 }
 
 interface Takeover {
-  /** Lays the copy over `canvas`, to stay until the canvas has drawn. It can be moved to another. */
   cover(canvas: HTMLElement): void;
-  /** Fades from the copy to the canvas, which has now drawn what the copy shows. */
   reveal(): void;
-  /** Takes the copy away at once. */
   drop(): void;
-  /** Whether the copy is still there. */
   readonly active: boolean;
 }
 
-/**
- * Copies what `stage` shows now: its pages and the ribbon among them, or with `"strip"` the ribbon alone, for a
- * canvas that lies over pages which stay where they are.
- */
 function createTakeover(stage: HTMLElement, what: 'pages' | 'strip' = 'pages'): Takeover {
   const doc = stage.ownerDocument;
   const view = doc.defaultView;
@@ -63,7 +43,6 @@ function createTakeover(stage: HTMLElement, what: 'pages' | 'strip' = 'pages'): 
       if (style.display === 'none' || style.visibility === 'hidden') continue;
       const rect = child.getBoundingClientRect();
       const copy = child.cloneNode(true) as HTMLElement | SVGElement;
-      // Its place now, set inline: the rules that put it there match the pages, not a copy.
       Object.assign(copy.style, {
         position: 'absolute',
         left: `${((rect.left - box.left) / box.width) * 100}%`,
@@ -115,7 +94,6 @@ function createTakeover(stage: HTMLElement, what: 'pages' | 'strip' = 'pages'): 
       state = 'revealing';
       clearTimeout(timer);
       const options = { easing: EASE, fill: 'both' } as const;
-      // Over pages that stay where they are, the canvas and what it replaces change places in one go.
       const delay = what === 'strip' ? 0 : WAIT;
       running = [
         canvas.animate([{ opacity: 0 }, { opacity: 1 }], {

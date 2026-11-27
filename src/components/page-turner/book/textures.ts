@@ -1,57 +1,32 @@
-/**
- * Draws a book's textures (leather, cloth, paper grain: SVGs whose filters draw from noise) to bitmaps, once,
- * in Safari only. Safari caches no picture of an SVG background: it reruns the filter on every paint, so on
- * every page that lifts or lands. The stylesheet's SVG still shows in the server's HTML, until the bitmap is
- * ready, and if none can be made. Other browsers cache the SVG at the screen's pixels, where a bitmap would
- * be coarser and save nothing. Only an SVG written into the stylesheet as a `data:` URL is drawn.
- *
- * The bitmap must match the SVG's pixels. Safari runs an SVG's filters at the SVG's stated size, one pixel
- * to the px, then scales to the screen's pixels. In a canvas that size is the SVG's own (150px if it states
- * none), whatever size it is drawn: a different picture. So the SVG is first given the width the stylesheet
- * lays it, a whole number of px, then drawn at the screen's pixels.
- */
-
-/**
- * The custom properties that name the textures, and how wide the stylesheet lays each, in page widths.
- * `--book-cover-leather-size` and the others say the same there, to the nearest px.
- */
 const SPANS = {
   '--book-cover-leather-image': 0.3,
   '--book-cover-cloth-image': 0.24,
   '--book-paper-grain-image': 0.32,
 } as const;
 
-/** Most pixels across a bitmap, where the screen's pixels would make it more. */
 const MOST = 512;
-/** How far a page may resize, as a share of its width, before its bitmaps are redrawn. */
 const SLACK = 0.04;
 
-/** Every bitmap in use, keyed by size, scale and source: its URL, and how many books hold it. Like books share. */
 const drawn = new Map<string, { made: Promise<string | undefined>; held: number }>();
 
-/** Whether `agent` is Safari's engine (every browser on iOS too), which reruns an SVG background's filter per paint. */
 function repaints(agent: string) {
   return /AppleWebKit\//.test(agent) && !/Chrom(?:e|ium)\//.test(agent);
 }
 
-/** The SVG a custom property names, when it is a `data:` URL. */
 function svgOf(value: string) {
   const url = /^url\(\s*(["']?)(.*)\1\s*\)$/s.exec(value.trim())?.[2];
   return url && /^data:image\/svg\+xml[;,]/i.test(url) ? url : undefined;
 }
 
-/** Width in whole px, as the stylesheet lays it, of a picture `span` page widths wide on a page `width` px wide. */
 function sizeFor(width: number, span: number) {
   return Math.max(1, Math.round(width * span));
 }
 
-/** Pixels per px for a picture `size` px across: the screen's `ratio`, or a whole number keeping it within `MOST`. */
 function scaleFor(size: number, ratio: number) {
   const screen = ratio > 0 && Number.isFinite(ratio) ? ratio : 1;
   return Math.max(1, Math.min(screen, Math.floor(MOST / size)));
 }
 
-/** The text of an SVG `data:` URL. Undefined if it can't be read. */
 function textOf(source: string) {
   const parts = /^data:image\/svg\+xml((?:;[^,;]*)*),(.*)$/is.exec(source);
   if (!parts) return undefined;
@@ -64,7 +39,6 @@ function textOf(source: string) {
   }
 }
 
-/** The same SVG as a `data:` URL, stated `size` px wide and as tall as its shape makes that, with that height. */
 function sized(source: string, size: number) {
   const text = textOf(source);
   if (text === undefined) return undefined;
@@ -104,7 +78,6 @@ async function draw(source: string, size: number, scale: number, doc: Document) 
   if (!blob) return undefined;
   const url = URL.createObjectURL(blob);
   try {
-    // The page may forbid `blob:` images: then it keeps the SVG.
     const made = doc.createElement('img');
     made.src = url;
     await made.decode();
@@ -115,7 +88,6 @@ async function draw(source: string, size: number, scale: number, doc: Document) 
   }
 }
 
-/** Holds a bitmap of `source`, `size` px across at `scale` pixels per px. Returns the key to `give` it back by. */
 function take(source: string, size: number, scale: number, doc: Document) {
   const key = `${size} ${scale} ${source}`;
   let entry = drawn.get(key);
@@ -127,7 +99,6 @@ function take(source: string, size: number, scale: number, doc: Document) {
   return key;
 }
 
-/** Gives a bitmap back. One no book holds any more is revoked. */
 function give(key: string | undefined) {
   const entry = key === undefined ? undefined : drawn.get(key);
   if (!entry || --entry.held > 0) return;
@@ -138,17 +109,12 @@ function give(key: string | undefined) {
 }
 
 interface Texture {
-  /** The property's value on the pages' parent. */
   given: string;
-  /** The SVG it is drawn from, if it is one. */
   source: string | undefined;
-  /** Its laid width in px, and the pixels per px it is drawn with. */
   size: number;
   scale: number;
-  /** The bitmap asked for, and the one the pages show: the old one until the new is ready. */
   asked: string | undefined;
   shown: string | undefined;
-  /** The shown bitmap's URL, as set on the pages. */
   url?: string;
 }
 
@@ -156,7 +122,6 @@ function createTextures() {
   let host: HTMLElement | undefined;
   const textures = new Map<string, Texture>();
 
-  /** Puts the pages back on the SVGs. */
   function clear() {
     for (const [name, texture] of textures) {
       if (texture.shown) host?.style.removeProperty(name);
@@ -167,7 +132,6 @@ function createTextures() {
     host = undefined;
   }
 
-  /** Draws the textures of the pages in `el`, each `width` px wide. Call on every measure: what changed is redrawn. */
   function bake(el: HTMLElement, width: number) {
     const doc = el.ownerDocument;
     const view = doc.defaultView;
@@ -175,14 +139,12 @@ function createTextures() {
     if (!repaints(view.navigator.userAgent)) return;
     if (host !== el) clear();
     host = el;
-    // Read off the parent: the pages' own value is the bitmap once one is set.
     const above = el.parentElement ? view.getComputedStyle(el.parentElement) : undefined;
     for (const [name, span] of Object.entries(SPANS)) {
       const given = above?.getPropertyValue(name).trim() ?? '';
       const size = sizeFor(width, span);
       const scale = scaleFor(size, view.devicePixelRatio);
       const was = textures.get(name);
-      // The window may have moved to a screen with another pixel ratio.
       const same = was?.given === given && was.scale === scale;
       if (was && same && Math.abs(size - was.size) <= was.size * SLACK) continue;
       let source = was?.source;
@@ -207,12 +169,10 @@ function createTextures() {
       textures.set(name, texture);
       if (!asked) continue;
       if (asked === shown) {
-        // Back at the size of the one showing: hold it once, not twice.
         give(asked);
         continue;
       }
       void drawn.get(asked)!.made.then((url) => {
-        // The book may have gone, or been given another texture, while this was drawn.
         if (!url || host !== el || textures.get(name) !== texture) return;
         el.style.setProperty(name, `url("${url}")`);
         give(texture.shown);
@@ -222,7 +182,6 @@ function createTextures() {
     }
   }
 
-  /** The SVG behind a page's `value` for the property `name`: the SVG itself, or the one its bitmap was drawn from. */
   function source(name: string, value: string) {
     const own = svgOf(value);
     if (own) return own;

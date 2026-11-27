@@ -12,57 +12,32 @@ import {
 } from '../core';
 import { quieten } from '../takeover';
 
-/**
- * Draws turning leaves onto page elements. Each page is three nested elements: a page-sized slot, a clip turned to
- * lie along a crease, and the content. While a leaf is in the air only `transform`, `opacity` and `z-index` change,
- * so the browser never lays out or repaints a page. Lengths are in `cqw` (the slot is the container, 100cqw is one
- * page width), so nothing is measured or redone on resize. With one column a leaf's far side is its one page seen
- * from behind: at rest on the left, the page itself turned over; in the air, a copy on a spare, made as the leaf
- * lifts and gone when it lands.
- */
-
 interface PageElements {
-  /** The page-sized box. Carries `data-turning`, `data-under`, `data-side` and `data-verso`. */
   slot: HTMLElement;
-  /** The box that cuts the page along the crease. */
   clip: HTMLElement;
   content: HTMLElement;
-  /** A strip of shading laid along the crease. */
   shade: HTMLElement;
-  /** Where the page's shadow may fall: a window the size of the spread. */
   cast: HTMLElement;
-  /** The shadow a folded-over page casts on what lies beneath it. */
   shadow: HTMLElement;
 }
 
 interface RendererOptions {
-  /** The elements of page `index`, or undefined when it isn't mounted. */
   page: (index: number) => PageElements | undefined;
-  /** Which pages are on a leaf's two sides. -1 for a blank side. */
   faces: (leaf: number) => { front: number; back: number };
-  /** Pages side by side. With one, a leaf's far side is its page seen from behind. */
   columns?: () => Columns;
-  /** How much of the leaves turned from a single page shows to its left. With none, nothing is laid there. */
   verso?: () => number;
-  /** Spare pages with nothing on them, to stand in for blank sides. */
   blanks?: () => readonly PageElements[];
-  /** Whether a leaf is stiff, like a cover: it swings on the spine and doesn't fold. */
   hard?: (leaf: number) => boolean;
   strip?: () => SVGSVGElement | undefined;
 }
 
-/** How much taller the shading strip is drawn than it is laid out. */
 const SHADE_STRETCH = 120;
-/** How much larger the cast shadow is drawn than it is laid out. */
 const CAST_STRETCH = 10;
-/** How far the eye is from a swinging cover, in page widths. */
 const DISTANCE = 4.5;
-/** Turns a page over where it lies, to be seen from behind. */
 const OVER = 'translate(100cqw,0) scaleX(-1)';
 
 function createRenderer(options: RendererOptions) {
   let drawn = new Set<PageElements>();
-  /** Which spare page stands in for which leaf's blank side. */
   const standIns = new Map<number, PageElements>();
 
   function reset(page: PageElements) {
@@ -83,7 +58,6 @@ function createRenderer(options: RendererOptions) {
     page.shadow.style.transform = '';
   }
 
-  /** Lays a page at rest. `verso`: seen from behind as its leaf's far side, through paper or not at all (`board`). */
   function rest(page: PageElements, side: 'left' | 'right', verso?: 'paper' | 'board') {
     page.slot.removeAttribute('data-turning');
     page.slot.setAttribute('data-under', '');
@@ -98,20 +72,13 @@ function createRenderer(options: RendererOptions) {
     page.cast.style.opacity = '';
   }
 
-  /** The boards that lie under pages, and the colour last read off each. */
   const boards = new Map<PageElements, string>();
 
-  /**
-   * Marks a page as on a board, whose rim shows round it. `cover` is the board's outside, which gives its colour,
-   * finish and sheen. With `side` the page is of the cover's own leaf; a stiff one is the board's face, and the rim
-   * takes its colour.
-   */
   function board(page: PageElements, cover: PageElements | undefined, side = false) {
     if (!cover) {
       unboard(page);
       return;
     }
-    // Read once for as long as it lies there: nothing here is measured while a leaf is in the air.
     if (boards.has(page)) return;
     const face = side && page.content.hasAttribute('data-hard');
     const style = getComputedStyle((face ? page : cover).content);
@@ -122,7 +89,6 @@ function createRenderer(options: RendererOptions) {
     const strength = (name: string) => Number.parseFloat(style.getPropertyValue(name)) || 0;
     const leather = strength('--book-cover-leather');
     const cloth = strength('--book-cover-cloth');
-    // A cover is one or the other: the stronger of the two is what it is covered in.
     if (leather > 0 || cloth > 0) {
       page.slot.setAttribute('data-finish', leather >= cloth ? 'leather' : 'cloth');
       page.slot.style.setProperty('--book-board-finish', String(Math.max(leather, cloth)));
@@ -139,7 +105,6 @@ function createRenderer(options: RendererOptions) {
     page.slot.removeAttribute('data-finish');
   }
 
-  /** The pages whose rim is in the air with them. */
   const swung = new Set<PageElements>();
 
   function unswing(page: PageElements) {
@@ -154,16 +119,13 @@ function createRenderer(options: RendererOptions) {
     page.slot.removeAttribute('data-under');
     page.slot.removeAttribute('data-side');
     page.slot.removeAttribute('data-verso');
-    // A folding page leaves its board behind; a swinging one is on its board and takes it along.
     if (mode === '') {
       unboard(page);
       unswing(page);
     }
-    // Doubled, which leaves room between any two leaves for a ribbon.
     page.slot.style.zIndex = String(z * 2);
   }
 
-  /** The strips that are showing, and what was last written to each. */
   const shown = new Map<
     SVGSVGElement,
     {
@@ -176,10 +138,8 @@ function createRenderer(options: RendererOptions) {
     }
   >();
   const lain: Laid = { places: new Float64Array(0), runs: [], width: 0 };
-  /** Where the strip crosses itself: the place underneath, then the one on top, for each crossing. */
   const crossed: number[] = [];
 
-  /** Draws a strip as paths, at `z` among the leaves. `covered`: a shut board's rim hides it as far as it overhangs. */
   function lay(strip: Strip, h: number, z: number, covered: boolean) {
     const svg = options.strip?.();
     if (!svg) return undefined;
@@ -226,13 +186,11 @@ function createRenderer(options: RendererOptions) {
     }
   }
 
-  /** Lays the shading strip along a crease. `at` is in the page's own coordinates. */
   function shade(page: PageElements, at: Point, angle: number, strength: number) {
     page.shade.style.transform = `translate(${cqw(at.x)},${cqw(at.y)}) rotate(${rad(angle)}) scaleY(${SHADE_STRETCH})`;
     page.shade.style.opacity = strength.toFixed(3);
   }
 
-  /** The shadow of the crease of the leaf lying on `page`, if there is one. */
   function shadeBeneath(page: PageElements, origin: Point, above: Fold | undefined) {
     if (above) {
       shade(
@@ -246,7 +204,6 @@ function createRenderer(options: RendererOptions) {
     }
   }
 
-  /** Draws one side of a folding leaf, flat part or flap. `fall`: where the flap's shadow may fall (see `Fall`). */
   function turn(
     page: PageElements,
     f: Fold,
@@ -262,16 +219,13 @@ function createRenderer(options: RendererOptions) {
     const cos = Math.cos(f.normal);
     const sin = Math.sin(f.normal);
 
-    // The clip's left edge lies along the crease and it opens onto the flat side.
     page.clip.style.transform = `translate(${cqw(f.mid.x)},${cqw(f.mid.y - h / 2)}) rotate(${rad(f.normal)})`;
-    // The content undoes the clip's turn, then takes its own place.
     const dx = at.x - f.mid.x;
     const dy = at.y - f.mid.y;
     const placed = `translate(${cqw(cos * dx + sin * dy)},${cqw(-sin * dx + cos * dy + h / 2)}) rotate(${rad(rotation - f.normal)})`;
     page.content.style.transform = placed;
 
     if (flap) {
-      // The crease, seen from the folded page's own coordinates.
       const turnCos = Math.cos(rotation);
       const turnSin = Math.sin(rotation);
       const mx = f.mid.x - at.x;
@@ -283,7 +237,6 @@ function createRenderer(options: RendererOptions) {
         f.normal - rotation,
         height,
       );
-      // The window undoes the clip's turn to lie square on the spread; its shadow then takes the flap's place.
       page.cast.style.transform = `translate(${cqw(-cos * f.mid.x - sin * f.mid.y)},${cqw(sin * f.mid.x - cos * f.mid.y + h / 2)}) rotate(${rad(-f.normal)})`;
       page.cast.style.opacity = height.toFixed(3);
       if (fall === 'both') page.cast.removeAttribute('data-fall');
@@ -295,30 +248,24 @@ function createRenderer(options: RendererOptions) {
     }
   }
 
-  /** One side of a stiff leaf, swung `t` of the way over the spine. `lone`: nothing lies on the side it is over. */
   function swing(page: PageElements, t: number, back: boolean, z: number, lone: boolean) {
     lift(page, 'hard', z);
-    // The front swings up from the right, the back comes down onto the left.
     const angle = back ? (1 - t) * 180 : -t * 180;
     page.clip.style.transform = '';
     page.content.style.transform = `translate(0,50cqh) perspective(${cqw(DISTANCE)}) rotateY(${angle.toFixed(3)}deg) translate(${back ? '-100cqw' : '0'},-50cqh)`;
-    // It darkens as it turns away from the light.
     const dark = (0.22 * Math.sin(Math.PI * t)).toFixed(3);
     page.shade.style.transform = '';
     page.shade.style.opacity = dark;
     page.cast.style.opacity = '0';
-    // The board's rim swings as the board does: from lying right, whichever side of it shows.
     swung.add(page);
     page.slot.style.setProperty(
       '--book-swing',
       `perspective(${cqw(DISTANCE)}) rotateY(${(-t * 180).toFixed(3)}deg)`,
     );
     page.slot.style.setProperty('--book-swing-shade', dark);
-    // Over a pile, the board under that pile has the shadow already, and two would show as one darker.
     page.slot.style.setProperty('--book-swing-cast', lone ? '1' : '0');
   }
 
-  /** A spare page to show as a blank side of `leaf`, kept for as long as the leaf is in the air. */
   function standIn(leaf: number): PageElements | undefined {
     const held = standIns.get(leaf);
     if (held) return held;
@@ -328,10 +275,8 @@ function createRenderer(options: RendererOptions) {
     return spare;
   }
 
-  /** The copies of pages lying on spares, each with the page it is of. No copy for a page that doesn't show through. */
   const copies = new Map<PageElements, { of: HTMLElement; el: HTMLElement | undefined }>();
 
-  /** Shows `page` from behind on a spare, or clears it. Copied once, as its leaf lifts, not while it is in the air. */
   function show(spare: PageElements, page?: PageElements) {
     const held = copies.get(spare);
     if (held?.of === page?.content) return;
@@ -354,18 +299,14 @@ function createRenderer(options: RendererOptions) {
     copies.set(spare, { of: page.content, el });
   }
 
-  /** Draws the book as `turns` has it now, and its ribbon. `h` is page height over page width. */
   function draw(turns: Turns, h: number, ribbon?: Strip) {
     const next = new Set<PageElements>();
-    /** One page to a leaf: the far side of each is that page from behind. */
     const lone = options.columns?.() === 1;
-    /** The lowest of the leaves in the air that lie over the ribbon. */
     let over = Infinity;
     const lies = (leaf: number, side: -1 | 1, z: number) => {
       if (ribbon && overRibbon(ribbon, leaf, side)) over = Math.min(over, z);
     };
     const { active, under } = turns;
-    // A stiff leaf has no crease, so it has no fold.
     const folds = active.map((leaf) =>
       options.hard?.(leaf.index) ? undefined : fold(leaf.point, leaf.corner, h, leaf.from),
     );
@@ -376,11 +317,9 @@ function createRenderer(options: RendererOptions) {
       standIns.delete(leaf);
     }
 
-    // The covers, when they are boards, lie at the bottom of the piles.
     const last = turns.leafCount - 1;
     const frontCover =
       last >= 0 && options.hard?.(0) ? options.page(options.faces(0).front) : undefined;
-    // The back board's outside is the back of the last leaf: or its front, where a leaf has one page.
     const end = last >= 0 ? options.faces(last) : undefined;
     const backCover =
       end && options.hard?.(last) ? options.page(end.back >= 0 ? end.back : end.front) : undefined;
@@ -391,12 +330,9 @@ function createRenderer(options: RendererOptions) {
       const faces = options.faces(leaf.index);
       const front = options.page(faces.front);
       const back = faces.back >= 0 ? options.page(faces.back) : standIn(leaf.index);
-      // A board lets nothing through: its far side stays blank.
       if (back && faces.back < 0) show(back, lone && f ? front : undefined);
 
       if (!f) {
-        // Only the side facing the reader shows. Until it is half way over it
-        // lies beneath the leaves it has still to follow; past that, on them.
         const facing = leaf.t > 0.5 ? back : front;
         const right = leaf.from === 'right';
         const lifted = right ? leaf.t >= 0.5 : leaf.t <= 0.5;
@@ -410,7 +346,6 @@ function createRenderer(options: RendererOptions) {
         if (facing) {
           const lone = leaf.t > 0.5 ? under.left < 0 : under.right >= turns.leafCount;
           swing(facing, leaf.t, leaf.t > 0.5, z, lone);
-          // A cover is a board, in the air as much as at rest: either side of it has the rim round it.
           board(
             facing,
             leaf.index === 0 ? frontCover : leaf.index === last ? backCover : undefined,
@@ -422,24 +357,18 @@ function createRenderer(options: RendererOptions) {
         continue;
       }
 
-      // In the right-hand pile the lower leaf lies on top; in the left-hand
-      // pile, and among pages folded over from the right, the higher one does.
       const right = f.from === 'right';
       const flat = right ? front : back;
       const flap = right ? back : front;
-      // The leaf that went over just ahead of this one, the same way.
       const beside = folds[right ? index - 1 : index + 1];
       const ahead = beside?.from === f.from ? beside : undefined;
       if (flat) {
         turn(flat, f, h, false, right ? 1000 - index : 1000 + index);
         lies(leaf.index, right ? 1 : -1, right ? 1000 - index : 1000 + index);
-        // That leaf lies on this one, and casts its shadow along its own crease.
         shadeBeneath(flat, f.flat, ahead);
         next.add(flat);
       }
       if (flap) {
-        // Its shadow falls on its own leaf, and across the spine only if pages lie there; or on a leaf folded over
-        // ahead, in the air past the spread, on the side it goes to and the end its corner was lifted to.
         const across = right ? under.left >= 0 : under.right < turns.leafCount;
         const fall: Fall = ahead ? `air-${f.from}-${leaf.corner}` : across ? 'both' : f.from;
         turn(flap, f, h, true, right ? 2000 + index : 3000 - index, fall);
@@ -448,7 +377,6 @@ function createRenderer(options: RendererOptions) {
       }
     }
 
-    // What lies on top of the left-hand pile is the back of a leaf: with one page to a leaf, its page from behind.
     const turned = under.left >= 0 ? options.faces(under.left) : undefined;
     const leftPage =
       turned && !(lone && (options.verso?.() ?? 0) <= 0)
@@ -458,8 +386,6 @@ function createRenderer(options: RendererOptions) {
       under.right < turns.leafCount ? options.page(options.faces(under.right).front) : undefined;
     if (leftPage) {
       rest(leftPage, 'left', lone ? (options.hard?.(under.left) ? 'board' : 'paper') : undefined);
-      // The front board lies at the bottom of this pile. With the whole book turned, the back one is its top.
-      // A page seen from behind is no face of a board, even when it is the board's own: that is its inside.
       board(
         leftPage,
         frontCover ?? (under.left === last ? backCover : undefined),
@@ -486,9 +412,6 @@ function createRenderer(options: RendererOptions) {
     }
     drawn = next;
 
-    // The ribbon goes just under the lowest leaf lying over it; with none in the air, over the pages at rest, where
-    // only its tail shows below them. A shut book's tail comes out from under its top board's rim. One page to a
-    // leaf, the back board lies on the right like every other page.
     const shut =
       leftPage && !lone
         ? !rightPage && under.left === last && !!backCover
@@ -509,26 +432,16 @@ function createRenderer(options: RendererOptions) {
   return { draw, clear };
 }
 
-/** Shading is strongest mid-turn and gone when the leaf lies flat. */
 function curl(progress: number) {
   return Math.sqrt(Math.max(0, Math.sin(Math.PI * progress)));
 }
 
-/** How far along a ribbon's end one edge is cut longer than the other, in ribbon widths. */
 const SLANT = 0.45;
-/** How a strip throws its shadow, in page widths; `thrown` is how many times further where a hand has lifted it. */
 const SHADOW = { shift: [0.002, 0.003] as const, spread: 0.002, thrown: 5 };
-/** How much of a strip's width the light down its face takes up. */
 const SHEEN = 0.3;
-/** How far a strip may turn (radians) or run (page widths) between two corners of its drawn outline. */
 const CORNERS = { turn: 0.02, run: 0.12 };
-/**
- * A strip crossing itself: how far back along it the part underneath must be to count (nearer, the two lie as one);
- * how much of the part on top is redrawn over it each side, in strip widths; that part's shadow throw and spread.
- */
 const CROSSING = { clear: 0.09, over: 1.6, shift: [0.004, 0.0055] as const, spread: 0.002 };
 
-/** Writes each self-crossing of a laid strip to `out`: the place underneath, then the one on top (later along it). */
 function crossingsOf(laid: Laid, out: number[]) {
   out.length = 0;
   const { places, runs } = laid;
@@ -561,7 +474,6 @@ function crossingsOf(laid: Laid, out: number[]) {
   return out;
 }
 
-/** The run of a laid strip that place `place` is in: its first place and its last. */
 function runOf(laid: Laid, place: number): [number, number] {
   const { runs } = laid;
   for (let run = 0; run * 2 < runs.length; run++) {
@@ -571,13 +483,8 @@ function runOf(laid: Laid, place: number): [number, number] {
   return [place, place];
 }
 
-/** A point as an SVG path writes one, with 100 units to the page width. */
 const at = (x: number, y: number) => `${(x * 100).toFixed(2)} ${(y * 100).toFixed(2)}`;
 
-/**
- * A stretch of a laid strip outlined as one closed shape, down one edge and back up the other: the `cloth`, the
- * `sheen` down its face, or its `shadow`. Without `all`, places are skipped where it runs straight.
- */
 function stretch(
   laid: Laid,
   first: number,
@@ -610,7 +517,6 @@ function stretch(
     let ly = places[here + 1]!;
     let rx = places[here + 2]!;
     let ry = places[here + 3]!;
-    // About its middle, which an edge drawn in round a sharp turn is nearer to than the other.
     const cx = places[here + 4]!;
     const cy = places[here + 5]!;
     if (kind === 'sheen') {
@@ -619,7 +525,6 @@ function stretch(
       rx = cx + (rx - cx) * SHEEN;
       ry = cy + (ry - cy) * SHEEN;
     } else if (kind === 'shadow') {
-      // It is the strip's own shape, the cut of its end included, a little wider and moved off.
       const lift = places[here + 8]!;
       const wider = 1 + (SHADOW.spread * (1 + lift)) / (laid.width / 2);
       const sx = SHADOW.shift[0] * (1 + SHADOW.thrown * lift);
@@ -635,10 +540,6 @@ function stretch(
   return `${left}${right}Z`;
 }
 
-/**
- * The shadow a strip throws on itself at a crossing: the part on top's four corners, moved off as its shadow falls
- * and cut to the part underneath. So short a stretch is straight enough to take as four-cornered.
- */
 function shade(laid: Laid, under: number, over: number, width: number) {
   const { places } = laid;
   const reach = Math.max(
@@ -675,7 +576,6 @@ function shade(laid: Laid, under: number, over: number, width: number) {
   };
   let shadow = corners(over, CROSSING.spread, CROSSING.shift);
   const cloth = corners(under, 0, [0, 0]);
-  // Which way round the cloth's corners go, so that inside is always to one side of each edge.
   let area = 0;
   for (let index = 0; index < 4; index++) {
     const next = (index + 1) % 4;
@@ -712,7 +612,6 @@ function shade(laid: Laid, under: number, over: number, width: number) {
   return `${path}Z`;
 }
 
-/** About how far apart the places of a laid strip are, near `place`. */
 function spacing(laid: Laid, place: number) {
   const [first, last] = runOf(laid, place);
   const { places } = laid;
@@ -721,10 +620,6 @@ function spacing(laid: Laid, place: number) {
   return Math.abs(places[b + 6]! - places[a + 6]!) / Math.max(1, (b - a) / PLACE);
 }
 
-/**
- * One part of a laid strip as an SVG path, 100 units to the page width: `cloth`, `shadow` or `sheen`, each one flat
- * shape; at crossings, `under` is the top part's shadow on the part beneath, and `over` that top part drawn again.
- */
 function outline(laid: Laid, kind: string, crossed: readonly number[]) {
   const { runs } = laid;
   let path = '';
@@ -763,7 +658,6 @@ function rad(value: number) {
   return `${value.toFixed(5)}rad`;
 }
 
-/** Where a shadow may fall: both sides of the spread, one, or leaves in the air (the leaf's lifted side and corner). */
 type Fall = 'both' | 'left' | 'right' | `air-${'left' | 'right'}-${'top' | 'bottom'}`;
 
 type Renderer = ReturnType<typeof createRenderer>;

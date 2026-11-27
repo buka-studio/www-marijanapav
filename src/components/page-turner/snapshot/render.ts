@@ -25,105 +25,58 @@ import {
 import { createFocusRing } from './focus';
 import { createPictureSource, type Snap } from './pictures';
 
-/**
- * Draws the book into a canvas with leaves that curl, in a browser that can't draw elements into one. A copy of the
- * canvas renderer, with the same `../gl`, whose pictures are taken with snapdom (see `pictures.ts`): that takes a
- * moment, so a picture can be missing or out of date for a while. The pages stay under the canvas, reachable as
- * ever; one is only made invisible once the canvas has its picture.
- */
-
 interface SnapshotRendererOptions {
-  /** A canvas that lies over the pages. */
   canvas: HTMLCanvasElement;
-  /** What holds the pages. */
   stage: HTMLElement;
-  /** Takes a picture of an element: snapdom's `toCanvas`. */
   snap: Snap;
-  /** The element of page `index`, or undefined when it isn't mounted. */
   page: (index: number) => HTMLElement | undefined;
-  /** Which pages are on a leaf's two sides. -1 for a blank side. */
   faces: (leaf: number) => { front: number; back: number };
-  /** Spare pages with nothing on them, to stand in for blank sides. */
   blanks?: () => readonly HTMLElement[];
-  /** Whether a leaf is stiff, like a cover: it swings on the spine and doesn't curl. */
   hard?: (leaf: number) => boolean;
-  /** Whether page `index` is the outside of a board, which it covers edge to edge. */
   board?: (index: number) => boolean;
-  /** How many pages show side by side. */
   columns: () => Columns;
-  /** Called once, when the pages at rest have first all been drawn. */
   drawn?: () => void;
-  /** Called when it can't draw after all, as when the browser takes its WebGL context away. */
   failed?: () => void;
 }
 
 interface Picture {
   texture: WebGLTexture;
-  /** In pixels: a pixel or so more than the page covers. */
   width: number;
   height: number;
-  /** Pixels per CSS px, and the page's size, when it was asked for. */
   scale: number;
   span: string;
-  /** The last frame it was drawn in, or wanted for. */
   seen: number;
   taken: boolean;
 }
 
-/** How a board looks, read from its page's custom properties. Lengths are in page widths; strengths are from 0 to 1. */
 interface Look {
-  /** Its thickness. */
   depth: number;
-  /** How far it stands out past the pages on its three free edges. */
   reach: number;
-  /** How strongly its cloth's weave or its leather's grain shows, and how much either shines under the lamp. */
   cloth: number;
   leather: number;
   sheen: number;
-  /** How much of what is printed on it is foil, and how deeply that is pressed in. */
   foil: number;
   deboss: number;
-  /** The colour of its cloth. */
   tint: Vec3;
-  /** How round the corners of its pages are. Its own are as much rounder as it stands out. */
   round: number;
 }
 
-/** Where the room's light comes from: above, and a little from the top left. A unit vector. */
 const LIGHT = unit(-0.32, -0.42, 1);
-/** How dark the darkest shadow is. */
 const SHADOW = 0.24;
-/** How light a face is that the room's light doesn't reach, and how far one turned to it may brighten. */
 const DARK = 0.56;
 const BRIGHT = 1.15;
-/** How high the lamp is held over the pointer, in page widths. */
 const LAMP = 0.7;
-/** How long the lamp takes to cover most of the way to the pointer, in ms. */
 const GLIDE = 70;
-/** How far past the book the lamp follows the pointer, in page widths. */
 const ROAM = 1.5;
-/** How many CSS px a thread of the cloth is wide, and how many threads a page may have across it. */
 const THREAD = 3.2;
 const THREADS = [70, 190] as const;
-/** How many CSS px a grain of the paper is wide. */
 const TOOTH = 1.5;
-/** How high a board at the bottom of a pile lies off the table, for each unit of its thickness. */
 const RAISED = 1.6;
-/** How far from the book a board's shadow reaches across the table, in page widths. */
 const TABLE = 0.09;
-/** How much the page pasted inside a board shades the rim around it. */
 const PASTED = 0.07;
-/** The cloth of a board whose page has no colour of its own. */
 const GREY: Vec3 = [0.2, 0.2, 0.2];
-/** The gutter that tells a single page from its turned leaves: how dark at the spine, and its reach in page widths. */
 const GUTTER = { shade: 0.22, width: 0.07 };
-/** The paper's colour where the book sets none. */
 const PAPER: Vec3 = [0.99, 0.99, 0.98];
-/**
- * A strip's shadow on what it lies on: how far off it falls, how far its edges fade over and how dark it is, lying
- * flat; how many times further again it falls (`thrown`) and fades (`softer`) where a hand has lifted the strip; and
- * `clear`, how far back along itself the strip must be for its shadow to fall on it: nearer, the two parts lie as one.
- */
 const STRIP_SHADOW = {
   shift: [0.0035, 0.005] as const,
   soft: 0.0045,
@@ -132,14 +85,10 @@ const STRIP_SHADOW = {
   softer: 3.5,
   clear: 0.09,
 };
-/** How far towards the eye a hand lifts a strip, in page widths. */
 const STRIP_RISE = 0.06;
-/** How far along a ribbon's end one edge is cut longer than the other, in ribbon widths. */
 const SLANT = 0.45;
 
-/** How many leaves either side of the open pages have their pictures taken ahead of time. */
 const WARM = 2;
-/** How many pictures are kept at most. Each is a page's worth of pixels. */
 const KEPT = 16;
 
 function createSnapshotRenderer(options: SnapshotRendererOptions) {
@@ -147,7 +96,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
   const context = canvas.getContext('webgl2', {
     alpha: true,
     antialias: true,
-    // For a ribbon that crosses itself: nothing else is drawn in depth.
     depth: true,
     stencil: false,
     premultipliedAlpha: true,
@@ -157,34 +105,25 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
 
   const mesh = createMesh();
   const pictures = new Map<HTMLElement, Picture>();
-  /** The pages at rest, and what their frames were told: which side they lie, and whether they are drawn. */
   const placed = new Map<HTMLElement, string>();
   let blank: WebGLTexture | null = null;
   let due = false;
   let cleared = false;
-  /** Whether `drawn` has been called. */
   let told = false;
   const standIns = new Map<number, HTMLElement>();
-  /** A number for each page, to give its paper a grain of its own. */
   const seeds = new WeakMap<HTMLElement, number>();
   let sheets = 0;
 
   let scene: { turns: Turns; h: number; ribbon: Strip | undefined } | undefined;
   let lost = false;
-  /** The canvas's size in CSS px, and in the pixels it draws. */
   let box = { width: 0, height: 0 };
   let grid = { width: 0, height: 0 };
-  /** How much room the canvas leaves beside the book and above it, in page widths. */
   let bleed = { x: 0, y: 0 };
-  /** The canvas's share of the screen's pixels: `--book-canvas-scale`. */
   let density = 1;
-  /** How much of the leaves turned from a single page shows to its left, in page widths. */
   let verso = 0;
   let shade_: [number, number, number] = [0, 0, 0];
 
-  /** Where the top of the spine is in the canvas, and how wide a page is, in CSS px. */
   let placing = { x: 0, y: 0, width: 1 };
-  /** Where the lamp is, where the pointer wants it, and whether anything in view shines under it. */
   let lamp: [number, number, number] | undefined;
   let aim: [number, number, number] | undefined;
   let shiny = false;
@@ -199,20 +138,15 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
   const lain: Laid = { places: new Float64Array(0), runs: [], width: 0 };
   const buffer = gl.createBuffer();
 
-  // Sizes.
-
   const resize = new ResizeObserver(([entry]) => {
     if (!entry) return;
     const content = entry.contentBoxSize[0]!;
     const device = entry.devicePixelContentBoxSize?.[0];
     box = { width: content.inlineSize, height: content.blockSize };
     const style = getComputedStyle(canvas);
-    // A book that a transform draws smaller is seen in fewer pixels than it is laid out in, and
-    // `--book-canvas-scale` says how small: the canvas is given that share of the screen's pixels.
     const small = Number.parseFloat(style.getPropertyValue('--book-canvas-scale'));
     density = small > 0 && small < 1 ? small : 1;
     const ratio = (canvas.ownerDocument.defaultView?.devicePixelRatio ?? 1) * density;
-    // Take the browser's count of device pixels unless it disagrees with its own ratio.
     const exact = device !== undefined && Math.abs(device.inlineSize - box.width * ratio) <= 1;
     grid = {
       width: exact ? device.inlineSize : Math.round(box.width * ratio),
@@ -234,7 +168,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     shade_ = [0, 1, 2].map((index) => (channels[index] ?? 0) / 255) as [number, number, number];
     if (canvas.width !== grid.width) canvas.width = grid.width;
     if (canvas.height !== grid.height) canvas.height = grid.height;
-    // A canvas forgets what was drawn on it when its size is set.
     render();
   });
   try {
@@ -243,9 +176,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     resize.observe(canvas);
   }
 
-  // Pictures of pages.
-
-  /** Draws a frame before the browser next paints, however many times it is asked. */
   const redraw = () => {
     if (due || cleared) return;
     due = true;
@@ -255,20 +185,16 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     });
   };
 
-  /** Copies a picture that has been taken into the page's texture. */
   const landed = (el: HTMLElement, taken: HTMLCanvasElement) => {
     const held = pictures.get(el);
-    // Nothing draws the page any more, or there is nothing to copy to.
     if (!held || lost || taken.width === 0 || taken.height === 0) return;
     try {
       gl.bindTexture(gl.TEXTURE_2D, held.texture);
-      // The canvas blends premultiplied colours.
       gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, taken);
       gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
       gl.generateMipmap(gl.TEXTURE_2D);
     } catch {
-      // The browser won't let the picture be read: this book's pages can't be drawn from pictures.
       options.failed?.();
       return;
     }
@@ -291,11 +217,9 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     failed: () => options.failed?.(),
   });
   const focus = createFocusRing(stage);
-  /** The scale and the size of page each picture was last asked for at. */
   const asked = new WeakMap<HTMLElement, { scale: number; span: string }>();
   let frames = 0;
 
-  /** A page's picture, if taken. Asks for one when missing, or when out of date and `idle`: nothing is in the air. */
   function picture(
     el: HTMLElement,
     scale: number,
@@ -329,7 +253,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     return held.taken ? held : undefined;
   }
 
-  /** A texture of one pixel of blank paper, the colour of the page it stands in for. */
   function blankFor(el: HTMLElement): WebGLTexture | null {
     blank ??= gl.createTexture();
     const [r, g, b] = colourOf(getComputedStyle(el).backgroundColor) ?? [1, 1, 1];
@@ -350,7 +273,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     return blank;
   }
 
-  /** A spare page to show as a blank side of `leaf`, kept for as long as the leaf is in the air. */
   function standIn(leaf: number): HTMLElement | undefined {
     const held = standIns.get(leaf);
     if (held) return held;
@@ -360,13 +282,10 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     return spare;
   }
 
-  /** The element of a page, if it is one of the pages under this canvas. */
   function page(index: number): HTMLElement | undefined {
     const el = index >= 0 ? options.page(index) : undefined;
     return el && stage.contains(el) ? el : undefined;
   }
-
-  // Drawing.
 
   function render() {
     if (!scene || lost || grid.width === 0 || grid.height === 0) return;
@@ -374,15 +293,11 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     const { active, under } = turns;
     const columns = options.columns();
 
-    /** One page to a leaf: the far side of each is that page from behind. */
     const lone = columns === 1;
-    /** How much of the left-hand side the canvas reaches over, in page widths. */
     const beside = lone ? verso : 1;
-    // The page's width in CSS px, and how many pixels the canvas draws for each.
     const width = box.width / (1 + beside + 2 * bleed.x);
     const scale = grid.width / box.width;
     const size = width * scale;
-    // The top of the spine, on a whole pixel so pages at rest are drawn texel for pixel.
     const spine = {
       x: Math.round((bleed.x + beside) * size),
       y: Math.round(bleed.y * size),
@@ -393,7 +308,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       h,
     };
     placing = { x: spine.x / scale, y: spine.y / scale, width };
-    /** The canvas's edges, in page widths from the top of the spine. */
     const edges = [
       -spine.x / size,
       -spine.y / size,
@@ -403,18 +317,15 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     const eye: Vec3 = [0, h / 2, EYE];
     const light = lamp ?? home();
     const threads = Math.min(THREADS[1], Math.max(THREADS[0], width / THREAD));
-    // Read as it is drawn, so a change of style shows without anything else changing.
     const styled = getComputedStyle(canvas);
     const grain = Math.min(
       1,
       Math.max(0, Number.parseFloat(styled.getPropertyValue('--book-paper-grain')) || 0),
     );
-    /** How round the outer corners of the pages are. */
     const round = Math.min(
       0.25,
       Math.max(0, Number.parseFloat(styled.getPropertyValue('--book-page-radius')) || 0),
     );
-    /** How much of a page shows through its paper from behind, and the colour of that paper. */
     const through = Math.min(
       1,
       Math.max(0, Number.parseFloat(styled.getPropertyValue('--book-show-through')) || 0),
@@ -422,12 +333,9 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     const paper = colourOf(styled.getPropertyValue('--book-paper').trim()) ?? PAPER;
     shiny = false;
     frames++;
-    /** How large a page is, to tell when its picture is the wrong size. */
     const span = `${width.toFixed(2)} ${(width * h).toFixed(2)}`;
     const used = new Set<HTMLElement>();
-    /** The pages whose pictures were drawn where they lie at rest. */
     const drawn = new Set<HTMLElement>();
-    /** Whether what is being drawn lies at rest, where the page itself can show for want of a picture. */
     let lying = true;
     const take = (el: HTMLElement) => {
       used.add(el);
@@ -435,7 +343,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       if (held && lying) drawn.add(el);
       return held;
     };
-    /** How much of a picture the page covers: a picture has whole pixels, and a page seldom does. */
     const fitOf = (held: Picture | undefined) =>
       held
         ? ([
@@ -450,7 +357,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     gl.enable(gl.BLEND);
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
-    /** Draws the triangles in `mesh` with a page's picture on them. */
     const paint = (
       el: HTMLElement,
       look: {
@@ -463,7 +369,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       },
     ) => {
       const held = take(el);
-      // At rest the page itself shows until its picture is taken. In the air it is blank paper.
       if ((!held && lying) || mesh.count === 0) return;
       let seed = seeds.get(el);
       if (seed === undefined) {
@@ -480,7 +385,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       gl.uniform1f(face.mirror, look.mirror ? 1 : 0);
       gl.uniform1f(face.dim, look.dim ?? 0);
       gl.uniform1f(face.veil, look.veil ?? 0);
-      // The gutter: on the left of the paper for a page right of the spine, and on its right for one left of it.
       gl.uniform3f(face.gutter, look.gutter ? GUTTER.shade : 0, GUTTER.width, look.gutter ?? 0);
       gl.uniform3fv(face.shade, shade_);
       gl.uniform3fv(face.paper, paper);
@@ -496,16 +400,13 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       triangles();
     };
 
-    /** Draws the triangles in `mesh` as a face of a board: its page's picture, or bare cloth. */
     const dress = (
       el: HTMLElement | undefined,
       look: Look,
       at: { right: Vec3; out: Vec3; shape: 0 | 1 | 2; mirror?: boolean; stack?: number },
     ) => {
       const held = el ? take(el) : undefined;
-      // A board in the air whose cover has no picture yet is bare cloth.
       if ((el && !held && lying) || mesh.count === 0) return;
-      // Only a cover's own face is worth drawing again each time the pointer moves.
       if (held && (look.sheen > 0 || look.foil > 0)) shiny = true;
       gl.useProgram(cover.program);
       gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -540,7 +441,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       triangles();
     };
 
-    /** Hands the triangles in `mesh` to whichever program is in use. */
     const triangles = () => {
       gl.bufferData(gl.ARRAY_BUFFER, mesh.data.subarray(0, mesh.count * STRIDE), gl.DYNAMIC_DRAW);
       const bytes = STRIDE * 4;
@@ -553,11 +453,9 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       gl.drawArrays(gl.TRIANGLES, 0, mesh.count);
     };
 
-    /** Darkens what has been drawn so far where the paper that came over a curl shades it. */
     const cast = (c: Curl, strength: number) => {
       if (strength <= 0) return;
       gl.useProgram(shadow.program);
-      // Only where something is drawn: a shadow falls on paper, not beside the book.
       gl.blendFuncSeparate(gl.DST_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ZERO, gl.ONE);
       gl.uniform2fv(shadow.origin, view.origin);
       gl.uniform2fv(shadow.unit, view.unit);
@@ -574,19 +472,16 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       everywhere();
     };
 
-    /** Darkens what lies under a board that runs `run` from the spine, and the table beside the book. */
     const shade = (look: Look, run: Vec3) => {
       gl.useProgram(boardShadow.program);
       gl.uniform2fv(boardShadow.origin, view.origin);
       gl.uniform2fv(boardShadow.unit, view.unit);
-      // A leaf is taken for landed a hair before it is quite flat; by then its shadow is the one it has lying down.
       gl.uniform2f(boardShadow.run, run[0], Math.max(0, run[2] - 0.002));
       gl.uniform2f(boardShadow.size, 1 + look.reach, h);
       gl.uniform1f(boardShadow.reach, look.reach);
       gl.uniform1f(boardShadow.round, look.round > 0 ? look.round + look.reach : 0);
       gl.uniform1f(boardShadow.raised, RAISED * look.depth);
       gl.uniform2f(boardShadow.lean, -LIGHT[0] / LIGHT[2], -LIGHT[1] / LIGHT[2]);
-      // On the table it stops a little way from the book, so it never darkens whatever else is on the page.
       const room = look.reach + TABLE;
       gl.uniform4f(
         boardShadow.bounds,
@@ -596,19 +491,15 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         Math.min(edges[3], h + room),
       );
       gl.uniform3fv(boardShadow.shade, shade_);
-      // A board standing high lets more of the room's light in under it.
       gl.uniform1f(boardShadow.strength, SHADOW * (1 - 0.45 * Math.abs(run[2])));
-      // Darkens what has been drawn.
       gl.blendFuncSeparate(gl.DST_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ZERO, gl.ONE);
       everywhere();
-      // On the table, only as dark as the darkest shadow there: two boards over one spot shade it no more than one.
       gl.blendEquationSeparate(gl.FUNC_ADD, gl.MAX);
       gl.blendFuncSeparate(gl.ONE_MINUS_DST_ALPHA, gl.ONE, gl.ONE, gl.ONE);
       everywhere();
       gl.blendEquation(gl.FUNC_ADD);
     };
 
-    /** Draws over the whole canvas with whichever program is in use. */
     const everywhere = () => {
       gl.bufferData(gl.ARRAY_BUFFER, COVER, gl.DYNAMIC_DRAW);
       gl.enableVertexAttribArray(0);
@@ -618,7 +509,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
 
-    /** Lays a strip: its shadow, the cloth (later parts on top where it crosses itself), then its shadow on itself. */
     const lay = (cloth_: Strip) => {
       if (cloth_.opacity <= 0 || cloth_.count < 2) return;
       layOf(cloth_, { slant: SLANT }, lain);
@@ -627,7 +517,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       const { shift, soft, strength, thrown, softer, clear } = STRIP_SHADOW;
       const place = (index: number) => lain.places[lain.runs[index]! * PLACE + 6]!;
       const length = Math.max(1e-6, place(lain.runs.length - 1));
-      // From a twentieth of the way down to nineteen: nothing is as deep as what was never drawn on.
       const deep = 0.9 / length;
       gl.useProgram(strip.program);
       gl.uniform2fv(strip.origin, view.origin);
@@ -639,7 +528,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       gl.uniform2f(strip.soft, soft, softer);
 
       const shadows = () => {
-        // A shadow falls only on what is drawn: on the book, not beside it.
         gl.blendFuncSeparate(gl.DST_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ZERO, gl.ONE);
         gl.uniform1i(strip.kind, 2);
         gl.uniform3fv(strip.colour, shade_);
@@ -651,8 +539,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         }
       };
 
-      // A spot under the strip is only as dark as the darkest shadow on it: the first pass writes how dark that
-      // is, as a depth, and the second draws only what is just that dark.
       gl.uniform2f(strip.deep, 0.05, deep);
       gl.uniform1i(strip.once, 1);
       gl.enable(gl.DEPTH_TEST);
@@ -681,7 +567,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         triangles();
       }
 
-      // Only where the cloth under it is this much further back along the strip.
       gl.depthFunc(gl.GREATER);
       gl.depthMask(false);
       gl.uniform2f(strip.deep, 0.05 - clear * deep, deep);
@@ -692,7 +577,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     };
 
     const looks = new Map<number, Look>();
-    /** How the board of a stiff leaf looks: as the page that covers it says, or its front. */
     const lookOf = (leaf: number): Look => {
       let held = looks.get(leaf);
       if (!held) {
@@ -706,10 +590,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       return held;
     };
 
-    /**
-     * One face of a board, which runs `right` from the spine and looks `out`. Its outside page covers it; any other
-     * is pasted on inside the rim, where the cloth is turned in over the board's edges.
-     */
     const side = (
       el: HTMLElement | undefined,
       index: number,
@@ -735,7 +615,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       if (!active.some((item) => item.index === leaf)) standIns.delete(leaf);
     }
 
-    // The pages at rest, under everything. Each pile lies on the book's outermost leaf: a board shows around the pile.
     const resting = new Map<HTMLElement, number>();
     const last = turns.leafCount - 1;
     const piles = [
@@ -748,11 +627,9 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         count: last - under.right,
       },
     ]
-      // Beside a single page the left of the spine is out of sight unless the book says it shows.
       .filter((pile) => pile.lies && (!lone || !pile.left || verso > 0))
       .map((pile) => {
         const sides = options.faces(pile.top);
-        // With one page to a leaf, what lies turned shows that page from behind.
         const turned = lone && pile.left;
         const index = pile.left && !lone ? sides.back : sides.front;
         return {
@@ -771,7 +648,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     for (const pile of piles) {
       const { el, index } = pile;
       if (el && !pile.turned && options.hard?.(pile.top) && options.board?.(index)) {
-        // The outside of a board, face up. It stands out past the pages, so a ribbon under it is laid first.
         if (!laid && overRibbon(ribbon!, pile.top, pile.left ? -1 : 1)) {
           lay(ribbon!);
           laid = true;
@@ -779,13 +655,10 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         side(el, index, lookOf(pile.top), { right: pile.right, out: UP, back: pile.left });
       } else {
         if (pile.board) {
-          // The more pages lie on the board, the deeper the shade around them.
           const stack = pile.count > 0 ? Math.min(0.28, 0.14 + 0.02 * pile.count) : PASTED;
           side(undefined, -1, pile.board, { right: pile.right, out: UP, back: pile.left, stack });
         }
         if (el && pile.turned) {
-          // Through its paper, which a board hasn't: the inside of one is paper pasted down. It
-          // isn't in its place under the canvas, so with no picture yet it is drawn as blank paper.
           sheet(mesh, -1, h);
           lying = false;
           paint(el, { mirror: true, veil: options.hard?.(pile.top) ? 1 : 1 - through, gutter: -1 });
@@ -795,17 +668,14 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
           paint(el, lone && verso > 0 ? { gutter: 1 } : {});
         }
       }
-      // A page seen from behind isn't there to be reached.
       if (el && !pile.turned) resting.set(el, pile.left ? -1 : 0);
     }
 
-    // The leaves in the air, lowest first, in the order the paper lies.
     lying = false;
     const steps: { layer: number; leaf: number; lies: -1 | 1; run: () => void }[] = [];
     active.forEach((leaf, index) => {
       const sides = options.faces(leaf.index);
       const front = page(sides.front);
-      // With one page to a leaf, the far side of one that folds is that page from behind: it needs no spare.
       const far = lone && sides.back < 0 && !options.hard?.(leaf.index) ? front : undefined;
       const back = sides.back >= 0 ? page(sides.back) : far ? undefined : standIn(leaf.index);
 
@@ -814,7 +684,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         const { run, out } = swing(leaf.t);
         const inward: Vec3 = [-out[0], 0, -out[2]];
         const half = look.depth / 2;
-        // Like a curling page's two parts: beneath the leaves it has still to follow until half way over, then on them.
         const lifted = leaf.from === 'right' ? leaf.t >= 0.5 : leaf.t <= 0.5;
         const layer =
           leaf.from === 'right'
@@ -830,7 +699,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
           lies: (leaf.from === 'right') === lifted ? -1 : 1,
           run: () => {
             shade(look, run);
-            // A board hides its own far side, so each face shows only when it looks at the eye.
             if (EYE * out[2] > half) {
               side(front, sides.front, look, { right: run, out, back: false, lift: half });
             }
@@ -844,7 +712,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
               });
             }
             if (half > 0) {
-              // Its edge, all that shows of a board on end: each piece round the corners only when it faces the eye.
               const outline = edgeOf(look, h);
               for (let index = 0; index + 1 < outline.length; index++) {
                 const a = outline[index]!;
@@ -877,7 +744,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
 
       const c = curl(leaf.point, leaf.corner, h, leaf.from, { eye: EYE });
       const fromRight = leaf.from === 'right';
-      // The side that lay face up stays under the roll; the other comes over the top.
       const lower = fromRight ? front : (back ?? far);
       const upper = fromRight ? (back ?? far) : front;
       const veil = far ? 1 - through : 0;
@@ -911,8 +777,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       });
     });
     steps.sort((a, b) => a.layer - b.layer);
-    // The ribbon lies between two leaves: on everything at rest but a cover shut over it, and
-    // under whatever in the air has those leaves between it and the ribbon.
     for (const step of steps) {
       if (!laid && overRibbon(ribbon!, step.leaf, step.lies)) {
         lay(ribbon!);
@@ -922,8 +786,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     }
     if (!laid) lay(ribbon!);
 
-    // Pages at rest are in their places under the canvas, within reach; pages in the air are not. One the canvas
-    // has drawn is made invisible, so it isn't seen twice.
     for (const [el, x] of resting) {
       const at = `${x < 0 ? 'left' : 'right'}${drawn.has(el) ? ' drawn' : ''}`;
       if (placed.get(el) === at) continue;
@@ -938,16 +800,12 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       placed.delete(el);
       unplace(el);
     }
-    // From now the canvas shows what the pages under it did.
     if (!told && Array.from(resting.keys()).every((el) => drawn.has(el))) {
       told = true;
       options.drawn?.();
     }
-    // What has focus may have landed, or lifted off.
     if (stage.contains(stage.ownerDocument.activeElement)) focus.place();
 
-    // With nothing in the air, take pictures of the pages a turn would show next, then of those further off,
-    // nearest first: a picture takes too long to wait for once a turn has begun.
     if (active.length === 0) {
       for (let away = 0; away <= WARM; away++) {
         const next = [
@@ -962,9 +820,7 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         }
       }
     }
-    // Pictures that were only wanted in case aren't taken while leaves are in the air.
     source.keep(used);
-    // A picture is slow to take again, so the latest few are kept, though nothing draws them now.
     if (pictures.size > KEPT) {
       const spare = [...pictures]
         .filter(([el]) => !used.has(el))
@@ -976,15 +832,11 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     }
   }
 
-  // The lamp.
-
   const still = () =>
     canvas.ownerDocument.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /** Where the lamp hangs when no pointer holds it: over the top left of the book. */
   const home = (): [number, number, number] => [-0.35, 0.3 * (scene?.h ?? 1.4), 1.1];
 
-  /** Moves the lamp most of the way to where it is wanted, until it is there. */
   const glide = (time: number) => {
     gliding = 0;
     const to = aim ?? home();
@@ -1000,7 +852,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     redraw();
   };
 
-  /** Sends the lamp to a place over the book, or home. It is drawn moving only if something shines. */
   const point = (to: [number, number, number] | undefined) => {
     aim = to;
     if (!shiny) {
@@ -1012,11 +863,9 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
   };
 
   const onPointerMove = (event: PointerEvent) => {
-    // A finger has no place until it presses, and then it covers what it lights.
     if (event.pointerType === 'touch' || still()) return;
     const rect = canvas.getBoundingClientRect();
     const h = scene?.h ?? 1;
-    // `placing` is in the canvas's laid-out px, and a book that a transform scales is drawn another size.
     const zoom = box.width > 0 && rect.width > 0 ? rect.width / box.width : 1;
     const x = ((event.clientX - rect.left) / zoom - placing.x) / placing.width;
     const y = ((event.clientY - rect.top) / zoom - placing.y) / placing.width;
@@ -1033,7 +882,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
   root.addEventListener('pointermove', onPointerMove, { passive: true });
   root.addEventListener('pointerleave', onPointerGone);
 
-  // The browser took the WebGL context away: the book is told, and its pages fold.
   const onLost = () => {
     lost = true;
     options.failed?.();
@@ -1041,10 +889,8 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
 
   canvas.addEventListener('webglcontextlost', onLost);
 
-  /** Draws the book as `turns` has it now, and its ribbon. `h` is page height over page width. */
   function draw(turns: Turns, h: number, ribbon?: Strip) {
     scene = { turns, h, ribbon };
-    // Before the browser next paints, so the canvas and the pages change in the same frame.
     redraw();
   }
 
@@ -1076,7 +922,6 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
   return { draw, clear };
 }
 
-/** One triangle that covers the whole canvas. */
 const COVER = new Float32Array([-1, -1, 3, -1, -1, 3]);
 
 function createFaceProgram(gl: WebGL2RenderingContext) {
@@ -1226,13 +1071,8 @@ function link(gl: WebGL2RenderingContext, vertex: string, fragment: string, attr
   return program;
 }
 
-/** How many pieces the edge of a board is drawn in round each corner. */
 const TURNS = 6;
 
-/**
- * The outline of a board's free edges, from the head of its fore-edge to the tail, round both corners: each point's
- * place (across from the hinge, and down the page), the way the edge looks there, and how far along it is.
- */
 function edgeOf(look: Look, h: number) {
   const corner = look.round > 0 ? look.round + look.reach : 0;
   const far = 1 + look.reach;
@@ -1266,7 +1106,6 @@ function edgeOf(look: Look, h: number) {
 
 const UP: Vec3 = [0, 0, 1];
 
-/** How brightly the room lights a face that looks `out`: 1 for one lying flat. */
 function lit(out: Vec3) {
   const square = Math.max(0, out[0] * LIGHT[0] + out[1] * LIGHT[1] + out[2] * LIGHT[2]) / LIGHT[2];
   return DARK + (1 - DARK) * Math.min(square, BRIGHT);
@@ -1292,7 +1131,6 @@ function readLook(el: HTMLElement | undefined, bleed: { x: number; y: number }):
   };
   return {
     depth: read('--book-cover-depth', 0.1),
-    // No further than the canvas has room for.
     reach: read('--book-cover-overhang', Math.min(bleed.x, bleed.y) * 0.6),
     cloth: read('--book-cover-cloth', 1),
     leather: read('--book-cover-leather', 1),
@@ -1307,7 +1145,6 @@ function readLook(el: HTMLElement | undefined, bleed: { x: number; y: number }):
 const colours = new Map<string, Vec3 | undefined>();
 let scratch: CanvasRenderingContext2D | null | undefined;
 
-/** A CSS colour as three channels from 0 to 1, or undefined for one that can't be seen. */
 function colourOf(text: string): Vec3 | undefined {
   if (colours.has(text)) return colours.get(text);
   let colour: Vec3 | undefined;
@@ -1319,7 +1156,6 @@ function colourOf(text: string): Vec3 | undefined {
       colour = [Number(plain[1]) / 255, Number(plain[2]) / 255, Number(plain[3]) / 255];
     }
   } else {
-    // Any other way of writing a colour: paint a pixel with it and read the pixel.
     scratch ??= document.createElement('canvas').getContext('2d', { willReadFrequently: true });
     if (scratch) {
       scratch.clearRect(0, 0, 1, 1);
@@ -1339,12 +1175,10 @@ function unit(x: number, y: number, z: number): [number, number, number] {
   return [x / length, y / length, z / length];
 }
 
-/** The page-sized box a page lies in, which says where it is. */
 function frameOf(el: HTMLElement) {
   return el.closest<HTMLElement>('[data-slot="book-page-frame"]');
 }
 
-/** Takes back what a page's frame was told while it lay at rest. */
 function unplace(el: HTMLElement) {
   const frame = frameOf(el);
   frame?.removeAttribute('data-under');
