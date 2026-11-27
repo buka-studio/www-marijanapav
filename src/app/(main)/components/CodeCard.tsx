@@ -112,6 +112,8 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
 
   const isDeepNested = parentName === 'www-marijanapav' || parentName === 'marijanapav';
 
+  // Each row's focus outline is drawn inside it (`-outline-offset-1`): the list scrolls, which
+  // cuts off whatever is outside its rows.
   return (
     <li className="select-none">
       <div className="group hover:bg-panel-border hover:text-text-primary relative flex w-full min-w-0 items-center rounded-md">
@@ -122,10 +124,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
               aria-label={githubLabel}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(
-                'absolute inset-0 z-[1] rounded-md',
-                'focus-visible:ring-main-accent focus-visible:ring-offset-main-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
-              )}
+              className={cn('absolute inset-0 z-[1] rounded-md', 'focus-visible:-outline-offset-1')}
             />
             <div
               className={cn(
@@ -158,7 +157,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
             rel="noopener noreferrer"
             className={cn(
               'text-text-primary hover:text-text-primary flex w-full min-w-0 items-center rounded-md px-2 py-1 text-left transition-colors',
-              'focus-visible:ring-main-accent focus-visible:ring-offset-main-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+              'focus-visible:-outline-offset-1',
               { 'text-text-secondary': !hasChildren },
             )}
           >
@@ -174,6 +173,7 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
             disabled={item.isLocked || !hasChildren}
             className={cn(
               'text-text-primary flex w-full min-w-0 items-center rounded-md px-2 py-1 text-left transition-colors',
+              'focus-visible:-outline-offset-1',
               {
                 'hover:text-main-accent': hasChildren,
                 'hover:text-text-primary text-text-secondary': !hasChildren,

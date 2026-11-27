@@ -1,3 +1,6 @@
+/* page-turner's layer sits under components and utilities, so classes on its parts win. */
+@layer theme, base, page-turner, components, utilities;
+
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin 'tailwind-scrollbar';
