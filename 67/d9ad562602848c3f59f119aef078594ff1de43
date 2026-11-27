@@ -1,0 +1,21 @@
+src/components/page-turner/canvas/render.ts
+  s_fbe4591a5a6ed8::t_9816804c5379c3 227
+src/components/page-turner/react/index.tsx
+  s_fbe4591a5a6ed8::t_9816804c5379c3 252-263,265-268,508
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "67d9ad562602848c3f59f119aef078594ff1de43",
+  "prompts": {},
+  "sessions": {
+    "s_fbe4591a5a6ed8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "83dcb6ae-4e26-41d7-afd0-98115846b0ae",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "rpavlini <rpavlinic@daytona.io>"
+    }
+  }
+}
