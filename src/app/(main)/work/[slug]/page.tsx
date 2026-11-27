@@ -13,6 +13,7 @@ import {
   StaticProject,
 } from '../constants';
 
+import { SkyRecursion } from './components/sky-recursion/SkyRecursion';
 import { SpeechHighlight } from './components/SpeechHighlight';
 import { ProjectHeader } from './ProjectHeader';
 import { ProjectLinks } from './ProjectLinks';
@@ -59,6 +60,12 @@ function isProjectSpeech(
   media: ProjectMediaItem,
 ): media is Extract<ProjectMediaItem, { type: 'speech' }> {
   return typeof media === 'object' && 'type' in media && media.type === 'speech';
+}
+
+function isProjectSkyRecursion(
+  media: ProjectMediaItem,
+): media is Extract<ProjectMediaItem, { type: 'sky-recursion' }> {
+  return typeof media === 'object' && 'type' in media && media.type === 'sky-recursion';
 }
 
 function isProjectImage(
@@ -117,6 +124,15 @@ function ProjectMediaFigure({
   priority?: boolean;
   sizes?: string;
 }) {
+  if (isProjectSkyRecursion(item)) {
+    return (
+      <figure className="flex min-w-0 flex-col gap-2">
+        <SkyRecursion />
+        {item.caption && <MediaCaption>{item.caption}</MediaCaption>}
+      </figure>
+    );
+  }
+
   if (isProjectSpeech(item)) {
     return (
       <figure className="flex min-w-0 flex-col gap-2">

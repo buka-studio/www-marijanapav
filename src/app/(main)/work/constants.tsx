@@ -162,7 +162,18 @@ export type ProjectSpeech = {
   caption?: ReactNode;
 };
 
-export type ProjectMediaItem = StaticImageData | ProjectImage | ProjectVideo | ProjectSpeech;
+/** Interactive Sky → Recursion gradation (live WebGL panels with a slider). */
+export type ProjectSkyRecursion = {
+  type: 'sky-recursion';
+  caption?: ReactNode;
+};
+
+export type ProjectMediaItem =
+  | StaticImageData
+  | ProjectImage
+  | ProjectVideo
+  | ProjectSpeech
+  | ProjectSkyRecursion;
 
 export type ProjectMediaRow = {
   type: 'row';
@@ -394,9 +405,7 @@ export const projects: Project[] = [
         backdrop: { aspectRatio: '2400 / 1498', width: '84.6%' },
       },
       {
-        type: 'video',
-        src: '/work/livekit-website/livekit-gradation-levels.mp4',
-        border: true,
+        type: 'sky-recursion',
         caption:
           'Recursive structures symbolize resilient infrastructure, hinting at how fragmented data packets are organized into seamless real-time communication. Sky-inspired imagery adds a sense of scale, connectivity, and openness, balancing the precision of the technical visual language with organic elements.',
       },
