@@ -1,4 +1,4 @@
-/* page-turner's layer sits under components and utilities, so classes on its parts win. */
+/* page-turner sits below components and utilities, so tailwind classes on its parts win */
 @layer theme, base, page-turner, components, utilities;
 
 @import 'tailwindcss';

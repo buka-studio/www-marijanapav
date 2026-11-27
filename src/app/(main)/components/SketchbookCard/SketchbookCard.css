@@ -1,4 +1,3 @@
-/* The flight fades this in and out, blur and all. */
 .sketchbook-backdrop {
   position: fixed;
   inset: 0;
@@ -8,19 +7,16 @@
   opacity: 0;
 }
 
-/* Nothing plays behind the open sketchbook: the backdrop blurs the whole page again for each frame of it. */
 :root:has(.sketchbook-flyer) [inert] *,
 :root:has(.sketchbook-flyer) [inert] *::before,
 :root:has(.sketchbook-flyer) [inert] *::after {
   animation-play-state: paused !important;
 }
 
-/* Dark grey, not black: the notebook is black and has to stand out from it. */
 .theme-dark .sketchbook-backdrop {
   background: rgb(58 58 58 / 0.78);
 }
 
-/* Takes no presses itself, so one beside the book lands on the backdrop and closes it. */
 .sketchbook-modal {
   position: fixed;
   inset: 0;
@@ -37,7 +33,6 @@
   background: none;
   color: inherit;
   pointer-events: none;
-  /* The focus ring in the dialog: the page's own colour is lost on the backdrop. */
   --ring: rgb(255 255 255 / 0.65);
 }
 
@@ -53,45 +48,29 @@
   outline-color: var(--ring);
 }
 
-/* The book in the dialog (`flyer`) and the one on the card (`rest`) are laid
-   out the same way and as large, so they are one book where they swap. It is
-   as large as the window allows: 2rem from the sides, clear of the close
-   button above, and with room below for the ribbon's tail to end inside the
-   window. `svh`, so it doesn't resize as a phone's bars come and go. `slot`
-   is the room the flyer has in the dialog, and is sized by the same numbers. */
 .sketchbook-slot,
 .sketchbook-flyer,
 .sketchbook-rest {
   --columns: 2;
-  /* Room above the book, and below the end of its ribbon. */
   --head: 3.75rem;
   --foot: 1.5rem;
-  /* How far the ribbon hangs below the pages, in page widths: the book's `RIBBON_TAIL`. */
   --tail: 0.15;
-  /* The widest page the window is tall enough for. A page is 1.4 times as tall as wide. */
   --page-fits: min(
     (100svh - var(--head) * 2) / 1.4,
     (100svh - var(--foot) * 2) / (1.4 + var(--tail) * 2)
   );
   --book-width: min(100vw - 4rem, 84rem, var(--page-fits) * 2);
   --page-width: calc(var(--book-width) / var(--columns));
-  /* On a phone, where one page is in view: how much of the other shows
-     beside it, in page widths, and the room kept clear on its other side. */
   --peek: 0.1;
   --edge: 1.5rem;
 
-  /* The covers and the title pressed into them, with `--tint` of a colour theme mixed in. */
   --leather: #d3d5d3;
   --leather-ink: #a2a5a3;
   --tint: 0%;
   --sketchbook-board: color-mix(in oklab, var(--theme-1) var(--tint), var(--leather));
   --sketchbook-board-ink: color-mix(in oklab, var(--theme-1) var(--tint), var(--leather-ink));
-  /* Grain strength. It shows in highlights, so a pale cover wants less. */
   --sketchbook-leather: 0.5;
-  /* How much of the pointer's light shows on the covers. */
   --sketchbook-sheen: 0.12;
-  /* The ribbon's weave is shading on its colour, which doesn't show on black
-     or pure blue, so those are lifted a little. */
   --sketchbook-ribbon: color-mix(in oklab, var(--theme-1) 80%, white);
   --sketchbook-mark: var(--sketchbook-ribbon);
 }
@@ -106,7 +85,6 @@
   --sketchbook-leather: 1;
   --sketchbook-sheen: 0.18;
   --sketchbook-ribbon: var(--theme-1);
-  /* A dark theme's `--theme-1` is too pale to show on paper. */
   --sketchbook-mark: var(--theme-2);
 }
 
@@ -131,19 +109,14 @@
 }
 
 .sketchbook-flyer {
-  /* How thick the shut book is. It turns about the middle of that. */
   --depth: calc(var(--page, 0px) * 0.07);
 
   width: var(--book-width);
   opacity: 0;
   pointer-events: auto;
-  /* Always its own layer, not only in the air: Safari otherwise leaves the
-     rim of the covers behind when it lifts the book out of the page. */
   will-change: transform;
 }
 
-/* A phone has room for one page, so the open book is wider than the window
-   and scrolls across it (see `.sketchbook-scroller`). */
 @media (width < 576px) {
   .sketchbook-slot,
   .sketchbook-flyer,
@@ -152,8 +125,6 @@
   }
 }
 
-/* Fills the window. Where the book is wider than that it scrolls, from one
-   page to the other. It takes no presses itself, as the modal doesn't. */
 .sketchbook-scroller {
   position: absolute;
   inset: 0;
@@ -161,8 +132,6 @@
   pointer-events: none;
 }
 
-/* Where the flyer lies at rest. The flight moves the flyer by `transform`,
-   which this keeps from adding to what the scroller can scroll to. */
 .sketchbook-slot {
   box-sizing: content-box;
   width: var(--book-width);
@@ -181,11 +150,6 @@
   --book-columns: var(--columns);
 }
 
-/* How far the book's canvas reaches past its pages, in page widths. Anything
-   leaving the pages is cut off there. In the dialog it reaches as far as the
-   ribbon can be pulled sideways, and never past the window's edge, where
-   nothing is seen and every pixel still costs. Registered as numbers so the
-   book reads resolved values. */
 @property --sketchbook-bleed-inline {
   syntax: '<number>';
   inherits: true;
@@ -198,8 +162,6 @@
   initial-value: 0.5;
 }
 
-/* The lengths those are worked out from, by `reach` in the dialog: Safari gets one length
-   divided by another, `tan(atan2())`, wrong. Registered so the script reads them in px. */
 @property --sketchbook-page {
   syntax: '<length>';
   inherits: false;
@@ -220,13 +182,10 @@
 
 .sketchbook-slot {
   --sketchbook-page: var(--page-width);
-  /* From the pages to the window's edge. A shut book lies half a page further from it. */
   --sketchbook-room-inline: calc((100vw - var(--book-width)) / 2 + var(--page-width) / 2);
-  /* `lvh`: the window at its tallest, with a phone's bars away. */
   --sketchbook-room-block: calc((100lvh - var(--page-width) * 1.4) / 2);
 }
 
-/* A shut book lies in the middle of the window, and an open page no nearer its edge. */
 @media (width < 576px) {
   .sketchbook-slot {
     --sketchbook-room-inline: calc((100vw - var(--page-width)) / 2);
@@ -238,27 +197,17 @@
   --book-bleed-block: var(--sketchbook-bleed-block);
 }
 
-/* The sketchbook on the card is sized by this box. */
 .sketchbook-scene {
   container-type: size;
 }
 
-/* The shut sketchbook on the card, at the size of its cover in full view. The
-   book in it is laid out at the dialog's size and scaled down: laid out
-   small it would be drawn differently (coarser leather, deeper title) and
-   the swap with the one in the dialog would show. */
 .sketchbook-rest {
   --cover-height: min(66cqh, 15rem);
   --cover: calc(var(--cover-height) / 1.4);
-  /* The cover's width over a page's. A guess until `useRestScale` has measured it: Safari gets
-     one length divided by another, `tan(atan2())`, wrong. */
   --rest-scale: 0.3;
-  /* How far it sinks until the card is hovered or focused: its top three quarters show. */
   --sink: calc(50cqh - var(--cover-height) * 0.25);
 
   position: relative;
-  /* `--cover-height`, as a percentage. Sized from a container unit, any layout of the page
-     would restyle the whole book, twice. */
   height: min(66%, 15rem);
   aspect-ratio: 1 / 1.4;
   animation: sketchbook-arrive 400ms ease-out;
@@ -270,10 +219,6 @@
   }
 }
 
-/* Scaled down, its canvas doesn't need every pixel it is laid out in. It
-   keeps twice the pixels it is seen in each way, so the leather's grain
-   stays as fine as on the book in the dialog. Registered as a number so the
-   book reads a resolved value. */
 @property --sketchbook-canvas-scale {
   syntax: '<number>';
   inherits: true;
@@ -286,7 +231,6 @@
 
 .sketchbook-rest [data-slot='book-canvas'] {
   --book-canvas-scale: var(--sketchbook-canvas-scale);
-  /* A shut book has only its ribbon's tail and its shadow outside its pages. */
   --book-bleed-block: 0.25;
 }
 
@@ -297,17 +241,13 @@
 .sketchbook-rest-book {
   position: absolute;
   top: 0;
-  /* Of a spread the cover is the right-hand page. */
   left: calc(-100% * (var(--columns) - 1));
   width: var(--book-width);
   transform: scale(var(--rest-scale));
   transform-origin: 0 0;
-  /* Its own layer, as the flying one is, so both are drawn the same way. */
   will-change: transform;
 }
 
-/* Sunk until the card is hovered, has keyboard focus, or the dialog has the
-   book out (`data-raised`), so that it comes home to where it left. */
 .sketchbook-rest-book,
 .sketchbook-rest-button {
   translate: 0 var(--sink);
@@ -327,8 +267,6 @@
   }
 }
 
-/* The button over the cover, out to the edge of the board. Its focus ring
-   waits for the book to land: focus returns as soon as the dialog closes. */
 .sketchbook-rest-button {
   --rim: calc(var(--cover) * 0.02);
 
@@ -361,35 +299,26 @@
   pointer-events: none;
 }
 
-/* Turns the book round in the air. The book is its front, and
-   `.sketchbook-solid` its back, spine and edges. */
 .sketchbook-spinner {
   position: relative;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* Seen only from the front, whichever side a browser takes to be nearer. */
 .sketchbook-spinner > [data-slot='book'] {
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-/* The focus ring round the book. The pages' own outline would go round both
-   halves of a spread when a shut book is only one of them, so it is drawn
-   here, round the half the flight says the book lies in, once it has landed.
-   `--page` is a page's width, which the flight measures. */
 .sketchbook-flyer [data-slot='book-pages']:focus-visible {
   outline: none;
 }
 
 .sketchbook-spinner::after {
   --gap: 0.3rem;
-  /* How far a cover stands out past the pages, and how round its corners are. */
   --clear: calc(var(--page, 0px) * 0.02 + var(--gap));
   --round: calc(var(--page, 0px) * 0.052 + var(--gap));
-  /* The spine of a shut book, which a cover doesn't stand out past. */
   --half: calc(100% - 100% / var(--columns) - var(--gap));
 
   content: '';
@@ -412,7 +341,6 @@
   border-radius: var(--round) var(--gap) var(--gap) var(--round);
 }
 
-/* Keyboard only: some browsers ring anything a script focuses, as the dialog does on open. */
 :root:not([data-input='pointer'])
   .sketchbook-flyer:not([data-flying], [data-sliding]):has([data-slot='book-pages']:focus-visible)
   .sketchbook-spinner::after {
@@ -425,21 +353,17 @@
   }
 }
 
-/* The back cover, the spine and the page edges, seen only while the book turns in the air. */
 .sketchbook-solid {
   --rim: calc(var(--page, 0px) * 0.02);
   --round: calc(var(--page, 0px) * 0.052);
   --board: var(--sketchbook-board);
   --paper: #ebe8dc;
   --paper-line: #d3cfc0;
-  /* A cover at each end and the leaves between them, across the thickness. */
   --across: to right;
   --block:
     linear-gradient(var(--across), var(--board) 9%, rgb(0 0 0 / 0) 9% 91%, var(--board) 91%),
     repeating-linear-gradient(var(--across), var(--paper-line) 0 1px, var(--paper) 1px 3px);
 
-  /* `display: none` until the flight shows them: Safari draws a side that is
-     merely hidden over the pages. */
   display: none;
   position: absolute;
   inset: 0;
@@ -457,7 +381,6 @@
   -webkit-backface-visibility: hidden;
 }
 
-/* As tall, or as wide, as the cover, which stands out past the pages. */
 .sketchbook-back,
 .sketchbook-spine,
 .sketchbook-edge {
@@ -486,7 +409,6 @@
 }
 
 .sketchbook-back {
-  /* Seen from behind, its outer edge is on the left. */
   border-radius: var(--round) 0 0 var(--round);
   background: linear-gradient(to left, rgb(255 255 255 / 0.05), rgb(0 0 0 / 0) 12%), var(--board);
   transform: translateZ(calc(-1 * var(--depth))) rotateY(180deg);
@@ -516,13 +438,10 @@
   transform: translateZ(calc(var(--depth) / -2)) rotateX(-90deg);
 }
 
-/* Only while the book is turned away: Safari draws a side facing away over
-   the one facing the reader, and the front cover would lose its leather. */
 .sketchbook-flyer:not([data-turned]) .sketchbook-back {
   display: none;
 }
 
-/* A book going home back cover up is mirrored: spine on the right, page edges on the left. */
 .sketchbook-flyer[data-back] :is(.sketchbook-head, .sketchbook-tail) {
   left: calc(-1 * var(--rim) * (var(--columns) - 1));
 }
@@ -537,7 +456,6 @@
   transform: translateZ(calc(var(--depth) / -2)) rotateY(90deg);
 }
 
-/* Fades with the backdrop. */
 .sketchbook-close {
   position: fixed;
   top: max(1rem, env(safe-area-inset-top));

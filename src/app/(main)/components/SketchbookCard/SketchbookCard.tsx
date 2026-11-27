@@ -3,7 +3,7 @@
 import { ArrowsOutSimpleIcon } from '@phosphor-icons/react';
 import type { DialogController } from '@ui-sdk/react/dialog';
 import dynamic from 'next/dynamic';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 
 import GridBackground from '~/src/components/GridBackground';
 import CardTitle from '~/src/components/ui/CardTitle';
@@ -19,15 +19,11 @@ const SketchbookAtRest = dynamic(() => import('./Sketchbook').then((m) => m.Sket
 });
 const SketchbookDialog = dynamic(() => import('./SketchbookDialog'), { ssr: false });
 
-export default function SketchbookCard() {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const restRef = useRef<HTMLDivElement>(null);
+function useDialogOnceNearViewport(ref: RefObject<HTMLElement | null>) {
   const [dialog, setDialog] = useState<DialogController>();
-  const [bookmark, setBookmark] = useLocalStorage('sketchbook-bookmark', defaultBookmark, isPage);
 
-  // the book, its dialog and its canvas are only fetched and made once the card is near the window
   useEffect(() => {
-    const node = sceneRef.current;
+    const node = ref.current;
     if (!node) {
       return;
     }
@@ -53,14 +49,22 @@ export default function SketchbookCard() {
       mounted = false;
       observer.disconnect();
     };
-  }, []);
+  }, [ref]);
+
+  return dialog;
+}
+
+export default function SketchbookCard() {
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const restRef = useRef<HTMLDivElement>(null);
+  const dialog = useDialogOnceNearViewport(sceneRef);
+  const [bookmark, setBookmark] = useLocalStorage('sketchbook-bookmark', defaultBookmark, isPage);
 
   return (
     <Card id="sketchbook" containerClassName="sketchbook-card">
       <div className="flex h-full w-full flex-col gap-3">
         <div className="flex min-h-6 items-center justify-between gap-2">
           <CardTitle variant="mono">Sketchbook</CardTitle>
-          {/* pointer only: the cover below is the same button, and the one the keyboard reaches */}
           <button
             type="button"
             tabIndex={-1}
@@ -71,7 +75,6 @@ export default function SketchbookCard() {
             <ArrowsOutSimpleIcon className="text-text-primary group-hover:text-theme-1 h-4 w-4 transition-all duration-200" />
           </button>
         </div>
-        {/* overflow-clip, not hidden: a box that hides its overflow scrolls to whatever takes focus in it */}
         <div
           ref={sceneRef}
           className="sketchbook-scene relative grid h-full min-h-[300px] w-full place-items-center overflow-clip"

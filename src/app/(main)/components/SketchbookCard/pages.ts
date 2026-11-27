@@ -1,7 +1,9 @@
 export const sketchPages = Array.from({ length: 24 }, (_, i) => i + 1);
 
-// two covers and an endpaper inside each
-export const pageCount = sketchPages.length + 4;
+const covers = 2;
+const endpapers = 2;
+
+export const pageCount = sketchPages.length + covers + endpapers;
 
 export const defaultBookmark = 12;
 

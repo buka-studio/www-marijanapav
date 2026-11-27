@@ -1,12 +1,11 @@
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
 
 const listeners = new Set<() => void>();
-// What was last written here, for when the browser keeps no storage: private windows, blocked cookies.
-const written = new Map<string, string>();
+// used when storage is blocked (private windows)
+const inMemory = new Map<string, string>();
 
 function subscribe(listener: () => void) {
   listeners.add(listener);
-  // Another tab wrote.
   window.addEventListener('storage', listener);
 
   return () => {
@@ -15,17 +14,25 @@ function subscribe(listener: () => void) {
   };
 }
 
-function read(key: string) {
+function readStored(key: string) {
   try {
-    const stored = window.localStorage.getItem(key);
-    if (stored !== null) {
-      return stored;
-    }
+    return window.localStorage.getItem(key);
   } catch {
-    // No storage: what was written in this window is all there is.
+    return null;
   }
+}
 
-  return written.get(key) ?? null;
+function writeStored(key: string, value: string) {
+  inMemory.set(key, value);
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    return;
+  }
+}
+
+function read(key: string) {
+  return readStored(key) ?? inMemory.get(key) ?? null;
 }
 
 function parse<T>(raw: string | null, fallback: T, isValid?: (value: unknown) => value is T) {
@@ -42,8 +49,6 @@ function parse<T>(raw: string | null, fallback: T, isValid?: (value: unknown) =>
   }
 }
 
-// A value kept in local storage as JSON. It is `fallback` on the server, while hydrating, and
-// whenever what is stored isn't valid. Pass a stable `isValid`.
 export default function useLocalStorage<T>(
   key: string,
   fallback: T,
@@ -58,13 +63,7 @@ export default function useLocalStorage<T>(
 
   const setValue = useCallback(
     (next: T) => {
-      const stored = JSON.stringify(next);
-      written.set(key, stored);
-      try {
-        window.localStorage.setItem(key, stored);
-      } catch {
-        // Kept for this window only.
-      }
+      writeStored(key, JSON.stringify(next));
       listeners.forEach((listener) => listener());
     },
     [key],

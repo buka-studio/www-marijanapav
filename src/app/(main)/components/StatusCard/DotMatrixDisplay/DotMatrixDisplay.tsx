@@ -38,7 +38,6 @@ const DotMatrixDisplay = ({
 
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const dprRef = useRef<number>(1);
-  // measured on resize only: reading layout every frame forces it
   const dimensionsRef = useRef({ cols: 0, widthCss: 0, heightCss: 0 });
   const inViewRef = useRef(false);
 
@@ -103,8 +102,8 @@ const DotMatrixDisplay = ({
     updateCanvasDimensions();
 
     const intersectionObserver = new IntersectionObserver((entries) => {
-      // the last is the newest
-      inViewRef.current = entries.at(-1)?.isIntersecting ?? false;
+      const latest = entries.at(-1);
+      inViewRef.current = latest?.isIntersecting ?? false;
     });
     intersectionObserver.observe(container);
 
@@ -119,8 +118,8 @@ const DotMatrixDisplay = ({
 
   useAnimationFrame((t) => {
     const ctx = ctxRef.current;
-    // nothing to draw for while off screen or behind a modal
-    const paused = !inViewRef.current || containerRef.current?.closest('[inert]');
+    const behindModal = containerRef.current?.closest('[inert]');
+    const paused = !inViewRef.current || behindModal;
     if (!ctx || !onRender || paused) {
       lastMsRef.current = null;
       return;

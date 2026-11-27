@@ -7,8 +7,6 @@ function readTheme() {
     .join(' ');
 }
 
-// A number that changes when the theme does (light, dark or its colour), but not on hydration.
-// For a canvas or anything else that reads the page's styles once and has to be told to again.
 export default function useThemeKey() {
   const [key, setKey] = useState(0);
 

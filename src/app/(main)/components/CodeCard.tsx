@@ -112,8 +112,6 @@ function TreeNode({ item, level, parentName }: TreeNodeProps) {
 
   const isDeepNested = parentName === 'www-marijanapav' || parentName === 'marijanapav';
 
-  // Each row's focus outline is drawn inside it (`-outline-offset-1`): the list scrolls, which
-  // cuts off whatever is outside its rows.
   return (
     <li className="select-none">
       <div className="group hover:bg-panel-border hover:text-text-primary relative flex w-full min-w-0 items-center rounded-md">

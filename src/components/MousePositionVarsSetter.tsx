@@ -7,7 +7,6 @@ export const relativeMouseClassname = 'relative-mouse';
 export default function MousePositionVarsSetter() {
   useEffect(() => {
     const handler = ({ clientX, clientY }: MouseEvent) => {
-      // not the ones behind a modal
       const shinyCards = document.querySelectorAll(
         `.${relativeMouseClassname}:not([inert], [inert] *)`,
       );

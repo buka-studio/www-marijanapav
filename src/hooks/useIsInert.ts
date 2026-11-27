@@ -1,6 +1,5 @@
 import { useEffect, useState, type RefObject } from 'react';
 
-// whether the element is behind a modal (in an `inert` part of the page)
 export default function useIsInert(ref: RefObject<Element | null>) {
   const [inert, setInert] = useState(false);
 
