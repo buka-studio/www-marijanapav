@@ -40,7 +40,7 @@ import LiveKitWebsite01 from '~/public/work/livekit-website/livekit-features-gri
 import LiveKitHomepageFrames from '~/public/work/livekit-website/livekit-homepage-frames.png';
 import LiveKitMerchCap from '~/public/work/livekit-website/livekit-merch-cap.jpg';
 import LiveKitMerchStickers from '~/public/work/livekit-website/livekit-merch-stickers.jpg';
-import LiveKitWebsiteHomepage from '~/public/work/livekit-website/livekit-homepage.png';
+import LiveKitBrandingPreview from '~/public/work/livekit-website/livekit-preview.png';
 import LiveKitValuesCards from '~/public/work/livekit-website/livekit-values-cards.png';
 import LiveKitFeaturesCards from '~/public/work/livekit-website/livekit-features-cards.png';
 import LiveKitWebsite04 from '~/public/work/livekit-website/livekit-sdk-features.jpg';
@@ -368,9 +368,9 @@ export const projects: Project[] = [
   },
   {
     type: 'project',
-    title: 'LiveKit branding',
+    title: 'LiveKit Branding and Website',
     slug: 'livekit-branding',
-    preview: LiveKitWebsiteHomepage,
+    preview: LiveKitBrandingPreview,
     images: [
       // Website overview first.
       {

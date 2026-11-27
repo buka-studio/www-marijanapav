@@ -10,7 +10,7 @@ export const previewAtlas = {
     { slug: 'geist-impact', file: 'work/geist-impact/preview.png' },
     { slug: 'feedback-postcards', file: 'work/postcard/feedback-postcard_00.png' },
     { slug: 'the-weight-of-paper', file: 'work/the-weight-of-paper/weight-of-paper-loupe.png' },
-    { slug: 'livekit-branding', file: 'work/livekit-website/livekit-homepage.png' },
+    { slug: 'livekit-branding', file: 'work/livekit-website/livekit-preview.png' },
     { slug: 'how-livekit-works', file: 'work/livekit/livekit_preview.png' },
     { slug: 'echo-tab-landing', file: 'work/echo-tab-landing-page/preview.png' },
     { slug: 'supabase-branding', file: 'work/supabase-homepage/supabase-homepage-hero.png' },
