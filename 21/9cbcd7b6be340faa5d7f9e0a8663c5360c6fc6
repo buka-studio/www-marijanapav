@@ -1,0 +1,35 @@
+src/components/page-turner/snapshot/pictures.ts
+  s_fbe4591a5a6ed8::t_bc2616af555b18 21
+src/components/page-turner/canvas/render.ts
+  s_fbe4591a5a6ed8::t_94d23398d95e94 97-98,291-299,326,346-348,631,633,904
+  s_fbe4591a5a6ed8::t_85d5ab6b02cd4d 349-353
+src/components/page-turner/styles.css
+  s_fbe4591a5a6ed8::t_805033d6df4540 456,459,465
+  s_fbe4591a5a6ed8::t_589148a5266638 15-16,403-404,408-421,426-427,448-455,457-458,460-464
+src/components/page-turner/gl/shaders.ts
+  s_fbe4591a5a6ed8::t_9e2935e2dd015a 38,53-57,81-89,91-92,94-97,99-102,104,114-118
+  s_fbe4591a5a6ed8::t_b47d1ed4954b9f 103,119-120
+src/components/page-turner/book.ts
+  s_fbe4591a5a6ed8::t_bc2616af555b18 207-217,222,491
+src/app/(main)/components/SketchbookCard/Sketchbook.tsx
+  s_fbe4591a5a6ed8::t_589148a5266638 43
+src/components/page-turner/snapshot/render.ts
+  s_fbe4591a5a6ed8::t_94d23398d95e94 79-80,336-344,381,401-403,692,965
+  s_fbe4591a5a6ed8::t_85d5ab6b02cd4d 404-408,684-688
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "219cbcd7b6be340faa5d7f9e0a8663c5360c6fc6",
+  "prompts": {},
+  "sessions": {
+    "s_fbe4591a5a6ed8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "83dcb6ae-4e26-41d7-afd0-98115846b0ae",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "rpavlini <rpavlinic@daytona.io>"
+    }
+  }
+}
