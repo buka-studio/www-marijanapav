@@ -50,7 +50,7 @@ out vec4 colour;
 
 const float PI = 3.141592653589793;
 const float DARK = 0.68;
-const float THREAD = 0.0028;
+const float THREAD = 0.0018;
 const float STITCHES = 5.0;
 const float STITCH_INSET = 0.07;
 const float STITCH_GAP = 0.036;

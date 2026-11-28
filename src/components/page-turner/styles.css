@@ -449,7 +449,7 @@
     --pitch: calc((100cqh - 14cqw) / 5);
 
     inset: 7cqw auto 7cqw 0;
-    width: 0.28cqw;
+    width: 0.18cqw;
     background: repeating-linear-gradient(
       to bottom,
       transparent 0 1.8cqw,
