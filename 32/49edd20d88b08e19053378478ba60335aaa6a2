@@ -1,0 +1,123 @@
+src/components/page-turner/core/layout.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-35
+src/components/page-turner/gl/release.ts
+  s_fbe4591a5a6ed8::t_6ebd09d5955670 1-2,6-9
+  s_fbe4591a5a6ed8::t_a6b16f21de801d 3-5
+src/components/page-turner/snapshot/focus.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-48
+src/components/page-turner/styles.css
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-62,126-195,198-390,396-417,420-1068
+  s_fbe4591a5a6ed8::t_2167ed421c32d8 63-81,83-125
+  s_fbe4591a5a6ed8::t_8934049376bfd4 82
+  s_fbe4591a5a6ed8::t_1e859220603d35 196-197
+src/components/page-turner/book/scene.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-36
+src/components/page-turner/gl/shaders.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-75,78-79,83-88,91-111,113-217,219-593
+  s_fbe4591a5a6ed8::t_9e2935e2dd015a 82
+  s_fbe4591a5a6ed8::t_1ae0fe8c0f2690 112,218
+src/components/page-turner/snapshot/support.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-52
+src/components/page-turner/snapshot/pictures.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-93,95-138
+  s_fbe4591a5a6ed8::t_cf61c244b7bbf6 94
+src/components/page-turner/book/lamp.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-86,88-188,190-191,193-207,213-395
+  s_fbe4591a5a6ed8::t_c491bcb89d836a 87,189,192,208-212
+src/components/page-turner/book/textures.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-198
+src/components/page-turner/snapshot/index.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-35
+src/components/page-turner/canvas/support.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-10
+src/components/page-turner/book/scroller.ts
+  s_fbe4591a5a6ed8::t_9235988178f001 1-79
+src/components/page-turner/core/turns.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-487
+src/components/page-turner/renderer.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-53
+src/components/page-turner/gl/mesh.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-243
+src/components/page-turner/book/host.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-179
+src/components/page-turner/canvas/index.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-19
+src/components/page-turner/book/engine.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-54
+src/components/page-turner/book/steady.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-2,4-33
+  s_fbe4591a5a6ed8::t_5d67e38f51bf1d 3
+src/components/page-turner/index.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1
+src/components/page-turner/snapshot/render.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-13,15-90,92-121,123-139,141-145,150-196,198-367,369-387,389-418,420-663,665-667,669-809,811-833,835-868,872-918,920-964,966-1192
+  s_fbe4591a5a6ed8::t_6ebd09d5955670 14,919
+  s_fbe4591a5a6ed8::t_1ae0fe8c0f2690 122,419,965
+  s_fbe4591a5a6ed8::t_32e4f08c19d712 146-147
+  s_fbe4591a5a6ed8::t_cf61c244b7bbf6 197
+  s_fbe4591a5a6ed8::t_fe26143b938c5b 869-871
+src/components/page-turner/book.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-17,19-205,207-291,299-377,380-381,383-450,456-460,464-592,597,611-893
+  s_fbe4591a5a6ed8::t_6e2fb1fd2b237e 18,292-298,378-379,382,451,461-463,593-596,598-605
+  s_fbe4591a5a6ed8::t_bc2616af555b18 206
+  s_fbe4591a5a6ed8::t_2167ed421c32d8 606-610
+src/components/page-turner/book/state.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-251
+src/components/page-turner/dom/render.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-296,298-666
+  s_fbe4591a5a6ed8::t_c491bcb89d836a 297
+src/components/page-turner/book/gestures.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-5,7-15,17-21,23-35,37-53,57-167,170-171,174-178,189,194-308,322-342,344-366,389-404
+  s_fbe4591a5a6ed8::t_6e2fb1fd2b237e 6,22,36,54,186-187,309,313-314,316-321,343,367-369,373-380,382-384,387-388
+  s_fbe4591a5a6ed8::t_20c83af6d42bfe 16,385
+  s_fbe4591a5a6ed8::t_562d8e1ca4869a 55-56,168-169,190-193
+  s_fbe4591a5a6ed8::t_041de6994924a7 172-173
+  s_fbe4591a5a6ed8::t_5d67e38f51bf1d 179,183-185
+  s_fbe4591a5a6ed8::t_92177d746ce00d 180
+  s_fbe4591a5a6ed8::t_ba91c583c7061b 188
+  s_fbe4591a5a6ed8::t_2167ed421c32d8 310-312
+src/components/page-turner/core/ribbon.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-913
+src/components/page-turner/canvas/render.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-13,15-133,135-151,153-157,162-226,228-243,245-314,316-334,336-365,367-612,614,616-771,773-806,810-863,865-909,911-1126
+  s_fbe4591a5a6ed8::t_6ebd09d5955670 14,864
+  s_fbe4591a5a6ed8::t_1ae0fe8c0f2690 134,366,910
+  s_fbe4591a5a6ed8::t_32e4f08c19d712 158-159
+  s_fbe4591a5a6ed8::t_fe26143b938c5b 807-809
+  s_fbe4591a5a6ed8::t_9816804c5379c3 227
+src/components/page-turner/book/ribbon.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-171
+src/components/page-turner/curl.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1
+src/components/page-turner/core/fold.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-103
+src/components/page-turner/react/index.tsx
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-23,25-251,269-365,372-507,509-538,540-554,556-585,256-260,265-267
+  s_fbe4591a5a6ed8::t_2167ed421c32d8 24,366-371,539,555
+  s_fbe4591a5a6ed8::t_9816804c5379c3 264,252-255,261-263,268,508
+src/components/page-turner/snapshot.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1
+src/components/page-turner/takeover.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-56,58-84,86-115
+  s_fbe4591a5a6ed8::t_c491bcb89d836a 57,85
+src/components/page-turner/controls.css
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-170
+src/components/page-turner/core/curl.ts
+  s_fbe4591a5a6ed8::t_856c8da9c6c13f 1-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3249edd20d88b08e19053378478ba60335aaa6a2",
+  "prompts": {},
+  "sessions": {
+    "s_fbe4591a5a6ed8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "83dcb6ae-4e26-41d7-afd0-98115846b0ae",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "rpavlini <rpavlinic@daytona.io>"
+    }
+  }
+}
