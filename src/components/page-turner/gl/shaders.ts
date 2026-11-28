@@ -35,6 +35,7 @@ uniform float uDim;
 uniform float uVeil;
 uniform vec3 uPaper;
 uniform vec3 uGutter;
+uniform vec4 uThread;
 uniform vec3 uShade;
 uniform int uSide;
 uniform float uRadius;
@@ -49,6 +50,11 @@ out vec4 colour;
 
 const float PI = 3.141592653589793;
 const float DARK = 0.68;
+const float THREAD = 0.0028;
+const float STITCHES = 5.0;
+const float STITCH_INSET = 0.07;
+const float STITCH_GAP = 0.036;
+const float PLY = 3.4;
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -72,13 +78,30 @@ float grain(vec2 p) {
   return 0.6 * tooth + 0.45 * fibres + 0.22 * clouds;
 }
 
+float stitch(float from, float along, out float end) {
+  float pitch = (uHeight - 2.0 * STITCH_INSET) / STITCHES;
+  float run = clamp(along, STITCH_INSET, uHeight - STITCH_INSET) - STITCH_INSET;
+  float off = abs((fract(run / pitch) - 0.5) * pitch);
+  float half_ = 0.5 * (pitch - STITCH_GAP) - THREAD;
+  end = smoothstep(half_ - THREAD, half_ + THREAD, off);
+  return length(vec2(from, max(off - half_, 0.0) + abs(along - STITCH_INSET - run))) - THREAD;
+}
+
 void main() {
-  vec2 at = vec2(mix(vPaper.x, 1.0 - vPaper.x, uMirror), vPaper.y) * uFit;
-  vec4 ink = texture(uPage, at);
+  float across = mix(vPaper.x, 1.0 - vPaper.x, uMirror);
+  vec4 ink = texture(uPage, vec2(across, vPaper.y) * uFit);
   ink.rgb = mix(ink.rgb, uPaper, uVeil);
+  float from = uGutter.z > 0.0 ? 1.0 - across : across;
+  float along = vPaper.y * uHeight;
+  float end = 0.0;
+  float thread = uThread.a > 0.0 ? stitch(from, along, end) : 1.0;
   if (uGutter.x > 0.0) {
-    float from = uGutter.z > 0.0 ? vPaper.x : 1.0 - vPaper.x;
-    ink.rgb = mix(ink.rgb, uShade, uGutter.x * clamp(1.0 - from / uGutter.y, 0.0, 1.0));
+    float near = clamp(1.0 - from / uGutter.y, 0.0, 1.0);
+    ink.rgb = mix(ink.rgb, uShade, uGutter.x * near * near);
+  }
+  if (uThread.a > 0.0) {
+    float cast_ = (uGutter.z > 0.0 ? 0.08 : 0.24) * (1.0 - smoothstep(0.0, 2.5 * THREAD, thread));
+    ink.rgb = mix(ink.rgb, uShade, cast_);
   }
 
   if (uGrain > 0.0) {
@@ -86,6 +109,15 @@ void main() {
     float fine = max(fwidth(p.x), fwidth(p.y));
     float show = uGrain * (1.0 - smoothstep(0.7, 1.6, fine));
     ink.rgb *= 1.0 + 0.05 * show * grain(p + uSeed);
+  }
+
+  if (uThread.a > 0.0) {
+    float soft = max(fwidth(from), 1e-5);
+    float round_ = (uGutter.z > 0.0 ? -from : from) / THREAD;
+    float plies = along / (PLY * THREAD);
+    float twist = sin(2.0 * PI * (plies + 0.35 * round_)) * (1.0 - smoothstep(0.25, 0.5, fwidth(plies)));
+    float lit = (1.0 - 0.22 * smoothstep(-0.2, 1.0, round_)) * (1.0 + 0.07 * twist) * (1.0 - 0.4 * end);
+    ink = mix(ink, vec4(uThread.rgb * lit, 1.0), uThread.a * (1.0 - smoothstep(-soft, soft, thread)));
   }
 
   float light = 1.0;

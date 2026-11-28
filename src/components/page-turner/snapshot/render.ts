@@ -76,6 +76,8 @@ const TABLE = 0.09;
 const PASTED = 0.07;
 const GREY: Vec3 = [0.2, 0.2, 0.2];
 const GUTTER = { shade: 0.22, width: 0.07 };
+const CURVE = { shade: 0.3, width: 0.16, lit: 0.6 };
+const VERSO = "[data-face='back'], [data-blank]";
 const PAPER: Vec3 = [0.99, 0.99, 0.98];
 const STRIP_SHADOW = {
   shift: [0.0035, 0.005] as const,
@@ -331,6 +333,15 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       Math.max(0, Number.parseFloat(styled.getPropertyValue('--book-show-through')) || 0),
     );
     const paper = colourOf(styled.getPropertyValue('--book-paper').trim()) ?? PAPER;
+    const curve = Math.min(
+      1,
+      Math.max(0, Number.parseFloat(styled.getPropertyValue('--book-page-curve')) || 0),
+    );
+    const dips = {
+      verso: { shade: CURVE.shade * curve, width: CURVE.width },
+      recto: { shade: CURVE.shade * CURVE.lit * curve, width: CURVE.width * CURVE.lit },
+    };
+    const thread = colourOf(styled.getPropertyValue('--book-thread').trim());
     const leavesAhead = Number.parseFloat(styled.getPropertyValue('--book-leaves-ahead'));
     const ahead = leavesAhead >= 0 ? leavesAhead : AHEAD;
     shiny = false;
@@ -367,7 +378,7 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         curl?: Curl;
         side?: 1 | 2;
         veil?: number;
-        gutter?: -1 | 1;
+        gutter?: boolean;
       },
     ) => {
       const held = take(el);
@@ -387,7 +398,14 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       gl.uniform1f(face.mirror, look.mirror ? 1 : 0);
       gl.uniform1f(face.dim, look.dim ?? 0);
       gl.uniform1f(face.veil, look.veil ?? 0);
-      gl.uniform3f(face.gutter, look.gutter ? GUTTER.shade : 0, GUTTER.width, look.gutter ?? 0);
+      const verso = el.matches(VERSO);
+      const dip = look.gutter ? GUTTER : verso ? dips.verso : dips.recto;
+      gl.uniform3f(face.gutter, dip.shade, dip.width, verso ? 1 : 0);
+      gl.uniform4f(
+        face.thread,
+        ...(thread ?? PAPER),
+        thread && el.hasAttribute('data-sewn') ? 1 : 0,
+      );
       gl.uniform3fv(face.shade, shade_);
       gl.uniform3fv(face.paper, paper);
       gl.uniform1i(face.side, look.side ?? 0);
@@ -663,11 +681,15 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
         if (el && pile.turned) {
           sheet(mesh, -1, h);
           lying = false;
-          paint(el, { mirror: true, veil: options.hard?.(pile.top) ? 1 : 1 - through, gutter: -1 });
+          paint(el, {
+            mirror: true,
+            veil: options.hard?.(pile.top) ? 1 : 1 - through,
+            gutter: true,
+          });
           lying = true;
         } else if (el) {
           sheet(mesh, pile.left ? -1 : 0, h);
-          paint(el, lone && verso > 0 ? { gutter: 1 } : {});
+          paint(el, lone && verso > 0 ? { gutter: true } : {});
         }
       }
       if (el && !pile.turned) resting.set(el, pile.left ? -1 : 0);
@@ -940,6 +962,7 @@ function createFaceProgram(gl: WebGL2RenderingContext) {
     dim: at('uDim'),
     veil: at('uVeil'),
     gutter: at('uGutter'),
+    thread: at('uThread'),
     shade: at('uShade'),
     paper: at('uPaper'),
     side: at('uSide'),

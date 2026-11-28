@@ -40,7 +40,7 @@ export default function Sketchbook({ blank, ...props }: SketchbookProps) {
       aria-label="Sketchbook"
       renderer={curls ? curl : undefined}
       fallback={curls ? snapshot : undefined}
-      className="[--book-page-radius:0.032] [--book-paper-grain:1] [--book-paper:#f3f1e8]"
+      className="[--book-page-curve:1] [--book-page-radius:0.032] [--book-paper-grain:1] [--book-paper:#f3f1e8] [--book-thread:#ebe5d4]"
       {...props}
     >
       <BookStage>

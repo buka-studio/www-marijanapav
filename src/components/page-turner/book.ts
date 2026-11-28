@@ -204,10 +204,22 @@ const book = /* @__PURE__ */ definePrimitive({
     });
     const { wake } = engine;
 
+    const sew = () => {
+      const { pageCount, columns } = state();
+      const leaves = leafCount(pageCount ?? 0, columns);
+      for (const [index, paper] of scene.papers) {
+        const leaf = index >> 1;
+        const facing = index % 2 === 1 ? leaf + 1 : leaf - 1;
+        const paperOnPaper = facing >= 0 && facing < leaves && !hard(leaf) && !hard(facing);
+        paper.toggleAttribute('data-sewn', columns === 2 && paperOnPaper);
+      }
+    };
+
     const arrange = () => {
       const { turns } = scene;
       if (!turns) return;
       gestures.peek.take();
+      sew();
       const { page, pageCount, columns } = state();
       const count = pageCount ?? 0;
       turns.setLeaves(
@@ -476,6 +488,7 @@ const book = /* @__PURE__ */ definePrimitive({
       const index = place();
       if (!scene.papers.has(index)) {
         scene.papers.set(index, el);
+        sew();
         draw();
       }
       return () => {

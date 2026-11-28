@@ -12,6 +12,8 @@
     --book-cover-foil: 0;
     --book-cover-deboss: 0;
     --book-paper-grain: 0;
+    --book-page-curve: 0;
+    --book-thread: transparent;
     --book-page-radius: 0;
     --book-verso: 0;
     --book-show-through: 0.1;
@@ -398,18 +400,31 @@
     position: absolute;
     inset: 0;
     --joint: to right;
+    --dip: calc(0.18 * var(--book-page-curve));
+    --dip-width: 9.6cqw;
 
     z-index: -1;
     pointer-events: none;
-    background: linear-gradient(
-      var(--joint),
-      rgb(var(--book-shade) / var(--book-gutter-shade, 0.07)),
-      rgb(var(--book-shade) / 0) var(--book-gutter-width, 3.5cqw)
-    );
+    background:
+      linear-gradient(
+        var(--joint),
+        rgb(var(--book-shade) / var(--dip)),
+        rgb(var(--book-shade) / calc(0.56 * var(--dip))) calc(0.25 * var(--dip-width)),
+        rgb(var(--book-shade) / calc(0.25 * var(--dip))) calc(0.5 * var(--dip-width)),
+        rgb(var(--book-shade) / calc(0.06 * var(--dip))) calc(0.75 * var(--dip-width)),
+        rgb(var(--book-shade) / 0) var(--dip-width)
+      ),
+      linear-gradient(
+        var(--joint),
+        rgb(var(--book-shade) / var(--book-gutter-shade, 0.07)),
+        rgb(var(--book-shade) / 0) var(--book-gutter-width, 3.5cqw)
+      );
   }
 
   [data-slot='book-page']:is([data-face='back'], [data-blank]) > [data-slot='book-page-finish'] {
     --joint: to left;
+    --dip: calc(0.3 * var(--book-page-curve));
+    --dip-width: 16cqw;
   }
 
   [data-slot='book-pages'][data-columns='1'] {
@@ -428,6 +443,26 @@
   [data-slot='book-page-finish']::before {
     background: var(--book-paper-grain-image) 0 0 / var(--book-paper-grain-size);
     opacity: calc(0.22 * var(--book-paper-grain));
+  }
+
+  [data-slot='book-page'][data-sewn] > [data-slot='book-page-finish']::after {
+    --pitch: calc((100cqh - 14cqw) / 5);
+
+    inset: 7cqw auto 7cqw 0;
+    width: 0.28cqw;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 1.8cqw,
+      var(--book-thread) 1.8cqw calc(var(--pitch) - 1.8cqw),
+      transparent calc(var(--pitch) - 1.8cqw) var(--pitch)
+    );
+    opacity: 0.7;
+  }
+
+  [data-slot='book-page'][data-sewn]:is([data-face='back'], [data-blank])
+    > [data-slot='book-page-finish']::after {
+    inset: 7cqw 0 7cqw auto;
+    opacity: 1;
   }
 
   [data-slot='book-page'][data-hard] > [data-slot='book-page-finish'] {

@@ -18,6 +18,7 @@ const OURS = new Set([
   'aria-roledescription',
   'data-face',
   'data-hard',
+  'data-sewn',
 ]);
 const TRIES = 3;
 
