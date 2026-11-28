@@ -1,11 +1,22 @@
-import { ArrowLeftIcon, ArrowUpRightIcon } from '@phosphor-icons/react/ssr';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import type { CSSProperties, ReactNode } from 'react';
 
 import DynamicVHVarsSetter from '~/src/components/DynamicVHVarsSetter';
 import Image from '~/src/components/ui/Image';
 
-import { ProjectMedia, ProjectMediaItem, projects, StaticProject } from '../constants';
+import {
+  MediaBackdrop,
+  ProjectMedia,
+  ProjectMediaItem,
+  projects,
+  StaticProject,
+} from '../constants';
+
+import { SkyRecursion } from './components/sky-recursion/SkyRecursion';
+import { SpeechHighlight } from './components/SpeechHighlight';
+import { ProjectHeader } from './ProjectHeader';
+import { ProjectLinks } from './ProjectLinks';
 
 function hostname(url: string): string {
   const { hostname, pathname } = new URL(url);
@@ -45,16 +56,69 @@ function isProjectVideo(
   return typeof media === 'object' && 'type' in media && media.type === 'video';
 }
 
+function isProjectSpeech(
+  media: ProjectMediaItem,
+): media is Extract<ProjectMediaItem, { type: 'speech' }> {
+  return typeof media === 'object' && 'type' in media && media.type === 'speech';
+}
+
+function isProjectSkyRecursion(
+  media: ProjectMediaItem,
+): media is Extract<ProjectMediaItem, { type: 'sky-recursion' }> {
+  return typeof media === 'object' && 'type' in media && media.type === 'sky-recursion';
+}
+
 function isProjectImage(
   media: ProjectMediaItem,
 ): media is Extract<ProjectMediaItem, { type: 'image' }> {
   return typeof media === 'object' && 'type' in media && media.type === 'image';
 }
 
+function rowColumns(items: ProjectMediaItem[]): string {
+  const ratios = items.map((it) => {
+    const img = isProjectImage(it) ? it.src : typeof it === 'object' && 'width' in it ? it : null;
+    return img ? img.width / img.height : 1;
+  });
+  return ratios.map((r) => `minmax(0, ${r.toFixed(4)}fr)`).join(' ');
+}
+
 const mediaSizes =
   '(min-width: 1536px) 1064px, (min-width: 1024px) calc(100vw - 472px), calc(100vw - 40px)';
 const rowMediaSizes =
   '(min-width: 1536px) 522px, (min-width: 1024px) calc((100vw - 492px) / 2), (min-width: 640px) calc((100vw - 60px) / 2), calc(100vw - 40px)';
+
+function MediaCaption({ children }: { children: ReactNode }) {
+  return (
+    <figcaption className="pb-4">
+      <span className="media-caption border-text-muted text-text-secondary block border-l pl-2 text-left text-xs text-pretty">
+        {children}
+      </span>
+    </figcaption>
+  );
+}
+
+function Backdrop({ backdrop, children }: { backdrop?: MediaBackdrop; children: ReactNode }) {
+  if (!backdrop) return children;
+
+  return (
+    <div
+      className={`media-backdrop bg-panel-overlay flex w-full justify-center ${backdrop.align === 'end' ? 'items-end' : 'items-center'}`}
+      style={
+        {
+          aspectRatio: 'var(--bd-aspect-now)',
+          '--bd-aspect': backdrop.aspectRatio,
+          '--bd-width': backdrop.width,
+          '--bd-aspect-mobile': backdrop.mobile?.aspectRatio ?? backdrop.aspectRatio,
+          '--bd-width-mobile': backdrop.mobile?.width ?? backdrop.width,
+        } as CSSProperties
+      }
+    >
+      {children}
+    </div>
+  );
+}
+
+const darkBorder = 'border-[0.5px] border-theme-3/60';
 
 function ProjectMediaFigure({
   item,
@@ -65,45 +129,67 @@ function ProjectMediaFigure({
   priority?: boolean;
   sizes?: string;
 }) {
+  if (isProjectSkyRecursion(item)) {
+    return (
+      <figure className="flex min-w-0 flex-col gap-2">
+        <SkyRecursion />
+        {item.caption && <MediaCaption>{item.caption}</MediaCaption>}
+      </figure>
+    );
+  }
+
+  if (isProjectSpeech(item)) {
+    return (
+      <figure className="flex min-w-0 flex-col gap-2">
+        <SpeechHighlight src={item.src} lines={item.lines} />
+        {item.caption && <MediaCaption>{item.caption}</MediaCaption>}
+      </figure>
+    );
+  }
+
   if (isProjectVideo(item)) {
     return (
       <figure className="flex min-w-0 flex-col gap-2">
-        <video
-          src={item.src}
-          className="max-h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
-        {item.caption && (
-          <figcaption className="text-text-secondary text-center text-xs text-pretty">
-            {item.caption}
-          </figcaption>
-        )}
+        <Backdrop backdrop={item.backdrop}>
+          <video
+            src={item.src}
+            className={`${item.backdrop ? 'h-auto' : 'max-h-full w-full object-cover'} ${item.border ? darkBorder : ''}`}
+            style={item.backdrop ? { width: 'var(--bd-width-now)' } : undefined}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        </Backdrop>
+        {item.caption && <MediaCaption>{item.caption}</MediaCaption>}
       </figure>
     );
   }
 
   const image = isProjectImage(item) ? item.src : item;
   const caption = isProjectImage(item) ? item.caption : undefined;
+  const backdrop = isProjectImage(item) ? item.backdrop : undefined;
+  const border = isProjectImage(item) && item.border ? darkBorder : '';
 
   return (
     <figure className="flex min-w-0 flex-col gap-2">
-      <Image
-        priority={priority}
-        src={image}
-        alt={caption ?? ''}
-        quality={90}
-        sizes={sizes}
-        placeholder={image.blurDataURL ? 'blur' : 'empty'}
-        className="focus-within:outline-theme-1 max-h-full w-full object-cover"
-      />
-      {caption && (
-        <figcaption className="text-text-secondary text-center text-xs text-pretty">
-          {caption}
-        </figcaption>
-      )}
+      <Backdrop backdrop={backdrop}>
+        <Image
+          priority={priority}
+          src={image}
+          alt={caption ?? ''}
+          quality={90}
+          sizes={sizes}
+          placeholder={image.blurDataURL && !backdrop ? 'blur' : 'empty'}
+          className={`${
+            backdrop
+              ? 'focus-within:outline-theme-1 h-auto'
+              : 'focus-within:outline-theme-1 max-h-full w-full object-cover'
+          } ${border}`}
+          style={backdrop ? { width: 'var(--bd-width-now)' } : undefined}
+        />
+      </Backdrop>
+      {caption && <MediaCaption>{caption}</MediaCaption>}
     </figure>
   );
 }
@@ -141,36 +227,23 @@ export default async function Work({
   return (
     <>
       <DynamicVHVarsSetter />
+      <style>{`
+        .media-backdrop { --bd-aspect-now: var(--bd-aspect); --bd-width-now: var(--bd-width); }
+        @media (max-width: 639px) {
+          .media-backdrop { --bd-aspect-now: var(--bd-aspect-mobile); --bd-width-now: var(--bd-width-mobile); }
+          .media-caption { font-size: 14px; line-height: 1.45; }
+        }
+      `}</style>
       <div className="grid flex-1 grid-cols-1 gap-8 px-5 py-10 pb-[200px] lg:grid-cols-[400px_1fr] [html:has(&)_footer>*:not(.nav)]:invisible">
         <div className="top-[100px] flex h-full max-h-[calc(100dvh-200px)] flex-col lg:sticky">
-          <div className="flex items-center gap-3">
-            <Link href={workHref} className="shrink-0">
-              <ArrowLeftIcon className="size-5" />
-            </Link>
-            <h1 className="max-w-xl text-left text-sm font-medium text-pretty text-foreground">
-              {project.title}
-            </h1>
-          </div>
-          <div className="scroll-fade-y scrollbar-thumb-theme-2 mt-1 flex min-h-0 scrollbar-thin scrollbar-track-transparent flex-col gap-3 overflow-x-hidden overflow-y-auto pl-8">
+          <ProjectHeader title={project.title} backHref={workHref} />
+          <div
+            className="scroll-fade-y scrollbar-thumb-theme-2 flex min-h-0 scrollbar-thin scrollbar-track-transparent flex-col gap-3 overflow-x-hidden overflow-y-auto"
+          >
             <div className="text-text-secondary max-w-xl space-y-3 text-left text-sm text-pretty">
               {project.description}
             </div>
-            {projectLinks.length > 0 && (
-              <div className="border-theme-3 divide-theme-3 divide-y border-y">
-                {projectLinks.map(({ href, label }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="group/link hover:bg-theme-4 focus-visible:bg-theme-4 relative z-20 flex w-full items-center justify-between gap-3 py-1.5 pr-2 pl-0 text-sm text-white outline-offset-2 transition-[padding,background-color] duration-150 hover:pl-1 hover:text-white focus-visible:pl-1 focus-visible:text-white focus-visible:outline-none!"
-                  >
-                    <span className="truncate">{label}</span>
-                    <ArrowUpRightIcon className="size-3 shrink-0 translate-x-1 opacity-0 blur-[2px] transition-all duration-150 group-hover/link:translate-x-0 group-hover/link:opacity-100 group-hover/link:blur-none group-focus-visible/link:translate-x-0 group-focus-visible/link:opacity-100 group-focus-visible/link:blur-none" />
-                  </a>
-                ))}
-              </div>
-            )}
+            <ProjectLinks links={projectLinks} />
           </div>
         </div>
 
@@ -178,15 +251,23 @@ export default async function Work({
           {media.map((item, i) => {
             if (isProjectRow(item)) {
               return (
-                <div key={i} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  {item.items.map((rowItem, rowIndex) => (
-                    <ProjectMediaFigure key={rowIndex} item={rowItem} sizes={rowMediaSizes} />
-                  ))}
-                </div>
+                <figure key={i} className="flex min-w-0 flex-col gap-2">
+                  <div
+                    className="gap-3 sm:gap-5"
+                    style={{ display: 'grid', gridTemplateColumns: rowColumns(item.items) }}
+                  >
+                    {item.items.map((rowItem, rowIndex) => (
+                      <ProjectMediaFigure key={rowIndex} item={rowItem} sizes={rowMediaSizes} />
+                    ))}
+                  </div>
+                  {item.caption && <MediaCaption>{item.caption}</MediaCaption>}
+                </figure>
               );
             }
 
-            return <ProjectMediaFigure key={i} item={item} priority={i === 0} />;
+            return (
+              <ProjectMediaFigure key={i} item={item} priority={i === 0} />
+            );
           })}
         </div>
       </div>

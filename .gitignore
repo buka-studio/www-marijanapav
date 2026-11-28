@@ -47,3 +47,5 @@ next-env.d.ts
 /tokens/style/
 
 .scratchpad
+# Local Claude Code skills (not published)
+.claude/skills/
