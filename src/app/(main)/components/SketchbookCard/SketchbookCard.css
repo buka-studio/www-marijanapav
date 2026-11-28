@@ -100,6 +100,27 @@
   --tint: 8%;
 }
 
+/* folding pages, no canvas: safari draws their svg textures at 1x, so they come out coarse */
+:is(.sketchbook-flyer, .sketchbook-rest)
+  [data-slot='book-pages']:not(:has(> [data-slot='book-canvas'])) {
+  --sketchbook-leather: 0.25;
+  --book-cover-leather-size: round(20cqw, 1px);
+  --book-paper-grain-size: round(20cqw, 1px);
+}
+
+.theme-dark
+  :is(.sketchbook-flyer, .sketchbook-rest)
+  [data-slot='book-pages']:not(:has(> [data-slot='book-canvas'])) {
+  --sketchbook-leather: 0.5;
+}
+
+:is(.sketchbook-flyer, .sketchbook-rest)
+  [data-slot='book-pages']:not(:has(> [data-slot='book-canvas']))
+  [data-slot='book-page']:not([data-hard])
+  > [data-slot='book-page-finish']::before {
+  opacity: 0.3;
+}
+
 .sketchbook-ribbon {
   color: var(--sketchbook-ribbon);
 }
@@ -439,11 +460,13 @@
     linear-gradient(to right, rgb(0 0 0 / 0.35), rgb(255 255 255 / 0.06) 50%, rgb(0 0 0 / 0.35)),
     var(--board);
   transform: translateZ(calc(var(--depth) / -2)) rotateY(-90deg);
+  opacity: var(--spine-seen, 1);
 }
 
 .sketchbook-edge {
   left: calc(100% + var(--rim) - var(--depth) / 2);
   background: var(--block);
+  opacity: var(--edge-seen, 1);
   transform: translateZ(calc(var(--depth) / -2)) rotateY(90deg);
 }
 

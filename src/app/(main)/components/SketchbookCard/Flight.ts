@@ -3,6 +3,7 @@ import { clamp, inOutCubic, inOutSine, WAYS, type Way, type WayName } from './wa
 const SOLID = 0.9;
 const EYE = 3.2;
 const SLIDE = 520;
+const SIDE = { hidden: 0.03, seen: 0.12 };
 const BACK = { between: 70, most: 12, cover: 430, pages: 290, gather: 250 };
 
 type Lying = 0 | 1 | 2;
@@ -260,6 +261,7 @@ export default class Flight {
     const turn = this.angle() + way.bank * height * (g.dx + scrolled < 0 ? 1 : -1);
     const lean = way.lean * height;
     flyer.toggleAttribute('data-turned', flying && Math.cos((turn * Math.PI) / 180) < 0);
+    this.fadeThinSides(g, aside, turn);
     spinner.style.transformOrigin = `${(g.width / 2 + aside).toFixed(2)}px 50% calc(var(--depth, 0px) / -2)`;
     spinner.style.transform = flying
       ? `perspective(${(g.page * EYE).toFixed(1)}px) translateZ(calc(var(--depth, 0px) / -2)) rotateX(${lean.toFixed(2)}deg) rotateY(${turn.toFixed(2)}deg)`
@@ -267,6 +269,23 @@ export default class Flight {
 
     const dim = inOutSine(clamp((this.at - way.dims.after) / way.dims.over)).toFixed(3);
     for (const el of this.faders) el.style.opacity = dim;
+  }
+
+  // a side seen nearly edge-on is a sliver under a pixel wide, which draws as dashes
+  private fadeThinSides(g: Geometry, aside: number, turn: number) {
+    const pivot = g.width / 2 + aside;
+    const eye = g.page * EYE;
+    const sine = Math.sin((turn * Math.PI) / 180);
+    const seen = (at: number, outward: 1 | -1) => {
+      const facing = -outward * ((at - pivot) / eye + sine);
+
+      return clamp((facing - SIDE.hidden) / (SIDE.seen - SIDE.hidden)).toFixed(3);
+    };
+    const back = this.backCoverUp;
+    const edge = seen(back ? 0 : g.width, back ? -1 : 1);
+    const spine = seen(back ? g.page : g.width - g.page, back ? 1 : -1);
+    this.flyer?.style.setProperty('--edge-seen', edge);
+    this.flyer?.style.setProperty('--spine-seen', spine);
   }
 
   private tick = (now: number) => {
