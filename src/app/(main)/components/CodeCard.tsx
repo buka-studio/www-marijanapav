@@ -82,8 +82,8 @@ interface TreeViewProps {
 
 export function TreeView({ data, className }: TreeViewProps) {
   return (
-    <div className={cn('min-h-0 flex-1 overflow-y-auto text-sm', className)}>
-      <ul className="space-y-1">
+    <div className={cn('flex min-h-0 flex-1 flex-col overflow-y-auto text-sm', className)}>
+      <ul className="mt-auto space-y-1 pb-2">
         {data.map((item, index) => (
           <TreeNode key={index} item={item} level={0} parentName="" />
         ))}
@@ -269,7 +269,7 @@ function TreeExternalArrow() {
 export default function CodeCard() {
   return (
     <Card>
-      <div className="flex h-full min-h-0 flex-col gap-3">
+      <div className="flex h-full min-h-0 flex-col justify-between gap-3">
         <CardTitle variant="mono" className="shrink-0">
           Exploring code
         </CardTitle>

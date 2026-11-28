@@ -13,7 +13,6 @@ import { cn } from '~/src/util';
 const links = {
   '/work': { label: 'Work', width: 4.1 },
   '/': { label: 'About', width: 4.55 },
-  '/shop': { label: 'Shop', width: 4.125 },
   '/contact': { label: 'Contact', width: 5.4 },
 };
 

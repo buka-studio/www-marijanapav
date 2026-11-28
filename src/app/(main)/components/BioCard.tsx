@@ -41,13 +41,13 @@ const social = [
 
 export default function BioCard() {
   return (
-    <Card className="bg-panel-background flex flex-1 flex-col gap-4">
-      <div className="relative">
+    <Card className="bg-panel-background flex flex-1 flex-col gap-4 md:flex-row-reverse md:gap-5">
+      <div className="relative md:min-h-full md:w-1/2 md:shrink-0 xl:w-auto xl:flex-1">
         <Image
-          alt="A wild Marijana caught drawing"
+          alt="Marijana sitting at her desk"
           src={PortraitSrc}
           placeholder="blur"
-          className="h-full w-full rounded-md object-cover object-top"
+          className="h-full w-full rounded-md object-cover object-[60%_62%] md:absolute md:inset-0"
           loading="eager"
           sizes="(max-width: 768px) 100vw, 768px"
           priority
@@ -55,6 +55,7 @@ export default function BioCard() {
         <div className="bg-panel-overlay absolute top-0 left-0 h-full w-full rounded-md transition-colors duration-200" />
       </div>
 
+      <div className="flex flex-1 flex-col justify-between gap-4 md:py-1 xl:w-[300px] xl:flex-none">
       <p className="panel text-text-primary text-sm leading-6">
         I&apos;m a Brand Designer at{' '}
         <TextLink
@@ -87,7 +88,7 @@ export default function BioCard() {
         </TextLink>{' '}
         with my partner (and a cat who rarely skips meetings).
       </p>
-      <div className="text-text-primary mt-4 flex flex-col items-start justify-between md:flex-row md:items-center">
+      <div className="text-text-primary mt-4 flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center xl:flex-col xl:items-start">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm">See what I&apos;ve been doing on</span>
           <div className="flex gap-2">
@@ -105,9 +106,10 @@ export default function BioCard() {
             ))}
           </div>
         </div>
-        <Button className="mt-10 md:mt-0" iconRight={<ArrowRightIcon />} asChild>
+        <Button className="mt-2 whitespace-nowrap lg:mt-0" iconRight={<ArrowRightIcon />} asChild>
           <Link href="/contact">Let&apos;s talk</Link>
         </Button>
+      </div>
       </div>
     </Card>
   );

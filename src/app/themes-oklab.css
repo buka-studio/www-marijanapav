@@ -45,7 +45,7 @@
   --theme-3: oklch(0.2187 0.0701 31.58);
   --theme-4: oklch(0.2663 0.0806 28.17);
 
-  --main-background: oklch(0.0807 0.0331 29.23);
+  --main-background: oklch(0.095 0.0331 29.23);
   --main-accent: oklch(0.83 0.26 30.8);
 
   --text-primary: oklch(0.6644 0.223 30.14);
@@ -64,7 +64,7 @@
   --theme-2: oklch(0.8469 0.0914 47.61);
   --theme-3: oklch(0.9719 0.0153 48.56);
 
-  --main-background: oklch(1 0 0);
+  --main-background: oklch(0.99 0.0045 48.56);
   --main-accent: oklch(0.55 0.2094 34.62);
 
   --text-primary: oklch(0.6517 0.2094 35.01);

@@ -235,11 +235,9 @@ export default async function Work({
         }
       `}</style>
       <div className="grid flex-1 grid-cols-1 gap-8 px-5 py-10 pb-[200px] lg:grid-cols-[400px_1fr] [html:has(&)_footer>*:not(.nav)]:invisible">
-        <div className="top-[100px] flex h-full max-h-[calc(100dvh-200px)] flex-col lg:sticky">
+        <div className="top-[100px] flex h-full flex-col lg:sticky lg:max-h-[calc(100dvh-200px)]">
           <ProjectHeader title={project.title} backHref={workHref} />
-          <div
-            className="scroll-fade-y scrollbar-thumb-theme-2 flex min-h-0 scrollbar-thin scrollbar-track-transparent flex-col gap-3 overflow-x-hidden overflow-y-auto"
-          >
+          <div className="scroll-fade-y scrollbar-thumb-theme-2 flex min-h-0 scrollbar-thin scrollbar-track-transparent flex-col gap-3 overflow-x-hidden lg:overflow-y-auto">
             <div className="text-text-secondary max-w-xl space-y-3 text-left text-sm text-pretty">
               {project.description}
             </div>
