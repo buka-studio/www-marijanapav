@@ -1,0 +1,26 @@
+src/app/(main)/components/SketchbookCard/SketchbookCard.css
+  s_fbe4591a5a6ed8::t_5bcb10b606f857 248
+  s_fbe4591a5a6ed8::t_38644e9c0c233e 234,238-241
+  s_fbe4591a5a6ed8::t_57432a17dcbb1c 235-237,242-244
+src/components/page-turner/snapshot/render.ts
+  s_fbe4591a5a6ed8::t_5bcb10b606f857 334-335
+  s_fbe4591a5a6ed8::t_50223b818b37d4 91,812
+src/components/page-turner/snapshot/pictures.ts
+  s_fbe4591a5a6ed8::t_50223b818b37d4 93-94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "d6f1d8d801ea0bac7345a1d73467f054c5b73144",
+  "prompts": {},
+  "sessions": {
+    "s_fbe4591a5a6ed8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "83dcb6ae-4e26-41d7-afd0-98115846b0ae",
+        "model": "claude-fable-5-2"
+      },
+      "human_author": "rpavlini <rpavlinic@daytona.io>"
+    }
+  }
+}
