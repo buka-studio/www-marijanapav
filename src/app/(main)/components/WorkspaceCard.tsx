@@ -28,7 +28,7 @@ export default function WorkspaceCard() {
         </div>
         <div className="relative min-h-[200px] w-full flex-1 overflow-hidden rounded-md">
           <Image
-            src="/home/workspace.png"
+            src="/home/workspace.jpg"
             alt="workspaces.xyz"
             fill
             className="object-cover transition-all duration-300 group-hover:scale-105"

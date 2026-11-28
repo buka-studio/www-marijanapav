@@ -8,6 +8,7 @@ import {
   BukaCard,
   CodeCard,
   ColorThemeCard,
+  ExperienceCard,
   NotesCard,
   PantoneCard,
   PhotosCardWebgl,
@@ -15,7 +16,6 @@ import {
   SkewedStampsCard,
   SneakPeekCard,
   StatusCard,
-  ToolsCreatedCard,
   WorkspaceCard,
 } from './components';
 import Header from './components/Header';
@@ -41,6 +41,7 @@ const projectLinks: Array<{ label: string; href: FilterHref }> = [
 
 const getCards = () => [
   { gridArea: '👋', Component: BioCard },
+  { gridArea: '👔', Component: ExperienceCard },
   { gridArea: '💯', Component: BukaCard },
   { gridArea: '💬', Component: StatusCard },
   { gridArea: '📌', Component: WorkspaceCard },
@@ -49,7 +50,6 @@ const getCards = () => [
   { gridArea: '👀', Component: SneakPeekCard },
   { gridArea: '🖼️', Component: PhotosCardWebgl },
   { gridArea: '🧪', Component: CodeCard },
-  { gridArea: '🔧', Component: ToolsCreatedCard },
   { gridArea: '👩‍💻', Component: SketchbookCard },
   { gridArea: '💌', Component: SkewedStampsCard },
   { gridArea: '📝', Component: NotesCard },
@@ -77,7 +77,7 @@ export default async function Home() {
             <div>What I do</div>
             <div className="flex gap-2">
               {projectLinks.map(({ label, ...linkProps }) => (
-                <Button size="sm" asChild key={label}>
+                <Button size="sm" asChild key={label} buttonClassName="what-i-do-chip">
                   <Link {...linkProps}>{label}</Link>
                 </Button>
               ))}
