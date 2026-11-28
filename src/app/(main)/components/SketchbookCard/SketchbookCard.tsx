@@ -1,139 +1,103 @@
 'use client';
 
-import { AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { ArrowsOutSimpleIcon } from '@phosphor-icons/react';
+import type { DialogController } from '@ui-sdk/react/dialog';
+import dynamic from 'next/dynamic';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 
 import GridBackground from '~/src/components/GridBackground';
-import Button from '~/src/components/ui/Button';
 import CardTitle from '~/src/components/ui/CardTitle';
-import { Tooltip, TooltipContent, TooltipTrigger } from '~/src/components/ui/Tooltip';
-import { useSketchUploadMutation } from '~/src/lib/query/api';
+import useLocalStorage from '~/src/hooks/useLocalStorage';
 
 import Card from '../Card';
-import DrawingPad, { DrawingPadRef } from './DrawingPad';
-import { SketchbookState } from './models';
-import Screenshot, { ScreenshotRef } from './Screenshot';
-import SketchbookButton from './SketchbookButton';
-import Sketchbooks from './Sketchbooks';
+import { defaultBookmark, isPage } from './pages';
+import RestingBook from './RestingBook';
 
-type Formats = 'svg' | 'png';
+import './SketchbookCard.css';
 
-export default function SketchbookCard() {
-  const [state, setState] = useState<SketchbookState>('initial');
-  const [hasDrawn, setHasDrawn] = useState(false);
-  const drawingPadRef = useRef<DrawingPadRef | null>(null);
-  const screenshotRef = useRef<ScreenshotRef | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const formats: Formats[] = ['svg'];
+const SketchbookAtRest = dynamic(() => import('./Sketchbook').then((m) => m.SketchbookAtRest), {
+  ssr: false,
+});
+const SketchbookDialog = dynamic(() => import('./SketchbookDialog'), { ssr: false });
 
-  const uploadSketch = useSketchUploadMutation();
+function useDialogOnceNearViewport(ref: RefObject<HTMLElement | null>) {
+  const [dialog, setDialog] = useState<DialogController>();
 
-  const handleSend = async () => {
-    if (state === 'sending' || uploadSketch.isPending) {
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) {
       return;
     }
 
-    try {
-      setState('sending');
-
-      const paths = drawingPadRef.current?.getPaths();
-      const svg = drawingPadRef.current?.getSVG();
-
-      if (!paths) {
-        throw new Error('No paths found');
-      }
-
-      // screenshot returns a blob in case we want to store pngs too
-      const blob = await screenshotRef.current?.screenshot(paths, {
-        width: containerRef!.current!.clientWidth,
-        height: containerRef!.current!.clientHeight,
-      });
-
-      const formData = new FormData();
-      if (formats.includes('png')) {
-        if (!blob) {
-          throw new Error('Could not generate png screenshot.');
+    let mounted = true;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) {
+          return;
         }
-        formData.append('png', blob!, 'screenshot.png');
-      }
-      if (formats.includes('svg')) {
-        if (!svg) {
-          throw new Error('Could not generate svg screenshot.');
-        }
-        formData.append('svg', new Blob([svg!], { type: 'image/svg+xml' }), 'screenshot.svg');
-      }
+        observer.disconnect();
+        void import('@ui-sdk/react/dialog').then(({ createDialogController }) => {
+          if (mounted) {
+            setDialog(createDialogController());
+          }
+        });
+      },
+      { rootMargin: '100%' },
+    );
+    observer.observe(node);
 
-      await uploadSketch.mutateAsync(formData);
+    return () => {
+      mounted = false;
+      observer.disconnect();
+    };
+  }, [ref]);
 
-      setState('sent');
-      screenshotRef.current?.exit({ success: true });
-      setTimeout(() => {
-        setState('initial');
-        setHasDrawn(false);
-      }, 2000);
-    } catch (error) {
-      setState('error');
-      screenshotRef.current?.exit({ success: false });
+  return dialog;
+}
 
-      console.error(error);
-      setTimeout(() => {
-        setState('drawing');
-      }, 2000);
-    }
+export default function SketchbookCard() {
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const [rest] = useState(() => new RestingBook());
+  const dialog = useDialogOnceNearViewport(sceneRef);
+  const [bookmark, setBookmark] = useLocalStorage('sketchbook-bookmark', defaultBookmark, isPage);
+
+  const open = () => {
+    rest.raise();
+    // two frames on, so the rise starts before the dialog mounts
+    requestAnimationFrame(() => requestAnimationFrame(() => dialog?.open()));
   };
-  const sketchbookState = state === 'sending' || uploadSketch.isPending ? 'sending' : state;
 
   return (
-    <Card id="sketchbook">
-      <div className="flex h-full w-full flex-col gap-3 overflow-hidden">
-        <div className="relative h-full min-h-[300px] w-full overflow-hidden" ref={containerRef}>
-          <GridBackground className="absolute top-0 left-0 h-full w-full" n={300} />
-          <AnimatePresence mode="wait">
-            {state === 'initial' ? (
-              <Sketchbooks count={10} className="group" key="sketchbooks">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:opacity-100 focus-within:opacity-100">
-                  <Tooltip>
-                    <Button buttonClassName="gap-2" asChild>
-                      <TooltipTrigger onClick={() => setState('drawing')}>
-                        Coming soon
-                      </TooltipTrigger>
-                    </Button>
-                    <TooltipContent className="w-[200px] text-center">
-                      In the meantime, you can draw something here!
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              </Sketchbooks>
-            ) : (
-              <DrawingPad
-                key="drawing-pad"
-                drawingPadRef={drawingPadRef}
-                onDraw={setHasDrawn}
-                onClear={() => setHasDrawn(false)}
-                onCancel={() => {
-                  setState('initial');
-                }}
-              />
-            )}
-          </AnimatePresence>
-          <Screenshot screenshotRef={screenshotRef} />
-        </div>
-        <div className="flex items-center justify-between gap-2">
+    <Card id="sketchbook" containerClassName="sketchbook-card">
+      <div className="flex h-full w-full flex-col gap-3">
+        <div className="flex min-h-6 items-center justify-between gap-2">
           <CardTitle variant="mono">Sketchbook</CardTitle>
-          <SketchbookButton
-            hasDrawn={hasDrawn}
-            state={sketchbookState}
-            onClick={() => {
-              if (state === 'initial') {
-                setState('drawing');
-              }
-              if (state === 'drawing') {
-                handleSend();
-              }
-            }}
-          />
+          <button
+            type="button"
+            tabIndex={-1}
+            aria-hidden="true"
+            className="group rounded-full"
+            onClick={open}
+          >
+            <ArrowsOutSimpleIcon className="text-text-primary group-hover:text-theme-1 h-4 w-4 transition-all duration-200" />
+          </button>
+        </div>
+        <div
+          ref={sceneRef}
+          className="sketchbook-scene relative grid h-full min-h-[300px] w-full place-items-center overflow-clip"
+        >
+          <GridBackground className="absolute top-0 left-0 h-full w-full" n={300} />
+          {dialog && <SketchbookAtRest ref={rest.bind} onOpen={open} bookmark={bookmark} />}
         </div>
       </div>
+      {dialog && (
+        <SketchbookDialog
+          bookmark={bookmark}
+          onBookmarkChange={setBookmark}
+          rest={rest}
+          controller={dialog}
+        />
+      )}
     </Card>
   );
 }

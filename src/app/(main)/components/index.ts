@@ -9,6 +9,7 @@ import { default as PantoneCard } from './PantoneCard';
 import { default as PhotosCard } from './PhotosCard';
 import { default as PhotosCardWebgl } from './PhotosCardWebgl';
 import { default as SketchbookCard } from './SketchbookCard';
+import { default as SketchbookDrawCard } from './SketchbookDrawCard';
 import { default as SkewedStampsCard } from './SkewedStampsCard';
 import { default as SneakPeekCard } from './SneakPeekCard';
 import { default as StatusCard } from './StatusCard';
@@ -26,6 +27,7 @@ export {
   PhotosCard,
   PhotosCardWebgl,
   SketchbookCard,
+  SketchbookDrawCard,
   SkewedStampsCard,
   SneakPeekCard,
   StatusCard,

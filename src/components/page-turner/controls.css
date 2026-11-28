@@ -1,0 +1,170 @@
+@layer page-turner {
+  [data-slot='book-stage'] > [data-slot='book-ribbon-mark'] {
+    --book-page-width: calc(100cqw / var(--book-columns));
+    --book-mark-size: clamp(1.5rem, 0.06 * var(--book-page-width), 2.25rem);
+
+    position: absolute;
+    top: calc(0.04 * var(--book-page-width));
+    right: calc(0.2 * var(--book-page-width));
+    z-index: 1;
+    box-sizing: border-box;
+    inline-size: var(--book-mark-size);
+    block-size: var(--book-mark-size);
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 150ms ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  [data-slot='book-stage'] > [data-slot='book-ribbon-mark']::before {
+    content: '';
+    position: absolute;
+    inset: min(0px, (var(--book-mark-size) - 2.75rem) / 2);
+  }
+
+  [data-slot='book'][data-turning] [data-slot='book-stage'] > [data-slot='book-ribbon-mark'] {
+    opacity: 0;
+  }
+
+  [data-slot='book-stage'] > [data-slot='book-ribbon-mark']:is([data-marked], :focus-visible) {
+    opacity: 1;
+  }
+
+  [data-slot='book-ribbon-mark'][data-marked] {
+    cursor: default;
+  }
+
+  [data-slot='book-ribbon-mark-icon'] {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+    transition: transform 120ms ease-out;
+  }
+
+  [data-slot='book-ribbon-mark-icon'] [data-part='line'] {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+  }
+
+  [data-slot='book-ribbon-mark-icon'] [data-part='fill'] {
+    fill: currentColor;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 220ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  [data-slot='book-ribbon-mark'][data-marked] [data-part='fill'] {
+    clip-path: inset(0);
+  }
+
+  [data-slot='book-ribbon-mark']:active:not([data-disabled]) > [data-slot='book-ribbon-mark-icon'] {
+    transform: scale(0.9);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    [data-slot='book-stage'] > [data-slot='book-ribbon-mark']:hover {
+      opacity: 1;
+    }
+
+    [data-slot='book-ribbon-mark']:hover:not([data-closed]) [data-part='fill'] {
+      clip-path: inset(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-slot='book-stage'] > [data-slot='book-ribbon-mark'],
+    [data-slot='book-ribbon-mark-icon'],
+    [data-slot='book-ribbon-mark-icon'] [data-part='fill'] {
+      transition: none;
+    }
+  }
+
+  [data-slot='book-scrubber'] {
+    --book-scrubber-track: 0.25rem;
+    --book-scrubber-thumb: 1rem;
+
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 2.75rem;
+    margin: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  [data-slot='book-scrubber']:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  [data-slot='book-scrubber']::-webkit-slider-runnable-track {
+    block-size: var(--book-scrubber-track);
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      currentColor var(--book-progress, 0%),
+      color-mix(in srgb, currentColor 22%, transparent) 0
+    );
+  }
+
+  [data-slot='book-scrubber']::-moz-range-track {
+    block-size: var(--book-scrubber-track);
+    border-radius: 999px;
+    background: color-mix(in srgb, currentColor 22%, transparent);
+  }
+
+  [data-slot='book-scrubber']::-moz-range-progress {
+    block-size: var(--book-scrubber-track);
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  [data-slot='book-scrubber']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    inline-size: var(--book-scrubber-thumb);
+    block-size: var(--book-scrubber-thumb);
+    margin-block-start: calc((var(--book-scrubber-track) - var(--book-scrubber-thumb)) / 2);
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  [data-slot='book-scrubber']::-moz-range-thumb {
+    inline-size: var(--book-scrubber-thumb);
+    block-size: var(--book-scrubber-thumb);
+    border: 0;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  [data-slot='book-thumbnails'] {
+    --book-thumbnail-size: 3.5rem;
+
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  [data-slot='book-thumbnail-frame'] {
+    flex: none;
+    inline-size: var(--book-thumbnail-size);
+  }
+
+  [data-slot='book-thumbnail'] {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+}

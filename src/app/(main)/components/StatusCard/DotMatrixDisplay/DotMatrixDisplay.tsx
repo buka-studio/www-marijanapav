@@ -38,6 +38,8 @@ const DotMatrixDisplay = ({
 
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const dprRef = useRef<number>(1);
+  const dimensionsRef = useRef({ cols: 0, widthCss: 0, heightCss: 0 });
+  const inViewRef = useRef(false);
 
   const getCanvasDimensions = useCallback(() => {
     const container = containerRef.current;
@@ -82,7 +84,8 @@ const DotMatrixDisplay = ({
 
     const updateCanvasDimensions = () => {
       const currentDpr = dprRef.current;
-      const { widthCss, heightCss } = getCanvasDimensions();
+      const { cols, widthCss, heightCss } = getCanvasDimensions();
+      dimensionsRef.current = { cols, widthCss, heightCss };
 
       canvas.style.width = `${widthCss}px`;
       canvas.style.height = `${heightCss}px`;
@@ -98,8 +101,15 @@ const DotMatrixDisplay = ({
 
     updateCanvasDimensions();
 
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      const latest = entries.at(-1);
+      inViewRef.current = latest?.isIntersecting ?? false;
+    });
+    intersectionObserver.observe(container);
+
     return () => {
       resizeObserver.disconnect();
+      intersectionObserver.disconnect();
       ctxRef.current = null;
     };
   }, [cellSize, rows, getCanvasDimensions]);
@@ -108,7 +118,9 @@ const DotMatrixDisplay = ({
 
   useAnimationFrame((t) => {
     const ctx = ctxRef.current;
-    if (!ctx || !onRender) {
+    const behindModal = containerRef.current?.closest('[inert]');
+    const paused = !inViewRef.current || behindModal;
+    if (!ctx || !onRender || paused) {
       lastMsRef.current = null;
       return;
     }
@@ -128,7 +140,7 @@ const DotMatrixDisplay = ({
     const dtSec = deltaMs / 1000;
     timeSec.current += dtSec;
 
-    const { cols, widthCss, heightCss } = getCanvasDimensions();
+    const { cols, widthCss, heightCss } = dimensionsRef.current;
 
     if (clear === 'clear') {
       ctx.clearRect(0, 0, widthCss, heightCss);

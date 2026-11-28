@@ -1,0 +1,490 @@
+.sketchbook-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.7);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+}
+
+:root:has(.sketchbook-flyer) [inert] *,
+:root:has(.sketchbook-flyer) [inert] *::before,
+:root:has(.sketchbook-flyer) [inert] *::after {
+  animation-play-state: paused !important;
+}
+
+.theme-dark .sketchbook-backdrop {
+  background: rgb(58 58 58 / 0.78);
+}
+
+.sketchbook-modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: visible;
+  background: none;
+  color: inherit;
+  --ring: rgb(255 255 255 / 0.65);
+}
+
+.theme-dark .sketchbook-modal {
+  --ring: rgb(255 255 255 / 0.45);
+}
+
+.sketchbook-modal:focus-visible {
+  outline: none;
+}
+
+.sketchbook-close :focus-visible {
+  outline-color: var(--ring);
+}
+
+.sketchbook-slot,
+.sketchbook-flyer,
+.sketchbook-rest {
+  --columns: 2;
+  --aspect: 1.4;
+  --overhang: 0.02;
+  --corner: 0.052;
+  --head: 3.75rem;
+  --foot: 1.5rem;
+  --tail: 0.15;
+  --page-fits: min(
+    (100svh - var(--head) * 2) / var(--aspect),
+    (100svh - var(--foot) * 2) / (var(--aspect) + var(--tail) * 2)
+  );
+  --book-width: min(100vw - 4rem, 84rem, var(--page-fits) * 2);
+  --page-width: calc(var(--book-width) / var(--columns));
+  --peek: 0.1;
+  --edge: 1.5rem;
+
+  --leather: #d3d5d3;
+  --leather-ink: #a2a5a3;
+  --tint: 0%;
+  --sketchbook-board: color-mix(in oklab, var(--theme-1) var(--tint), var(--leather));
+  --sketchbook-board-ink: color-mix(in oklab, var(--theme-1) var(--tint), var(--leather-ink));
+  --sketchbook-leather: 0.5;
+  --sketchbook-sheen: 0.12;
+  --sketchbook-ribbon: color-mix(in oklab, var(--theme-1) 80%, white);
+  --sketchbook-mark: var(--sketchbook-ribbon);
+}
+
+:is(.theme-red-light, .theme-green-light) :is(.sketchbook-flyer, .sketchbook-rest) {
+  --sketchbook-ribbon: var(--theme-1);
+}
+
+.theme-dark :is(.sketchbook-flyer, .sketchbook-rest) {
+  --leather: #1c1c1f;
+  --leather-ink: #8f8f96;
+  --sketchbook-leather: 1;
+  --sketchbook-sheen: 0.18;
+  --sketchbook-ribbon: var(--theme-1);
+  --sketchbook-mark: var(--theme-2);
+}
+
+:is(
+    .theme-red-light,
+    .theme-green-light,
+    .theme-blue-light,
+    .theme-red-dark,
+    .theme-green-dark,
+    .theme-blue-dark
+  )
+  :is(.sketchbook-flyer, .sketchbook-rest) {
+  --tint: 8%;
+}
+
+/* folding pages, no canvas: safari draws their svg textures at 1x, so they come out coarse */
+:is(.sketchbook-flyer, .sketchbook-rest)
+  [data-slot='book-pages']:not(:has(> [data-slot='book-canvas'])) {
+  --sketchbook-leather: 0.25;
+  --book-cover-leather-size: round(20cqw, 1px);
+  --book-paper-grain: 1.36;
+  --book-paper-grain-size: round(20cqw, 1px);
+}
+
+.theme-dark
+  :is(.sketchbook-flyer, .sketchbook-rest)
+  [data-slot='book-pages']:not(:has(> [data-slot='book-canvas'])) {
+  --sketchbook-leather: 0.5;
+}
+
+.sketchbook-ribbon {
+  color: var(--sketchbook-ribbon);
+}
+
+.sketchbook-ribbon-mark {
+  color: var(--sketchbook-mark);
+}
+
+.sketchbook-flyer {
+  --depth: calc(var(--page, 0px) * 0.07);
+
+  width: var(--book-width);
+  opacity: 0;
+  will-change: transform;
+}
+
+@media (width < 576px) {
+  .sketchbook-slot,
+  .sketchbook-flyer,
+  .sketchbook-rest {
+    --book-width: calc(min((100vw - var(--edge)) / (1 + var(--peek)), var(--page-fits)) * 2);
+  }
+}
+
+.sketchbook-scroller {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+}
+
+.sketchbook-slot {
+  box-sizing: content-box;
+  width: var(--book-width);
+  margin-inline: auto;
+  padding-inline: 0;
+  contain: layout;
+}
+
+@media (width < 576px) {
+  .sketchbook-slot {
+    padding-inline: var(--edge);
+  }
+}
+
+:is(.sketchbook-flyer, .sketchbook-rest) :is([data-slot='book-stage'], [data-slot='book-pages']) {
+  --book-columns: var(--columns);
+}
+
+@property --sketchbook-bleed-inline {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.6;
+}
+
+@property --sketchbook-bleed-block {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.5;
+}
+
+@property --sketchbook-page {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --sketchbook-room-inline {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --sketchbook-room-block {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.sketchbook-slot {
+  --sketchbook-page: var(--page-width);
+  --sketchbook-room-inline: calc((100vw - var(--book-width)) / 2 + var(--page-width) / 2);
+  --sketchbook-room-block: calc((100lvh - var(--page-width) * var(--aspect)) / 2);
+}
+
+@media (width < 576px) {
+  .sketchbook-slot {
+    --sketchbook-room-inline: calc((100vw - var(--page-width)) / 2);
+  }
+}
+
+.sketchbook-flyer [data-slot='book-canvas'] {
+  --book-bleed-inline: var(--sketchbook-bleed-inline);
+  --book-bleed-block: var(--sketchbook-bleed-block);
+}
+
+.sketchbook-scene {
+  container-type: size;
+}
+
+.sketchbook-rest {
+  --cover-height: min(66cqh, 15rem);
+  --cover: calc(var(--cover-height) / var(--aspect));
+  --rest-scale: 0.3;
+  --sketchbook-canvas-scale: min(1, var(--rest-scale) * 2);
+  --sink: calc(50cqh - var(--cover-height) * 0.25);
+
+  position: relative;
+  height: min(66%, 15rem);
+  aspect-ratio: 1 / var(--aspect);
+  animation: sketchbook-arrive 400ms ease-out;
+}
+
+@keyframes sketchbook-arrive {
+  from {
+    opacity: 0;
+  }
+}
+
+@property --sketchbook-canvas-scale {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+/* a 3x phone hasn't the memory for more */
+:is(.sketchbook-flyer, .sketchbook-rest) [data-slot='book-canvas'] {
+  --book-canvas-max-density: 2;
+}
+
+.sketchbook-rest [data-slot='book-canvas'] {
+  --book-canvas-scale: var(--sketchbook-canvas-scale);
+  --book-bleed-block: 0.25;
+  --book-leaves-ahead: 0;
+}
+
+.sketchbook-rest[data-away] .sketchbook-rest-book {
+  visibility: hidden;
+}
+
+.sketchbook-rest-book {
+  position: absolute;
+  top: 0;
+  left: calc(-100% * (var(--columns) - 1));
+  width: var(--book-width);
+  transform: scale(var(--rest-scale));
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.sketchbook-rest-book,
+.sketchbook-rest-button {
+  transition: translate 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sketchbook-rest[data-raised] > * {
+  transition-duration: 300ms;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sketchbook-rest-book,
+  .sketchbook-rest-button {
+    translate: 0 var(--sink);
+  }
+
+  :root:not([data-input='pointer'])
+    .sketchbook-card:has(:focus-visible)
+    :is(.sketchbook-rest-book, .sketchbook-rest-button),
+  .sketchbook-card:hover :is(.sketchbook-rest-book, .sketchbook-rest-button),
+  .sketchbook-rest[data-raised] > * {
+    translate: 0 0;
+  }
+}
+
+.sketchbook-rest-button {
+  --rim: calc(var(--cover) * var(--overhang));
+  --round: calc(var(--cover) * var(--corner));
+
+  position: absolute;
+  inset: calc(-1 * var(--rim)) calc(-1 * var(--rim)) calc(-1 * var(--rim)) 0;
+  border-radius: 0 var(--round) var(--round) 0;
+  cursor: pointer;
+  outline-offset: 0.3rem;
+  transition:
+    translate 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    outline-color 150ms ease;
+}
+
+.sketchbook-rest[data-away] .sketchbook-rest-button {
+  outline-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sketchbook-rest {
+    animation: none;
+  }
+
+  .sketchbook-rest-book,
+  .sketchbook-rest-button {
+    transition: none;
+  }
+}
+
+.sketchbook-flyer[data-flying] {
+  pointer-events: none;
+}
+
+.sketchbook-spinner {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.sketchbook-spinner > [data-slot='book'] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.sketchbook-flyer [data-slot='book-pages']:focus-visible {
+  outline: none;
+}
+
+.sketchbook-spinner::after {
+  --gap: 0.3rem;
+  --clear: calc(var(--page, 0px) * var(--overhang) + var(--gap));
+  --round: calc(var(--page, 0px) * var(--corner) + var(--gap));
+  --half: calc(100% - 100% / var(--columns) - var(--gap));
+
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--clear));
+  border-radius: var(--round);
+  outline: 2px solid var(--ring);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+.sketchbook-flyer[data-lying='front'] .sketchbook-spinner::after {
+  left: var(--half);
+  border-radius: var(--gap) var(--round) var(--round) var(--gap);
+}
+
+.sketchbook-flyer[data-lying='back'] .sketchbook-spinner::after {
+  right: var(--half);
+  border-radius: var(--round) var(--gap) var(--gap) var(--round);
+}
+
+:root:not([data-input='pointer'])
+  .sketchbook-flyer:not([data-flying], [data-sliding]):has([data-slot='book-pages']:focus-visible)
+  .sketchbook-spinner::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sketchbook-spinner::after {
+    transition: none;
+  }
+}
+
+.sketchbook-solid {
+  --rim: calc(var(--page, 0px) * var(--overhang));
+  --round: calc(var(--page, 0px) * var(--corner));
+  --board: var(--sketchbook-board);
+  --paper: #ebe8dc;
+  --paper-line: #d3cfc0;
+  --across: to right;
+  --block:
+    linear-gradient(var(--across), var(--board) 9%, rgb(0 0 0 / 0) 9% 91%, var(--board) 91%),
+    repeating-linear-gradient(var(--across), var(--paper-line) 0 1px, var(--paper) 1px 3px);
+
+  display: none;
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.sketchbook-flyer[data-solid] .sketchbook-solid {
+  display: block;
+}
+
+.sketchbook-solid > div {
+  position: absolute;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.sketchbook-back,
+.sketchbook-spine,
+.sketchbook-edge {
+  top: calc(-1 * var(--rim));
+  height: calc(100% + 2 * var(--rim));
+}
+
+.sketchbook-back,
+.sketchbook-head,
+.sketchbook-tail {
+  left: calc(100% - var(--page, 0px));
+  width: calc(var(--page, 0px) + var(--rim));
+}
+
+.sketchbook-spine,
+.sketchbook-edge {
+  width: var(--depth);
+}
+
+.sketchbook-head,
+.sketchbook-tail {
+  --across: to bottom;
+
+  height: var(--depth);
+  background: var(--block);
+}
+
+.sketchbook-back {
+  border-radius: var(--round) 0 0 var(--round);
+  background: linear-gradient(to left, rgb(255 255 255 / 0.05), rgb(0 0 0 / 0) 12%), var(--board);
+  transform: translateZ(calc(-1 * var(--depth))) rotateY(180deg);
+}
+
+.sketchbook-spine {
+  left: calc(100% - var(--page, 0px) - var(--depth) / 2);
+  background:
+    linear-gradient(to right, rgb(0 0 0 / 0.35), rgb(255 255 255 / 0.06) 50%, rgb(0 0 0 / 0.35)),
+    var(--board);
+  transform: translateZ(calc(var(--depth) / -2)) rotateY(-90deg);
+  opacity: var(--spine-seen, 1);
+}
+
+.sketchbook-edge {
+  left: calc(100% + var(--rim) - var(--depth) / 2);
+  background: var(--block);
+  opacity: var(--edge-seen, 1);
+  transform: translateZ(calc(var(--depth) / -2)) rotateY(90deg);
+}
+
+.sketchbook-head {
+  top: calc(-1 * var(--rim) - var(--depth) / 2);
+  transform: translateZ(calc(var(--depth) / -2)) rotateX(90deg);
+}
+
+.sketchbook-tail {
+  top: calc(100% + var(--rim) - var(--depth) / 2);
+  transform: translateZ(calc(var(--depth) / -2)) rotateX(-90deg);
+}
+
+.sketchbook-flyer:not([data-turned]) .sketchbook-back {
+  display: none;
+}
+
+.sketchbook-flyer[data-back] :is(.sketchbook-head, .sketchbook-tail) {
+  left: calc(-1 * var(--rim) * (var(--columns) - 1));
+}
+
+.sketchbook-flyer[data-back] .sketchbook-edge {
+  left: calc(-1 * var(--rim) * (var(--columns) - 1) - var(--depth) / 2);
+  transform: translateZ(calc(var(--depth) / -2)) rotateY(-90deg);
+}
+
+.sketchbook-flyer[data-back] .sketchbook-spine {
+  left: calc(var(--page, 0px) + var(--rim) * (2 - var(--columns)) - var(--depth) / 2);
+  transform: translateZ(calc(var(--depth) / -2)) rotateY(90deg);
+}
+
+.sketchbook-close {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  opacity: 0;
+}

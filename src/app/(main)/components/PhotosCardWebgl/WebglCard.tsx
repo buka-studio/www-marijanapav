@@ -18,6 +18,7 @@ import {
 import * as THREE from 'three';
 
 import CardTitle from '~/src/components/ui/CardTitle';
+import useIsInert from '~/src/hooks/useIsInert';
 import useMatchMedia from '~/src/hooks/useMatchMedia';
 import useResizeRef from '~/src/hooks/useResizeRef';
 import { converter, parse } from '~/src/lib/culori';
@@ -853,6 +854,7 @@ export default function PhotosCardWebgl({
   const [placeholderMounted, setPlaceholderMounted] = useState(true);
   const { ref: containerRef, dimensions } = useResizeRef<HTMLDivElement>();
   const stageRef = useRef<HTMLDivElement>(null);
+  const behindModal = useIsInert(containerRef);
   const carouselFocusedRef = useRef(false);
   const lenisRef = useRef<Lenis | undefined>(undefined);
   const photoRef = useRef(0);
@@ -1097,7 +1099,7 @@ export default function PhotosCardWebgl({
               lenisRef={lenisRef}
               paramsRef={paramsRef}
               overlayRef={overlayRef}
-              inView={inView}
+              inView={inView && !behindModal}
               onPhotoChange={handlePhotoChange}
               onScrollProgress={handleScrollProgress}
               onFirstPhotoDrawn={handleFirstPhotoDrawn}

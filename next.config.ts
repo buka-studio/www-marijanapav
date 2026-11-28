@@ -10,7 +10,7 @@ const wranglerConfigPath = './wrangler.jsonc';
 const useEdgeImages = process.env.NEXT_PUBLIC_IMAGE_EDGE === '1';
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ['rpavlini.local'],
+  allowedDevOrigins: ['rpavlini.local', 'rpavlini-daytona.local', '192.168.*.*'],
   experimental: {
     optimizePackageImports: ['@react-three/drei'],
   },
