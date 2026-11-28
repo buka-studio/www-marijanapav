@@ -158,9 +158,11 @@ function createCanvasRenderer(options: CanvasRendererOptions) {
     const device = entry.devicePixelContentBoxSize?.[0];
     box = { width: content.inlineSize, height: content.blockSize };
     const style = getComputedStyle(canvas);
+    const pixels = canvas.ownerDocument.defaultView?.devicePixelRatio ?? 1;
     const small = Number.parseFloat(style.getPropertyValue('--book-canvas-scale'));
-    density = small > 0 && small < 1 ? small : 1;
-    const ratio = (canvas.ownerDocument.defaultView?.devicePixelRatio ?? 1) * density;
+    const most = Number.parseFloat(style.getPropertyValue('--book-canvas-max-density'));
+    density = (small > 0 && small < 1 ? small : 1) * (most > 0 ? Math.min(1, most / pixels) : 1);
+    const ratio = pixels * density;
     const exact = device !== undefined && Math.abs(device.inlineSize - box.width * ratio) <= 1;
     grid = {
       width: exact ? device.inlineSize : Math.round(box.width * ratio),

@@ -276,16 +276,15 @@ export default class Flight {
     const pivot = g.width / 2 + aside;
     const eye = g.page * EYE;
     const sine = Math.sin((turn * Math.PI) / 180);
-    const seen = (at: number, outward: 1 | -1) => {
+    const seen = (at: number, outward: number) => {
       const facing = -outward * ((at - pivot) / eye + sine);
 
       return clamp((facing - SIDE.hidden) / (SIDE.seen - SIDE.hidden)).toFixed(3);
     };
-    const back = this.backCoverUp;
-    const edge = seen(back ? 0 : g.width, back ? -1 : 1);
-    const spine = seen(back ? g.page : g.width - g.page, back ? 1 : -1);
-    this.flyer?.style.setProperty('--edge-seen', edge);
-    this.flyer?.style.setProperty('--spine-seen', spine);
+    const [spine, edge] = this.backCoverUp ? [g.page, 0] : [g.width - g.page, g.width];
+    const outward = Math.sign(edge - spine);
+    this.flyer?.style.setProperty('--edge-seen', seen(edge, outward));
+    this.flyer?.style.setProperty('--spine-seen', seen(spine, -outward));
   }
 
   private tick = (now: number) => {

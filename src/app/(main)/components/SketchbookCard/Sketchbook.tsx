@@ -1,6 +1,5 @@
 'use client';
 
-import { DialogTrigger, type DialogController } from '@ui-sdk/react/dialog';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useLayoutEffect, useRef, type Ref, type RefObject } from 'react';
 
@@ -152,11 +151,11 @@ function useRestScale(bookRef: RefObject<HTMLDivElement | null>) {
 
 type SketchbookAtRestProps = {
   ref?: Ref<HTMLDivElement>;
-  opens: DialogController;
+  onOpen: () => void;
   bookmark: number;
 };
 
-export function SketchbookAtRest({ ref, opens, bookmark }: SketchbookAtRestProps) {
+export function SketchbookAtRest({ ref, onOpen, bookmark }: SketchbookAtRestProps) {
   const bookRef = useCoverLightWhileMoving();
   useRestScale(bookRef);
 
@@ -165,10 +164,12 @@ export function SketchbookAtRest({ ref, opens, bookmark }: SketchbookAtRestProps
       <div ref={bookRef} className="sketchbook-rest-book" inert aria-hidden="true">
         <Sketchbook blank drag={false} bookmark={bookmark} />
       </div>
-      <DialogTrigger
-        controller={opens}
+      <button
+        type="button"
         className="sketchbook-rest-button"
         aria-label="Open sketchbook"
+        aria-haspopup="dialog"
+        onClick={onOpen}
       />
     </div>
   );

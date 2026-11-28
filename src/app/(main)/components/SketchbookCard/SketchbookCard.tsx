@@ -11,6 +11,7 @@ import useLocalStorage from '~/src/hooks/useLocalStorage';
 
 import Card from '../Card';
 import { defaultBookmark, isPage } from './pages';
+import RestingBook from './RestingBook';
 
 import './SketchbookCard.css';
 
@@ -56,9 +57,15 @@ function useDialogOnceNearViewport(ref: RefObject<HTMLElement | null>) {
 
 export default function SketchbookCard() {
   const sceneRef = useRef<HTMLDivElement>(null);
-  const restRef = useRef<HTMLDivElement>(null);
+  const [rest] = useState(() => new RestingBook());
   const dialog = useDialogOnceNearViewport(sceneRef);
   const [bookmark, setBookmark] = useLocalStorage('sketchbook-bookmark', defaultBookmark, isPage);
+
+  const open = () => {
+    rest.raise();
+    // two frames on, so the rise starts before the dialog mounts
+    requestAnimationFrame(() => requestAnimationFrame(() => dialog?.open()));
+  };
 
   return (
     <Card id="sketchbook" containerClassName="sketchbook-card">
@@ -70,7 +77,7 @@ export default function SketchbookCard() {
             tabIndex={-1}
             aria-hidden="true"
             className="group rounded-full"
-            onClick={() => dialog?.open()}
+            onClick={open}
           >
             <ArrowsOutSimpleIcon className="text-text-primary group-hover:text-theme-1 h-4 w-4 transition-all duration-200" />
           </button>
@@ -80,14 +87,14 @@ export default function SketchbookCard() {
           className="sketchbook-scene relative grid h-full min-h-[300px] w-full place-items-center overflow-clip"
         >
           <GridBackground className="absolute top-0 left-0 h-full w-full" n={300} />
-          {dialog && <SketchbookAtRest ref={restRef} opens={dialog} bookmark={bookmark} />}
+          {dialog && <SketchbookAtRest ref={rest.bind} onOpen={open} bookmark={bookmark} />}
         </div>
       </div>
       {dialog && (
         <SketchbookDialog
           bookmark={bookmark}
           onBookmarkChange={setBookmark}
-          lifted={restRef}
+          rest={rest}
           controller={dialog}
         />
       )}

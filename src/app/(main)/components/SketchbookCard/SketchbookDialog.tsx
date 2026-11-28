@@ -10,7 +10,7 @@ import {
   DialogTitle,
   type DialogController,
 } from '@ui-sdk/react/dialog';
-import { useState, type RefObject } from 'react';
+import { useState } from 'react';
 
 import { BookScroller, createBookController } from '~/src/components/page-turner';
 import { leafCount, turnedFor } from '~/src/components/page-turner/core';
@@ -18,19 +18,9 @@ import Button from '~/src/components/ui/Button';
 import useInputSource from '~/src/hooks/useInputSource';
 
 import Flight from './Flight';
+import type RestingBook from './RestingBook';
 import Sketchbook from './Sketchbook';
-
-function hasRestingBookRisen(rest: HTMLElement | null) {
-  const book = rest?.querySelector('.sketchbook-rest-book');
-  if (!book) {
-    return true;
-  }
-  const [, sunkBy = '0'] = getComputedStyle(book).translate.split(' ');
-
-  return Math.abs(parseFloat(sunkBy)) < 0.5;
-}
-
-const clamp = (min: number, value: number, max: number) => Math.min(max, Math.max(min, value));
+import { clamp } from './ways';
 
 function measureCanvasBleed(slot: HTMLDivElement) {
   const measure = () => {
@@ -41,8 +31,8 @@ function measureCanvasBleed(slot: HTMLDivElement) {
       return;
     }
 
-    const inline = clamp(0.06, px('--sketchbook-room-inline') / page, 0.6);
-    const block = clamp(0.2, px('--sketchbook-room-block') / page, 1.6);
+    const inline = clamp(px('--sketchbook-room-inline') / page, 0.06, 0.6);
+    const block = clamp(px('--sketchbook-room-block') / page, 0.2, 1.6);
     slot.style.setProperty('--sketchbook-bleed-inline', String(inline));
     slot.style.setProperty('--sketchbook-bleed-block', String(block));
   };
@@ -56,14 +46,14 @@ function measureCanvasBleed(slot: HTMLDivElement) {
 type Props = {
   bookmark: number;
   onBookmarkChange: (page: number) => void;
-  lifted: RefObject<HTMLElement | null>;
+  rest: RestingBook;
   controller: DialogController;
 };
 
 export default function SketchbookDialog({
   bookmark,
   onBookmarkChange,
-  lifted,
+  rest,
   controller: dialog,
 }: Props) {
   const [controller] = useState(() => createBookController());
@@ -80,8 +70,8 @@ export default function SketchbookDialog({
     () =>
       new Flight({
         way: 'lifted',
-        from: () => lifted.current,
-        canLeave: () => hasRestingBookRisen(lifted.current),
+        from: () => rest.element,
+        canLeave: () => !rest.isRising,
         open: () => controller.goToBookmark(),
         shut: () => {
           const { turned } = leaves();
@@ -92,46 +82,31 @@ export default function SketchbookDialog({
         last: () => controller.last(),
         front: () => controller.first({ instant: true }),
         columns,
-        away: (away) => {
-          lifted.current?.toggleAttribute('data-away', away);
-          if (!away) {
-            lifted.current?.removeAttribute('data-raised');
-          }
-        },
+        away: (away) => (away ? rest.leave() : rest.land()),
       }),
   );
 
   return (
     <Dialog
       controller={dialog}
-      onOpenChange={(open, details) => {
-        const rest = lifted.current;
-        if (!open) {
-          const closedBeforeLeaving = !rest?.hasAttribute('data-away');
-          if (closedBeforeLeaving) {
-            rest?.removeAttribute('data-raised');
-          }
-          flight.back();
+      onOpenChange={(open) => {
+        if (open) {
+          flight.out();
           return;
         }
 
-        const raising = rest && !rest.hasAttribute('data-raised');
-        if (raising) {
-          // reopened two frames on: the rise starts before the dialog mounts, and a tap's focus goes to the pages
-          details.cancel();
-          rest.setAttribute('data-raised', '');
-          requestAnimationFrame(() => requestAnimationFrame(() => dialog.open()));
-          return;
+        const closedBeforeLeaving = !rest.isAway;
+        if (closedBeforeLeaving) {
+          rest.lower();
         }
-
-        flight.out();
+        flight.back();
       }}
     >
       <DialogBackdrop ref={flight.fade} className="sketchbook-backdrop" />
       <DialogContent
         className="sketchbook-modal"
         initialFocus='[data-slot="book-pages"]'
-        finalFocus={() => lifted.current?.querySelector<HTMLElement>('.sketchbook-rest-button')}
+        finalFocus={() => rest.button}
       >
         <DialogTitle className="sr-only">Sketchbook</DialogTitle>
         <DialogDescription className="sr-only">
@@ -141,7 +116,7 @@ export default function SketchbookDialog({
         <BookScroller
           className="sketchbook-scroller"
           onClick={(event) => {
-            const besideTheBook = event.target === event.currentTarget;
+            const besideTheBook = !(event.target as Element).closest('.sketchbook-flyer');
             if (besideTheBook) {
               dialog.close();
             }

@@ -32,7 +32,6 @@
   overflow: visible;
   background: none;
   color: inherit;
-  pointer-events: none;
   --ring: rgb(255 255 255 / 0.65);
 }
 
@@ -52,12 +51,15 @@
 .sketchbook-flyer,
 .sketchbook-rest {
   --columns: 2;
+  --aspect: 1.4;
+  --overhang: 0.02;
+  --corner: 0.052;
   --head: 3.75rem;
   --foot: 1.5rem;
   --tail: 0.15;
   --page-fits: min(
-    (100svh - var(--head) * 2) / 1.4,
-    (100svh - var(--foot) * 2) / (1.4 + var(--tail) * 2)
+    (100svh - var(--head) * 2) / var(--aspect),
+    (100svh - var(--foot) * 2) / (var(--aspect) + var(--tail) * 2)
   );
   --book-width: min(100vw - 4rem, 84rem, var(--page-fits) * 2);
   --page-width: calc(var(--book-width) / var(--columns));
@@ -105,6 +107,7 @@
   [data-slot='book-pages']:not(:has(> [data-slot='book-canvas'])) {
   --sketchbook-leather: 0.25;
   --book-cover-leather-size: round(20cqw, 1px);
+  --book-paper-grain: 1.36;
   --book-paper-grain-size: round(20cqw, 1px);
 }
 
@@ -112,13 +115,6 @@
   :is(.sketchbook-flyer, .sketchbook-rest)
   [data-slot='book-pages']:not(:has(> [data-slot='book-canvas'])) {
   --sketchbook-leather: 0.5;
-}
-
-:is(.sketchbook-flyer, .sketchbook-rest)
-  [data-slot='book-pages']:not(:has(> [data-slot='book-canvas']))
-  [data-slot='book-page']:not([data-hard])
-  > [data-slot='book-page-finish']::before {
-  opacity: 0.3;
 }
 
 .sketchbook-ribbon {
@@ -134,7 +130,6 @@
 
   width: var(--book-width);
   opacity: 0;
-  pointer-events: auto;
   will-change: transform;
 }
 
@@ -146,17 +141,14 @@
   }
 }
 
-/* not pointer-events: none: ios safari won't scroll such a box by touch (webkit 183870) */
 .sketchbook-scroller {
   position: absolute;
   inset: 0;
   align-items: center;
-  pointer-events: auto;
 }
 
 .sketchbook-slot {
   box-sizing: content-box;
-  pointer-events: none;
   width: var(--book-width);
   margin-inline: auto;
   padding-inline: 0;
@@ -206,7 +198,7 @@
 .sketchbook-slot {
   --sketchbook-page: var(--page-width);
   --sketchbook-room-inline: calc((100vw - var(--book-width)) / 2 + var(--page-width) / 2);
-  --sketchbook-room-block: calc((100lvh - var(--page-width) * 1.4) / 2);
+  --sketchbook-room-block: calc((100lvh - var(--page-width) * var(--aspect)) / 2);
 }
 
 @media (width < 576px) {
@@ -226,13 +218,14 @@
 
 .sketchbook-rest {
   --cover-height: min(66cqh, 15rem);
-  --cover: calc(var(--cover-height) / 1.4);
+  --cover: calc(var(--cover-height) / var(--aspect));
   --rest-scale: 0.3;
+  --sketchbook-canvas-scale: min(1, var(--rest-scale) * 2);
   --sink: calc(50cqh - var(--cover-height) * 0.25);
 
   position: relative;
   height: min(66%, 15rem);
-  aspect-ratio: 1 / 1.4;
+  aspect-ratio: 1 / var(--aspect);
   animation: sketchbook-arrive 400ms ease-out;
 }
 
@@ -248,19 +241,9 @@
   initial-value: 1;
 }
 
-.sketchbook-rest {
-  --sketchbook-canvas-scale: min(1, var(--rest-scale) * 2);
-}
-
-/* 3x screens: both canvases drawn at 2x, for a phone's memory */
-@media (min-resolution: 2.5dppx) {
-  .sketchbook-rest {
-    --sketchbook-canvas-scale: min(1, var(--rest-scale) * 1.34);
-  }
-
-  .sketchbook-flyer [data-slot='book-canvas'] {
-    --book-canvas-scale: 0.667;
-  }
+/* a 3x phone hasn't the memory for more */
+:is(.sketchbook-flyer, .sketchbook-rest) [data-slot='book-canvas'] {
+  --book-canvas-max-density: 2;
 }
 
 .sketchbook-rest [data-slot='book-canvas'] {
@@ -308,11 +291,12 @@
 }
 
 .sketchbook-rest-button {
-  --rim: calc(var(--cover) * 0.02);
+  --rim: calc(var(--cover) * var(--overhang));
+  --round: calc(var(--cover) * var(--corner));
 
   position: absolute;
   inset: calc(-1 * var(--rim)) calc(-1 * var(--rim)) calc(-1 * var(--rim)) 0;
-  border-radius: 0 calc(var(--cover) * 0.052) calc(var(--cover) * 0.052) 0;
+  border-radius: 0 var(--round) var(--round) 0;
   cursor: pointer;
   outline-offset: 0.3rem;
   transition:
@@ -357,8 +341,8 @@
 
 .sketchbook-spinner::after {
   --gap: 0.3rem;
-  --clear: calc(var(--page, 0px) * 0.02 + var(--gap));
-  --round: calc(var(--page, 0px) * 0.052 + var(--gap));
+  --clear: calc(var(--page, 0px) * var(--overhang) + var(--gap));
+  --round: calc(var(--page, 0px) * var(--corner) + var(--gap));
   --half: calc(100% - 100% / var(--columns) - var(--gap));
 
   content: '';
@@ -394,8 +378,8 @@
 }
 
 .sketchbook-solid {
-  --rim: calc(var(--page, 0px) * 0.02);
-  --round: calc(var(--page, 0px) * 0.052);
+  --rim: calc(var(--page, 0px) * var(--overhang));
+  --round: calc(var(--page, 0px) * var(--corner));
   --board: var(--sketchbook-board);
   --paper: #ebe8dc;
   --paper-line: #d3cfc0;
@@ -503,5 +487,4 @@
   top: max(1rem, env(safe-area-inset-top));
   right: max(1rem, env(safe-area-inset-right));
   opacity: 0;
-  pointer-events: auto;
 }
