@@ -88,7 +88,7 @@ const STRIP_SHADOW = {
 const STRIP_RISE = 0.06;
 const SLANT = 0.45;
 
-const WARM = 2;
+const AHEAD = 3;
 const KEPT = 16;
 
 function createSnapshotRenderer(options: SnapshotRendererOptions) {
@@ -331,6 +331,8 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
       Math.max(0, Number.parseFloat(styled.getPropertyValue('--book-show-through')) || 0),
     );
     const paper = colourOf(styled.getPropertyValue('--book-paper').trim()) ?? PAPER;
+    const leavesAhead = Number.parseFloat(styled.getPropertyValue('--book-leaves-ahead'));
+    const ahead = leavesAhead >= 0 ? leavesAhead : AHEAD;
     shiny = false;
     frames++;
     const span = `${width.toFixed(2)} ${(width * h).toFixed(2)}`;
@@ -807,7 +809,7 @@ function createSnapshotRenderer(options: SnapshotRendererOptions) {
     if (stage.contains(stage.ownerDocument.activeElement)) focus.place();
 
     if (active.length === 0) {
-      for (let away = 0; away <= WARM; away++) {
+      for (let away = 0; away < ahead; away++) {
         const next = [
           options.faces(under.right + away).back,
           options.faces(under.right + away + 1).front,

@@ -231,9 +231,21 @@
   --sketchbook-canvas-scale: min(1, var(--rest-scale) * 2);
 }
 
+/* 3x screens: both canvases drawn at 2x, for a phone's memory */
+@media (min-resolution: 2.5dppx) {
+  .sketchbook-rest {
+    --sketchbook-canvas-scale: min(1, var(--rest-scale) * 1.34);
+  }
+
+  .sketchbook-flyer [data-slot='book-canvas'] {
+    --book-canvas-scale: 0.667;
+  }
+}
+
 .sketchbook-rest [data-slot='book-canvas'] {
   --book-canvas-scale: var(--sketchbook-canvas-scale);
   --book-bleed-block: 0.25;
+  --book-leaves-ahead: 0;
 }
 
 .sketchbook-rest[data-away] .sketchbook-rest-book {

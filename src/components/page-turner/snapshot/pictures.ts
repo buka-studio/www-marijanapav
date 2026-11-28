@@ -90,6 +90,8 @@ function createPictureSource(options: PictureSourceOptions) {
         (picture) => {
           failures = 0;
           if (!done && el.isConnected) options.landed(el, picture);
+          // safari holds a canvas's pixels until it is collected
+          picture.width = picture.height = 0;
         },
         () => {
           taken.delete(el);
